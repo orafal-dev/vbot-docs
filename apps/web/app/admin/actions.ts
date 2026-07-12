@@ -69,6 +69,9 @@ export const createScript = async (formData: FormData) => {
   }
   revalidatePublicLibrary()
   revalidatePath("/admin")
+  if (data.published) {
+    revalidatePath(`/scripts/${data.slug}`)
+  }
   redirect("/admin")
 }
 
@@ -95,9 +98,17 @@ export const updateScript = async (id: string, formData: FormData) => {
 
 export const deleteScript = async (id: string) => {
   await requireAdmin()
+  const [existing] = await requireDb()
+    .select({ slug: scripts.slug })
+    .from(scripts)
+    .where(eq(scripts.id, id))
+    .limit(1)
   await requireDb().delete(scripts).where(eq(scripts.id, id))
   revalidatePublicLibrary()
   revalidatePath("/admin")
+  if (existing?.slug) {
+    revalidatePath(`/scripts/${existing.slug}`)
+  }
 }
 
 export const createInvitation = async (formData: FormData) => {

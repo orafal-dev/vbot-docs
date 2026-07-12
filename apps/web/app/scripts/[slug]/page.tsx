@@ -1,17 +1,26 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import pierreDark from "@pierre/theme/pierre-dark"
-import pierreLight from "@pierre/theme/pierre-light"
 import { IconArrowLeft, IconCalendar, IconUser } from "@tabler/icons-react"
-import { codeToHtml } from "shiki"
-import type { ThemeRegistrationRaw } from "shiki"
 
 import { CodeActions } from "@/components/code-actions"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { getPublishedScriptBySlug } from "@/lib/scripts"
+import { highlightLuaCode } from "@/lib/highlight"
+import {
+  getPublishedScriptBySlug,
+  getPublishedScriptSlugs,
+} from "@/lib/scripts"
+
+export const revalidate = 3600
+
+export const dynamicParams = true
+
+export const generateStaticParams = async () => {
+  const slugs = await getPublishedScriptSlugs()
+  return slugs.map((slug) => ({ slug }))
+}
 
 export const generateMetadata = async ({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> => {
   const { slug } = await params
@@ -23,14 +32,7 @@ export default async function ScriptDetailPage({ params }: { params: Promise<{ s
   const { slug } = await params
   const script = await getPublishedScriptBySlug(slug)
   if (!script) notFound()
-  const highlightedCode = await codeToHtml(script.code, {
-    lang: "lua",
-    themes: {
-      light: pierreLight as unknown as ThemeRegistrationRaw,
-      dark: pierreDark as unknown as ThemeRegistrationRaw,
-    },
-    defaultColor: false,
-  })
+  const highlightedCode = await highlightLuaCode(script.code)
   return (
     <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <Link href="/" className="mb-8 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><IconArrowLeft className="size-4" /> Back to library</Link>

@@ -124,6 +124,23 @@ export const getPublishedScripts = async ({
     .limit(50)
 }
 
+export const getPublishedScriptSlugs = cache(async (): Promise<string[]> => {
+  if (!hasDatabase) {
+    if (!canUseDemoData) {
+      requireDb()
+    }
+
+    return demoScripts.map((script) => script.slug)
+  }
+
+  const rows = await requireDb()
+    .select({ slug: scripts.slug })
+    .from(scripts)
+    .where(eq(scripts.published, true))
+
+  return rows.map((row) => row.slug)
+})
+
 export const getPublishedScriptBySlug = cache(async (slug: string) => {
   if (!hasDatabase) {
     if (!canUseDemoData) {

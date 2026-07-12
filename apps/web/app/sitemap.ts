@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next"
 
 import { getPublishedScripts } from "@/lib/scripts"
 
+export const revalidate = 3600
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:3000"
   const scripts = await getPublishedScripts()
