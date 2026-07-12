@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm"
 import {
   boolean,
   index,
+  jsonb,
   pgTable,
   text,
   timestamp,
@@ -76,6 +77,7 @@ export const scripts = pgTable("scripts", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   code: text("code").notNull(),
+  screenshots: jsonb("screenshots").$type<string[]>().default([]).notNull(),
   status: text("status").$type<ScriptStatus>().default("draft").notNull(),
   published: boolean("published").default(false).notNull(),
   authorId: text("author_id").notNull().references(() => user.id, { onDelete: "restrict" }),

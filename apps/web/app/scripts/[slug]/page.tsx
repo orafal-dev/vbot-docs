@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { IconArrowLeft, IconCalendar, IconUser } from "@tabler/icons-react"
 
 import { CodeActions } from "@/components/code-actions"
+import { ScriptScreenshotGallery } from "@/components/script-screenshot-gallery"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
@@ -45,6 +46,10 @@ export default async function ScriptDetailPage({ params }: { params: Promise<{ s
         <span className="flex items-center gap-1.5"><IconCalendar className="size-4" /> Updated {script.updatedAt.toLocaleDateString("en-US", { dateStyle: "long" })}</span>
       </div>
       <Separator className="mb-8" />
+      <ScriptScreenshotGallery
+        screenshots={script.screenshots}
+        scriptTitle={script.title}
+      />
       <Card className="overflow-hidden p-0"><CardContent className="overflow-x-auto p-0"><div className="shiki-dual min-w-max text-sm leading-6 [&_pre]:p-5" dangerouslySetInnerHTML={{ __html: highlightedCode }} /></CardContent></Card>
     </main>
   )

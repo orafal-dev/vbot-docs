@@ -7,6 +7,7 @@ type PublicScriptFields = Pick<
   | "slug"
   | "title"
   | "description"
+  | "screenshots"
   | "published"
   | "authorId"
   | "createdAt"

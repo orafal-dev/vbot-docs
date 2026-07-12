@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 import { getAdminUser } from "@/lib/auth"
+import { deleteScriptScreenshotUrls } from "@/lib/blob"
 import { requireDb } from "@/lib/db"
 import { adminInvitations, scripts } from "@/lib/db/schema"
 import { invitationFormSchema, scriptFormSchema } from "@/lib/validation"
@@ -23,6 +24,7 @@ const parseScriptOrRedirect = (formData: FormData, errorPath: string) => {
     slug: formData.get("slug") || formData.get("title"),
     description: formData.get("description"),
     code: formData.get("code"),
+    screenshots: formData.get("screenshots"),
     published: formData.get("published") === "on",
   })
 
@@ -78,9 +80,16 @@ export const createScript = async (formData: FormData) => {
 export const updateScript = async (id: string, formData: FormData) => {
   await requireAdmin()
   const data = parseScriptOrRedirect(formData, `/admin/scripts/${id}/edit`)
-  const [existing] = await requireDb().select({ publishedAt: scripts.publishedAt })
+  const [existing] = await requireDb().select({
+    publishedAt: scripts.publishedAt,
+    screenshots: scripts.screenshots,
+  })
     .from(scripts).where(eq(scripts.id, id)).limit(1)
   if (!existing) errorRedirect("/admin", "Script not found.")
+
+  const removedScreenshotUrls = existing.screenshots.filter(
+    (url) => !data.screenshots.includes(url)
+  )
   try {
     await requireDb().update(scripts).set({
       ...data,
@@ -90,6 +99,8 @@ export const updateScript = async (id: string, formData: FormData) => {
   } catch {
     errorRedirect(`/admin/scripts/${id}/edit`, "Could not save script. The slug may already exist.")
   }
+
+  await deleteScriptScreenshotUrls(removedScreenshotUrls)
   revalidatePublicLibrary()
   revalidatePath("/admin")
   revalidatePath(`/scripts/${data.slug}`)
@@ -99,11 +110,12 @@ export const updateScript = async (id: string, formData: FormData) => {
 export const deleteScript = async (id: string) => {
   await requireAdmin()
   const [existing] = await requireDb()
-    .select({ slug: scripts.slug })
+    .select({ slug: scripts.slug, screenshots: scripts.screenshots })
     .from(scripts)
     .where(eq(scripts.id, id))
     .limit(1)
   await requireDb().delete(scripts).where(eq(scripts.id, id))
+  await deleteScriptScreenshotUrls(existing?.screenshots ?? [])
   revalidatePublicLibrary()
   revalidatePath("/admin")
   if (existing?.slug) {

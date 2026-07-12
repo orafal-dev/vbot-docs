@@ -15,7 +15,7 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.BETTER_AUTH_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(process.env.BETTER_AUTH_URL || "http://localhost:3000"),
   title: { default: "ValidusBot Scripts", template: "%s | ValidusBot" },
   description: "Readable Lua scripts for the ValidusBot runtime.",
   openGraph: {

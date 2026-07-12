@@ -10,7 +10,8 @@
         "DATABASE_URL",
         "DISCORD_CLIENT_ID",
         "DISCORD_CLIENT_SECRET",
-        "DOCS_SITE_URL"
+        "DOCS_SITE_URL",
+        "BLOB_READ_WRITE_TOKEN"
       ]
     },
     "dev": {

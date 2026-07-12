@@ -8,6 +8,13 @@
       "when": 1783854252356,
       "tag": "0000_pretty_lake",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1783854252357,
+      "tag": "0001_script_screenshots",
+      "breakpoints": true
     }
   ]
 }
