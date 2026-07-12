@@ -1,0 +1,42 @@
+---
+title: Spells
+description: API reference for Spells (spells.lua)
+---
+
+Core library: `spells.lua`
+
+## Exported tables
+
+- `Spells`
+
+## Functions
+
+### Spells
+
+- `Spells.GetGroupIds(spellOrWordsOrId)`
+- `Spells.GetIdByName(name)`
+- `Spells.GetIdByWords(words)`
+- `Spells.GetInfo(spellOrWordsOrId)`
+- `Spells.GetLeftCooldownTime(spellOrWordsOrId)`
+- `Spells.GetLeftGroupCooldownTime(groupId)`
+- `Spells.GetWordsById(spellId)`
+- `Spells.GroupIsInCooldown(groupId)`
+- `Spells.IsInCooldown(spellOrWordsOrId)`
+- `Spells.IsReady(spellOrWordsOrId)`
+- `Spells.IsUseWithItemExhausted()`
+- `Spells.WillBeReady(spellOrWordsOrId, timeMs)`
+
+### Spells.Item
+
+- `Spells.Item.GetCooldownId(itemId)`
+- `Spells.Item.GetGroupIds(itemId)`
+- `Spells.Item.GetInfo(itemId)`
+- `Spells.Item.GetLeftCooldownTime(itemId)`
+- `Spells.Item.IsInCooldown(itemId)`
+- `Spells.Item.IsReady(itemId)`
+- `Spells.Item.WillBeReady(itemId, timeMs)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

@@ -1,0 +1,110 @@
+---
+title: Creatures
+description: Creature wrappers, iterators, and screen scanning
+---
+
+ValidusBot provides two related modules for working with creatures:
+
+- **`Creature`** — wrapper for a single creature (methods, state, spatial checks)
+- **`Creatures`** — collection helpers and screen scans
+
+## Creature wrapper
+
+### Factory and static helpers
+
+```lua
+local player = Creature.GetLocalPlayer()
+local target = Creature.GetTarget()
+local followed = Creature.GetFollowed()
+local creature = Creature:New(creatureId)
+```
+
+### Identity and type
+
+| Method | Description |
+| --- | --- |
+| `:GetId()` | Creature ID |
+| `:GetName()` / `:GetLowercaseName()` | Name |
+| `:IsValid()` / `:IsVisible()` | Existence checks |
+| `:IsPlayer()` / `:IsMonster()` / `:IsNPC()` | Type checks |
+| `:IsSummon()` / `:IsGameMaster()` | Special types |
+
+### Stats
+
+| Method | Description |
+| --- | --- |
+| `:GetHealthPercent()` | Health percent |
+| `:GetSpeed()` | Movement speed |
+| `:GetVocation()` | Vocation ID |
+| `:GetSkull()` / `:GetOutfit()` | Visual state |
+
+### Spatial
+
+| Method | Description |
+| --- | --- |
+| `:GetPosition()` | `{x, y, z}` |
+| `:DistanceTo(pos)` | Distance to position |
+| `:DistanceToCreature(other)` | Distance to another creature |
+| `:IsAdjacentTo(pos)` | Adjacent check |
+| `:IsSameFloor(pos)` | Same Z level |
+| `:IsReachable()` / `:IsShootable()` | Line-of-sight checks |
+
+## Iterators
+
+Use iterator functions for generic loops:
+
+```lua
+for creature in Creature.IMonsters() do
+    if creature:IsValid() then
+        print(creature:GetName())
+    end
+end
+```
+
+Available iterators: `Creature.ICreatures()`, `Creature.IPlayers()`, `Creature.IMonsters()`, `Creature.INpcs()`
+
+## Collection helpers
+
+| Function | Description |
+| --- | --- |
+| `Creatures.GetVisibleMonsters(ignoreSummons)` | All visible monsters |
+| `Creatures.GetVisiblePlayers()` | All visible players |
+| `Creatures.GetVisibleNpcs()` | All visible NPCs |
+| `Creatures.GetVisibleCreatures()` | All visible creatures |
+| `Creatures.GetCreatureByName(name)` | Find by name |
+| `Creatures.GetLocalPlayerId()` | Local player ID |
+| `Creatures.GetAttackingCreatureId()` | Current attack target ID |
+| `Creatures.GetFollowingCreatureId()` | Current follow target ID |
+| `Creatures.GetPlayerIdUnderMouse()` | Player under cursor |
+| `Creatures.IsCreatureOnScreen(id, xDist, yDist, multifloor)` | Screen presence check |
+| `Creatures.GetCreaturesByScan(...)` | Area scan returning wrappers |
+| `Creatures.GetCreatureIdsByScan(...)` | Area scan returning IDs |
+
+## Example: find closest monster
+
+```lua
+local player = Creature.GetLocalPlayer()
+if not player then return end
+
+local monsters = Creatures.GetVisibleMonsters(true)
+local closestName, closestDistance = nil, nil
+
+for _, monster in ipairs(monsters) do
+    if monster:IsValid() then
+        local distance = monster:DistanceToCreature(player)
+        if closestDistance == nil or distance < closestDistance then
+            closestDistance = distance
+            closestName = monster:GetName()
+        end
+    end
+end
+
+if closestName then
+    print("Closest: " .. closestName .. " at " .. tostring(closestDistance))
+end
+```
+
+## References
+
+- [Creature API Reference](/docs/api-reference/creature)
+- [Creatures API Reference](/docs/api-reference/creatures)

@@ -1,0 +1,133 @@
+---
+title: HUD
+description: API reference for HUD (hud_wrapper.lua)
+---
+
+Core library: `hud_wrapper.lua`
+
+## Exported tables
+
+- `HorizontalAlignment`
+- `ScreenImage`
+- `ScreenText`
+- `VerticalAlignment`
+- `WorldBox`
+- `WorldImage`
+- `WorldText`
+
+## Functions
+
+### ScreenImage
+
+- `ScreenImage:ClearParent()`
+- `ScreenImage:Create()`
+- `ScreenImage:New(id)`
+- `ScreenImage:Remove()`
+- `ScreenImage:SetAlignment(h_align, v_align)`
+- `ScreenImage:SetClickable(callback)`
+- `ScreenImage:SetDraggable(draggable)`
+- `ScreenImage:SetEnabled(enabled)`
+- `ScreenImage:SetItemId(itemId)`
+- `ScreenImage:SetItemName(itemName)`
+- `ScreenImage:SetLabel(text, color, offsetX, offsetY)`
+- `ScreenImage:SetParent(parent_id)`
+- `ScreenImage:SetScreenPosition(x, y)`
+- `ScreenImage:SetSize(width, height)`
+- `ScreenImage:SetSource(path)`
+
+### ScreenText
+
+- `ScreenText:ClearParent()`
+- `ScreenText:Create()`
+- `ScreenText:GetColor()`
+- `ScreenText:GetEnabled()`
+- `ScreenText:GetHeight()`
+- `ScreenText:GetPosition()`
+- `ScreenText:GetText()`
+- `ScreenText:GetVisible()`
+- `ScreenText:GetWidth()`
+- `ScreenText:IsCreated()`
+- `ScreenText:New(id)`
+- `ScreenText:Remove()`
+- `ScreenText:SetAlignment(h_align, v_align)`
+- `ScreenText:SetClickable(callback)`
+- `ScreenText:SetColor(color)`
+- `ScreenText:SetDraggable(draggable)`
+- `ScreenText:SetEnabled(enabled)`
+- `ScreenText:SetParent(parent_id)`
+- `ScreenText:SetScreenPosition(x, y)`
+- `ScreenText:SetText(text)`
+
+### WorldBox
+
+- `WorldBox:ClearParent()`
+- `WorldBox:Create()`
+- `WorldBox:GetColor()`
+- `WorldBox:GetEnabled()`
+- `WorldBox:GetHeight()`
+- `WorldBox:GetPosition()`
+- `WorldBox:GetVisible()`
+- `WorldBox:GetWidth()`
+- `WorldBox:IsCreated()`
+- `WorldBox:New(id, x, y, z)`
+- `WorldBox:Remove()`
+- `WorldBox:SetBorderColor(border_color)`
+- `WorldBox:SetBorderWidth(border_width)`
+- `WorldBox:SetColor(color)`
+- `WorldBox:SetEnabled(enabled)`
+- `WorldBox:SetHeight(height)`
+- `WorldBox:SetLifetime(lifetime_ms)`
+- `WorldBox:SetParent(parent_id)`
+- `WorldBox:SetPosition(x, y, z)`
+- `WorldBox:SetSize(width, height)`
+- `WorldBox:SetWidth(width)`
+
+### WorldImage
+
+- `WorldImage:ClearParent()`
+- `WorldImage:Create()`
+- `WorldImage:New(id, x, y, z)`
+- `WorldImage:Remove()`
+- `WorldImage:SetEnabled(enabled)`
+- `WorldImage:SetItemId(itemId)`
+- `WorldImage:SetItemName(itemName)`
+- `WorldImage:SetLifetime(lifetimeMs)`
+- `WorldImage:SetOffset(offsetX, offsetY)`
+- `WorldImage:SetParent(parent_id)`
+- `WorldImage:SetPosition(x, y, z)`
+- `WorldImage:SetSize(width, height)`
+- `WorldImage:SetSource(path)`
+
+### WorldText
+
+- `WorldText:ClearParent()`
+- `WorldText:Create()`
+- `WorldText:GetColor()`
+- `WorldText:GetEnabled()`
+- `WorldText:GetHeight()`
+- `WorldText:GetPosition()`
+- `WorldText:GetText()`
+- `WorldText:GetVisible()`
+- `WorldText:GetWidth()`
+- `WorldText:IsCreated()`
+- `WorldText:New(id, x, y, z)`
+- `WorldText:Remove()`
+- `WorldText:SetColor(color)`
+- `WorldText:SetEnabled(enabled)`
+- `WorldText:SetLifetime(lifetime_ms)`
+- `WorldText:SetOffset(offset_x, offset_y)`
+- `WorldText:SetParent(parent_id)`
+- `WorldText:SetPosition(x, y, z)`
+- `WorldText:SetText(text)`
+
+## Usage notes
+
+- **ScreenImage:SetLabel(...)** — updates the label attached to an existing created image; use it after toggles to refresh ON/OFF text.
+- **ScreenImage:SetScreenPosition(x, y)** — can be called before or after Create(); if called before Create(), the saved screen position is applied immediately after creation.
+- Screen HUD children follow parent screen movement after 'SetParent(parent_id)', including drag movement, while preserving the offset they had when parented. Position the child first, then call 'SetParent(parent.id)'.
+- Low-level HUD bindings for the same behavior are HUD.SetScreenPosition(\{ id = id, x = x, y = y \}), HUD.SetParent(child_id, parent_id), HUD.ClearParent(child_id), and HUD.UpdateImageLabel(\{ id = id, label = text, label_color = color, label_offset_x = x, label_offset_y = y \}).
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

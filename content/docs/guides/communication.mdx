@@ -1,0 +1,84 @@
+---
+title: Communication
+description: Chat channels, VIP list, and game session helpers
+---
+
+## ChatChannel
+
+Object-oriented channel wrapper:
+
+```lua
+local channel = ChatChannel.GetByName("Advertising")
+if channel and channel:IsValid() and channel:CanSend() then
+    channel:Send("Hello!")
+end
+```
+
+| Function / Method | Description |
+| --- | --- |
+| `ChatChannel.New(id, name)` | Create wrapper |
+| `ChatChannel.FromIdentifier(identifier)` | Resolve by ID or name |
+| `ChatChannel.GetById(id)` / `GetByName(name)` | Lookup |
+| `:GetId()` / `:GetName()` | Channel info |
+| `:IsValid()` / `:IsOpened()` | State checks |
+| `:IsLocal()` / `:IsServerLog()` | Channel type |
+| `:CanSend()` | Can send messages |
+| `:Send(message)` | Send message |
+| `:Refresh()` | Refresh state |
+
+## ChatChannelStorage
+
+Higher-level channel management:
+
+| Function | Description |
+| --- | --- |
+| `ChatChannelStorage.IsAvailable()` | Storage ready |
+| `ChatChannelStorage.GetChatChannels()` | All channels |
+| `ChatChannelStorage.GetOpenedChannels()` | Open channels |
+| `ChatChannelStorage.GetLocalChatChannel()` | Local chat |
+| `ChatChannelStorage.GetServerLogChannel()` | Server log |
+| `ChatChannelStorage.ResolveChannel(identifier)` | Resolve by ID/name |
+| `ChatChannelStorage.Send(message, channelIdentifier)` | Send to channel |
+| `ChatChannelStorage.CanSend(channelIdentifier)` | Permission check |
+| `ChatChannelStorage.GetSnapshot()` | Full snapshot |
+
+## VIP
+
+Query the VIP list:
+
+| Function | Description |
+| --- | --- |
+| `Vip.IsAvailable()` | VIP list loaded |
+| `Vip.GetAll()` | All VIP entries |
+| `Vip.Get(vipName)` | Single entry |
+| `Vip.Exists(vipName)` | Name in list |
+| `Vip.IsOnline(vipName)` | Online status |
+| `Vip.IsHeart(vipName)` | Marked as heart |
+| `Vip.GetType(vipName)` | VIP type |
+| `Vip.GetDescription(vipName)` | Description text |
+| `Vip.FindByPrefix(prefix, onlyOnline)` | Search by prefix |
+| `Vip.GetByType(vipType)` | Filter by type |
+| `Vip.Count()` / `CountOnline()` | Counts |
+| `Vip.GetSnapshot()` | Full snapshot |
+
+## Game (session)
+
+Login and session helpers. Prefer `Self` for in-game player operations.
+
+| Function | Description |
+| --- | --- |
+| `Game.LoginToAccount(email, password)` | Login to account |
+| `Game.LoginToCharacter(characterName)` | Select character |
+| `Game.LoginToPreviouslyLoggedCharacter()` | Quick re-login |
+| `Game.Logout()` | Log out |
+| `Game.EnterWorld()` | Enter game world |
+| `Game.GetCharacterWorld(characterName)` | Character world lookup |
+
+Login functions validate string arguments and return boolean success from the Lua wrapper.
+
+## References
+
+- [ChatChannel API Reference](/docs/api-reference/chat-channel)
+- [ChatChannelStorage API Reference](/docs/api-reference/chat-channel-storage)
+- [VIP API Reference](/docs/api-reference/vip)
+- [Game API Reference](/docs/api-reference/game)

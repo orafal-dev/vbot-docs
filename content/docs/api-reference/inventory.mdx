@@ -1,0 +1,31 @@
+---
+title: Inventory
+description: API reference for Inventory (inventory.lua)
+---
+
+Core library: `inventory.lua`
+
+## Exported tables
+
+- `Inventory`
+
+## Functions
+
+- `Inventory.CanMoveEquipment()`
+- `Inventory.CanReadEquipment()`
+- `Inventory.Equip(itemId, tierLevel)`
+- `Inventory.GetAllSlotItems()`
+- `Inventory.GetEquipmentSlotConstants()`
+- `Inventory.GetSlotIds()`
+- `Inventory.GetSlotItem(equipmentSlot)`
+- `Inventory.GetSlotItemId(equipmentSlot)`
+- `Inventory.GetSnapshot()`
+- `Inventory.HasItemInSlot(equipmentSlot)`
+- `Inventory.LookSlotItem(itemId, equipmentSlot)`
+- `Inventory.MoveFromContainerToSlot(containerIndex, slotIndex, itemId, equipmentSlot, itemCount)`
+- `Inventory.MoveFromSlotToContainer(equipmentSlot, containerIndex, slotIndex, itemId, itemCount)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

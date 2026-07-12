@@ -1,0 +1,170 @@
+---
+title: Examples
+description: Practical ValidusBot Lua script patterns
+---
+
+Production-safe examples using the public PascalCase API. Each pattern includes nil checks and non-blocking scheduling.
+
+## Low HP sound alert
+
+```lua
+local SCRIPT_ID = "low_hp_sound"
+
+local function safe(fn, label)
+    local ok, err = pcall(fn)
+    if not ok then
+        print("[" .. SCRIPT_ID .. "] " .. label .. " failed: " .. tostring(err))
+    end
+end
+
+Module.Every(SCRIPT_ID .. "_tick", function()
+    safe(function()
+        if not Self.IsAvailable() then return end
+        local hp = Self.GetHealthPercentage()
+        if type(hp) == "number" and hp <= 35 then
+            Sound.Play({ sound_id = BotSoundId.LOW_HEALTH })
+        end
+    end, "tick")
+end, 1000)
+```
+
+## Scan visible monsters
+
+```lua
+local SCRIPT_ID = "monster_scan"
+
+Module.Every(SCRIPT_ID .. "_scan", function()
+    local player = Creature.GetLocalPlayer()
+    if not player then return end
+
+    local monsters = Creatures.GetVisibleMonsters(true)
+    local closestName, closestDistance = nil, nil
+
+    for _, monster in ipairs(monsters) do
+        if monster:IsValid() then
+            local distance = monster:DistanceToCreature(player)
+            if closestDistance == nil or distance < closestDistance then
+                closestDistance = distance
+                closestName = monster:GetName()
+            end
+        end
+    end
+
+    if closestName then
+        print("Closest monster: " .. closestName .. " at " .. tostring(closestDistance))
+    end
+end, 1000)
+```
+
+## Screen text status HUD
+
+```lua
+local SCRIPT_ID = "screen_status"
+
+local statusText = ScreenText:New(SCRIPT_ID .. "_hud")
+statusText
+    :SetColor({ r = 255, g = 255, b = 255, a = 255 })
+    :SetText("Starting...")
+    :Create()
+    :SetScreenPosition(25, 80)
+
+Module.Every(SCRIPT_ID .. "_update", function()
+    if not Self.IsAvailable() then
+        statusText:SetText("Player unavailable")
+        return
+    end
+    local hp = Self.GetHealthPercentage() or 0
+    local mana = Self.GetManaPercentage() or 0
+    statusText:SetText("HP " .. hp .. "% | Mana " .. mana .. "%")
+end, 1000)
+```
+
+## World marker at mouse position
+
+```lua
+local pos = Self.GetMousePositionInWorld()
+if pos then
+    WorldBox:New("mouse_marker", pos.x, pos.y, pos.z)
+        :SetSize(32, 32)
+        :SetColor({ r = 255, g = 0, b = 0, a = 60 })
+        :SetBorderColor({ r = 255, g = 0, b = 0, a = 255 })
+        :SetLifetime(3000)
+        :Create()
+end
+```
+
+## Find item in open containers
+
+```lua
+local ITEM_ID = 268
+local item = Container.FindItemInOpenContainers(ITEM_ID)
+
+if item then
+    print("Found item " .. ITEM_ID)
+else
+    print("Item " .. ITEM_ID .. " not in open containers")
+end
+```
+
+## Cavebot waypoint script
+
+```lua
+Self.Say("hi")
+Cavebot.Walker.Resume()  -- required
+```
+
+## Custom cavebot action
+
+```lua
+Cavebot.Actions.Register("check_capacity_for_refill", function(context)
+    local minCapacity = tonumber(context.minCapacity) or 100
+    local capacity = Self.GetCapacity()
+
+    if type(capacity) ~= "number" then
+        return {
+            ok = false,
+            actionType = "check_capacity_for_refill",
+            error = "capacity_unavailable",
+            goToLabel = context.failureLabel,
+        }
+    end
+
+    local needsRefill = capacity < minCapacity
+    return {
+        ok = true,
+        actionType = "check_capacity_for_refill",
+        needsRefill = needsRefill,
+        goToLabel = needsRefill and context.failureLabel or context.successLabel,
+    }
+end)
+```
+
+## Hotkey callback
+
+```lua
+Hotkeys.RegisterCombo({
+    id = "say_hi_hotkey",
+    combo = "ctrl+h",
+    callback = function()
+        if Self.IsAvailable() then
+            Self.Say("hi")
+        end
+    end,
+})
+```
+
+## Good vs bad API style
+
+```lua
+-- Good
+local hp = Self.GetHealthPercentage()
+local monsters = Creatures.GetVisibleMonsters(true)
+local player = Creature.GetLocalPlayer()
+
+-- Bad — removed aliases, do not use
+-- local hp = self.getHealthPercentage()
+-- local path = map.findPath(...)
+-- CaveBot.resume()
+```
+
+See the [script template](/docs/getting-started/template) for a reusable starting point.

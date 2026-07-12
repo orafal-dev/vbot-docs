@@ -1,0 +1,132 @@
+---
+title: Cavebot
+description: Walker, lure manager, actions, and waypoint scripting
+---
+
+`Cavebot` orchestrates the Walker and Lure Manager features. It is the primary module for route automation, waypoint scripts, and supply actions.
+
+## Top-level control
+
+| Function | Description |
+| --- | --- |
+| `Cavebot.SetEnabled(enabled)` | Enable/disable cavebot |
+| `Cavebot.Enable()` / `Disable()` | Shortcuts |
+| `Cavebot.IsEnabled()` | Status check |
+| `Cavebot.SetLureEnabled(enabled)` | Enable/disable lure |
+| `Cavebot.EnableLure()` / `DisableLure()` | Lure shortcuts |
+| `Cavebot.IsLureEnabled()` | Lure status |
+| `Cavebot.SetEnginesEnabled(walker, lure)` | Both at once |
+| `Cavebot.Resume()` | Resume walker |
+| `Cavebot.GoTo(labelName)` / `GoToLabel(labelName)` | Jump to label |
+| `Cavebot.Pause(ms, autoResume)` | Temporary pause |
+| `Cavebot.GetStatus()` / `PrintStatus()` | Debug status |
+
+## Events
+
+Register callbacks for cavebot lifecycle:
+
+```lua
+Cavebot.OnLabel(function(labelName)
+    print("Reached label: " .. tostring(labelName))
+end)
+
+Cavebot.OnWaypointChange(function(index)
+    print("Waypoint: " .. tostring(index))
+end)
+
+Cavebot.OnAction(function(actionType, result)
+    print("Action: " .. tostring(actionType))
+end)
+
+Cavebot.RegisterEvent(eventId, callback)
+Cavebot.UnregisterAllEvents()
+```
+
+## Walker
+
+Full waypoint and walker control:
+
+| Category | Key functions |
+| --- | --- |
+| Control | `SetEnabled`, `IsEnabled`, `Resume`, `GoTo`, `IsPausedByLua`, `SetPausedByLua` |
+| Waypoints | `GetWaypoints`, `AddWaypoint`, `InsertWaypoint`, `ReplaceWaypoint`, `DeleteWaypoint`, `ClearWaypoints` |
+| Navigation | `GetSelectedWaypointIndex`, `SetSelectedWaypointIndex`, `SelectClosestWaypoint`, `GetWaypointCount` |
+| Settings | `SetNodeDistance`, `SetStartFromNearestWaypoint`, `SetWalkToLureCenter`, `SetLeaveLureOnPlayer` |
+| Auto recorder | `SetAutoRecorderEnabled`, `GetAutoRecorderOptions`, `SetDistanceBetweenWaypoints` |
+| Debug | `IsStuck`, `SetDebugHud`, `GetDebugHud` |
+
+### Waypoint script requirement
+
+Script waypoints **must** call `Cavebot.Walker.Resume()` when done:
+
+```lua
+Self.Say("hi")
+Cavebot.Walker.Resume()  -- required final line
+```
+
+If the script exits without resuming, the DLL auto-resumes with a warning. If the walker is disabled while a waypoint script runs, the script is stopped so the walker can be re-enabled.
+
+### Position waypoint behavior
+
+- **Weak Horizontal Stand** — tries exact tile, then X±1 on same Y/Z
+- **Weak Vertical Stand** — tries exact tile, then Y±1 on same X/Z
+
+## Actions
+
+Built-in action types handled by `Cavebot.Actions.Run`:
+
+`check_supplies`, `buy_supplies`, `sell_loot`, `open_depot`, `deposit_items`, `stash_items`, `withdraw_supplies`, `npc_say`, `bank`, `custom_script`, `tasker`, `imbuing`
+
+### Action context conventions
+
+| Field | Purpose |
+| --- | --- |
+| `actionType` / `action_type` | Selects the handler |
+| `actionConfig` / `action_config` | Action-specific config |
+| `successLabel` / `failureLabel` | Route walker after completion |
+
+Handlers return a table with fields like `ok`, `actionType`, `error`, `pending`, `goToLabel`, and action-specific results.
+
+### Custom action handler
+
+```lua
+Cavebot.Actions.Register("check_capacity_for_refill", function(context)
+    local minCapacity = tonumber(context.minCapacity) or 100
+    local capacity = Self.GetCapacity()
+
+    if type(capacity) ~= "number" then
+        return {
+            ok = false,
+            actionType = "check_capacity_for_refill",
+            error = "capacity_unavailable",
+            goToLabel = context.failureLabel,
+        }
+    end
+
+    local needsRefill = capacity < minCapacity
+    return {
+        ok = true,
+        actionType = "check_capacity_for_refill",
+        needsRefill = needsRefill,
+        goToLabel = needsRefill and context.failureLabel or context.successLabel,
+    }
+end)
+```
+
+## Lure Manager
+
+The `Cavebot.Lure` namespace controls lure behavior:
+
+| Category | Key functions |
+| --- | --- |
+| State | `GetState`, `IsLuring`, `IsFighting`, `GetLuredCreaturesCount` |
+| Control | `SetEnabled`, `IsEnabled`, `SetForceLure`, `EndForceLure` |
+| Settings | `SetNearRange`, `SetAttackWhileLuring`, `SetConsiderOnlyReachable` |
+| Slow walk | `SetSlowWalkDelayMs`, `SetSlowWalkingCreaturesCount`, `SetSlowWalkBurstSteps` |
+| Dynamic | `SetStartEndLureActive`, `SetWaypointDynamicLureActive`, `SetUnblocking` |
+| Profiles | `GetSettings`, `AddSetting`, `UpdateSetting`, `RemoveSetting`, `ClearSettings` |
+
+## References
+
+- [Cavebot API Reference](/docs/api-reference/cavebot)
+- [Cavebot Actions API Reference](/docs/api-reference/cavebot-actions)

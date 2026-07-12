@@ -1,0 +1,28 @@
+---
+title: NpcTradeStorage
+description: API reference for NpcTradeStorage (npc_trade_storage.lua)
+---
+
+Core library: `npc_trade_storage.lua`
+
+## Exported tables
+
+- `NpcTradeStorage`
+
+## Functions
+
+- `NpcTradeStorage.Buy(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
+- `NpcTradeStorage.FormatOffers()`
+- `NpcTradeStorage.GetNpcName()`
+- `NpcTradeStorage.GetOfferByItemId(itemId)`
+- `NpcTradeStorage.GetOfferByName(itemName)`
+- `NpcTradeStorage.GetOffers()`
+- `NpcTradeStorage.GetSnapshot()`
+- `NpcTradeStorage.IsAvailable()`
+- `NpcTradeStorage.IsOpen()`
+- `NpcTradeStorage.Sell(itemId, itemCount, sellEquipped)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

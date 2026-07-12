@@ -1,0 +1,84 @@
+---
+title: Engine & Features
+description: Healer, alarms, ammo refill, and bot feature toggles
+---
+
+## Features
+
+Control built-in bot features by numeric ID or name string. Public IDs range from `HEALER` through `TIMER_ACTIONS`. Objects Dumper is reserved and blocked.
+
+| Function | Description |
+| --- | --- |
+| `Features.IsActive(featureIdentifier)` | Check if feature is on |
+| `Features.Enable(featureIdentifier)` | Enable feature |
+| `Features.Disable(featureIdentifier)` | Disable feature |
+| `Features.Toggle(featureIdentifier)` | Toggle feature |
+| `Features.SetActive(featureIdentifier, active)` | Set explicit state |
+| `Features.GetName(featureIdentifier)` | Feature display name |
+| `Features.GetAllFeatureIds()` | All feature IDs |
+| `Features.GetActiveFeatures()` | Currently active features |
+| `Features.EnableMultiple(list)` | Enable several at once |
+| `Features.DisableMultiple(list)` | Disable several at once |
+| `Features.DisableAllExcept(excludeList)` | Disable all except listed |
+| `Features.PrintStatus()` | Print feature status |
+
+```lua
+if not Features.IsActive("HEALER") then
+    Features.Enable("HEALER")
+end
+```
+
+## Engine.Healer
+
+Configure automatic healing spells and items:
+
+| Function | Description |
+| --- | --- |
+| `Engine.Healer.GetSpells()` / `GetItems()` | List configured entries |
+| `Engine.Healer.AddSpell(spellData)` / `AddItem(itemData)` | Add entry |
+| `Engine.Healer.RemoveSpell(index)` / `RemoveItem(index)` | Remove entry |
+| `Engine.Healer.EnableSpell(index)` / `EnableItem(index)` | Enable entry |
+| `Engine.Healer.DisableSpell(index)` / `DisableItem(index)` | Disable entry |
+| `Engine.Healer.ModifySpell(index, castValue, manaCost)` | Edit spell |
+| `Engine.Healer.FindSpellByWords(words)` / `FindItemById(itemId)` | Lookup |
+| `Engine.Healer.EnableOnlySpells(list)` / `EnableOnlyItems(list)` | Exclusive enable |
+| `Engine.Healer.ClearAllSpells()` / `ClearAllItems()` | Remove all |
+
+## Engine.Alarms
+
+Configure alert thresholds and filters:
+
+| Function | Description |
+| --- | --- |
+| `Engine.Alarms.IsEnabled(alarmId)` | Check alarm state |
+| `Engine.Alarms.Enable(alarmId)` / `Disable(alarmId)` | Toggle alarm |
+| `Engine.Alarms.SetLowHealthThreshold(percent)` | HP alert threshold |
+| `Engine.Alarms.SetLowManaThreshold(percent)` | Mana alert threshold |
+| `Engine.Alarms.SetCreatureFilter(namesString)` | Creature name filter |
+| `Engine.Alarms.SetMessageFilter(messagesString)` | Message filter |
+| `Engine.Alarms.SetFlashWindow(enabled)` | Flash on alert |
+| `Engine.Alarms.SetBringToFocus(enabled)` | Focus window on alert |
+| `Engine.Alarms.SetIgnoreAllyPlayers(ignore)` | Ignore allies |
+
+## Engine.AmmoRefill
+
+Manage ammo refill profiles:
+
+| Function | Description |
+| --- | --- |
+| `Engine.AmmoRefill.GetAll()` | All refill entries |
+| `Engine.AmmoRefill.Add(ammoData)` | Add entry |
+| `Engine.AmmoRefill.Remove(index)` | Remove entry |
+| `Engine.AmmoRefill.Enable(index)` / `Disable(index)` | Toggle entry |
+| `Engine.AmmoRefill.FindByItemId(itemId)` | Find by item |
+| `Engine.AmmoRefill.GetProfileNames()` | Available profiles |
+| `Engine.AmmoRefill.SetProfile(indexOrName)` | Switch profile |
+| `Engine.AmmoRefill.AddProfile(name)` / `RemoveProfile(...)` | Manage profiles |
+| `Engine.AmmoRefill.Modify(index, refillAtCount, refillInLeftHand, equipFromHotkey)` | Edit entry |
+
+Use `Engine` when your script needs to programmatically configure bot subsystems rather than just reading game state.
+
+## References
+
+- [Features API Reference](/docs/api-reference/features)
+- [Engine API Reference](/docs/api-reference/engine)

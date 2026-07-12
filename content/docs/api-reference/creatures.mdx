@@ -1,0 +1,41 @@
+---
+title: Creatures
+description: API reference for Creatures (creature_iterators.lua)
+---
+
+Core library: `creature_iterators.lua`
+
+## Exported tables
+
+- `Creature`
+- `Creatures`
+
+## Functions
+
+### Creature
+
+- `Creature.ICreatures()`
+- `Creature.IMonsters()`
+- `Creature.INpcs()`
+- `Creature.IPlayers()`
+
+### Creatures
+
+- `Creatures.GetAttackingCreatureId()`
+- `Creatures.GetCreatureByName(creatureName)`
+- `Creatures.GetCreatureIdsByScan(typeFlags, xRelativeDistance, yRelativeDistance, multifloor, ignoreSummons)`
+- `Creatures.GetCreaturesByScan(typeFlags, xRelativeDistance, yRelativeDistance, multifloor, ignoreSummons)`
+- `Creatures.GetFollowingCreatureId()`
+- `Creatures.GetLocalPlayerId()`
+- `Creatures.GetPlayerIdUnderMouse()`
+- `Creatures.GetVisibleCreatureIds()`
+- `Creatures.GetVisibleCreatures()`
+- `Creatures.GetVisibleMonsters(ignoreSummons)`
+- `Creatures.GetVisibleNpcs()`
+- `Creatures.GetVisiblePlayers()`
+- `Creatures.IsCreatureOnScreen(creatureId, xRelativeDistance, yRelativeDistance, multifloor)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

@@ -1,0 +1,39 @@
+---
+title: Item
+description: API reference for Item (item.lua)
+---
+
+Core library: `item.lua`
+
+## Exported tables
+
+- `Item`
+
+## Functions
+
+- `Item.Buy(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
+- `Item.FindInContainer(containerNumber, itemId, tierLevel)`
+- `Item.GetDescription(itemId)`
+- `Item.GetFromContainer(containerNumber, slotIndex)`
+- `Item.GetInfo(itemId)`
+- `Item.GetName(itemId)`
+- `Item.HasFlag(itemId, fieldName)`
+- `Item.IsContainer(itemId)`
+- `Item.IsCreature(itemId)`
+- `Item.IsCumulative(itemId)`
+- `Item.IsGround(itemId)`
+- `Item.IsLiquidContainer(itemId)`
+- `Item.IsMovable(itemId)`
+- `Item.IsMultiUsable(itemId)`
+- `Item.IsTakable(itemId)`
+- `Item.IsUsable(itemId)`
+- `Item.Sell(itemId, itemCount, sellEquipped)`
+- `Item.UseFromContainerOnFloor(floorPosition, fromItemId, toItemId, toStackPosition)`
+- `Item.UseFromContainerToContainer(fromContainer, fromSlot, fromItemId, toContainer, toSlot, toItemId)`
+- `Item.UseFromFloorToContainer(floorPosition, fromItemId, fromStackPosition, toItemId)`
+- `Item.UseOnCreature(itemId, creatureId)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

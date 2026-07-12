@@ -1,0 +1,28 @@
+---
+title: Minimap
+description: API reference for Minimap (minimap.lua)
+---
+
+Core library: `minimap.lua`
+
+## Exported tables
+
+- `Directions`
+- `Minimap`
+
+## Functions
+
+- `Minimap.FindPath(fromPosition, toPosition, maxComplexity, flags)`
+- `Minimap.GetTileFlags(position)`
+- `Minimap.GetTileInfo(position, includeCreatures)`
+- `Minimap.GetTileItems(position, includeCreatures)`
+- `Minimap.GetTilePixelColor(position)`
+- `Minimap.IsPathable(position)`
+- `Minimap.IsPixelColorWalkable(pixelColorIndex)`
+- `Minimap.IsWalkable(position)`
+- `Minimap.IsWalkableByColor(position)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

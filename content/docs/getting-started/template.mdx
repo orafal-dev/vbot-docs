@@ -1,0 +1,76 @@
+---
+title: Script Template
+description: Recommended starting template for ValidusBot Lua scripts
+---
+
+Copy this template as the baseline for new scripts. It includes logging, safe execution, and a scheduled tick loop.
+
+```lua
+local SCRIPT_ID = "my_script_id"
+
+local function log(msg)
+    print("[" .. SCRIPT_ID .. "] " .. tostring(msg))
+end
+
+local function safe_run(fn, context)
+    local ok, err = pcall(fn)
+    if not ok then
+        log("ERROR in " .. tostring(context) .. ": " .. tostring(err))
+    end
+end
+
+local function tick()
+    if not Self.IsAvailable() then
+        return
+    end
+
+    -- Put guarded logic here.
+    -- Always assume runtime values can be nil.
+end
+
+Module.Every(SCRIPT_ID .. "_tick", function()
+    safe_run(tick, "tick")
+end, 200)
+
+log("started")
+```
+
+## Customization tips
+
+| Variable | Purpose |
+| --- | --- |
+| `SCRIPT_ID` | Unique prefix for module names and log output |
+| Tick interval (`200`) | Milliseconds between executions — increase for lighter scripts |
+| `tick()` | Main logic body — keep it fast and non-blocking |
+
+## Cavebot waypoint scripts
+
+Waypoint script labels have additional requirements. Always resume the walker when finished:
+
+```lua
+-- Your waypoint logic here
+Self.Say("hi")
+
+-- Required final line for normal waypoint scripts
+Cavebot.Walker.Resume()
+```
+
+If a waypoint script exits without calling `Resume()`, the DLL shows a warning and auto-resumes as a safety measure.
+
+## Hotkey registration
+
+For one-shot triggers, register a hotkey instead of a tick loop:
+
+```lua
+Hotkeys.RegisterCombo({
+    id = "my_hotkey",
+    combo = "ctrl+h",
+    callback = function()
+        if Self.IsAvailable() then
+            Self.Say("hi")
+        end
+    end,
+})
+```
+
+See [Examples](/docs/examples) for more complete patterns.

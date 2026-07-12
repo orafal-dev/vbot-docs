@@ -1,0 +1,77 @@
+---
+title: Safety Rules
+description: Hard rules and checklist for production-safe ValidusBot scripts
+---
+
+## Hard rules
+
+These rules are non-negotiable for generated and hand-written scripts:
+
+1. **No process termination** — do not use `os.exit`, `os.execute`, or similar.
+2. **No Objects Dumper access** — never enable, disable, or query the internal Objects Dumper through `Features`.
+3. **No busy loops** — repeating logic must yield via `wait(ms)` or `Module` helpers.
+4. **Validate all input** — check types and ranges before using external or config values.
+5. **Handle nil** — assume runtime values can be absent; use guards and fallbacks.
+6. **PascalCase API only** — use documented core wrappers (`Self.*`, `Map.*`, `Module.*`, etc.).
+7. **Use pcall for risky blocks** — prevent one error from crashing the script.
+8. **Keep scripts idempotent** — safe to re-run where possible.
+9. **Scope feature toggles** — only toggle user-facing features, not internal systems.
+10. **No legacy aliases** — do not use `self.*`, `map.*`, `CaveBot`, `_G.position`, or `engine.ammoRefill.*`.
+11. **No raw C++ globals** — prefer core wrappers unless explicitly documented as public API.
+
+## Pre-flight checklist
+
+Before deploying a script, verify:
+
+- [ ] All loops yield and cannot freeze the runtime
+- [ ] Table access checks nil/type when data can be absent
+- [ ] Feature operations do not touch reserved internal features
+- [ ] Hotkeys avoid the unsupported alt modifier
+- [ ] Position and creature access handles invalid objects safely
+- [ ] IDs and indices are validated as positive integers where required
+- [ ] The script can be stopped cleanly without destructive side effects
+
+## Deprecated patterns
+
+| Do not use | Use instead |
+| --- | --- |
+| `self.GetHealth()` | `Self.GetHealth()` |
+| `map.FindPath(...)` | `Map.FindPath(...)` |
+| `CaveBot.Resume()` | `Cavebot.Walker.Resume()` |
+| Raw creature globals | `Creature`, `Creatures` modules |
+| Undocumented C++ bindings | Documented core wrapper |
+
+## Error handling pattern
+
+```lua
+local SCRIPT_ID = "my_script"
+
+local function log(msg)
+    print("[" .. SCRIPT_ID .. "] " .. tostring(msg))
+end
+
+local function safe_run(fn, context)
+    local ok, err = pcall(fn)
+    if not ok then
+        log("ERROR in " .. tostring(context) .. ": " .. tostring(err))
+    end
+end
+```
+
+Use `safe_run` around tick bodies, event callbacks, and hotkey handlers.
+
+## LLM generation rules
+
+When using AI to generate scripts, instruct the model to:
+
+1. Use only APIs from this documentation
+2. Prefer core wrappers over low-level calls
+3. Include argument validation and nil checks
+4. Never use alt for hotkeys
+5. Never touch Objects Dumper
+6. Use `Module.Every` / `Module.After` for repeated logic
+7. Return a complete runnable file without TODO placeholders
+
+Example prompt:
+
+> Generate a production-safe ValidusBot Lua script using only APIs from the attached documentation. Goal: [describe goal]. Include robust nil checks, validation, and non-blocking scheduling. Return one complete `.lua` file.

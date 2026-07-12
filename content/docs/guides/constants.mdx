@@ -1,0 +1,98 @@
+---
+title: Constants
+description: Shared enums and constants from lua_consts
+---
+
+The `lua_consts` core library exports shared constants used across all scripts. Always prefer these named constants over magic numbers.
+
+## Movement
+
+### MoveDirection
+
+| Constant | Value |
+| --- | --- |
+| `MoveDirection.NORTH` | 0 |
+| `MoveDirection.EAST` | 1 |
+| `MoveDirection.SOUTH` | 2 |
+| `MoveDirection.WEST` | 3 |
+| `MoveDirection.NORTHEAST` | 5 |
+| `MoveDirection.SOUTHEAST` | 6 |
+| `MoveDirection.SOUTHWEST` | 7 |
+| `MoveDirection.NORTHWEST` | 8 |
+| `MoveDirection.INVALID` | 9 |
+
+> Value **4 is not valid**. Use constants 5–8 for diagonals.
+
+### RotateDirection
+
+| Constant | Value |
+| --- | --- |
+| `RotateDirection.NORTH` | 0 |
+| `RotateDirection.EAST` | 1 |
+| `RotateDirection.SOUTH` | 2 |
+| `RotateDirection.WEST` | 3 |
+
+## Pathfinding
+
+See [Map & Navigation](/docs/guides/map-navigation) for `PathFindResult` and `PathFindFlags`.
+
+## Cooldowns
+
+See [Spells & Cooldowns](/docs/guides/spells-cooldowns) for `CooldownGroupId`.
+
+## Equipment
+
+`EquipmentSlot` — slot IDs for inventory operations (head, neck, backpack, etc.)
+
+## Combat and player state
+
+| Table | Purpose |
+| --- | --- |
+| `FightMode` | Offensive/balanced/defensive |
+| `ChaseMode` | Stand/chase |
+| `PVPMode` | PvP mode flags |
+| `Skull` | Skull types |
+| `Vocation` | Vocation IDs |
+| `Skill` | Skill enum |
+| `CombatParam` | Combat parameters |
+
+## Creatures and items
+
+| Table | Purpose |
+| --- | --- |
+| `CreatureType` | Player/monster/NPC types |
+| `CreatureIcon` | Creature icon types |
+| `ItemCategory` | Item categories |
+| `GuildShield` / `PartyShield` | Shield icons |
+| `VipFlag` | VIP list flags |
+| `CharacterFlag` | Character flags |
+
+## Messages and effects
+
+| Table | Purpose |
+| --- | --- |
+| `MessageMode` | Chat message modes |
+| `MessageClasses` | Message class types |
+| `SpeakClasses` | Speech types |
+| `MagicEffectClasses` | Visual effect IDs |
+| `ShootType` | Projectile types |
+| `PrintMessagePosition` | Message positions |
+
+## Network opcodes
+
+Advanced scripts may reference:
+
+- `GameServerOpcodes` — server-to-client packet IDs
+- `ClientOpcodes` — client-to-server packet IDs
+
+## Cavebot
+
+`WalkerEvent` — walker event type constants for `Cavebot.RegisterEvent`.
+
+## Full export list
+
+The constants module exports these tables (no functions):
+
+`CharacterFlag`, `ChaseMode`, `ClientOpcodes`, `CombatParam`, `CooldownGroupId`, `CreatureIcon`, `CreatureType`, `EquipmentSlot`, `FightMode`, `GameServerOpcodes`, `GuildShield`, `ItemCategory`, `MagicEffectClasses`, `MessageClasses`, `MessageMode`, `MoveDirection`, `PartyShield`, `PathFindFlags`, `PathFindResult`, `PlayerAvatarOutfitIds`, `PrintMessagePosition`, `PVPMode`, `RotateDirection`, `ShootType`, `Skill`, `Skull`, `SpeakClasses`, `VipFlag`, `Vocation`, `WalkerEvent`
+
+See [Constants API Reference](/docs/api-reference/constants) for the module index.

@@ -1,0 +1,38 @@
+---
+title: ChatChannelStorage
+description: API reference for ChatChannelStorage (chat_channel_storage.lua)
+---
+
+Core library: `chat_channel_storage.lua`
+
+## Exported tables
+
+- `ChatChannels`
+- `ChatChannelStorage`
+
+## Functions
+
+- `ChatChannelStorage.CanSend(channelIdentifier)`
+- `ChatChannelStorage.FormatChannel(channel)`
+- `ChatChannelStorage.GetChannelNames(onlySendable)`
+- `ChatChannelStorage.GetChatChannelById(channelId)`
+- `ChatChannelStorage.GetChatChannelByName(channelName)`
+- `ChatChannelStorage.GetChatChannelCount()`
+- `ChatChannelStorage.GetChatChannels()`
+- `ChatChannelStorage.GetLocalChatChannel()`
+- `ChatChannelStorage.GetOpenedChannelCount()`
+- `ChatChannelStorage.GetOpenedChannels()`
+- `ChatChannelStorage.GetServerLogChannel()`
+- `ChatChannelStorage.GetSnapshot()`
+- `ChatChannelStorage.HasChannelById(channelId)`
+- `ChatChannelStorage.HasChannelByName(channelName)`
+- `ChatChannelStorage.IsAvailable()`
+- `ChatChannelStorage.ResolveChannel(channelIdentifier)`
+- `ChatChannelStorage.Send(message, channelIdentifier)`
+- `ChatChannelStorage.ToIdLookupTable()`
+- `ChatChannelStorage.ToNameLookupTable()`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

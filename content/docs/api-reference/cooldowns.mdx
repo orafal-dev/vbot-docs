@@ -1,0 +1,49 @@
+---
+title: Cooldowns
+description: API reference for Cooldowns (cooldowns.lua)
+---
+
+Core library: `cooldowns.lua`
+
+## Exported tables
+
+- `Cooldowns`
+
+## Functions
+
+### Cooldowns.Group
+
+- `Cooldowns.Group.GetTimeLeft(groupId)`
+- `Cooldowns.Group.IsInCooldown(groupId)`
+- `Cooldowns.Group.IsReady(groupId)`
+- `Cooldowns.Group.WillBeReady(groupId, timeMs)`
+
+### Cooldowns.Item
+
+- `Cooldowns.Item.GetTimeLeft(itemId)`
+- `Cooldowns.Item.IsInCooldown(itemId)`
+- `Cooldowns.Item.IsReady(itemId)`
+- `Cooldowns.Item.WillBeReady(itemId, timeMs)`
+
+### Cooldowns.Spell
+
+- `Cooldowns.Spell.GetTimeLeft(spellWords)`
+- `Cooldowns.Spell.IsInCooldown(spellWords)`
+- `Cooldowns.Spell.IsReady(spellWords)`
+- `Cooldowns.Spell.WillBeReady(spellWords, timeMs)`
+
+### Cooldowns.UseWith
+
+- `Cooldowns.UseWith.IsExhausted()`
+- `Cooldowns.UseWith.IsReady()`
+
+### Cooldowns.Utils
+
+- `Cooldowns.Utils.FormatTime(ms)`
+- `Cooldowns.Utils.GetStatus(spells)`
+- `Cooldowns.Utils.PrintStatus(spells)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

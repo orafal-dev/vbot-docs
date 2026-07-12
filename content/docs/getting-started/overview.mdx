@@ -1,0 +1,60 @@
+---
+title: Overview
+description: Introduction to ValidusBot Lua scripting for Tibia
+---
+
+ValidusBot scripts extend the bot with custom logic — from simple hotkey handlers to full cavebot action pipelines. Scripts run inside the bot's embedded Lua runtime with access to C++ game bindings through curated core wrapper libraries.
+
+## Script location
+
+User scripts live in the bot's user **Scripts** directory. Core helper libraries ship in a **`Scripts/core`** subdirectory and are loaded automatically when your script runs. You do not need to manually `require` core modules — they are available as global PascalCase tables.
+
+## Public API naming
+
+All user-facing modules use **PascalCase**:
+
+```lua
+local hp = Self.GetHealthPercentage()
+local monsters = Creatures.GetVisibleMonsters(true)
+local player = Creature.GetLocalPlayer()
+```
+
+Removed compatibility aliases (`self.*`, `map.*`, `engine.ammoRefill.*`, `CaveBot`, `_G.position`) must not be used in new scripts.
+
+## What is documented here
+
+This documentation reflects:
+
+- The official Lua scripting specification maintained for ValidusBot
+- The public surface exported by each file in `Scripts/core`
+
+If a function is not listed in the [API Reference](/docs/api-reference), treat it as **unavailable** for user scripts. Internal C++ bindings and local helper functions inside core files are implementation details.
+
+## Module overview
+
+| Module | Purpose |
+| --- | --- |
+| `Module` | Script scheduling (timers, repeating tasks) |
+| `Self` | Local player state and actions |
+| `Creature` / `Creatures` | Creature wrappers and screen scans |
+| `Map` / `Position` / `Minimap` | Tile interaction and pathfinding |
+| `Item` / `Container` / `Inventory` | Items, backpacks, equipment |
+| `Spells` / `Cooldowns` | Spell and item cooldown checks |
+| `Cavebot` | Walker, lure, and action orchestration |
+| `Engine` | Healer, alarms, ammo refill configuration |
+| `Features` | Enable/disable bot features |
+| `Hotkeys` | Keyboard combo registration |
+| `ChatChannel` / `ChatChannelStorage` | Chat channel helpers |
+| `VIP` | VIP list queries |
+| `NpcTradeStorage` | NPC trade window state |
+| `Event Proxies` | Packet/event callbacks |
+| `ScreenText` / `WorldBox` / etc. | HUD overlays |
+| `Sound` | Audio alerts |
+| `Game` | Login/session helpers |
+| `lua_consts` tables | Shared enums and constants |
+
+## Next steps
+
+- Read the [runtime model](/docs/getting-started/runtime) to understand cooperative execution
+- Review [safety rules](/docs/getting-started/safety) before writing production scripts
+- Copy the [script template](/docs/getting-started/template) as your starting point

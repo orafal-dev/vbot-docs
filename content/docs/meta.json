@@ -1,0 +1,10 @@
+{
+  "title": "ValidusBot Scripting",
+  "pages": [
+    "index",
+    "./getting-started",
+    "./guides",
+    "examples",
+    "./api-reference"
+  ]
+}

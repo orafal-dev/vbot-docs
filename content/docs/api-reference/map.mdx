@@ -1,0 +1,27 @@
+---
+title: Map
+description: API reference for Map (map.lua)
+---
+
+Core library: `map.lua`
+
+## Exported tables
+
+- `Directions`
+- `Map`
+
+## Functions
+
+- `Map.FindPath(fromPosition, toPosition, maxComplexity, flags)`
+- `Map.GetObjectInfo(itemId)`
+- `Map.GetTileFlags(position)`
+- `Map.GetTileItems(position, includeCreatures)`
+- `Map.Look(position)`
+- `Map.MoveItemFloorToContainer(itemId, fromPosition, containerIndex, slotIndex, itemCount)`
+- `Map.MoveItemFloorToFloor(fromPosition, itemId, toPosition, itemCount)`
+- `Map.UseItemOnFloor(position, stackPosition, itemId)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

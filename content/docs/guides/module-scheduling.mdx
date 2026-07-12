@@ -1,0 +1,67 @@
+---
+title: Module Scheduling
+description: Timers, repeating tasks, and script lifecycle with Module
+---
+
+The `Module` library provides scheduling helpers built on `Module.New`, `Stop`, `Pause`, and `Resume`. Use it for any repeating or delayed script logic instead of manual loops.
+
+## Primary API
+
+| Function | Description |
+| --- | --- |
+| `Module.Every(name, callback, delayMs)` | Run callback on a fixed interval |
+| `Module.After(name, callback, delayMs)` | Run callback once after a delay |
+| `Module.New(name, callback, delayMs)` | Create a custom recurring module |
+| `Module.Stop(name)` | Stop and remove a module |
+| `Module.Pause(name)` / `Module.Resume(name)` | Pause/resume execution |
+| `Module.Cancel(name)` | Cancel a pending one-shot |
+| `Module.Exists(name)` | Check if a module is registered |
+| `Module.Get(name)` | Get module metadata |
+| `Module.List()` | List all active modules |
+| `Module.PauseManaged(name)` / `Module.ResumeManaged(name)` | Managed pause/resume variants |
+
+## Example: repeating health check
+
+```lua
+local SCRIPT_ID = "low_hp_sound"
+
+Module.Every(SCRIPT_ID .. "_tick", function()
+    if not Self.IsAvailable() then
+        return
+    end
+
+    local hp = Self.GetHealthPercentage()
+    if type(hp) == "number" and hp <= 35 then
+        Sound.Play({ sound_id = BotSoundId.LOW_HEALTH })
+    end
+end, 1000)
+```
+
+## Example: delayed one-shot
+
+```lua
+Module.After("delayed_greet", function()
+    if Self.IsAvailable() then
+        Self.Say("Ready!")
+    end
+end, 5000)
+```
+
+## Naming modules
+
+Use unique, descriptive module names — typically prefixed with your script ID to avoid collisions:
+
+```lua
+Module.Every("my_script_scan", callback, 500)
+Module.Every("my_script_hud", callback, 1000)
+```
+
+## Lifecycle
+
+When your script is reloaded or stopped, clean up modules you created:
+
+```lua
+Module.Stop(SCRIPT_ID .. "_tick")
+```
+
+See the full function list in [Module API Reference](/docs/api-reference/module).

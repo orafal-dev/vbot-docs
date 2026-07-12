@@ -1,0 +1,117 @@
+---
+title: Map & Navigation
+description: Map tiles, pathfinding, positions, and minimap helpers
+---
+
+Navigation and tile interaction are split across three modules: `Map`, `Position`, and `Minimap`.
+
+## Position
+
+Create and compare positions:
+
+```lua
+local pos = Position.New(1000, 1000, 7)
+local dist = pos:DistanceTo(otherPos)  -- returns 9999 on different floor
+```
+
+### Reachability and shooting
+
+```lua
+Position.IsReachable(fromPos, toPos)   -- static, both positions
+Position.IsShootable(fromPos, toPos)
+
+pos:IsReachable(fromPos)  -- instance method, fromPos defaults to local player
+pos:IsShootable(fromPos)
+```
+
+## Map
+
+| Function | Description |
+| --- | --- |
+| `Map.UseItemOnFloor(position, stackPosition, itemId)` | Use item on tile |
+| `Map.Look(position)` | Look at tile |
+| `Map.GetTileFlags(position)` | Tile flag bitmask |
+| `Map.GetTileItems(position, includeCreatures)` | Items on tile |
+| `Map.GetObjectInfo(itemId)` | Static item metadata |
+| `Map.FindPath(from, to, maxComplexity, flags)` | Pathfind between positions |
+| `Map.MoveItemFloorToContainer(...)` | Pick up from floor |
+| `Map.MoveItemFloorToFloor(...)` | Move item on map |
+
+### Pathfinding example
+
+```lua
+local from = Position.New(1000, 1000, 7)
+local to = Position.New(1005, 1005, 7)
+local flags = PathFindFlags.ALLOW_NOT_SEEN_TILES
+
+local result, path = Map.FindPath(from, to, 1000, flags)
+if result == PathFindResult.OK then
+    -- use path
+end
+```
+
+### PathFindResult values
+
+| Constant | Value | Meaning |
+| --- | --- | --- |
+| `PathFindResult.OK` | 0 | Path found |
+| `PathFindResult.SAME_POSITION` | 1 | Already at goal |
+| `PathFindResult.IMPOSSIBLE` | 2 | No path exists |
+| `PathFindResult.TOO_FAR` | 3 | Beyond max complexity |
+| `PathFindResult.NO_WAY` | 4 | Blocked |
+| `PathFindResult.GOAL_BLOCKED` | 5 | Goal tile blocked |
+| `PathFindResult.NONE` | 6 | No result |
+
+### PathFindFlags (bit flags)
+
+Combine with bitwise OR:
+
+| Flag | Value |
+| --- | --- |
+| `PathFindFlags.ALLOW_NOT_SEEN_TILES` | 1 |
+| `PathFindFlags.ALLOW_CREATURES` | 2 |
+| `PathFindFlags.ALLOW_NON_PATHABLE` | 4 |
+| `PathFindFlags.ALLOW_NON_WALKABLE` | 8 |
+| `PathFindFlags.IGNORE_CREATURES` | 16 |
+| `PathFindFlags.IGNORE_GOAL_POSITION` | 32 |
+| `PathFindFlags.CHECK_GOAL_POSITION` | 64 |
+| `PathFindFlags.PRIORITIZE_DIAGONAL_MOVEMENTS` | 128 |
+
+## Minimap
+
+The minimap module provides color-based walkability and tile info:
+
+| Function | Description |
+| --- | --- |
+| `Minimap.FindPath(...)` | Pathfind using minimap data |
+| `Minimap.GetTileInfo(position, includeCreatures)` | Tile info |
+| `Minimap.GetTileItems(position, includeCreatures)` | Items on tile |
+| `Minimap.GetTileFlags(position)` | Tile flags |
+| `Minimap.GetTilePixelColor(position)` | Minimap pixel color |
+| `Minimap.IsWalkable(position)` | Walkability check |
+| `Minimap.IsPathable(position)` | Pathability check |
+| `Minimap.IsWalkableByColor(position)` | Color-based walkability |
+| `Minimap.IsPixelColorWalkable(pixelColorIndex)` | Check color index |
+
+## MoveDirection constants
+
+Use these exact values — **4 is not valid**:
+
+| Constant | Value |
+| --- | --- |
+| `MoveDirection.NORTH` | 0 |
+| `MoveDirection.EAST` | 1 |
+| `MoveDirection.SOUTH` | 2 |
+| `MoveDirection.WEST` | 3 |
+| `MoveDirection.NORTHEAST` | 5 |
+| `MoveDirection.SOUTHEAST` | 6 |
+| `MoveDirection.SOUTHWEST` | 7 |
+| `MoveDirection.NORTHWEST` | 8 |
+| `MoveDirection.INVALID` | 9 |
+
+## References
+
+- [Map API Reference](/docs/api-reference/map)
+- [Position API Reference](/docs/api-reference/position)
+- [Minimap API Reference](/docs/api-reference/minimap)
+- [Constants](/docs/guides/constants)

@@ -1,0 +1,120 @@
+---
+title: Cavebot
+description: API reference for Cavebot (cavebot.lua)
+---
+
+Core library: `cavebot.lua`
+
+## Exported tables
+
+- `Cavebot`
+
+## Functions
+
+### Cavebot
+
+- `Cavebot.Disable()`
+- `Cavebot.DisableLure()`
+- `Cavebot.Enable()`
+- `Cavebot.EnableLure()`
+- `Cavebot.GetStatus()`
+- `Cavebot.GoTo(labelName)`
+- `Cavebot.GoToLabel(labelName)`
+- `Cavebot.IsEnabled()`
+- `Cavebot.IsLureEnabled()`
+- `Cavebot.OnAction(callback)`
+- `Cavebot.OnLabel(callback)`
+- `Cavebot.OnWaypointChange(callback)`
+- `Cavebot.Pause(milliseconds, autoResume)`
+- `Cavebot.PrintStatus()`
+- `Cavebot.RegisterEvent(eventId, callback)`
+- `Cavebot.Resume()`
+- `Cavebot.SetEnabled(enabled)`
+- `Cavebot.SetEnginesEnabled(walkerEnabled, lureEnabled)`
+- `Cavebot.SetLureEnabled(enabled)`
+- `Cavebot.UnregisterAllEvents()`
+
+### Cavebot.Lure
+
+- `Cavebot.Lure.AddSetting(setting)`
+- `Cavebot.Lure.ClearSettings()`
+- `Cavebot.Lure.EndForceLure()`
+- `Cavebot.Lure.GetAttackWhileLuring()`
+- `Cavebot.Lure.GetConsiderOnlyReachable()`
+- `Cavebot.Lure.GetIgnoringMonsters()`
+- `Cavebot.Lure.GetLuredCreaturesCount()`
+- `Cavebot.Lure.GetNearRange()`
+- `Cavebot.Lure.GetOption()`
+- `Cavebot.Lure.GetSettingCount()`
+- `Cavebot.Lure.GetSettings()`
+- `Cavebot.Lure.GetSlowWalkBurstSteps()`
+- `Cavebot.Lure.GetSlowWalkDelayMs()`
+- `Cavebot.Lure.GetSlowWalkingCreaturesCount()`
+- `Cavebot.Lure.GetStartEndLureActive()`
+- `Cavebot.Lure.GetState()`
+- `Cavebot.Lure.GetUnblocking()`
+- `Cavebot.Lure.GetWaypointDynamicLureActive()`
+- `Cavebot.Lure.HasActiveSettings()`
+- `Cavebot.Lure.IsEnabled()`
+- `Cavebot.Lure.IsFighting()`
+- `Cavebot.Lure.IsForceLure()`
+- `Cavebot.Lure.IsLuring()`
+- `Cavebot.Lure.IsOtherPlayerOnScreen()`
+- `Cavebot.Lure.RemoveSetting(index)`
+- `Cavebot.Lure.SetAttackWhileLuring(enabled)`
+- `Cavebot.Lure.SetConsiderOnlyReachable(enabled)`
+- `Cavebot.Lure.SetEnabled(enabled)`
+- `Cavebot.Lure.SetForceLure(enabled)`
+- `Cavebot.Lure.SetIgnoringMonsters(enabled)`
+- `Cavebot.Lure.SetNearRange(range)`
+- `Cavebot.Lure.SetOption(option)`
+- `Cavebot.Lure.SetSlowWalkBurstSteps(steps)`
+- `Cavebot.Lure.SetSlowWalkDelayMs(delayMs)`
+- `Cavebot.Lure.SetSlowWalkingCreaturesCount(count)`
+- `Cavebot.Lure.SetStartEndLureActive(enabled)`
+- `Cavebot.Lure.SetUnblocking(enabled)`
+- `Cavebot.Lure.SetWaypointDynamicLureActive(enabled)`
+- `Cavebot.Lure.UpdateSetting(index, updateData)`
+
+### Cavebot.Walker
+
+- `Cavebot.Walker.AddWaypoint(waypoint)`
+- `Cavebot.Walker.ClearWaypoints()`
+- `Cavebot.Walker.DeleteWaypoint(index)`
+- `Cavebot.Walker.GetAutoRecorderEnabled()`
+- `Cavebot.Walker.GetAutoRecorderOptions()`
+- `Cavebot.Walker.GetDebugHud()`
+- `Cavebot.Walker.GetDistanceBetweenWaypoints()`
+- `Cavebot.Walker.GetLeaveLureOnPlayer()`
+- `Cavebot.Walker.GetNodeDistance()`
+- `Cavebot.Walker.GetSelectedWaypointIndex()`
+- `Cavebot.Walker.GetStartFromNearestWaypoint()`
+- `Cavebot.Walker.GetWalkToLureCenter()`
+- `Cavebot.Walker.GetWaypointCount()`
+- `Cavebot.Walker.GetWaypoints()`
+- `Cavebot.Walker.GoTo(labelName)`
+- `Cavebot.Walker.InsertWaypoint(index, waypoint)`
+- `Cavebot.Walker.IsEnabled()`
+- `Cavebot.Walker.IsPausedByLua()`
+- `Cavebot.Walker.IsStuck()`
+- `Cavebot.Walker.MoveWaypointDown(index)`
+- `Cavebot.Walker.MoveWaypointUp(index)`
+- `Cavebot.Walker.ReplaceWaypoint(index, waypoint)`
+- `Cavebot.Walker.Resume()`
+- `Cavebot.Walker.SelectClosestWaypoint()`
+- `Cavebot.Walker.SetAutoRecorderEnabled(enabled)`
+- `Cavebot.Walker.SetAutoRecorderOptions(options)`
+- `Cavebot.Walker.SetDebugHud(enabled)`
+- `Cavebot.Walker.SetDistanceBetweenWaypoints(distance)`
+- `Cavebot.Walker.SetEnabled(enabled)`
+- `Cavebot.Walker.SetLeaveLureOnPlayer(enabled)`
+- `Cavebot.Walker.SetNodeDistance(distance)`
+- `Cavebot.Walker.SetPausedByLua(paused)`
+- `Cavebot.Walker.SetSelectedWaypointIndex(index)`
+- `Cavebot.Walker.SetStartFromNearestWaypoint(enabled)`
+- `Cavebot.Walker.SetWalkToLureCenter(enabled)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

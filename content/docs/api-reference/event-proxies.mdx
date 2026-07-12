@@ -1,0 +1,107 @@
+---
+title: Event Proxies
+description: API reference for Event Proxies (event_proxies.lua)
+---
+
+Core library: `event_proxies.lua`
+
+## Exported tables
+
+- `BattleMessageProxy`
+- `ContainerAddItemProxy`
+- `ContainerCloseProxy`
+- `ContainerOpenProxy`
+- `ContainerRemoveItemProxy`
+- `ContainerUpdateItemProxy`
+- `CreatureAddProxy`
+- `CreatureRemoveProxy`
+- `DeathProxy`
+- `GenericTextMessageProxy`
+- `LootMessageProxy`
+- `SkillsChangeProxy`
+- `StatsChangeProxy`
+
+## Functions
+
+### BattleMessageProxy
+
+- `BattleMessageProxy:GetName()`
+- `BattleMessageProxy:New(name)`
+- `BattleMessageProxy:OnReceive(callback)`
+
+### ContainerAddItemProxy
+
+- `ContainerAddItemProxy:GetName()`
+- `ContainerAddItemProxy:New(name)`
+- `ContainerAddItemProxy:OnReceive(callback)`
+
+### ContainerCloseProxy
+
+- `ContainerCloseProxy:GetName()`
+- `ContainerCloseProxy:New(name)`
+- `ContainerCloseProxy:OnReceive(callback)`
+
+### ContainerOpenProxy
+
+- `ContainerOpenProxy:GetName()`
+- `ContainerOpenProxy:New(name)`
+- `ContainerOpenProxy:OnReceive(callback)`
+
+### ContainerRemoveItemProxy
+
+- `ContainerRemoveItemProxy:GetName()`
+- `ContainerRemoveItemProxy:New(name)`
+- `ContainerRemoveItemProxy:OnReceive(callback)`
+
+### ContainerUpdateItemProxy
+
+- `ContainerUpdateItemProxy:GetName()`
+- `ContainerUpdateItemProxy:New(name)`
+- `ContainerUpdateItemProxy:OnReceive(callback)`
+
+### CreatureAddProxy
+
+- `CreatureAddProxy:GetName()`
+- `CreatureAddProxy:New(name)`
+- `CreatureAddProxy:OnReceive(callback)`
+
+### CreatureRemoveProxy
+
+- `CreatureRemoveProxy:GetName()`
+- `CreatureRemoveProxy:New(name)`
+- `CreatureRemoveProxy:OnReceive(callback)`
+
+### DeathProxy
+
+- `DeathProxy:GetName()`
+- `DeathProxy:New(name)`
+- `DeathProxy:OnReceive(callback)`
+
+### GenericTextMessageProxy
+
+- `GenericTextMessageProxy:GetName()`
+- `GenericTextMessageProxy:New(name)`
+- `GenericTextMessageProxy:OnReceive(callback)`
+
+### LootMessageProxy
+
+- `LootMessageProxy:GetName()`
+- `LootMessageProxy:New(name)`
+- `LootMessageProxy:OnReceive(callback)`
+
+### SkillsChangeProxy
+
+- `SkillsChangeProxy:GetName()`
+- `SkillsChangeProxy:New(name)`
+- `SkillsChangeProxy:OnReceive(callback)`
+
+### StatsChangeProxy
+
+- `StatsChangeProxy:GetName()`
+- `StatsChangeProxy:New(name)`
+- `StatsChangeProxy:OnReceive(callback)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

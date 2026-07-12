@@ -1,0 +1,95 @@
+---
+title: Engine
+description: API reference for Engine (engine.lua)
+---
+
+Core library: `engine.lua`
+
+## Exported tables
+
+- `Engine`
+
+## Functions
+
+### Engine.Alarms
+
+- `Engine.Alarms.Disable(alarmId)`
+- `Engine.Alarms.DisableAll()`
+- `Engine.Alarms.Enable(alarmId)`
+- `Engine.Alarms.EnableAll()`
+- `Engine.Alarms.EnableOnly(alarmIdsList)`
+- `Engine.Alarms.GetCreatureFilter()`
+- `Engine.Alarms.GetLowHealthThreshold()`
+- `Engine.Alarms.GetLowManaThreshold()`
+- `Engine.Alarms.GetMessageFilter()`
+- `Engine.Alarms.IsBringToFocusEnabled()`
+- `Engine.Alarms.IsEnabled(alarmId)`
+- `Engine.Alarms.IsFlashWindowEnabled()`
+- `Engine.Alarms.IsIgnoringAllyPlayers()`
+- `Engine.Alarms.PrintStatus()`
+- `Engine.Alarms.SetBringToFocus(enabled)`
+- `Engine.Alarms.SetCreatureFilter(namesString)`
+- `Engine.Alarms.SetFlashWindow(enabled)`
+- `Engine.Alarms.SetIgnoreAllyPlayers(ignore)`
+- `Engine.Alarms.SetLowHealthThreshold(percentage)`
+- `Engine.Alarms.SetLowManaThreshold(percentage)`
+- `Engine.Alarms.SetMessageFilter(messagesString)`
+- `Engine.Alarms.Toggle(alarmId)`
+
+### Engine.AmmoRefill
+
+- `Engine.AmmoRefill.Add(ammoData)`
+- `Engine.AmmoRefill.AddProfile(profileName)`
+- `Engine.AmmoRefill.ClearAll()`
+- `Engine.AmmoRefill.Disable(index)`
+- `Engine.AmmoRefill.DisableAll()`
+- `Engine.AmmoRefill.Enable(index)`
+- `Engine.AmmoRefill.EnableAll()`
+- `Engine.AmmoRefill.EnableOnly(itemIdsList)`
+- `Engine.AmmoRefill.FindByItemId(itemId)`
+- `Engine.AmmoRefill.FindProfileByName(profileName)`
+- `Engine.AmmoRefill.Get(index)`
+- `Engine.AmmoRefill.GetAll()`
+- `Engine.AmmoRefill.GetCurrentProfile()`
+- `Engine.AmmoRefill.GetProfileNames()`
+- `Engine.AmmoRefill.Modify(index, refillAtCount, refillInLeftHand, equipFromHotkey)`
+- `Engine.AmmoRefill.PrintProfiles()`
+- `Engine.AmmoRefill.PrintStatus()`
+- `Engine.AmmoRefill.Remove(index)`
+- `Engine.AmmoRefill.RemoveProfile(indexOrName)`
+- `Engine.AmmoRefill.RenameProfile(indexOrName, newName)`
+- `Engine.AmmoRefill.SetProfile(indexOrName)`
+- `Engine.AmmoRefill.Toggle(index)`
+- `Engine.AmmoRefill.Update(index, updateData)`
+
+### Engine.Healer
+
+- `Engine.Healer.AddItem(itemData)`
+- `Engine.Healer.AddSpell(spellData)`
+- `Engine.Healer.ClearAllItems()`
+- `Engine.Healer.ClearAllSpells()`
+- `Engine.Healer.DisableAllItems()`
+- `Engine.Healer.DisableAllSpells()`
+- `Engine.Healer.DisableItem(index)`
+- `Engine.Healer.DisableSpell(index)`
+- `Engine.Healer.EnableItem(index)`
+- `Engine.Healer.EnableOnlyItems(itemIdsList)`
+- `Engine.Healer.EnableOnlySpells(spellWordsList)`
+- `Engine.Healer.EnableSpell(index)`
+- `Engine.Healer.FindItemById(itemId)`
+- `Engine.Healer.FindSpellByWords(spellWords)`
+- `Engine.Healer.GetItems()`
+- `Engine.Healer.GetSpellByIndex(index)`
+- `Engine.Healer.GetSpells()`
+- `Engine.Healer.ModifySpell(index, castValue, manaCost)`
+- `Engine.Healer.PrintItems()`
+- `Engine.Healer.PrintSpells()`
+- `Engine.Healer.RemoveItem(index)`
+- `Engine.Healer.RemoveSpell(index)`
+- `Engine.Healer.ToggleItem(index)`
+- `Engine.Healer.ToggleSpell(index)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

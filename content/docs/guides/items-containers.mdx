@@ -1,0 +1,117 @@
+---
+title: Items & Containers
+description: Item actions, container management, and inventory slots
+---
+
+Item interaction spans three modules: `Item`, `Container`, and `Inventory`.
+
+## Item
+
+### Use and trade
+
+| Function | Description |
+| --- | --- |
+| `Item.UseOnCreature(itemId, creatureId)` | Use item on creature |
+| `Item.Buy(itemId, count, ignoreCapacity, buyInShoppingBags)` | Buy from NPC |
+| `Item.Sell(itemId, count, sellEquipped)` | Sell to NPC |
+| `Item.UseFromContainerOnFloor(...)` | Use from backpack to floor |
+| `Item.UseFromFloorToContainer(...)` | Use from floor to backpack |
+| `Item.UseFromContainerToContainer(...)` | Use between containers |
+
+### Metadata
+
+| Function | Description |
+| --- | --- |
+| `Item.GetInfo(itemId)` | Full item info table |
+| `Item.GetName(itemId)` | Item name |
+| `Item.GetDescription(itemId)` | Item description |
+| `Item.HasFlag(itemId, fieldName)` | Check item flag |
+| `Item.IsContainer(itemId)` | Is a container |
+| `Item.IsUsable(itemId)` | Can be used |
+| `Item.IsMovable(itemId)` | Can be moved |
+| `Item.IsTakable(itemId)` | Can be picked up |
+| `Item.IsCumulative(itemId)` | Stackable |
+| `Item.IsGround(itemId)` | Ground tile item |
+
+### Container access
+
+```lua
+local item = Item.GetFromContainer(containerNumber, slotIndex)
+local found = Item.FindInContainer(containerNumber, itemId, tierLevel)
+```
+
+## Container
+
+### Queries
+
+| Function | Description |
+| --- | --- |
+| `Container.GetOpenContainers()` | List open container numbers |
+| `Container.GetByNumber(n)` / `GetByName(name)` / `GetById(id)` | Resolve container |
+| `Container.GetItems(containerNumber)` | All items in container |
+| `Container.GetItem(containerNumber, slotIndex)` | Single slot |
+| `Container.FindItem(containerNumber, itemId, tierLevel)` | Find in one container |
+| `Container.FindItemInOpenContainers(itemId, tierLevel)` | Search all open containers |
+| `Container.GetSize(containerNumber)` | Container capacity |
+| `Container.GetFreeSlots(containerNumber)` | Free slot count |
+| `Container.GetItemsCount(containerNumber)` | Item count |
+
+### Movement
+
+| Function | Description |
+| --- | --- |
+| `Container.MoveItemToContainer(...)` | Move between containers |
+| `Container.MoveItemToFloor(...)` | Drop to floor |
+| `Container.MoveItemToEquipment(...)` | Equip from container |
+| `Container.MoveItemFromEquipmentToContainer(...)` | Unequip to container |
+| `Container.UseItem(...)` | Use item in container |
+| `Container.LookItem(...)` | Look at container item |
+
+### Example: find item in open backpacks
+
+```lua
+local ITEM_ID = 268
+local item = Container.FindItemInOpenContainers(ITEM_ID)
+
+if item then
+    print("Found item " .. ITEM_ID)
+else
+    print("Item not in open containers")
+end
+```
+
+## Inventory
+
+Equipment slot operations:
+
+| Function | Description |
+| --- | --- |
+| `Inventory.GetSlotItem(equipmentSlot)` | Item in slot |
+| `Inventory.GetSlotItemId(equipmentSlot)` | Item ID in slot |
+| `Inventory.HasItemInSlot(equipmentSlot)` | Slot occupied |
+| `Inventory.GetAllSlotItems()` | All equipped items |
+| `Inventory.GetSnapshot()` | Full inventory snapshot |
+| `Inventory.Equip(itemId, tierLevel)` | Equip item |
+| `Inventory.MoveFromContainerToSlot(...)` | Container → equipment |
+| `Inventory.MoveFromSlotToContainer(...)` | Equipment → container |
+| `Inventory.CanMoveEquipment()` / `CanReadEquipment()` | Permission checks |
+
+Use `EquipmentSlot` constants from [Constants](/docs/guides/constants) for slot IDs.
+
+## NPC trade window
+
+When an NPC trade window is open, use `NpcTradeStorage`:
+
+| Function | Description |
+| --- | --- |
+| `NpcTradeStorage.IsOpen()` | Trade window open |
+| `NpcTradeStorage.GetOffers()` | All offers |
+| `NpcTradeStorage.GetOfferByItemId(itemId)` | Find offer |
+| `NpcTradeStorage.Buy(...)` / `Sell(...)` | Execute trade |
+
+## References
+
+- [Item API Reference](/docs/api-reference/item)
+- [Container API Reference](/docs/api-reference/container)
+- [Inventory API Reference](/docs/api-reference/inventory)
+- [NpcTradeStorage API Reference](/docs/api-reference/npc-trade)

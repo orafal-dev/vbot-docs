@@ -1,0 +1,16 @@
+{
+  "title": "Guides",
+  "pages": [
+    "module-scheduling",
+    "self",
+    "creatures",
+    "map-navigation",
+    "items-containers",
+    "spells-cooldowns",
+    "cavebot",
+    "engine-features",
+    "communication",
+    "events-hud",
+    "constants"
+  ]
+}

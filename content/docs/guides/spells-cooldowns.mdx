@@ -1,0 +1,103 @@
+---
+title: Spells & Cooldowns
+description: Spell readiness, item cooldowns, and group cooldown checks
+---
+
+ValidusBot provides two related modules for cooldown management:
+
+- **`Spells`** — ZeroBot-style spell and item cooldown facade
+- **`Cooldowns`** — Lower-level cooldown namespaces
+
+## Spells
+
+### Lookup
+
+| Function | Description |
+| --- | --- |
+| `Spells.GetIdByWords(words)` | Spell ID from words |
+| `Spells.GetIdByName(name)` | Spell ID from name |
+| `Spells.GetWordsById(spellId)` | Words from ID |
+| `Spells.GetInfo(spellOrWordsOrId)` | Full spell info |
+
+### Readiness
+
+| Function | Description |
+| --- | --- |
+| `Spells.IsInCooldown(spellOrWordsOrId)` | On cooldown |
+| `Spells.IsReady(spellOrWordsOrId)` | Ready to cast |
+| `Spells.GetLeftCooldownTime(spellOrWordsOrId)` | Ms remaining |
+| `Spells.WillBeReady(spellOrWordsOrId, timeMs)` | Ready within timeframe |
+
+### Group cooldowns
+
+| Function | Description |
+| --- | --- |
+| `Spells.GetGroupIds(spellOrWordsOrId)` | Group IDs for spell |
+| `Spells.GetLeftGroupCooldownTime(groupId)` | Group CD remaining |
+| `Spells.GroupIsInCooldown(groupId)` | Group on cooldown |
+
+### Item cooldowns (Spells.Item)
+
+| Function | Description |
+| --- | --- |
+| `Spells.Item.IsReady(itemId)` | Rune/item ready |
+| `Spells.Item.IsInCooldown(itemId)` | Rune/item on CD |
+| `Spells.Item.GetLeftCooldownTime(itemId)` | Ms remaining |
+| `Spells.Item.WillBeReady(itemId, timeMs)` | Ready within timeframe |
+
+### Use-with exhaust
+
+```lua
+if Spells.IsUseWithItemExhausted() then
+    -- wait for use-with cooldown
+end
+```
+
+## Cooldowns namespaces
+
+| Namespace | Functions |
+| --- | --- |
+| `Cooldowns.Spell` | `IsInCooldown`, `GetTimeLeft`, `IsReady`, `WillBeReady` |
+| `Cooldowns.Item` | Same as Spell, for items |
+| `Cooldowns.Group` | Same, for cooldown groups |
+| `Cooldowns.UseWith` | `IsExhausted`, `IsReady` |
+| `Cooldowns.Utils` | `FormatTime`, `GetStatus`, `PrintStatus` |
+
+## CooldownGroupId constants
+
+| Constant | Value |
+| --- | --- |
+| `CooldownGroupId.ATTACK` | 1 |
+| `CooldownGroupId.HEALING` | 2 |
+| `CooldownGroupId.SUPPORT` | 3 |
+| `CooldownGroupId.SPECIAL` | 4 |
+| `CooldownGroupId.CRIPPLING` | 5 |
+| `CooldownGroupId.FOCUS` | 7 |
+| `CooldownGroupId.ULTIMATE` | 8 |
+| `CooldownGroupId.GREAT_BEAMS` | 9 |
+| `CooldownGroupId.BURST_OF_NATURE` | 10 |
+| `CooldownGroupId.VIRTUE` | 11 |
+
+## Example: check healing spell
+
+```lua
+local HEAL = "exura"
+
+if Spells.IsReady(HEAL) then
+    Self.Say(HEAL)
+end
+```
+
+## Example: group cooldown status
+
+```lua
+if Cooldowns.Group.IsInCooldown(CooldownGroupId.ATTACK) then
+    local left = Cooldowns.Group.GetTimeLeft(CooldownGroupId.ATTACK)
+    print("Attack group CD: " .. Cooldowns.Utils.FormatTime(left))
+end
+```
+
+## References
+
+- [Spells API Reference](/docs/api-reference/spells)
+- [Cooldowns API Reference](/docs/api-reference/cooldowns)

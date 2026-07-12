@@ -1,0 +1,91 @@
+---
+title: Self
+description: API reference for Self (self.lua)
+---
+
+Core library: `self.lua`
+
+## Exported tables
+
+- `Self`
+
+## Functions
+
+- `Self.Attack(creatureId)`
+- `Self.BuyItem(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
+- `Self.CancelWalk()`
+- `Self.Dismount()`
+- `Self.Equip(itemId, tierLevel)`
+- `Self.Follow(creatureId)`
+- `Self.FormatStatsSnapshot(stats, prefix)`
+- `Self.GetCapacity()`
+- `Self.GetCapacityFloor()`
+- `Self.GetCharacterWorld(characterName)`
+- `Self.GetFollowId()`
+- `Self.GetHealth()`
+- `Self.GetHealthPercentage()`
+- `Self.GetLevel()`
+- `Self.GetLevelPercentage()`
+- `Self.GetMana()`
+- `Self.GetManaPercentage()`
+- `Self.GetManaShieldCapacity()`
+- `Self.GetMaxHealth()`
+- `Self.GetMaxMana()`
+- `Self.GetMaxManaShieldCapacity()`
+- `Self.GetMousePositionInWorld()`
+- `Self.GetMousePositionText()`
+- `Self.GetMouseWorldX()`
+- `Self.GetMouseWorldY()`
+- `Self.GetMouseWorldZ()`
+- `Self.GetSoul()`
+- `Self.GetStamina()`
+- `Self.GetStaminaDays()`
+- `Self.GetStaminaHours()`
+- `Self.GetStatsSnapshot()`
+- `Self.GetStatusFlagsSnapshot()`
+- `Self.GetTargetId()`
+- `Self.HasFollow()`
+- `Self.HasTarget()`
+- `Self.IsAlive()`
+- `Self.IsAttacking()`
+- `Self.IsAvailable()`
+- `Self.IsBleeding()`
+- `Self.IsBurning()`
+- `Self.IsCursed()`
+- `Self.IsDazzled()`
+- `Self.IsDrowning()`
+- `Self.IsDrunk()`
+- `Self.IsElectrified()`
+- `Self.IsFeared()`
+- `Self.IsFollowing()`
+- `Self.IsFreezing()`
+- `Self.IsHasted()`
+- `Self.IsHungry()`
+- `Self.IsInCombat()`
+- `Self.IsInProtectionZone()`
+- `Self.IsInRestingArea()`
+- `Self.IsManaShielded()`
+- `Self.IsOnline()`
+- `Self.IsParalyzed()`
+- `Self.IsPoisoned()`
+- `Self.IsRooted()`
+- `Self.IsStrengthened()`
+- `Self.LookAtCreature(creatureId)`
+- `Self.LookAtPosition(position)`
+- `Self.Mount()`
+- `Self.PrivateMessage(playerName, message)`
+- `Self.Say(message)`
+- `Self.SayOnChannel(message, channelId)`
+- `Self.SayToNpc(message)`
+- `Self.SellItem(itemId, itemCount, sellEquipped)`
+- `Self.Step(direction)`
+- `Self.StopAttackAndFollow()`
+- `Self.UseItemInContainer(itemId, containerIndex, itemPos, useItemWithHotkey)`
+- `Self.UseItemOnFloor(position, stackPosition, itemId)`
+- `Self.Whisper(message)`
+- `Self.Yell(message)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

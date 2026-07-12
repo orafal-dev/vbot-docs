@@ -1,0 +1,146 @@
+---
+title: Events & HUD
+description: Event proxies, HUD overlays, hotkeys, and sound alerts
+---
+
+## Event Proxies
+
+Subscribe to game packet events with proxy objects:
+
+```lua
+local proxy = GenericTextMessageProxy:New("my_text_handler")
+proxy:OnReceive(function(p, messageMode, message)
+    print("Message: " .. tostring(message))
+end)
+```
+
+Available proxies:
+
+| Proxy | Event type |
+| --- | --- |
+| `GenericTextMessageProxy` | Text messages |
+| `BattleMessageProxy` | Battle log |
+| `LootMessageProxy` | Loot messages |
+| `ContainerOpenProxy` | Container opened |
+| `ContainerCloseProxy` | Container closed |
+| `ContainerAddItemProxy` | Item added to container |
+| `ContainerUpdateItemProxy` | Item updated in container |
+| `ContainerRemoveItemProxy` | Item removed from container |
+| `StatsChangeProxy` | Stat changes |
+| `SkillsChangeProxy` | Skill changes |
+| `CreatureAddProxy` | Creature appeared |
+| `CreatureRemoveProxy` | Creature disappeared |
+| `DeathProxy` | Death event |
+
+Common pattern:
+
+```lua
+local p = SomeProxy:New("unique_handler_name")
+p:OnReceive(function(proxy, ...)
+    -- handle event
+end)
+```
+
+Keep callbacks short and non-blocking. Use `Module.After` for deferred work.
+
+## HUD Overlays
+
+### ScreenText — fixed screen position
+
+```lua
+local hud = ScreenText:New("my_status_hud")
+hud
+    :SetColor({ r = 255, g = 255, b = 255, a = 255 })
+    :SetText("Starting...")
+    :Create()
+    :SetScreenPosition(25, 80)
+
+Module.Every("my_status_update", function()
+    if Self.IsAvailable() then
+        local hp = Self.GetHealthPercentage() or 0
+        local mana = Self.GetManaPercentage() or 0
+        hud:SetText("HP " .. hp .. "% | Mana " .. mana .. "%")
+    end
+end, 1000)
+```
+
+### ScreenImage — icons with labels
+
+```lua
+local icon = ScreenImage:New("my_icon")
+icon
+    :SetItemId(3031)
+    :SetSize(32, 32)
+    :SetLabel("ON", { r = 0, g = 255, b = 0, a = 255 }, 0, -16)
+    :Create()
+    :SetScreenPosition(100, 100)
+```
+
+- `SetLabel(text, color, offsetX, offsetY)` — attach or update label text
+- `SetParent(parent_id)` — parent to draggable ScreenText; children follow drag movement
+
+### World overlays
+
+World-positioned elements for map debugging:
+
+```lua
+local pos = Self.GetMousePositionInWorld()
+if pos then
+    WorldBox:New("debug_box", pos.x, pos.y, pos.z)
+        :SetSize(32, 32)
+        :SetColor({ r = 255, g = 0, b = 0, a = 60 })
+        :SetBorderColor({ r = 255, g = 0, b = 0, a = 255 })
+        :SetLifetime(3000)
+        :Create()
+end
+```
+
+Available world classes: `WorldText`, `WorldBox`, `WorldImage`
+
+Alignment constants: `HorizontalAlignment`, `VerticalAlignment`
+
+## Hotkeys
+
+Register keyboard combos (alt modifier **not supported**):
+
+```lua
+Hotkeys.RegisterCombo({
+    id = "say_hi_hotkey",
+    combo = "ctrl+h",
+    callback = function()
+        if Self.IsAvailable() then
+            Self.Say("hi")
+        end
+    end,
+    name = "Say hi",
+    trigger_on_keydown = false,
+})
+```
+
+Extended keys (insert, delete, arrows, etc.) default to `extended = true` in `Hotkeys.ParseCombo`.
+
+## Sound
+
+Play bot sounds and alerts:
+
+```lua
+Sound.Play({ sound_id = BotSoundId.LOW_HEALTH })
+Sound.Play({ file_path = "path/to/sound.wav" })
+```
+
+| Function | Description |
+| --- | --- |
+| `Sound.Play(options)` | Play sound |
+| `Sound.Stop()` | Stop current |
+| `Sound.ClearQueue()` | Clear queue |
+| `Sound.IsPlaying()` / `IsQueued(options)` | Status |
+| `Sound.GetQueueSize()` | Queue length |
+
+Convenience globals: `soundPlayById`, `soundPlayByName`, `soundPlayFile`, `soundLowHealth`, `soundLowMana`, `soundPlayerDetected`, `soundGMDetected`
+
+## References
+
+- [Event Proxies API Reference](/docs/api-reference/event-proxies)
+- [HUD API Reference](/docs/api-reference/hud)
+- [Hotkeys API Reference](/docs/api-reference/hotkeys)
+- [Sound API Reference](/docs/api-reference/sound)

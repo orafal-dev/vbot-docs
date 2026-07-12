@@ -1,0 +1,50 @@
+---
+title: Features
+description: API reference for Features (features.lua)
+---
+
+Core library: `features.lua`
+
+## Exported tables
+
+- `BotFeatureId`
+- `BotFeatureName`
+- `ExcludeList`
+- `Features`
+
+## Functions
+
+### Features
+
+- `Features.Disable(featureIdentifier)`
+- `Features.DisableAllExcept(excludeList)`
+- `Features.DisableMultiple(featureList)`
+- `Features.Enable(featureIdentifier)`
+- `Features.EnableMultiple(featureList)`
+- `Features.GetActiveFeatures()`
+- `Features.GetAllFeatureIds()`
+- `Features.GetName(featureIdentifier)`
+- `Features.IsActive(featureIdentifier)`
+- `Features.PrintStatus()`
+- `Features.SetActive(featureIdentifier, activeStatus)`
+- `Features.Toggle(featureIdentifier)`
+
+### General
+
+- `featuresDisable(featureIdentifier)`
+- `featuresDisableAllExcept(ExcludeList)`
+- `featuresDisableMultiple(featureList)`
+- `featuresEnable(featureIdentifier)`
+- `featuresEnableMultiple(featureList)`
+- `featuresGetActiveFeatures()`
+- `featuresGetAllFeatureIds()`
+- `featuresGetName(featureIdentifier)`
+- `featuresIsActive(featureIdentifier)`
+- `featuresPrintStatus()`
+- `featuresSetActive(featureIdentifier, activeStatus)`
+- `featuresToggle(featureIdentifier)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

@@ -1,13 +1,46 @@
 ---
-title: Hello World
-description: Your first document
+title: ValidusBot Lua Scripting
+description: Unofficial documentation for writing Lua scripts in ValidusBot for Tibia
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+ValidusBot exposes a Lua scripting runtime for automating gameplay, building cavebot logic, reacting to game events, and creating custom HUD overlays. This documentation covers the public API, safety rules, and practical examples.
 
-## What is Next?
+## What you can build
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
+  <Card title="Automation scripts" href="/docs/guides/module-scheduling">
+    Schedule repeating tasks with Module.Every and Module.After
+  </Card>
+  <Card title="Cavebot extensions" href="/docs/guides/cavebot">
+    Custom waypoint scripts and action handlers
+  </Card>
+  <Card title="Combat helpers" href="/docs/guides/creatures">
+    Scan creatures, track targets, and react to battle events
+  </Card>
+  <Card title="HUD overlays" href="/docs/guides/events-hud">
+    Screen and world overlays for diagnostics and status
+  </Card>
 </Cards>
+
+## Quick start
+
+1. Place your `.lua` files in the bot's user **Scripts** folder.
+2. Core libraries from `Scripts/core` are loaded automatically — use **PascalCase** module names (`Self`, `Map`, `Module`, etc.).
+3. Start from the [recommended script template](/docs/getting-started/template).
+4. Look up any function in the [API Reference](/docs/api-reference).
+
+## Core principles
+
+- Scripts run in a **cooperative** runtime — long loops must yield via `wait(ms)` or `Module` schedulers.
+- Use only **documented** PascalCase APIs. Treat undocumented globals as unavailable.
+- Always handle **nil** returns when game state or bindings are missing.
+- Never use removed aliases like `self.*`, `map.*`, `CaveBot`, or `_G.position`.
+
+## Documentation sections
+
+| Section | Description |
+| --- | --- |
+| [Getting Started](/docs/getting-started/overview) | Runtime model, safety rules, and starter template |
+| [Guides](/docs/guides/module-scheduling) | Topic-based API walkthroughs with examples |
+| [Examples](/docs/examples) | Copy-paste script patterns |
+| [API Reference](/docs/api-reference) | Complete function index per core library |

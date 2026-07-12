@@ -1,0 +1,30 @@
+---
+title: Module
+description: API reference for Module (module.lua)
+---
+
+Core library: `module.lua`
+
+## Exported tables
+
+- `Module`
+
+## Functions
+
+- `Module.After(name, callback, delayMs)`
+- `Module.Cancel(name)`
+- `Module.Every(name, callback, delayMs)`
+- `Module.Exists(name)`
+- `Module.Get(name)`
+- `Module.List()`
+- `Module.New(name, callback, delayMs)`
+- `Module.Pause(name)`
+- `Module.PauseManaged(name)`
+- `Module.Resume(name)`
+- `Module.ResumeManaged(name)`
+- `Module.Stop(name)`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

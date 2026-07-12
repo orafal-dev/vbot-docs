@@ -1,0 +1,119 @@
+---
+title: Self (Player)
+description: Local player state, actions, and status helpers
+---
+
+`Self` is the primary module for reading local player state and performing player actions. Prefer `Self` over raw `Game` bindings for convenience operations.
+
+## Availability
+
+Always check availability before reading state:
+
+```lua
+if not Self.IsAvailable() then
+    return
+end
+```
+
+## State queries
+
+### Health and mana
+
+| Function | Returns |
+| --- | --- |
+| `Self.GetHealth()` | Current HP |
+| `Self.GetMaxHealth()` | Maximum HP |
+| `Self.GetHealthPercentage()` | HP percent |
+| `Self.GetMana()` | Current mana |
+| `Self.GetMaxMana()` | Maximum mana |
+| `Self.GetManaPercentage()` | Mana percent |
+| `Self.GetManaShieldCapacity()` | Mana shield capacity |
+
+### Character info
+
+| Function | Returns |
+| --- | --- |
+| `Self.GetLevel()` | Character level |
+| `Self.GetLevelPercentage()` | Level progress percent |
+| `Self.GetSoul()` | Soul points |
+| `Self.GetCapacity()` | Free capacity |
+| `Self.GetCapacityFloor()` | Capacity floor value |
+| `Self.GetStamina()` | Stamina |
+| `Self.GetStaminaDays()` / `GetStaminaHours()` | Stamina breakdown |
+
+### Combat and movement state
+
+| Function | Returns |
+| --- | --- |
+| `Self.IsOnline()` | Player is online |
+| `Self.IsAlive()` | Player is alive |
+| `Self.IsAttacking()` | Currently attacking |
+| `Self.IsFollowing()` | Currently following |
+| `Self.HasTarget()` | Has attack target |
+| `Self.HasFollow()` | Has follow target |
+| `Self.GetTargetId()` | Target creature ID |
+| `Self.GetFollowId()` | Follow creature ID |
+| `Self.IsInCombat()` | In combat state |
+| `Self.IsInProtectionZone()` | Inside PZ |
+| `Self.IsInRestingArea()` | In resting area |
+
+### Condition flags
+
+`Self` exposes boolean status checks for common conditions:
+
+`IsBleeding`, `IsBurning`, `IsCursed`, `IsDazzled`, `IsDrowning`, `IsDrunk`, `IsElectrified`, `IsFeared`, `IsFreezing`, `IsHasted`, `IsHungry`, `IsManaShielded`, `IsParalyzed`, `IsPoisoned`, `IsRooted`, `IsStrengthened`
+
+Use `Self.GetStatusFlagsSnapshot()` or `Self.GetStatsSnapshot()` for aggregated data.
+
+## Actions
+
+### Chat
+
+| Function | Description |
+| --- | --- |
+| `Self.Say(message)` | Local chat |
+| `Self.Whisper(message)` | Whisper |
+| `Self.Yell(message)` | Yell |
+| `Self.SayOnChannel(message, channelId)` | Channel message |
+| `Self.SayToNpc(message)` | NPC dialog |
+| `Self.PrivateMessage(playerName, message)` | PM |
+
+### Combat and movement
+
+| Function | Description |
+| --- | --- |
+| `Self.Attack(creatureId)` | Attack creature |
+| `Self.Follow(creatureId)` | Follow creature |
+| `Self.StopAttackAndFollow()` | Clear attack/follow |
+| `Self.Step(direction)` | Step in direction (use `MoveDirection` constants) |
+| `Self.CancelWalk()` | Cancel current walk |
+| `Self.Mount()` / `Self.Dismount()` | Toggle mount |
+
+### Interaction
+
+| Function | Description |
+| --- | --- |
+| `Self.UseItemInContainer(...)` | Use item from container |
+| `Self.UseItemOnFloor(position, stackPosition, itemId)` | Use item on map tile |
+| `Self.LookAtPosition(position)` | Look at tile |
+| `Self.LookAtCreature(creatureId)` | Look at creature |
+| `Self.Equip(itemId, tierLevel)` | Equip item |
+
+### Trade
+
+| Function | Description |
+| --- | --- |
+| `Self.BuyItem(itemId, count, ignoreCapacity, buyInShoppingBags)` | Buy from NPC |
+| `Self.SellItem(itemId, count, sellEquipped)` | Sell to NPC |
+
+## Mouse position
+
+| Function | Description |
+| --- | --- |
+| `Self.GetMousePositionInWorld()` | `{x, y, z}` table at mouse |
+| `Self.GetMouseWorldX()` / `Y()` / `Z()` | Individual coordinates |
+| `Self.GetMousePositionText()` | Formatted position string |
+
+## Full reference
+
+See [Self API Reference](/docs/api-reference/self) for the complete function list.

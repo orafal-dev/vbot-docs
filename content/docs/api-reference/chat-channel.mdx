@@ -1,0 +1,33 @@
+---
+title: ChatChannel
+description: API reference for ChatChannel (chat_channel.lua)
+---
+
+Core library: `chat_channel.lua`
+
+## Exported tables
+
+- `ChatChannel`
+
+## Functions
+
+- `ChatChannel.FromIdentifier(identifier)`
+- `ChatChannel.GetById(channelId)`
+- `ChatChannel.GetByName(channelName)`
+- `ChatChannel.New(channelOrId, channelName)`
+- `ChatChannel:CanSend()`
+- `ChatChannel:GetId()`
+- `ChatChannel:GetName()`
+- `ChatChannel:IsLocal()`
+- `ChatChannel:IsOpened()`
+- `ChatChannel:IsServerLog()`
+- `ChatChannel:IsValid()`
+- `ChatChannel:Refresh()`
+- `ChatChannel:Send(message)`
+- `ChatChannel:ToString()`
+- `ChatChannel:ToTable()`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

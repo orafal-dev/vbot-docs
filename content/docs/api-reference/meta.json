@@ -1,0 +1,33 @@
+{
+  "title": "API Reference",
+  "pages": [
+    "index",
+    "cavebot",
+    "cavebot-actions",
+    "chat-channel",
+    "chat-channel-storage",
+    "container",
+    "cooldowns",
+    "creature",
+    "creatures",
+    "engine",
+    "event-proxies",
+    "features",
+    "game",
+    "hotkeys",
+    "hud",
+    "inventory",
+    "item",
+    "constants",
+    "map",
+    "minimap",
+    "module",
+    "npc-trade",
+    "position",
+    "self",
+    "sound",
+    "spells",
+    "vip",
+    "api-surface"
+  ]
+}

@@ -1,0 +1,58 @@
+---
+title: Creature
+description: API reference for Creature (creature.lua)
+---
+
+Core library: `creature.lua`
+
+## Exported tables
+
+- `Creature`
+
+## Functions
+
+- `Creature.GetFollowed()`
+- `Creature.GetLocalPlayer()`
+- `Creature.GetTarget()`
+- `Creature:ClearCache()`
+- `Creature:DistanceTo(targetPos)`
+- `Creature:DistanceToCreature(otherCreature)`
+- `Creature:Equals(other)`
+- `Creature:GetDirection()`
+- `Creature:GetGuildShield()`
+- `Creature:GetHealthPercent()`
+- `Creature:GetId()`
+- `Creature:GetLowercaseName()`
+- `Creature:GetMasterId()`
+- `Creature:GetName()`
+- `Creature:GetOutfit()`
+- `Creature:GetPartyShield()`
+- `Creature:GetPosition()`
+- `Creature:GetSkull()`
+- `Creature:GetSpeed()`
+- `Creature:GetVocation()`
+- `Creature:IsAdjacentTo(targetPos)`
+- `Creature:IsGameMaster()`
+- `Creature:IsInGuild()`
+- `Creature:IsInParty()`
+- `Creature:IsMonster()`
+- `Creature:IsMounted()`
+- `Creature:IsNPC()`
+- `Creature:IsPartyLeader()`
+- `Creature:IsPlayer()`
+- `Creature:IsReachable()`
+- `Creature:IsSameFloor(targetPos)`
+- `Creature:IsShootable()`
+- `Creature:IsSkulled()`
+- `Creature:IsSummon()`
+- `Creature:IsValid()`
+- `Creature:IsVisible()`
+- `Creature:IsWarAlly()`
+- `Creature:IsWarEnemy()`
+- `Creature:New(creatureId)`
+- `Creature:ToString()`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

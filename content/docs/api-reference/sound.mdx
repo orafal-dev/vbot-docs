@@ -1,0 +1,53 @@
+---
+title: Sound
+description: API reference for Sound (sound.lua)
+---
+
+Core library: `sound.lua`
+
+## Exported tables
+
+- `BotSoundId`
+- `Sound`
+
+## Functions
+
+### General
+
+- `soundGMDetected(instant)`
+- `soundGetCurrentDuration()`
+- `soundGetFileDuration(filePath)`
+- `soundGetQueueLength()`
+- `soundIsCurrentlyPlaying()`
+- `soundIsQueued(options)`
+- `soundLowHealth(instant)`
+- `soundLowMana(instant)`
+- `soundPlayAndWait(options, maxWaitMs)`
+- `soundPlayBotSound(filename, instant)`
+- `soundPlayById(soundId, instant)`
+- `soundPlayByIdSmart(soundId, instant)`
+- `soundPlayByName(soundName, instant)`
+- `soundPlayByNameSmart(soundName, instant)`
+- `soundPlayFile(filePath, instant)`
+- `soundPlayFileSmart(filePath, instant)`
+- `soundPlayerDetected(instant)`
+- `soundSetQueueDelay(delayMs)`
+- `soundStopAll()`
+- `soundWaitForCompletion(maxWaitMs)`
+
+### Sound
+
+- `Sound.ClearQueue()`
+- `Sound.GetCurrentDuration()`
+- `Sound.GetFileDuration(filePath)`
+- `Sound.GetQueueSize()`
+- `Sound.IsPlaying()`
+- `Sound.IsQueued(options)`
+- `Sound.Play(options)`
+- `Sound.SetMinDelay(delayMs)`
+- `Sound.Stop()`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.

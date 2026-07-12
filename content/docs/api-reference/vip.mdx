@@ -1,0 +1,37 @@
+---
+title: VIP
+description: API reference for VIP (vip.lua)
+---
+
+Core library: `vip.lua`
+
+## Exported tables
+
+- `Vip`
+- `VipStorage`
+- `VIPStorage`
+
+## Functions
+
+- `Vip.Count()`
+- `Vip.CountOnline()`
+- `Vip.Exists(vipName)`
+- `Vip.FindByPrefix(namePrefix, onlyOnline)`
+- `Vip.Get(vipName)`
+- `Vip.GetAll()`
+- `Vip.GetByType(vipType)`
+- `Vip.GetDescription(vipName)`
+- `Vip.GetHearts()`
+- `Vip.GetNames(onlyOnline)`
+- `Vip.GetNotifyOnLogin(vipName)`
+- `Vip.GetSnapshot()`
+- `Vip.GetType(vipName)`
+- `Vip.IsAvailable()`
+- `Vip.IsHeart(vipName)`
+- `Vip.IsOnline(vipName)`
+- `Vip.ToLookupTable()`
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.
