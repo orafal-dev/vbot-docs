@@ -159,20 +159,6 @@ export const ScriptScreenshotUploader = ({
     event.target.value = ""
   }
 
-  const handlePaste = async (event: React.ClipboardEvent<HTMLDivElement>) => {
-    if (!canAddMore) {
-      return
-    }
-
-    const imageFiles = getImageFilesFromClipboard(event.clipboardData)
-    if (imageFiles.length === 0) {
-      return
-    }
-
-    event.preventDefault()
-    await handleUploadFiles(imageFiles)
-  }
-
   const handleRemove = (ref: string) => {
     setScreenshots((current) => current.filter((entry) => entry.ref !== ref))
     setError(null)
@@ -192,7 +178,6 @@ export const ScriptScreenshotUploader = ({
       tabIndex={0}
       role="group"
       aria-label="Screenshot upload area"
-      onPaste={handlePaste}
       onClick={handleContainerClick}
       className={cn(
         "grid gap-4 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
