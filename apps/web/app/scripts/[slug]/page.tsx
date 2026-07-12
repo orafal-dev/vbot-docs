@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { IconArrowLeft, IconCalendar, IconUser } from "@tabler/icons-react"
 
 import { CodeActions } from "@/components/code-actions"
+import { ScriptInstallNotice } from "@/components/script-install-notice"
 import { ScriptStats } from "@/components/script-stats"
 import { ScriptScreenshotGallery } from "@/components/script-screenshot-gallery"
 import { Badge } from "@/components/ui/badge"
@@ -52,6 +53,7 @@ export default async function ScriptDetailPage({ params }: { params: Promise<{ s
         screenshots={script.screenshots}
         scriptTitle={script.title}
       />
+      <ScriptInstallNotice />
       <Card className="overflow-hidden p-0"><CardContent className="overflow-x-auto p-0"><div className="shiki-dual min-w-max text-sm leading-6 [&_pre]:p-5" dangerouslySetInnerHTML={{ __html: highlightedCode }} /></CardContent></Card>
     </main>
   )
