@@ -4,7 +4,7 @@ export const docsImageRoute = '/og/docs';
 export const docsContentRoute = '/llms.mdx/docs';
 
 export const gitConfig = {
-  user: 'petkoGH',
-  repo: 'validusbot-lua',
+  user: 'orafal-dev',
+  repo: 'vbot-docs',
   branch: 'main',
 };
