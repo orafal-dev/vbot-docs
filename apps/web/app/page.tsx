@@ -20,17 +20,28 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ q
             <Input id="script-search" name="q" defaultValue={q} placeholder="Search scripts…" maxLength={100} className="pl-9" />
           </form>
         </div>
-        {scripts.length ? <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{scripts.map((script) => (
+        {scripts.length ? <div className="grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">{scripts.map((script) => (
           <Link
             key={script.id}
             href={`/scripts/${script.slug}`}
             aria-label={`View ${script.title} script`}
-            className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="group flex h-full flex-col rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
-            <Card className="h-full transition-shadow group-hover:shadow-md">
-              <CardHeader><div className="mb-2 flex items-center justify-between"><Badge>Lua</Badge>{script.demo ? <Badge variant="outline">Demo data</Badge> : null}</div><CardTitle>{script.title}</CardTitle><CardDescription className="line-clamp-3">{script.description}</CardDescription></CardHeader>
+            <Card className="flex h-full min-h-0 flex-1 flex-col overflow-visible transition-shadow group-hover:shadow-md">
+              <CardHeader className="flex flex-col gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge>Lua</Badge>
+                  {script.demo ? <Badge variant="outline">Demo data</Badge> : null}
+                </div>
+                <CardTitle className="text-balance">{script.title}</CardTitle>
+                <CardDescription>{script.description}</CardDescription>
+              </CardHeader>
               <CardContent className="text-xs text-muted-foreground">Updated {script.updatedAt.toLocaleDateString("en-US", { dateStyle: "medium" })}</CardContent>
-              <CardFooter><span className="inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:underline">View script <IconArrowRight className="size-4" /></span></CardFooter>
+              <CardFooter className="mt-auto">
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:underline">
+                  View script <IconArrowRight className="size-4" />
+                </span>
+              </CardFooter>
             </Card>
           </Link>
         ))}</div> : (
