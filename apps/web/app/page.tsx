@@ -13,7 +13,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ q
     <main>
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div><p className="text-sm font-medium text-primary">Script library</p><h2 className="mt-1 text-3xl font-semibold tracking-tight">Find your next automation</h2></div>
+          <div><p className="text-sm font-medium text-primary">Script library</p><h2 className="mt-1 text-3xl font-semibold tracking-tight">Find your next script to use</h2></div>
           <form className="relative w-full sm:max-w-sm" role="search">
             <label htmlFor="script-search" className="sr-only">Search scripts</label>
             <IconSearch className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />

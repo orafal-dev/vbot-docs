@@ -44,7 +44,7 @@ export default function RootLayout({
                 <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
                   <IconCode className="size-5" />
                 </span>
-                <span>ValidusBot</span>
+                <span>Community ValidusBot scripts</span>
               </Link>
               <nav className="flex items-center gap-1" aria-label="Primary navigation">
                 <a href="/docs" className="inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-sm font-medium hover:bg-muted">
