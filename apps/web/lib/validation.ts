@@ -76,3 +76,16 @@ export const invitationFormSchema = z.object({
 export const publicScriptSearchSchema = z.object({
   query: z.string().trim().max(100, "Search is limited to 100 characters.").optional(),
 })
+
+export const scriptSlugParamSchema = z.object({
+  slug: z
+    .string()
+    .trim()
+    .min(3)
+    .max(80)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+})
+
+export const scriptStatEventSchema = z.object({
+  type: z.enum(["view", "copy", "download"]),
+})

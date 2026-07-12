@@ -13,6 +13,9 @@ type PublicScriptFields = Pick<
   | "createdAt"
   | "updatedAt"
   | "publishedAt"
+  | "viewCount"
+  | "copyCount"
+  | "downloadCount"
 >
 
 export type ScriptRecord = ScriptRow & {

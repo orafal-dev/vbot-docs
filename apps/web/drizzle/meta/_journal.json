@@ -15,6 +15,13 @@
       "when": 1783854252357,
       "tag": "0001_script_screenshots",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1783854252358,
+      "tag": "0002_script_stats",
+      "breakpoints": true
     }
   ]
 }

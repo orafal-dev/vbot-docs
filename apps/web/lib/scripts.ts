@@ -24,6 +24,9 @@ const demoScripts: ScriptRecord[] = [
     updatedAt: new Date("2026-04-18T12:00:00.000Z"),
     publishedAt: new Date("2026-04-18T12:00:00.000Z"),
     screenshots: [],
+    viewCount: 128,
+    copyCount: 42,
+    downloadCount: 19,
     demo: true,
   },
   {
@@ -37,6 +40,9 @@ const demoScripts: ScriptRecord[] = [
     updatedAt: new Date("2026-05-01T12:00:00.000Z"),
     publishedAt: new Date("2026-05-01T12:00:00.000Z"),
     screenshots: [],
+    viewCount: 256,
+    copyCount: 87,
+    downloadCount: 31,
     demo: true,
   },
 ]
@@ -55,6 +61,9 @@ const scriptSelection = {
   createdAt: scripts.createdAt,
   updatedAt: scripts.updatedAt,
   publishedAt: scripts.publishedAt,
+  viewCount: scripts.viewCount,
+  copyCount: scripts.copyCount,
+  downloadCount: scripts.downloadCount,
 }
 
 const scriptSummarySelection = {
@@ -69,6 +78,9 @@ const scriptSummarySelection = {
   createdAt: scripts.createdAt,
   updatedAt: scripts.updatedAt,
   publishedAt: scripts.publishedAt,
+  viewCount: scripts.viewCount,
+  copyCount: scripts.copyCount,
+  downloadCount: scripts.downloadCount,
 }
 
 const toScriptSummary = (script: ScriptRecord): ScriptSummary => ({
@@ -83,6 +95,9 @@ const toScriptSummary = (script: ScriptRecord): ScriptSummary => ({
   createdAt: script.createdAt,
   updatedAt: script.updatedAt,
   publishedAt: script.publishedAt,
+  viewCount: script.viewCount,
+  copyCount: script.copyCount,
+  downloadCount: script.downloadCount,
   demo: script.demo,
 })
 

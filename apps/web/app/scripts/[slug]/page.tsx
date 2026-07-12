@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { IconArrowLeft, IconCalendar, IconUser } from "@tabler/icons-react"
 
 import { CodeActions } from "@/components/code-actions"
+import { ScriptStats } from "@/components/script-stats"
 import { ScriptScreenshotGallery } from "@/components/script-screenshot-gallery"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -39,11 +40,12 @@ export default async function ScriptDetailPage({ params }: { params: Promise<{ s
       <Link href="/" className="mb-8 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><IconArrowLeft className="size-4" /> Back to library</Link>
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="max-w-3xl"><Badge className="mb-4">Lua script</Badge><h1 className="text-4xl font-semibold tracking-tight">{script.title}</h1><p className="mt-4 text-lg leading-8 text-muted-foreground">{script.description}</p></div>
-        <CodeActions code={script.code} filename={`${script.slug}.lua`} />
+        <CodeActions code={script.code} filename={`${script.slug}.lua`} scriptSlug={script.slug} />
       </div>
       <div className="my-8 flex flex-wrap gap-5 text-sm text-muted-foreground">
         <span className="flex items-center gap-1.5"><IconUser className="size-4" /> {script.authorName}</span>
         <span className="flex items-center gap-1.5"><IconCalendar className="size-4" /> Updated {script.updatedAt.toLocaleDateString("en-US", { dateStyle: "long" })}</span>
+        <ScriptStats scriptSlug={script.slug} />
       </div>
       <Separator className="mb-8" />
       <ScriptScreenshotGallery

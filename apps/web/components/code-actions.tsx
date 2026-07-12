@@ -4,18 +4,29 @@ import { useState } from "react"
 import { IconCheck, IconCopy, IconDownload } from "@tabler/icons-react"
 
 import { Button } from "@/components/ui/button"
+import { emitScriptStatUpdate } from "@/lib/script-stat-events"
+import { trackScriptStat } from "@/lib/track-script-stat"
 import type { CodeActionsProps } from "./code-actions.types"
 
-export const CodeActions = ({ code, filename }: CodeActionsProps) => {
+export const CodeActions = ({ code, filename, scriptSlug }: CodeActionsProps) => {
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">(
     "idle"
   )
+
+  const handleTrackStat = async (type: "copy" | "download") => {
+    const stats = await trackScriptStat(scriptSlug, type)
+
+    if (stats) {
+      emitScriptStatUpdate(scriptSlug, stats)
+    }
+  }
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code)
       setCopyStatus("copied")
       window.setTimeout(() => setCopyStatus("idle"), 1500)
+      void handleTrackStat("copy")
     } catch {
       setCopyStatus("error")
     }
@@ -30,6 +41,7 @@ export const CodeActions = ({ code, filename }: CodeActionsProps) => {
     anchor.download = filename
     anchor.click()
     URL.revokeObjectURL(url)
+    void handleTrackStat("download")
   }
 
   return (

@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm"
 import {
   boolean,
   index,
+  integer,
   jsonb,
   pgTable,
   text,
@@ -84,6 +85,9 @@ export const scripts = pgTable("scripts", {
   createdAt: timestamps.createdAt,
   updatedAt: timestamps.updatedAt,
   publishedAt: timestamp("published_at", { withTimezone: true }),
+  viewCount: integer("view_count").default(0).notNull(),
+  copyCount: integer("copy_count").default(0).notNull(),
+  downloadCount: integer("download_count").default(0).notNull(),
 }, (table) => [
   uniqueIndex("scripts_slug_idx").on(table.slug),
   index("scripts_author_id_idx").on(table.authorId),
