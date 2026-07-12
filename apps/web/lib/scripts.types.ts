@@ -1,0 +1,29 @@
+import type { scripts } from "@/lib/db/schema"
+
+type ScriptRow = typeof scripts.$inferSelect
+type PublicScriptFields = Pick<
+  ScriptRow,
+  | "id"
+  | "slug"
+  | "title"
+  | "description"
+  | "published"
+  | "authorId"
+  | "createdAt"
+  | "updatedAt"
+  | "publishedAt"
+>
+
+export type ScriptRecord = ScriptRow & {
+  authorName: string
+  demo?: boolean
+}
+
+export type ScriptSummary = PublicScriptFields & {
+  authorName: string
+  demo?: boolean
+}
+
+export type ScriptSearch = {
+  query?: unknown
+}

@@ -1,0 +1,49 @@
+import type { Metadata } from "next"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import pierreDark from "@pierre/theme/pierre-dark"
+import pierreLight from "@pierre/theme/pierre-light"
+import { IconArrowLeft, IconCalendar, IconUser } from "@tabler/icons-react"
+import { codeToHtml } from "shiki"
+import type { ThemeRegistrationRaw } from "shiki"
+
+import { CodeActions } from "@/components/code-actions"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { getPublishedScriptBySlug } from "@/lib/scripts"
+
+export const generateMetadata = async ({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> => {
+  const { slug } = await params
+  const script = await getPublishedScriptBySlug(slug)
+  return script ? { title: script.title, description: script.description } : { title: "Script not found" }
+}
+
+export default async function ScriptDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const script = await getPublishedScriptBySlug(slug)
+  if (!script) notFound()
+  const highlightedCode = await codeToHtml(script.code, {
+    lang: "lua",
+    themes: {
+      light: pierreLight as unknown as ThemeRegistrationRaw,
+      dark: pierreDark as unknown as ThemeRegistrationRaw,
+    },
+    defaultColor: false,
+  })
+  return (
+    <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+      <Link href="/" className="mb-8 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><IconArrowLeft className="size-4" /> Back to library</Link>
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div className="max-w-3xl"><Badge className="mb-4">Lua script</Badge><h1 className="text-4xl font-semibold tracking-tight">{script.title}</h1><p className="mt-4 text-lg leading-8 text-muted-foreground">{script.description}</p></div>
+        <CodeActions code={script.code} filename={`${script.slug}.lua`} />
+      </div>
+      <div className="my-8 flex flex-wrap gap-5 text-sm text-muted-foreground">
+        <span className="flex items-center gap-1.5"><IconUser className="size-4" /> {script.authorName}</span>
+        <span className="flex items-center gap-1.5"><IconCalendar className="size-4" /> Updated {script.updatedAt.toLocaleDateString("en-US", { dateStyle: "long" })}</span>
+      </div>
+      <Separator className="mb-8" />
+      <Card className="overflow-hidden p-0"><CardContent className="overflow-x-auto p-0"><div className="shiki-dual min-w-max text-sm leading-6 [&_pre]:p-5" dangerouslySetInnerHTML={{ __html: highlightedCode }} /></CardContent></Card>
+    </main>
+  )
+}

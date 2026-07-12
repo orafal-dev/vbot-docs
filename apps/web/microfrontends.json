@@ -1,0 +1,32 @@
+{
+  "$schema": "https://openapi.vercel.sh/microfrontends.json",
+  "applications": {
+    "vbot-web": {
+      "packageName": "@vbot/web",
+      "development": {
+        "local": 3000,
+        "fallback": "vbot-web.vercel.app"
+      }
+    },
+    "vbot-docs": {
+      "packageName": "@vbot/docs",
+      "routing": [
+        {
+          "group": "docs",
+          "paths": [
+            "/docs",
+            "/docs/:path*",
+            "/api/search",
+            "/og/docs/:path*",
+            "/llms.mdx/docs/:path*",
+            "/llms.txt",
+            "/llms-full.txt"
+          ]
+        }
+      ],
+      "development": {
+        "local": 3001
+      }
+    }
+  }
+}

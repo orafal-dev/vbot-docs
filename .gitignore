@@ -1,15 +1,16 @@
 # deps
-/node_modules
+node_modules
 
 # generated content
-.source
+**/.source
 
 # test & build
 /coverage
-/.next/
-/out/
+**/.next/
+**/out/
 /build
 *.tsbuildinfo
+.turbo
 
 # misc
 .DS_Store
@@ -24,3 +25,4 @@ yarn-error.log*
 .env*.local
 .vercel
 next-env.d.ts
+.env*
