@@ -4,6 +4,7 @@ export type ScriptScreenshotUploaderProps = {
 }
 
 export type ScreenshotUploadState = {
-  url: string
+  ref: string
+  previewUrl: string
   uploading?: boolean
 }

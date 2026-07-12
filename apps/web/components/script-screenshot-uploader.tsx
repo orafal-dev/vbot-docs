@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { IconPhoto, IconTrash, IconUpload } from "@tabler/icons-react"
 
 import { Button } from "@/components/ui/button"
+import { getScreenshotServeUrl } from "@/lib/blob"
 import { cn } from "@/lib/utils"
 import { MAX_SCRIPT_SCREENSHOTS } from "@/lib/validation"
 import type {
@@ -42,7 +43,10 @@ export const ScriptScreenshotUploader = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const screenshotsRef = useRef<ScreenshotUploadState[]>([])
   const [screenshots, setScreenshots] = useState<ScreenshotUploadState[]>(
-    initialScreenshots.map((url) => ({ url }))
+    initialScreenshots.flatMap((ref) => {
+      const previewUrl = getScreenshotServeUrl(ref)
+      return previewUrl ? [{ ref, previewUrl }] : []
+    })
   )
   const [error, setError] = useState<string | null>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -70,7 +74,7 @@ export const ScriptScreenshotUploader = ({
 
     for (const file of filesToUpload) {
       const tempId = crypto.randomUUID()
-      setScreenshots((current) => [...current, { url: tempId, uploading: true }])
+      setScreenshots((current) => [...current, { ref: tempId, previewUrl: tempId, uploading: true }])
 
       const formData = new FormData()
       formData.append("file", file)
@@ -84,19 +88,25 @@ export const ScriptScreenshotUploader = ({
           body: formData,
         })
 
-        const payload = (await response.json()) as { url?: string; error?: string }
+        const payload = (await response.json()) as {
+          pathname?: string
+          previewUrl?: string
+          error?: string
+        }
 
-        if (!response.ok || !payload.url) {
+        if (!response.ok || !payload.pathname || !payload.previewUrl) {
           throw new Error(payload.error ?? "Upload failed.")
         }
 
         setScreenshots((current) =>
           current.map((entry) =>
-            entry.url === tempId ? { url: payload.url! } : entry
+            entry.ref === tempId
+              ? { ref: payload.pathname!, previewUrl: payload.previewUrl! }
+              : entry
           )
         )
       } catch (uploadError) {
-        setScreenshots((current) => current.filter((entry) => entry.url !== tempId))
+        setScreenshots((current) => current.filter((entry) => entry.ref !== tempId))
         setError(
           uploadError instanceof Error
             ? uploadError.message
@@ -163,8 +173,8 @@ export const ScriptScreenshotUploader = ({
     await handleUploadFiles(imageFiles)
   }
 
-  const handleRemove = (url: string) => {
-    setScreenshots((current) => current.filter((entry) => entry.url !== url))
+  const handleRemove = (ref: string) => {
+    setScreenshots((current) => current.filter((entry) => entry.ref !== ref))
     setError(null)
   }
 
@@ -173,7 +183,7 @@ export const ScriptScreenshotUploader = ({
   }
 
   const serializedScreenshots = JSON.stringify(
-    screenshots.filter((entry) => !entry.uploading).map((entry) => entry.url)
+    screenshots.filter((entry) => !entry.uploading).map((entry) => entry.ref)
   )
 
   return (
@@ -259,7 +269,7 @@ export const ScriptScreenshotUploader = ({
         <ul className="grid gap-3 sm:grid-cols-2">
           {screenshots.map((screenshot, index) => (
             <li
-              key={screenshot.url}
+              key={screenshot.ref}
               className="relative overflow-hidden rounded-lg border bg-muted/20"
             >
               <div className="relative aspect-video">
@@ -269,7 +279,7 @@ export const ScriptScreenshotUploader = ({
                   </div>
                 ) : (
                   <Image
-                    src={screenshot.url}
+                    src={screenshot.previewUrl}
                     alt={`Screenshot ${index + 1}`}
                     fill
                     sizes="(max-width: 640px) 100vw, 320px"
@@ -286,7 +296,7 @@ export const ScriptScreenshotUploader = ({
                   className="absolute top-2 right-2"
                   onClick={(event) => {
                     event.stopPropagation()
-                    handleRemove(screenshot.url)
+                    handleRemove(screenshot.ref)
                   }}
                 >
                   <IconTrash className="size-3.5" />

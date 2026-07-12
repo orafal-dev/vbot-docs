@@ -2,14 +2,6 @@ import type { NextConfig } from "next"
 import { withMicrofrontends } from "@vercel/microfrontends/next/config"
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**.public.blob.vercel-storage.com",
-      },
-    ],
-  },
   async headers() {
     return [
       {

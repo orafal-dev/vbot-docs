@@ -2,6 +2,7 @@ import { put } from "@vercel/blob"
 import { NextResponse } from "next/server"
 
 import { getAdminUser } from "@/lib/auth"
+import { getScreenshotServeUrl } from "@/lib/blob"
 import { MAX_SCRIPT_SCREENSHOTS } from "@/lib/validation"
 
 const MAX_FILE_SIZE_BYTES = 4 * 1024 * 1024
@@ -55,13 +56,14 @@ export const POST = async (request: Request) => {
   const pathname = `${folder}/${crypto.randomUUID()}.${extension}`
 
   const blob = await put(pathname, file, {
-    access: "public",
+    access: "private",
     addRandomSuffix: false,
     contentType: file.type,
   })
 
   return NextResponse.json({
-    url: blob.url,
+    pathname: blob.pathname,
+    previewUrl: getScreenshotServeUrl(blob.pathname),
     maxScreenshots: MAX_SCRIPT_SCREENSHOTS,
   })
 }

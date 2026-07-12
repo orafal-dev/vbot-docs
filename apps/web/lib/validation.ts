@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { normalizeScreenshotRef } from "@/lib/blob"
+
 export const generateSlug = (value: string) =>
   value.trim().toLowerCase().normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -12,17 +14,22 @@ const slugSchema = z.string().min(3, "Slug must be at least 3 characters.").max(
 
 export const MAX_SCRIPT_SCREENSHOTS = 6
 
-const vercelBlobUrlSchema = z
+const scriptScreenshotRefSchema = z
   .string()
-  .url()
+  .trim()
   .max(2048)
-  .regex(
-    /^https:\/\/[a-z0-9-]+\.public\.blob\.vercel-storage\.com\/.+/i,
-    "Screenshot URLs must be hosted on Vercel Blob."
-  )
+  .superRefine((value, context) => {
+    if (!normalizeScreenshotRef(value)) {
+      context.addIssue({
+        code: "custom",
+        message: "Screenshots must be valid Vercel Blob pathnames.",
+      })
+    }
+  })
+  .transform((value) => normalizeScreenshotRef(value)!)
 
 export const scriptScreenshotsSchema = z
-  .array(vercelBlobUrlSchema)
+  .array(scriptScreenshotRefSchema)
   .max(MAX_SCRIPT_SCREENSHOTS, `At most ${MAX_SCRIPT_SCREENSHOTS} screenshots are allowed.`)
 
 const parseScreenshotsField = (value: FormDataEntryValue | null) => {

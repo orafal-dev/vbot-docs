@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { createPortal } from "react-dom"
 import {
   IconChevronLeft,
@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react"
 
 import { Button } from "@/components/ui/button"
+import { getScreenshotServeUrl } from "@/lib/blob"
 import { cn } from "@/lib/utils"
 import type { ScriptScreenshotGalleryProps } from "./script-screenshot-gallery.types"
 
@@ -19,6 +20,15 @@ export const ScriptScreenshotGallery = ({
 }: ScriptScreenshotGalleryProps) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [mounted, setMounted] = useState(false)
+
+  const previewScreenshots = useMemo(
+    () =>
+      screenshots.flatMap((ref) => {
+        const previewUrl = getScreenshotServeUrl(ref)
+        return previewUrl ? [{ ref, previewUrl }] : []
+      }),
+    [screenshots]
+  )
 
   useEffect(() => {
     setMounted(true)
@@ -34,9 +44,11 @@ export const ScriptScreenshotGallery = ({
         return currentIndex
       }
 
-      return (currentIndex - 1 + screenshots.length) % screenshots.length
+      return (
+        (currentIndex - 1 + previewScreenshots.length) % previewScreenshots.length
+      )
     })
-  }, [screenshots.length])
+  }, [previewScreenshots.length])
 
   const showNext = useCallback(() => {
     setActiveIndex((currentIndex) => {
@@ -44,9 +56,9 @@ export const ScriptScreenshotGallery = ({
         return currentIndex
       }
 
-      return (currentIndex + 1) % screenshots.length
+      return (currentIndex + 1) % previewScreenshots.length
     })
-  }, [screenshots.length])
+  }, [previewScreenshots.length])
 
   useEffect(() => {
     if (activeIndex === null) {
@@ -71,12 +83,12 @@ export const ScriptScreenshotGallery = ({
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [activeIndex, closeLightbox, showNext, showPrevious])
 
-  if (screenshots.length === 0) {
+  if (previewScreenshots.length === 0) {
     return null
   }
 
   const activeScreenshot =
-    activeIndex === null ? null : screenshots[activeIndex]
+    activeIndex === null ? null : previewScreenshots[activeIndex]
 
   return (
     <>
@@ -85,11 +97,11 @@ export const ScriptScreenshotGallery = ({
           Preview screenshots
         </h2>
         <div className="flex gap-3 overflow-x-auto pb-1">
-          {screenshots.map((url, index) => (
+          {previewScreenshots.map((screenshot, index) => (
             <button
-              key={url}
+              key={screenshot.ref}
               type="button"
-              aria-label={`Open screenshot ${index + 1} of ${screenshots.length} for ${scriptTitle}`}
+              aria-label={`Open screenshot ${index + 1} of ${previewScreenshots.length} for ${scriptTitle}`}
               className={cn(
                 "relative h-24 w-40 shrink-0 overflow-hidden rounded-lg border bg-muted/40 transition-shadow",
                 "hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -97,7 +109,7 @@ export const ScriptScreenshotGallery = ({
               onClick={() => setActiveIndex(index)}
             >
               <Image
-                src={url}
+                src={screenshot.previewUrl}
                 alt={`${scriptTitle} preview ${index + 1}`}
                 fill
                 sizes="160px"
@@ -125,7 +137,7 @@ export const ScriptScreenshotGallery = ({
               <div className="relative z-10 flex w-full max-w-6xl flex-col items-center gap-4">
                 <div className="relative aspect-video w-full max-h-[80vh] overflow-hidden rounded-xl bg-black/40">
                   <Image
-                    src={activeScreenshot}
+                    src={activeScreenshot.previewUrl}
                     alt={`${scriptTitle} screenshot ${activeIndex + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, 80vw"
@@ -134,7 +146,7 @@ export const ScriptScreenshotGallery = ({
                   />
                 </div>
                 <div className="flex items-center gap-3">
-                  {screenshots.length > 1 ? (
+                  {previewScreenshots.length > 1 ? (
                     <>
                       <Button
                         type="button"
@@ -146,7 +158,7 @@ export const ScriptScreenshotGallery = ({
                         <IconChevronLeft className="size-5" />
                       </Button>
                       <p className="min-w-16 text-center text-sm text-white">
-                        {activeIndex + 1} / {screenshots.length}
+                        {activeIndex + 1} / {previewScreenshots.length}
                       </p>
                       <Button
                         type="button"
