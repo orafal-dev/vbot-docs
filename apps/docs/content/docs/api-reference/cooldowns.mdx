@@ -13,37 +13,274 @@ Core library: `cooldowns.lua`
 
 ### Cooldowns.Group
 
-- `Cooldowns.Group.GetTimeLeft(groupId)`
-- `Cooldowns.Group.IsInCooldown(groupId)`
-- `Cooldowns.Group.IsReady(groupId)`
-- `Cooldowns.Group.WillBeReady(groupId, timeMs)`
+#### `Cooldowns.Group.GetTimeLeft(groupId)`
+
+Get the time left on an action group's cooldown
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `groupId` | `integer` |  | The action group ID (use CooldownGroupId constants) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` | timeLeftMs Time left in milliseconds, or 0 if not on cooldown |
+
+#### `Cooldowns.Group.IsInCooldown(groupId)`
+
+Check if an action group is in cooldown
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `groupId` | `integer` |  | The action group ID (use CooldownGroupId constants) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | onCooldown |
+
+#### `Cooldowns.Group.IsReady(groupId)`
+
+Check if a group is ready (not on cooldown)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `groupId` | `integer` |  | The action group ID |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | isReady True if the group is ready |
+
+#### `Cooldowns.Group.WillBeReady(groupId, timeMs)`
+
+Check if a group will be ready by a certain time
+Returns true when group cooldown expires within provided time window.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `groupId` | `integer` |  | The action group ID |
+| `timeMs` | `integer` | Yes | Time in milliseconds from now (default 0) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | willBeReady |
 
 ### Cooldowns.Item
 
-- `Cooldowns.Item.GetTimeLeft(itemId)`
-- `Cooldowns.Item.IsInCooldown(itemId)`
-- `Cooldowns.Item.IsReady(itemId)`
-- `Cooldowns.Item.WillBeReady(itemId, timeMs)`
+#### `Cooldowns.Item.GetTimeLeft(itemId)`
+
+Get the time left on an item's cooldown
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | The item ID |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` | timeLeftMs Time left in milliseconds, or 0 if not on cooldown |
+
+#### `Cooldowns.Item.IsInCooldown(itemId)`
+
+Check if an item is in cooldown by its item ID
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | The item ID (e.g. 3155 for Sudden Death) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | onCooldown |
+
+#### `Cooldowns.Item.IsReady(itemId)`
+
+Check if an item is ready (not on cooldown)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | The item ID |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | isReady True if the item is ready to use |
+
+#### `Cooldowns.Item.WillBeReady(itemId, timeMs)`
+
+Check if an item will be ready by a certain time
+Returns true when item cooldown expires within provided time window.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | The item ID |
+| `timeMs` | `integer` | Yes | Time in milliseconds from now (default 0) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | willBeReady |
 
 ### Cooldowns.Spell
 
-- `Cooldowns.Spell.GetTimeLeft(spellWords)`
-- `Cooldowns.Spell.IsInCooldown(spellWords)`
-- `Cooldowns.Spell.IsReady(spellWords)`
-- `Cooldowns.Spell.WillBeReady(spellWords, timeMs)`
+#### `Cooldowns.Spell.GetTimeLeft(spellWords)`
+
+Get the time left on a spell's cooldown
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellWords` | `string` |  | The spell words (e.g. "exori gran") |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` | timeLeftMs Time left in milliseconds, or 0 if not on cooldown |
+
+#### `Cooldowns.Spell.IsInCooldown(spellWords)`
+
+Check if a spell is in cooldown by its words
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellWords` | `string` |  | The spell words (e.g. "exori gran", "exura vita") |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | onCooldown |
+
+#### `Cooldowns.Spell.IsReady(spellWords)`
+
+Check if a spell is ready (not on cooldown)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellWords` | `string` |  | The spell words |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | isReady True if the spell is ready to cast |
+
+#### `Cooldowns.Spell.WillBeReady(spellWords, timeMs)`
+
+Check if a spell will be ready by a certain time
+Returns true when spell cooldown expires within provided time window.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellWords` | `string` |  | The spell words |
+| `timeMs` | `integer` | Yes | Time in milliseconds from now (default 0) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | willBeReady |
 
 ### Cooldowns.UseWith
 
-- `Cooldowns.UseWith.IsExhausted()`
-- `Cooldowns.UseWith.IsReady()`
+#### `Cooldowns.UseWith.IsExhausted()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | isExhausted True if exhausted, false if ready |
+
+#### `Cooldowns.UseWith.IsReady()`
+
+Alias for checking if use-with is ready
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | isReady True if ready to use items on targets |
 
 ### Cooldowns.Utils
 
-- `Cooldowns.Utils.FormatTime(ms)`
-- `Cooldowns.Utils.GetStatus(spells)`
-- `Cooldowns.Utils.PrintStatus(spells)`
+#### `Cooldowns.Utils.FormatTime(ms)`
+
+Format milliseconds to human-readable time
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `ms` | `number` |  | Time in milliseconds |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` | formatted Formatted time (e.g. "1.5s", "2m 30s") |
+
+#### `Cooldowns.Utils.GetStatus(spells)`
+
+Get all Cooldowns status (useful for debugging)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spells` | `string[]` | Yes | Optional list of spell words to check |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | status Table of cooldown statuses |
+
+#### `Cooldowns.Utils.PrintStatus(spells)`
+
+Print cooldown status to console (for debugging)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spells` | `string[]` | Yes | Optional list of spells to check |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

@@ -11,14 +11,87 @@ Core library: `game.lua`
 
 ## Functions
 
-- `Game.EnterWorld()`
-- `Game.GetCharacterWorld(characterName)`
-- `Game.LoginToAccount(email, password)`
-- `Game.LoginToCharacter(characterName)`
-- `Game.LoginToPreviouslyLoggedCharacter()`
-- `Game.Logout()`
+#### `Game.EnterWorld()`
+
+Enters the world with the currently selected character.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Game.GetCharacterWorld(characterName)`
+
+Returns the world name for a character from the character list.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `characterName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Game.LoginToAccount(email, password)`
+
+Logs in to an account using email and password.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `email` | `string` |  |  |
+| `password` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Game.LoginToCharacter(characterName)`
+
+Selects and logs in to the named character.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `characterName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Game.LoginToPreviouslyLoggedCharacter()`
+
+Logs in to the previously selected/logged character.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Game.Logout()`
+
+Logs out from the current session.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

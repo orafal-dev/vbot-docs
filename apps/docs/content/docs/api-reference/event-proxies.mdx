@@ -25,83 +25,578 @@ Core library: `event_proxies.lua`
 
 ### BattleMessageProxy
 
-- `BattleMessageProxy:GetName()`
-- `BattleMessageProxy:New(name)`
-- `BattleMessageProxy:OnReceive(callback)`
+#### `BattleMessageProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `BattleMessageProxy:New(name)`
+
+Creates a battle-message proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `BattleMessageProxy:OnReceive(callback)`
+
+Assigns callback called when a matching battle message arrives.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, message) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### ContainerAddItemProxy
 
-- `ContainerAddItemProxy:GetName()`
-- `ContainerAddItemProxy:New(name)`
-- `ContainerAddItemProxy:OnReceive(callback)`
+#### `ContainerAddItemProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `ContainerAddItemProxy:New(name)`
+
+Creates a container-add-item proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `ContainerAddItemProxy:OnReceive(callback)`
+
+Assigns callback called when item is added to container.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, containerIndex, slot, item) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### ContainerCloseProxy
 
-- `ContainerCloseProxy:GetName()`
-- `ContainerCloseProxy:New(name)`
-- `ContainerCloseProxy:OnReceive(callback)`
+#### `ContainerCloseProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `ContainerCloseProxy:New(name)`
+
+Creates a container-close proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `ContainerCloseProxy:OnReceive(callback)`
+
+Assigns callback called when a container is closed.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, containerIndex) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### ContainerOpenProxy
 
-- `ContainerOpenProxy:GetName()`
-- `ContainerOpenProxy:New(name)`
-- `ContainerOpenProxy:OnReceive(callback)`
+#### `ContainerOpenProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `ContainerOpenProxy:New(name)`
+
+Creates a container-open proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `ContainerOpenProxy:OnReceive(callback)`
+
+Assigns callback called when a container is opened.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, containerIndex, containerName, containerID) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### ContainerRemoveItemProxy
 
-- `ContainerRemoveItemProxy:GetName()`
-- `ContainerRemoveItemProxy:New(name)`
-- `ContainerRemoveItemProxy:OnReceive(callback)`
+#### `ContainerRemoveItemProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `ContainerRemoveItemProxy:New(name)`
+
+Creates a container-remove-item proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `ContainerRemoveItemProxy:OnReceive(callback)`
+
+Assigns callback called when item is removed from container.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, containerIndex, slot) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### ContainerUpdateItemProxy
 
-- `ContainerUpdateItemProxy:GetName()`
-- `ContainerUpdateItemProxy:New(name)`
-- `ContainerUpdateItemProxy:OnReceive(callback)`
+#### `ContainerUpdateItemProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `ContainerUpdateItemProxy:New(name)`
+
+Creates a container-update-item proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `ContainerUpdateItemProxy:OnReceive(callback)`
+
+Assigns callback called when container item changes.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, containerIndex, slot, item) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### CreatureAddProxy
 
-- `CreatureAddProxy:GetName()`
-- `CreatureAddProxy:New(name)`
-- `CreatureAddProxy:OnReceive(callback)`
+#### `CreatureAddProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `CreatureAddProxy:New(name)`
+
+Creates a creature-add proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `CreatureAddProxy:OnReceive(callback)`
+
+Assigns callback called when creature appears.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, creatureId, creatureName, position) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### CreatureRemoveProxy
 
-- `CreatureRemoveProxy:GetName()`
-- `CreatureRemoveProxy:New(name)`
-- `CreatureRemoveProxy:OnReceive(callback)`
+#### `CreatureRemoveProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `CreatureRemoveProxy:New(name)`
+
+Creates a creature-remove proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `CreatureRemoveProxy:OnReceive(callback)`
+
+Assigns callback called when creature disappears.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, creatureId) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### DeathProxy
 
-- `DeathProxy:GetName()`
-- `DeathProxy:New(name)`
-- `DeathProxy:OnReceive(callback)`
+#### `DeathProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `DeathProxy:New(name)`
+
+Creates a death proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `DeathProxy:OnReceive(callback)`
+
+Assigns callback called when death packet arrives.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### GenericTextMessageProxy
 
-- `GenericTextMessageProxy:GetName()`
-- `GenericTextMessageProxy:New(name)`
-- `GenericTextMessageProxy:OnReceive(callback)`
+#### `GenericTextMessageProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `GenericTextMessageProxy:New(name)`
+
+Creates a generic text-message proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `GenericTextMessageProxy:OnReceive(callback)`
+
+Assigns callback called when a matching message arrives.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, message) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### LootMessageProxy
 
-- `LootMessageProxy:GetName()`
-- `LootMessageProxy:New(name)`
-- `LootMessageProxy:OnReceive(callback)`
+#### `LootMessageProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `LootMessageProxy:New(name)`
+
+Creates a loot-message proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `LootMessageProxy:OnReceive(callback)`
+
+Assigns callback called when a loot-like message arrives.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, message) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### SkillsChangeProxy
 
-- `SkillsChangeProxy:GetName()`
-- `SkillsChangeProxy:New(name)`
-- `SkillsChangeProxy:OnReceive(callback)`
+#### `SkillsChangeProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `SkillsChangeProxy:New(name)`
+
+Creates a player-skills-change proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `SkillsChangeProxy:OnReceive(callback)`
+
+Assigns callback called when skills packet arrives.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, packet) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ### StatsChangeProxy
 
-- `StatsChangeProxy:GetName()`
-- `StatsChangeProxy:New(name)`
-- `StatsChangeProxy:OnReceive(callback)`
+#### `StatsChangeProxy:GetName()`
+
+Returns proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `StatsChangeProxy:New(name)`
+
+Creates a player-stats-change proxy and registers packet listener.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  | Unique proxy name suffix |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `StatsChangeProxy:OnReceive(callback)`
+
+Assigns callback called when player stats packet arrives.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Callback signature: function(proxy, packet) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

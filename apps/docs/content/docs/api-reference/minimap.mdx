@@ -12,17 +12,157 @@ Core library: `minimap.lua`
 
 ## Functions
 
-- `Minimap.FindPath(fromPosition, toPosition, maxComplexity, flags)`
-- `Minimap.GetTileFlags(position)`
-- `Minimap.GetTileInfo(position, includeCreatures)`
-- `Minimap.GetTileItems(position, includeCreatures)`
-- `Minimap.GetTilePixelColor(position)`
-- `Minimap.IsPathable(position)`
-- `Minimap.IsPixelColorWalkable(pixelColorIndex)`
-- `Minimap.IsWalkable(position)`
-- `Minimap.IsWalkableByColor(position)`
+#### `Minimap.FindPath(fromPosition, toPosition, maxComplexity, flags)`
+
+Finds path between two positions using game pathfinding.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromPosition` | `table` |  |  |
+| `toPosition` | `table` |  |  |
+| `maxComplexity` | `integer` | Yes |  |
+| `flags` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Minimap.GetTileFlags(position)`
+
+Returns map tile flags at a world position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Minimap.GetTileInfo(position, includeCreatures)`
+
+Returns compact tile data (flags, objects, pixelColor).
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  |  |
+| `includeCreatures` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Minimap.GetTileItems(position, includeCreatures)`
+
+Returns map tile objects at a world position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  |  |
+| `includeCreatures` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Minimap.GetTilePixelColor(position)`
+
+Returns Minimap pixel color index at a world position when binding exists.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Minimap.IsPathable(position)`
+
+Returns true if tile is currently pathable according to map cache.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Minimap.IsPixelColorWalkable(pixelColorIndex)`
+
+Returns true when a Minimap pixel color index is walkable.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `pixelColorIndex` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Minimap.IsWalkable(position)`
+
+Returns true if tile is currently walkable according to map cache.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Minimap.IsWalkableByColor(position)`
+
+Returns true when tile is walkable by Minimap color (if color API exists).
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

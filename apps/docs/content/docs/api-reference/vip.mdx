@@ -13,25 +13,239 @@ Core library: `vip.lua`
 
 ## Functions
 
-- `Vip.Count()`
-- `Vip.CountOnline()`
-- `Vip.Exists(vipName)`
-- `Vip.FindByPrefix(namePrefix, onlyOnline)`
-- `Vip.Get(vipName)`
-- `Vip.GetAll()`
-- `Vip.GetByType(vipType)`
-- `Vip.GetDescription(vipName)`
-- `Vip.GetHearts()`
-- `Vip.GetNames(onlyOnline)`
-- `Vip.GetNotifyOnLogin(vipName)`
-- `Vip.GetSnapshot()`
-- `Vip.GetType(vipName)`
-- `Vip.IsAvailable()`
-- `Vip.IsHeart(vipName)`
-- `Vip.IsOnline(vipName)`
-- `Vip.ToLookupTable()`
+#### `Vip.Count()`
+
+Returns Vip count.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Vip.CountOnline()`
+
+Returns count of online Vip entries.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Vip.Exists(vipName)`
+
+Returns true if Vip entry exists by name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vipName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Vip.FindByPrefix(namePrefix, onlyOnline)`
+
+Finds Vip entries by case-insensitive name prefix.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `namePrefix` | `string` |  |  |
+| `onlyOnline` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Vip.Get(vipName)`
+
+Returns one Vip entry by exact name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vipName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Vip.GetAll()`
+
+Returns all Vip entries from runtime storage.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Vip.GetByType(vipType)`
+
+Returns all Vip entries with a specific Vip type flag.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vipType` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Vip.GetDescription(vipName)`
+
+Returns Vip description by name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vipName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` |  |
+
+#### `Vip.GetHearts()`
+
+Returns all Vip entries with HEART flag.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Vip.GetNames(onlyOnline)`
+
+Returns all Vip names sorted alphabetically.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `onlyOnline` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string[]` |  |
+
+#### `Vip.GetNotifyOnLogin(vipName)`
+
+Returns notify-on-login status by name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vipName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Vip.GetSnapshot()`
+
+Returns a snapshot table with common Vip stats and lists.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Vip.GetType(vipName)`
+
+Returns Vip type flag by name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vipName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Vip.IsAvailable()`
+
+Returns whether a direct Vip backend is currently exposed to Lua.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Vip.IsHeart(vipName)`
+
+Returns true when Vip has HEART flag.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vipName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Vip.IsOnline(vipName)`
+
+Returns true when the given Vip is currently online.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vipName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Vip.ToLookupTable()`
+
+Returns a quick lookup table indexed by lowercase Vip name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

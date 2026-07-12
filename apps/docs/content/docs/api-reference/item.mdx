@@ -11,29 +11,241 @@ Core library: `item.lua`
 
 ## Functions
 
-- `Item.Buy(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
-- `Item.FindInContainer(containerNumber, itemId, tierLevel)`
-- `Item.GetDescription(itemId)`
-- `Item.GetFromContainer(containerNumber, slotIndex)`
-- `Item.GetInfo(itemId)`
-- `Item.GetName(itemId)`
-- `Item.HasFlag(itemId, fieldName)`
-- `Item.IsContainer(itemId)`
-- `Item.IsCreature(itemId)`
-- `Item.IsCumulative(itemId)`
-- `Item.IsGround(itemId)`
-- `Item.IsLiquidContainer(itemId)`
-- `Item.IsMovable(itemId)`
-- `Item.IsMultiUsable(itemId)`
-- `Item.IsTakable(itemId)`
-- `Item.IsUsable(itemId)`
-- `Item.Sell(itemId, itemCount, sellEquipped)`
-- `Item.UseFromContainerOnFloor(floorPosition, fromItemId, toItemId, toStackPosition)`
-- `Item.UseFromContainerToContainer(fromContainer, fromSlot, fromItemId, toContainer, toSlot, toItemId)`
-- `Item.UseFromFloorToContainer(floorPosition, fromItemId, fromStackPosition, toItemId)`
-- `Item.UseOnCreature(itemId, creatureId)`
+#### `Item.Buy(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
+
+Buys an Item from NPC trade.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | Item id to buy |
+| `itemCount` | `integer` |  | Quantity to buy |
+| `ignoreCapacity` | `boolean` | Yes | Ignore capacity check |
+| `buyInShoppingBags` | `boolean` | Yes | Buy in shopping bags when available |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Item.FindInContainer(containerNumber, itemId, tierLevel)`
+
+Finds Item in a specific container by id and optional tier.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `tierLevel` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | result |
+
+#### `Item.GetDescription(itemId)`
+
+Returns Item description by id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` | description |
+
+#### `Item.GetFromContainer(containerNumber, slotIndex)`
+
+Returns one Item entry from container slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+| `slotIndex` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | Item |
+
+#### `Item.GetInfo(itemId)`
+
+Returns static object info for an Item id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | info |
+
+#### `Item.GetName(itemId)`
+
+Returns Item name by id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` | name |
+
+#### `Item.HasFlag(itemId, fieldName)`
+
+Returns whether Item id has a given boolean info field.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `fieldName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Item.IsContainer(itemId)`
+
+Convenience flag wrappers mapped from Game.GetObjectInfo fields.
+
+#### `Item.IsCreature(itemId)`
+
+#### `Item.IsCumulative(itemId)`
+
+#### `Item.IsGround(itemId)`
+
+#### `Item.IsLiquidContainer(itemId)`
+
+#### `Item.IsMovable(itemId)`
+
+#### `Item.IsMultiUsable(itemId)`
+
+#### `Item.IsTakable(itemId)`
+
+#### `Item.IsUsable(itemId)`
+
+#### `Item.Sell(itemId, itemCount, sellEquipped)`
+
+Sells an Item to NPC trade.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | Item id to sell |
+| `itemCount` | `integer` |  | Quantity to sell |
+| `sellEquipped` | `boolean` | Yes | Include equipped items |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Item.UseFromContainerOnFloor(floorPosition, fromItemId, toItemId, toStackPosition)`
+
+Uses a container Item with an Item on the floor.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `floorPosition` | `table` |  | position table \{x,y,z\} |
+| `fromItemId` | `integer` |  | Source Item id (from container) |
+| `toItemId` | `integer` |  | Target floor Item id |
+| `toStackPosition` | `integer` |  | Target stack index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Item.UseFromContainerToContainer(fromContainer, fromSlot, fromItemId, toContainer, toSlot, toItemId)`
+
+Uses an Item from one container slot on an Item in another container slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromContainer` | `integer` |  | Source container index |
+| `fromSlot` | `integer` |  | Source slot index |
+| `fromItemId` | `integer` |  | Source Item id |
+| `toContainer` | `integer` |  | Destination container index |
+| `toSlot` | `integer` |  | Destination slot index |
+| `toItemId` | `integer` |  | Destination Item id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Item.UseFromFloorToContainer(floorPosition, fromItemId, fromStackPosition, toItemId)`
+
+Uses a floor Item with an Item in container.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `floorPosition` | `table` |  | position table \{x,y,z\} |
+| `fromItemId` | `integer` |  | Source floor Item id |
+| `fromStackPosition` | `integer` |  | Source floor stack index |
+| `toItemId` | `integer` |  | Target container Item id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Item.UseOnCreature(itemId, creatureId)`
+
+Uses an Item on a creature target.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | Item id to use |
+| `creatureId` | `integer` |  | creature id target |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

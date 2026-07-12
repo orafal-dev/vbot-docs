@@ -14,28 +14,221 @@ Core library: `creature_iterators.lua`
 
 ### Creature
 
-- `Creature.ICreatures()`
-- `Creature.IMonsters()`
-- `Creature.INpcs()`
-- `Creature.IPlayers()`
+#### `Creature.ICreatures()`
+
+Iterates all valid Creatures currently returned by g_Creature.GetIds().
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `function` | iterator Returns (creatureId, Creature) |
+
+#### `Creature.IMonsters()`
+
+Iterates only monster Creatures.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `function` | iterator Returns (creatureId, Creature) |
+
+#### `Creature.INpcs()`
+
+Iterates only NPC Creatures.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `function` | iterator Returns (creatureId, Creature) |
+
+#### `Creature.IPlayers()`
+
+Iterates only player Creatures.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `function` | iterator Returns (creatureId, Creature) |
 
 ### Creatures
 
-- `Creatures.GetAttackingCreatureId()`
-- `Creatures.GetCreatureByName(creatureName)`
-- `Creatures.GetCreatureIdsByScan(typeFlags, xRelativeDistance, yRelativeDistance, multifloor, ignoreSummons)`
-- `Creatures.GetCreaturesByScan(typeFlags, xRelativeDistance, yRelativeDistance, multifloor, ignoreSummons)`
-- `Creatures.GetFollowingCreatureId()`
-- `Creatures.GetLocalPlayerId()`
-- `Creatures.GetPlayerIdUnderMouse()`
-- `Creatures.GetVisibleCreatureIds()`
-- `Creatures.GetVisibleCreatures()`
-- `Creatures.GetVisibleMonsters(ignoreSummons)`
-- `Creatures.GetVisibleNpcs()`
-- `Creatures.GetVisiblePlayers()`
-- `Creatures.IsCreatureOnScreen(creatureId, xRelativeDistance, yRelativeDistance, multifloor)`
+#### `Creatures.GetAttackingCreatureId()`
+
+Returns currently attacked Creature id.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Creatures.GetCreatureByName(creatureName)`
+
+Gets first Creature by exact name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `creatureName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Creatures.GetCreatureIdsByScan(typeFlags, xRelativeDistance, yRelativeDistance, multifloor, ignoreSummons)`
+
+Returns Creature ids from scanner API with optional filters.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `typeFlags` | `integer` | Yes | Bit mask of SCAN_* constants |
+| `xRelativeDistance` | `integer` | Yes |  |
+| `yRelativeDistance` | `integer` | Yes |  |
+| `multifloor` | `boolean` | Yes |  |
+| `ignoreSummons` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Creatures.GetCreaturesByScan(typeFlags, xRelativeDistance, yRelativeDistance, multifloor, ignoreSummons)`
+
+Returns Creature objects from scanner API with optional filters.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `typeFlags` | `integer` | Yes | Bit mask of SCAN_* constants |
+| `xRelativeDistance` | `integer` | Yes |  |
+| `yRelativeDistance` | `integer` | Yes |  |
+| `multifloor` | `boolean` | Yes |  |
+| `ignoreSummons` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Creatures.GetFollowingCreatureId()`
+
+Returns currently followed Creature id.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Creatures.GetLocalPlayerId()`
+
+Returns local player Creature id.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Creatures.GetPlayerIdUnderMouse()`
+
+Returns player Creature id currently under mouse.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Creatures.GetVisibleCreatureIds()`
+
+Returns visible Creature ids in default scan range.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Creatures.GetVisibleCreatures()`
+
+Returns visible Creatures wrapped in Creature objects.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Creatures.GetVisibleMonsters(ignoreSummons)`
+
+Returns visible monsters using default scan window.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `ignoreSummons` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Creatures.GetVisibleNpcs()`
+
+Returns visible NPCs using default scan window.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Creatures.GetVisiblePlayers()`
+
+Returns visible players using default scan window.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Creatures.IsCreatureOnScreen(creatureId, xRelativeDistance, yRelativeDistance, multifloor)`
+
+Checks whether a Creature id is on screen within optional relative bounds.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `creatureId` | `integer` |  |  |
+| `xRelativeDistance` | `integer` | Yes |  |
+| `yRelativeDistance` | `integer` | Yes |  |
+| `multifloor` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

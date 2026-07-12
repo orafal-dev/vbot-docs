@@ -12,16 +12,149 @@ Core library: `map.lua`
 
 ## Functions
 
-- `Map.FindPath(fromPosition, toPosition, maxComplexity, flags)`
-- `Map.GetObjectInfo(itemId)`
-- `Map.GetTileFlags(position)`
-- `Map.GetTileItems(position, includeCreatures)`
-- `Map.Look(position)`
-- `Map.MoveItemFloorToContainer(itemId, fromPosition, containerIndex, slotIndex, itemCount)`
-- `Map.MoveItemFloorToFloor(fromPosition, itemId, toPosition, itemCount)`
-- `Map.UseItemOnFloor(position, stackPosition, itemId)`
+#### `Map.FindPath(fromPosition, toPosition, maxComplexity, flags)`
+
+Computes a path between two world positions using game pathfinding.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromPosition` | `table` |  | Source position \{x,y,z\} |
+| `toPosition` | `table` |  | Destination position \{x,y,z\} |
+| `maxComplexity` | `integer` | Yes | Optional path complexity budget (default 300) |
+| `flags` | `integer` | Yes | Optional PathFindFlags bitmask |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | result \{Directions = integer[], pathFindResult = integer\} |
+
+#### `Map.GetObjectInfo(itemId)`
+
+Gets static object info/flags for an item id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | item id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | info |
+
+#### `Map.GetTileFlags(position)`
+
+Gets cached Map tile flags at a world position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  | position table with integer x, y, z |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | flags Tile flags or nil when tile is unavailable |
+
+#### `Map.GetTileItems(position, includeCreatures)`
+
+Gets objects currently present on a Map tile.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  | position table with integer x, y, z |
+| `includeCreatures` | `boolean` | Yes | Include creature appearances in the result |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` | items |
+
+#### `Map.Look(position)`
+
+Performs a look action on a Map tile position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  | position table with integer x, y, z |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Map.MoveItemFloorToContainer(itemId, fromPosition, containerIndex, slotIndex, itemCount)`
+
+Moves an item from floor tile into container slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | item id on floor |
+| `fromPosition` | `table` |  | Source floor position \{x,y,z\} |
+| `containerIndex` | `integer` |  | Destination container index |
+| `slotIndex` | `integer` |  | Destination slot index |
+| `itemCount` | `integer` |  | Amount to move |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Map.MoveItemFloorToFloor(fromPosition, itemId, toPosition, itemCount)`
+
+Moves an item from one floor tile to another floor tile.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromPosition` | `table` |  | Source floor position \{x,y,z\} |
+| `itemId` | `integer` |  | item id on source tile |
+| `toPosition` | `table` |  | Destination floor position \{x,y,z\} |
+| `itemCount` | `integer` |  | Amount to move |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Map.UseItemOnFloor(position, stackPosition, itemId)`
+
+Uses an item on a Map tile position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  | position table with integer x, y, z |
+| `stackPosition` | `integer` |  | Stack index on the tile |
+| `itemId` | `integer` |  | item id to use |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

@@ -13,83 +13,865 @@ Core library: `engine.lua`
 
 ### Engine.Alarms
 
-- `Engine.Alarms.Disable(alarmId)`
-- `Engine.Alarms.DisableAll()`
-- `Engine.Alarms.Enable(alarmId)`
-- `Engine.Alarms.EnableAll()`
-- `Engine.Alarms.EnableOnly(alarmIdsList)`
-- `Engine.Alarms.GetCreatureFilter()`
-- `Engine.Alarms.GetLowHealthThreshold()`
-- `Engine.Alarms.GetLowManaThreshold()`
-- `Engine.Alarms.GetMessageFilter()`
-- `Engine.Alarms.IsBringToFocusEnabled()`
-- `Engine.Alarms.IsEnabled(alarmId)`
-- `Engine.Alarms.IsFlashWindowEnabled()`
-- `Engine.Alarms.IsIgnoringAllyPlayers()`
-- `Engine.Alarms.PrintStatus()`
-- `Engine.Alarms.SetBringToFocus(enabled)`
-- `Engine.Alarms.SetCreatureFilter(namesString)`
-- `Engine.Alarms.SetFlashWindow(enabled)`
-- `Engine.Alarms.SetIgnoreAllyPlayers(ignore)`
-- `Engine.Alarms.SetLowHealthThreshold(percentage)`
-- `Engine.Alarms.SetLowManaThreshold(percentage)`
-- `Engine.Alarms.SetMessageFilter(messagesString)`
-- `Engine.Alarms.Toggle(alarmId)`
+#### `Engine.Alarms.Disable(alarmId)`
+
+Disable a specific alarm
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `alarmId` | `number` |  | BotSoundId constant |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Alarms.DisableAll()`
+
+Disable all alarms
+
+#### `Engine.Alarms.Enable(alarmId)`
+
+Enable a specific alarm
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `alarmId` | `number` |  | BotSoundId constant |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Alarms.EnableAll()`
+
+Enable all alarms
+
+#### `Engine.Alarms.EnableOnly(alarmIdsList)`
+
+Enable only specific alarms
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `alarmIdsList` | `table` |  | Array of BotSoundId constants |
+
+#### `Engine.Alarms.GetCreatureFilter()`
+
+Get creature detection filter list
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` | Comma-separated list of creature names |
+
+#### `Engine.Alarms.GetLowHealthThreshold()`
+
+Get low health alarm threshold
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Health percentage (0-100) |
+
+#### `Engine.Alarms.GetLowManaThreshold()`
+
+Get low mana alarm threshold
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Mana percentage (0-100) |
+
+#### `Engine.Alarms.GetMessageFilter()`
+
+Get alarm messages filter list
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` | Comma-separated list of alarm trigger messages |
+
+#### `Engine.Alarms.IsBringToFocusEnabled()`
+
+Check if bringing window to focus is enabled
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if enabled |
+
+#### `Engine.Alarms.IsEnabled(alarmId)`
+
+Check if a specific alarm is enabled
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `alarmId` | `number` |  | BotSoundId constant (use BotSoundId.DISCONNECTED, etc.) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if alarm is enabled |
+
+#### `Engine.Alarms.IsFlashWindowEnabled()`
+
+Check if window flashing is enabled
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if enabled |
+
+#### `Engine.Alarms.IsIgnoringAllyPlayers()`
+
+Check if ally players are ignored
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if ignoring ally players |
+
+#### `Engine.Alarms.PrintStatus()`
+
+Print all alarm states to console
+
+#### `Engine.Alarms.SetBringToFocus(enabled)`
+
+Enable/disable bringing window to focus on alarm
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Alarms.SetCreatureFilter(namesString)`
+
+Set creature detection filter (comma-separated names)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `namesString` | `string` |  | Comma-separated creature names (e.g., "demon,dragon,hydra") |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Alarms.SetFlashWindow(enabled)`
+
+Enable/disable window flashing on alarm
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Alarms.SetIgnoreAllyPlayers(ignore)`
+
+Set whether to ignore ally players (party/guild members)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `ignore` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Alarms.SetLowHealthThreshold(percentage)`
+
+Set low health alarm threshold
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `percentage` | `number` |  | Health percentage (0-100) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Alarms.SetLowManaThreshold(percentage)`
+
+Set low mana alarm threshold
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `percentage` | `number` |  | Mana percentage (0-100) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Alarms.SetMessageFilter(messagesString)`
+
+Set alarm messages filter (comma-separated messages)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `messagesString` | `string` |  | Comma-separated messages |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Alarms.Toggle(alarmId)`
+
+Toggle an alarm on/off
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `alarmId` | `number` |  | BotSoundId constant |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | New enabled state |
 
 ### Engine.AmmoRefill
 
-- `Engine.AmmoRefill.Add(ammoData)`
-- `Engine.AmmoRefill.AddProfile(profileName)`
-- `Engine.AmmoRefill.ClearAll()`
-- `Engine.AmmoRefill.Disable(index)`
-- `Engine.AmmoRefill.DisableAll()`
-- `Engine.AmmoRefill.Enable(index)`
-- `Engine.AmmoRefill.EnableAll()`
-- `Engine.AmmoRefill.EnableOnly(itemIdsList)`
-- `Engine.AmmoRefill.FindByItemId(itemId)`
-- `Engine.AmmoRefill.FindProfileByName(profileName)`
-- `Engine.AmmoRefill.Get(index)`
-- `Engine.AmmoRefill.GetAll()`
-- `Engine.AmmoRefill.GetCurrentProfile()`
-- `Engine.AmmoRefill.GetProfileNames()`
-- `Engine.AmmoRefill.Modify(index, refillAtCount, refillInLeftHand, equipFromHotkey)`
-- `Engine.AmmoRefill.PrintProfiles()`
-- `Engine.AmmoRefill.PrintStatus()`
-- `Engine.AmmoRefill.Remove(index)`
-- `Engine.AmmoRefill.RemoveProfile(indexOrName)`
-- `Engine.AmmoRefill.RenameProfile(indexOrName, newName)`
-- `Engine.AmmoRefill.SetProfile(indexOrName)`
-- `Engine.AmmoRefill.Toggle(index)`
-- `Engine.AmmoRefill.Update(index, updateData)`
+#### `Engine.AmmoRefill.Add(ammoData)`
+
+Add new ammo to current profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `ammoData` | `table` |  | Ammo configuration |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | New ammo index |
+
+#### `Engine.AmmoRefill.AddProfile(profileName)`
+
+Add new profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profileName` | `string\|nil` |  | Profile name (auto-generated if nil) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number\|boolean` | Profile index on success, false on failure |
+
+#### `Engine.AmmoRefill.ClearAll()`
+
+Clear all ammo from current profile
+
+#### `Engine.AmmoRefill.Disable(index)`
+
+Disable an ammo refill entry in current profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.AmmoRefill.DisableAll()`
+
+Disable all ammo refill entries in current profile
+
+#### `Engine.AmmoRefill.Enable(index)`
+
+Enable an ammo refill entry in current profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.AmmoRefill.EnableAll()`
+
+Enable all ammo refill entries in current profile
+
+#### `Engine.AmmoRefill.EnableOnly(itemIdsList)`
+
+Enable only specific ammo by item IDs in current profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemIdsList` | `table` |  | Array of item IDs |
+
+#### `Engine.AmmoRefill.FindByItemId(itemId)`
+
+Find ammo by item ID in current profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `number` |  | item ID to search for |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | Ammo data and index, or nil if not found |
+
+#### `Engine.AmmoRefill.FindProfileByName(profileName)`
+
+Find profile index by name
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profileName` | `string` |  | Profile name to search for |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number\|nil` | Profile index (1-based), or nil if not found |
+
+#### `Engine.AmmoRefill.Get(index)`
+
+Get specific ammo by index from current profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | Ammo data or nil if not found |
+
+#### `Engine.AmmoRefill.GetAll()`
+
+Get all ammo configurations from current profile
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Array of ammo data tables |
+
+#### `Engine.AmmoRefill.GetCurrentProfile()`
+
+Get current active profile
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | Profile info with name and index, or nil if none selected |
+
+#### `Engine.AmmoRefill.GetProfileNames()`
+
+Get all profile names
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Array of profile name strings |
+
+#### `Engine.AmmoRefill.Modify(index, refillAtCount, refillInLeftHand, equipFromHotkey)`
+
+Modify specific fields of an ammo entry (convenience wrapper)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+| `refillAtCount` | `number\|nil` |  | Refill threshold (optional) |
+| `refillInLeftHand` | `boolean\|nil` |  | Use left hand slot (optional) |
+| `equipFromHotkey` | `boolean\|nil` |  | Use hotkey to equip (optional) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.AmmoRefill.PrintProfiles()`
+
+Print all available profiles
+
+#### `Engine.AmmoRefill.PrintStatus()`
+
+Print current profile status and ammo configuration
+
+#### `Engine.AmmoRefill.Remove(index)`
+
+Remove ammo by index from current profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.AmmoRefill.RemoveProfile(indexOrName)`
+
+Remove profile by index or name
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `indexOrName` | `number\|string` |  | Profile index (1-based) or name |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.AmmoRefill.RenameProfile(indexOrName, newName)`
+
+Rename profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `indexOrName` | `number\|string` |  | Current profile index or name |
+| `newName` | `string` |  | New profile name |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.AmmoRefill.SetProfile(indexOrName)`
+
+Set current profile by index or name
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `indexOrName` | `number\|string` |  | Profile index (1-based) or profile name |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.AmmoRefill.Toggle(index)`
+
+Toggle an ammo refill entry in current profile
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` | New enabled state, or nil if not found |
+
+#### `Engine.AmmoRefill.Update(index, updateData)`
+
+Update ammo configuration
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+| `updateData` | `table` |  | Table with fields to update (refill_at_count, refill_in_left_hand, equip_from_hotkey, enabled) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
 
 ### Engine.Healer
 
-- `Engine.Healer.AddItem(itemData)`
-- `Engine.Healer.AddSpell(spellData)`
-- `Engine.Healer.ClearAllItems()`
-- `Engine.Healer.ClearAllSpells()`
-- `Engine.Healer.DisableAllItems()`
-- `Engine.Healer.DisableAllSpells()`
-- `Engine.Healer.DisableItem(index)`
-- `Engine.Healer.DisableSpell(index)`
-- `Engine.Healer.EnableItem(index)`
-- `Engine.Healer.EnableOnlyItems(itemIdsList)`
-- `Engine.Healer.EnableOnlySpells(spellWordsList)`
-- `Engine.Healer.EnableSpell(index)`
-- `Engine.Healer.FindItemById(itemId)`
-- `Engine.Healer.FindSpellByWords(spellWords)`
-- `Engine.Healer.GetItems()`
-- `Engine.Healer.GetSpellByIndex(index)`
-- `Engine.Healer.GetSpells()`
-- `Engine.Healer.ModifySpell(index, castValue, manaCost)`
-- `Engine.Healer.PrintItems()`
-- `Engine.Healer.PrintSpells()`
-- `Engine.Healer.RemoveItem(index)`
-- `Engine.Healer.RemoveSpell(index)`
-- `Engine.Healer.ToggleItem(index)`
-- `Engine.Healer.ToggleSpell(index)`
+#### `Engine.Healer.AddItem(itemData)`
+
+Add new healing item
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemData` | `table` |  | item configuration |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | New item index |
+
+#### `Engine.Healer.AddSpell(spellData)`
+
+Add new healing spell
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellData` | `table` |  | spell configuration |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | New spell index |
+
+#### `Engine.Healer.ClearAllItems()`
+
+Clear all healing items
+
+#### `Engine.Healer.ClearAllSpells()`
+
+Clear all healing spells
+
+#### `Engine.Healer.DisableAllItems()`
+
+Disable all healing items
+
+#### `Engine.Healer.DisableAllSpells()`
+
+Disable all healing spells
+
+#### `Engine.Healer.DisableItem(index)`
+
+Disable a healing item
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Healer.DisableSpell(index)`
+
+Disable a healing spell
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success (false if spell not found) |
+
+#### `Engine.Healer.EnableItem(index)`
+
+Enable a healing item
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Healer.EnableOnlyItems(itemIdsList)`
+
+Enable only specific items by item IDs
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemIdsList` | `table` |  | Array of item IDs |
+
+#### `Engine.Healer.EnableOnlySpells(spellWordsList)`
+
+Enable only specific spells by spell words
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellWordsList` | `table` |  | Array of spell words strings |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Number of spells enabled |
+
+#### `Engine.Healer.EnableSpell(index)`
+
+Enable a healing spell
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success (false if spell not found) |
+
+#### `Engine.Healer.FindItemById(itemId)`
+
+Find healing item by item ID
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `number` |  | item ID to search for |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | item data and index, or nil if not found |
+
+#### `Engine.Healer.FindSpellByWords(spellWords)`
+
+Find spell by spell words
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellWords` | `string` |  | The spell words to search for |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | spell data and index, or nil if not found |
+
+#### `Engine.Healer.GetItems()`
+
+Get all healing items with full details
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Array of item data tables |
+
+#### `Engine.Healer.GetSpellByIndex(index)`
+
+Get a specific healing spell by index
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | spell data or nil if not found |
+
+#### `Engine.Healer.GetSpells()`
+
+Get all healing spells with full details
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Array of spell data tables |
+
+#### `Engine.Healer.ModifySpell(index, castValue, manaCost)`
+
+Update spell cast value and/or mana cost
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+| `castValue` | `number\|nil` |  | New cast value (optional) |
+| `manaCost` | `number\|nil` |  | New mana cost (optional) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success (false if spell not found) |
+
+#### `Engine.Healer.PrintItems()`
+
+Print all healing items to console
+
+#### `Engine.Healer.PrintSpells()`
+
+Print all healing spells to console
+
+#### `Engine.Healer.RemoveItem(index)`
+
+Remove healing item by index
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Healer.RemoveSpell(index)`
+
+Remove healing spell by index
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.Healer.ToggleItem(index)`
+
+Toggle a healing item on/off
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | New enabled state |
+
+#### `Engine.Healer.ToggleSpell(index)`
+
+Toggle a healing spell on/off
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `number` |  | 1-based index |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` | New enabled state, or nil if spell not found |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

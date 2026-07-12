@@ -12,27 +12,253 @@ Core library: `chat_channel_storage.lua`
 
 ## Functions
 
-- `ChatChannelStorage.CanSend(channelIdentifier)`
-- `ChatChannelStorage.FormatChannel(channel)`
-- `ChatChannelStorage.GetChannelNames(onlySendable)`
-- `ChatChannelStorage.GetChatChannelById(channelId)`
-- `ChatChannelStorage.GetChatChannelByName(channelName)`
-- `ChatChannelStorage.GetChatChannelCount()`
-- `ChatChannelStorage.GetChatChannels()`
-- `ChatChannelStorage.GetLocalChatChannel()`
-- `ChatChannelStorage.GetOpenedChannelCount()`
-- `ChatChannelStorage.GetOpenedChannels()`
-- `ChatChannelStorage.GetServerLogChannel()`
-- `ChatChannelStorage.GetSnapshot()`
-- `ChatChannelStorage.HasChannelById(channelId)`
-- `ChatChannelStorage.HasChannelByName(channelName)`
-- `ChatChannelStorage.IsAvailable()`
-- `ChatChannelStorage.ResolveChannel(channelIdentifier)`
-- `ChatChannelStorage.Send(message, channelIdentifier)`
-- `ChatChannelStorage.ToIdLookupTable()`
-- `ChatChannelStorage.ToNameLookupTable()`
+#### `ChatChannelStorage.CanSend(channelIdentifier)`
+
+Returns whether sending is allowed on a channel (by id, name, or channel table).
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `channelIdentifier` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `ChatChannelStorage.FormatChannel(channel)`
+
+Returns formatted text for one channel.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `channel` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `ChatChannelStorage.GetChannelNames(onlySendable)`
+
+Returns list of channel names.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `onlySendable` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string[]` |  |
+
+#### `ChatChannelStorage.GetChatChannelById(channelId)`
+
+Returns one channel by id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `channelId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `ChatChannelStorage.GetChatChannelByName(channelName)`
+
+Returns one channel by name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `channelName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `ChatChannelStorage.GetChatChannelCount()`
+
+Returns sendable-channel count.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `ChatChannelStorage.GetChatChannels()`
+
+Returns all channels where sending messages is allowed.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `ChatChannelStorage.GetLocalChatChannel()`
+
+Returns local chat channel when available.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `ChatChannelStorage.GetOpenedChannelCount()`
+
+Returns opened-channel count.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `ChatChannelStorage.GetOpenedChannels()`
+
+Returns all opened channels.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `ChatChannelStorage.GetServerLogChannel()`
+
+Returns server log channel when available.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `ChatChannelStorage.GetSnapshot()`
+
+Returns a snapshot with common channel-storage data.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `ChatChannelStorage.HasChannelById(channelId)`
+
+Returns true if channel exists by id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `channelId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `ChatChannelStorage.HasChannelByName(channelName)`
+
+Returns true if channel exists by name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `channelName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `ChatChannelStorage.IsAvailable()`
+
+Returns whether chat-channel storage API is available in runtime bindings.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `ChatChannelStorage.ResolveChannel(channelIdentifier)`
+
+Resolves a channel identifier (id, name, or table) into normalized channel table.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `channelIdentifier` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `ChatChannelStorage.Send(message, channelIdentifier)`
+
+Sends message to a channel identified by id/name/table.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `message` | `string` |  |  |
+| `channelIdentifier` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `ChatChannelStorage.ToIdLookupTable()`
+
+Returns channels lookup table by id.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `ChatChannelStorage.ToNameLookupTable()`
+
+Returns channels lookup table by lowercase name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

@@ -11,21 +11,190 @@ Core library: `inventory.lua`
 
 ## Functions
 
-- `Inventory.CanMoveEquipment()`
-- `Inventory.CanReadEquipment()`
-- `Inventory.Equip(itemId, tierLevel)`
-- `Inventory.GetAllSlotItems()`
-- `Inventory.GetEquipmentSlotConstants()`
-- `Inventory.GetSlotIds()`
-- `Inventory.GetSlotItem(equipmentSlot)`
-- `Inventory.GetSlotItemId(equipmentSlot)`
-- `Inventory.GetSnapshot()`
-- `Inventory.HasItemInSlot(equipmentSlot)`
-- `Inventory.LookSlotItem(itemId, equipmentSlot)`
-- `Inventory.MoveFromContainerToSlot(containerIndex, slotIndex, itemId, equipmentSlot, itemCount)`
-- `Inventory.MoveFromSlotToContainer(equipmentSlot, containerIndex, slotIndex, itemId, itemCount)`
+#### `Inventory.CanMoveEquipment()`
+
+Returns true when equipment movement APIs are available.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Inventory.CanReadEquipment()`
+
+Returns true when direct equipment read APIs are available.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Inventory.Equip(itemId, tierLevel)`
+
+Equips item by item id and optional tier.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `tierLevel` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Inventory.GetAllSlotItems()`
+
+Returns equipped item map indexed by slot id.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Inventory.GetEquipmentSlotConstants()`
+
+Returns equipment slot constants table.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Inventory.GetSlotIds()`
+
+Returns slot ids from readable constants.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Inventory.GetSlotItem(equipmentSlot)`
+
+Returns equipped item data for one slot when runtime exposes it.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlot` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Inventory.GetSlotItemId(equipmentSlot)`
+
+Returns item id in a slot when supported by runtime.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlot` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Inventory.GetSnapshot()`
+
+Returns Inventory capabilities snapshot.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Inventory.HasItemInSlot(equipmentSlot)`
+
+Returns true if a slot has an equipped item (when readable).
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlot` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Inventory.LookSlotItem(itemId, equipmentSlot)`
+
+Looks at an equipped item in a specific slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `equipmentSlot` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Inventory.MoveFromContainerToSlot(containerIndex, slotIndex, itemId, equipmentSlot, itemCount)`
+
+Moves item from container slot to equipment slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerIndex` | `integer` |  |  |
+| `slotIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `equipmentSlot` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Inventory.MoveFromSlotToContainer(equipmentSlot, containerIndex, slotIndex, itemId, itemCount)`
+
+Moves item from equipment slot to container slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlot` | `integer` |  |  |
+| `containerIndex` | `integer` |  |  |
+| `slotIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

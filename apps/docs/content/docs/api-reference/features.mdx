@@ -16,35 +16,82 @@ Core library: `features.lua`
 
 ### Features
 
-- `Features.Disable(featureIdentifier)`
-- `Features.DisableAllExcept(excludeList)`
-- `Features.DisableMultiple(featureList)`
-- `Features.Enable(featureIdentifier)`
-- `Features.EnableMultiple(featureList)`
-- `Features.GetActiveFeatures()`
-- `Features.GetAllFeatureIds()`
-- `Features.GetName(featureIdentifier)`
-- `Features.IsActive(featureIdentifier)`
-- `Features.PrintStatus()`
-- `Features.SetActive(featureIdentifier, activeStatus)`
-- `Features.Toggle(featureIdentifier)`
+#### `Features.Disable(featureIdentifier)`
+
+#### `Features.DisableAllExcept(excludeList)`
+
+#### `Features.DisableMultiple(featureList)`
+
+#### `Features.Enable(featureIdentifier)`
+
+#### `Features.EnableMultiple(featureList)`
+
+#### `Features.GetActiveFeatures()`
+
+#### `Features.GetAllFeatureIds()`
+
+#### `Features.GetName(featureIdentifier)`
+
+#### `Features.IsActive(featureIdentifier)`
+
+#### `Features.PrintStatus()`
+
+#### `Features.SetActive(featureIdentifier, activeStatus)`
+
+#### `Features.Toggle(featureIdentifier)`
 
 ### General
 
-- `featuresDisable(featureIdentifier)`
-- `featuresDisableAllExcept(ExcludeList)`
-- `featuresDisableMultiple(featureList)`
-- `featuresEnable(featureIdentifier)`
-- `featuresEnableMultiple(featureList)`
-- `featuresGetActiveFeatures()`
-- `featuresGetAllFeatureIds()`
-- `featuresGetName(featureIdentifier)`
-- `featuresIsActive(featureIdentifier)`
-- `featuresPrintStatus()`
-- `featuresSetActive(featureIdentifier, activeStatus)`
-- `featuresToggle(featureIdentifier)`
+#### `featuresDisable(featureIdentifier)`
+
+Disables a feature (turns it off)
+
+#### `featuresDisableAllExcept(ExcludeList)`
+
+Disables all features except those in the exclusion list
+
+#### `featuresDisableMultiple(featureList)`
+
+Disables multiple features at once
+
+#### `featuresEnable(featureIdentifier)`
+
+Enables a feature (turns it on)
+
+#### `featuresEnableMultiple(featureList)`
+
+Enables multiple features at once
+
+#### `featuresGetActiveFeatures()`
+
+Returns a list of all currently active features
+
+#### `featuresGetAllFeatureIds()`
+
+Returns a list of all available feature IDs
+
+#### `featuresGetName(featureIdentifier)`
+
+Gets the human-readable name of a feature
+
+#### `featuresIsActive(featureIdentifier)`
+
+Checks if a feature is currently active/enabled
+
+#### `featuresPrintStatus()`
+
+Prints the status of all features
+
+#### `featuresSetActive(featureIdentifier, activeStatus)`
+
+Sets a feature to a specific active state
+
+#### `featuresToggle(featureIdentifier)`
+
+Toggles a feature's state (on -> off, off -> on)
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

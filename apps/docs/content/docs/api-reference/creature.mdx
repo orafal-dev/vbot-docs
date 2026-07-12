@@ -11,48 +11,439 @@ Core library: `creature.lua`
 
 ## Functions
 
-- `Creature.GetFollowed()`
-- `Creature.GetLocalPlayer()`
-- `Creature.GetTarget()`
-- `Creature:ClearCache()`
-- `Creature:DistanceTo(targetPos)`
-- `Creature:DistanceToCreature(otherCreature)`
-- `Creature:Equals(other)`
-- `Creature:GetDirection()`
-- `Creature:GetGuildShield()`
-- `Creature:GetHealthPercent()`
-- `Creature:GetId()`
-- `Creature:GetLowercaseName()`
-- `Creature:GetMasterId()`
-- `Creature:GetName()`
-- `Creature:GetOutfit()`
-- `Creature:GetPartyShield()`
-- `Creature:GetPosition()`
-- `Creature:GetSkull()`
-- `Creature:GetSpeed()`
-- `Creature:GetVocation()`
-- `Creature:IsAdjacentTo(targetPos)`
-- `Creature:IsGameMaster()`
-- `Creature:IsInGuild()`
-- `Creature:IsInParty()`
-- `Creature:IsMonster()`
-- `Creature:IsMounted()`
-- `Creature:IsNPC()`
-- `Creature:IsPartyLeader()`
-- `Creature:IsPlayer()`
-- `Creature:IsReachable()`
-- `Creature:IsSameFloor(targetPos)`
-- `Creature:IsShootable()`
-- `Creature:IsSkulled()`
-- `Creature:IsSummon()`
-- `Creature:IsValid()`
-- `Creature:IsVisible()`
-- `Creature:IsWarAlly()`
-- `Creature:IsWarEnemy()`
-- `Creature:New(creatureId)`
-- `Creature:ToString()`
+#### `Creature.GetFollowed()`
+
+Gets the currently followed Creature, if any.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `Creature\|nil` | Followed Creature wrapper or nil |
+
+#### `Creature.GetLocalPlayer()`
+
+Gets the local player Creature wrapper, if available.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `Creature\|nil` | Local player Creature wrapper or nil |
+
+#### `Creature.GetTarget()`
+
+Gets the currently attacked Creature, if any.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `Creature\|nil` | Target Creature wrapper or nil |
+
+#### `Creature:ClearCache()`
+
+Clears any cached data.
+
+#### `Creature:DistanceTo(targetPos)`
+
+Gets the distance between this Creature and another position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `targetPos` | `table` |  | position table with \{x, y, z\} |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Distance in tiles |
+
+#### `Creature:DistanceToCreature(otherCreature)`
+
+Gets the distance between this Creature and another Creature.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `otherCreature` | `Creature` |  | Another Creature object |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Distance in tiles |
+
+#### `Creature:Equals(other)`
+
+Compares this Creature with another by ID.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `other` | `Creature` |  | Another Creature object |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if same Creature |
+
+#### `Creature:GetDirection()`
+
+Gets the Creature's movement direction.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Direction constant |
+
+#### `Creature:GetGuildShield()`
+
+Gets the Creature's guild shield status.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Guild shield constant |
+
+#### `Creature:GetHealthPercent()`
+
+Gets the Creature's health percentage (0-100).
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Health percentage (0-100) |
+
+#### `Creature:GetId()`
+
+Gets the Creature's unique ID.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | The Creature ID |
+
+#### `Creature:GetLowercaseName()`
+
+Gets the Creature's lowercase name for comparisons.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` | The Creature's name in lowercase |
+
+#### `Creature:GetMasterId()`
+
+Gets the Creature's master ID (for summons).
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Master Creature ID or 0 |
+
+#### `Creature:GetName()`
+
+Gets the Creature's display name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` | The Creature's name |
+
+#### `Creature:GetOutfit()`
+
+Gets the Creature's outfit/appearance data.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Outfit table |
+
+#### `Creature:GetPartyShield()`
+
+Gets the Creature's party shield status.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Party shield constant |
+
+#### `Creature:GetPosition()`
+
+Gets the Creature's current world position.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | position table with fields \{x, y, z\} |
+
+#### `Creature:GetSkull()`
+
+Gets the Creature's skull type (PK status).
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Skull constant |
+
+#### `Creature:GetSpeed()`
+
+Gets the Creature's movement speed.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Speed value |
+
+#### `Creature:GetVocation()`
+
+Gets the Creature's vocation/profession.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Vocation constant |
+
+#### `Creature:IsAdjacentTo(targetPos)`
+
+Checks if this Creature is adjacent to a position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `targetPos` | `table` |  | position table |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if adjacent |
+
+#### `Creature:IsGameMaster()`
+
+Checks if Creature is a game master (GM/God).
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if GM |
+
+#### `Creature:IsInGuild()`
+
+Checks if Creature is in your guild.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if in same guild |
+
+#### `Creature:IsInParty()`
+
+Checks if Creature is in your party.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if in party |
+
+#### `Creature:IsMonster()`
+
+Checks if Creature is a monster.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if monster |
+
+#### `Creature:IsMounted()`
+
+Checks if Creature is mounted.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if mounted |
+
+#### `Creature:IsNPC()`
+
+Checks if Creature is an NPC.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if NPC |
+
+#### `Creature:IsPartyLeader()`
+
+Checks if Creature is a party leader.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if party leader |
+
+#### `Creature:IsPlayer()`
+
+Checks if Creature is a player character.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if player |
+
+#### `Creature:IsReachable()`
+
+Checks if this Creature is reachable via pathfinding.
+Uses C++ A* implementation for accuracy.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if reachable |
+
+#### `Creature:IsSameFloor(targetPos)`
+
+Checks if this Creature is on the same floor.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `targetPos` | `table` |  | position table |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if same floor |
+
+#### `Creature:IsShootable()`
+
+Checks if this Creature is shootable (line-of-sight) from local player.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if shootable |
+
+#### `Creature:IsSkulled()`
+
+Checks if Creature has a skull (any PK status).
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if skulled |
+
+#### `Creature:IsSummon()`
+
+Checks if Creature is a summon.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if summon |
+
+#### `Creature:IsValid()`
+
+Checks if this Creature exists and is valid.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if Creature is valid |
+
+#### `Creature:IsVisible()`
+
+Checks if Creature is currently visible on screen.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if visible |
+
+#### `Creature:IsWarAlly()`
+
+Checks if Creature is a war ally.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if war ally |
+
+#### `Creature:IsWarEnemy()`
+
+Checks if Creature is a war enemy.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if war enemy |
+
+#### `Creature:New(creatureId)`
+
+Creates a new Creature wrapper from a Creature ID.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `creatureId` | `number` |  | The unique Creature ID |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `Creature` | A new Creature wrapper instance |
+
+#### `Creature:ToString()`
+
+Gets a string representation for debugging.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` | Creature description |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

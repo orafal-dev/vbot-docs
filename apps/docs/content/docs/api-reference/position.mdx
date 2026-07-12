@@ -7,14 +7,111 @@ Core library: `position.lua`
 
 ## Functions
 
-- `Position.IsReachable(fromPos, toPos)`
-- `Position.IsShootable(fromPos, toPos)`
-- `Position.New(x, y, z)`
-- `Position:DistanceTo(otherPos)`
-- `Position:IsReachable(fromPos)`
-- `Position:IsShootable(fromPos)`
+#### `Position.IsReachable(fromPos, toPos)`
+
+Checks whether toPos is reachable from fromPos.
+If fromPos is nil, local player Position is used.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromPos` | `table\|nil` |  | Source Position table \{x,y,z\} |
+| `toPos` | `table` |  | Destination Position table \{x,y,z\} |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Position.IsShootable(fromPos, toPos)`
+
+Checks whether toPos is shootable from fromPos.
+If fromPos is nil, local player Position is used.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromPos` | `table\|nil` |  | Source Position table \{x,y,z\} |
+| `toPos` | `table` |  | Destination Position table \{x,y,z\} |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Position.New(x, y, z)`
+
+Creates a Position object from numbers or a table.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `number\|table` |  | X coordinate or table \{x,y,z\} |
+| `y` | `number` | Yes | Y coordinate |
+| `z` | `number` | Yes | Z coordinate |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `Position` |  |
+
+#### `Position:DistanceTo(otherPos)`
+
+Calculates Chebyshev distance between two positions.
+Returns 9999 when z-level differs.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `otherPos` | `table\|Position` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Position:IsReachable(fromPos)`
+
+Instance helper for reachability to this Position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromPos` | `table\|nil` |  | Source Position, defaults to local player Position |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Position:IsShootable(fromPos)`
+
+Instance helper for shootability to this Position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromPos` | `table\|nil` |  | Source Position, defaults to local player Position |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

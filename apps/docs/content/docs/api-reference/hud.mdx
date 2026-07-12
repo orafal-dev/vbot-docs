@@ -19,106 +19,1129 @@ Core library: `hud_wrapper.lua`
 
 ### ScreenImage
 
-- `ScreenImage:ClearParent()`
-- `ScreenImage:Create()`
-- `ScreenImage:New(id)`
-- `ScreenImage:Remove()`
-- `ScreenImage:SetAlignment(h_align, v_align)`
-- `ScreenImage:SetClickable(callback)`
-- `ScreenImage:SetDraggable(draggable)`
-- `ScreenImage:SetEnabled(enabled)`
-- `ScreenImage:SetItemId(itemId)`
-- `ScreenImage:SetItemName(itemName)`
-- `ScreenImage:SetLabel(text, color, offsetX, offsetY)`
-- `ScreenImage:SetParent(parent_id)`
-- `ScreenImage:SetScreenPosition(x, y)`
-- `ScreenImage:SetSize(width, height)`
-- `ScreenImage:SetSource(path)`
+#### `ScreenImage:ClearParent()`
+
+Clears the logical parent relationship for this screen image.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` | Returns self for method chaining |
+
+#### `ScreenImage:Create()`
+
+#### `ScreenImage:New(id)`
+
+#### `ScreenImage:Remove()`
+
+#### `ScreenImage:SetAlignment(h_align, v_align)`
+
+#### `ScreenImage:SetClickable(callback)`
+
+#### `ScreenImage:SetDraggable(draggable)`
+
+#### `ScreenImage:SetEnabled(enabled)`
+
+#### `ScreenImage:SetItemId(itemId)`
+
+#### `ScreenImage:SetItemName(itemName)`
+
+#### `ScreenImage:SetLabel(text, color, offsetX, offsetY)`
+
+#### `ScreenImage:SetParent(parent_id)`
+
+Sets the logical parent element for this screen image.
+Parent visibility/removal cascade to this image, and parent screen movement keeps this image's current offset.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `parent_id` | `string` |  | Parent element id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` | Returns self for method chaining |
+
+#### `ScreenImage:SetScreenPosition(x, y)`
+
+Sets the screen position in pixels from top-left corner.
+If called before :Create(), the position is applied immediately after creation.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `number` |  | X coordinate in pixels (0 = left edge of screen) |
+| `y` | `number` |  | Y coordinate in pixels (0 = top edge of screen) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` | Returns self for method chaining |
+
+#### `ScreenImage:SetSize(width, height)`
+
+#### `ScreenImage:SetSource(path)`
 
 ### ScreenText
 
-- `ScreenText:ClearParent()`
-- `ScreenText:Create()`
-- `ScreenText:GetColor()`
-- `ScreenText:GetEnabled()`
-- `ScreenText:GetHeight()`
-- `ScreenText:GetPosition()`
-- `ScreenText:GetText()`
-- `ScreenText:GetVisible()`
-- `ScreenText:GetWidth()`
-- `ScreenText:IsCreated()`
-- `ScreenText:New(id)`
-- `ScreenText:Remove()`
-- `ScreenText:SetAlignment(h_align, v_align)`
-- `ScreenText:SetClickable(callback)`
-- `ScreenText:SetColor(color)`
-- `ScreenText:SetDraggable(draggable)`
-- `ScreenText:SetEnabled(enabled)`
-- `ScreenText:SetParent(parent_id)`
-- `ScreenText:SetScreenPosition(x, y)`
-- `ScreenText:SetText(text)`
+#### `ScreenText:ClearParent()`
+
+Clears the logical parent relationship for this screen text.
+After clearing, the element visibility is controlled only by its own enabled state.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+childText:ClearParent()
+```
+
+#### `ScreenText:Create()`
+
+Creates the element in C++ (sends creation request to HUD system).
+This must be called after configuring all properties using the builder methods.
+After calling this, the element will be rendered on screen.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+myText:Create()
+```
+
+#### `ScreenText:GetColor()`
+
+Queries the current color
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Color table \{r, g, b, a\} |
+
+#### `ScreenText:GetEnabled()`
+
+Queries if the element is enabled (async await-style)
+Must be called from within a coroutine
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if enabled, false otherwise |
+
+**Usage**
+
+```lua
+local enabled = myText:GetEnabled()
+```
+
+#### `ScreenText:GetHeight()`
+
+Queries the element height
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Height in pixels |
+
+#### `ScreenText:GetPosition()`
+
+Queries the current screen position
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Position table \{x, y\} |
+
+#### `ScreenText:GetText()`
+
+Queries the current text content
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` | The current text |
+
+#### `ScreenText:GetVisible()`
+
+Queries if the element is visible
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if visible, false otherwise |
+
+#### `ScreenText:GetWidth()`
+
+Queries the element width
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Width in pixels |
+
+#### `ScreenText:IsCreated()`
+
+Checks if the element has been created in C++.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if element exists in C++, false otherwise |
+
+**Usage**
+
+```lua
+if myText:IsCreated() then print("Element exists") end
+```
+
+#### `ScreenText:New(id)`
+
+Creates a new screen text element.
+Screen text is rendered as a 2D overlay on the screen at fixed positions.
+The element is not created until :Create() is called.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  | Unique identifier (must be unique across all HUD elements) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | A new ScreenText instance (not yet created in C++) |
+
+**Usage**
+
+```lua
+local myText = ScreenText:New("health_display")
+```
+
+#### `ScreenText:Remove()`
+
+Removes the element from the screen.
+After removal, the element can be recreated with :Create().
+
+**Usage**
+
+```lua
+myText:Remove()
+```
+
+#### `ScreenText:SetAlignment(h_align, v_align)`
+
+Sets the text alignment relative to its anchor point.
+Alignment affects how the text is positioned relative to its coordinates.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `h_align` | `number` |  | Horizontal alignment (HorizontalAlignment.*) |
+| `v_align` | `number` |  | Vertical alignment (VerticalAlignment.*) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+myText:SetAlignment(HorizontalAlignment.RIGHT, VerticalAlignment.TOP)
+```
+
+#### `ScreenText:SetClickable(callback)`
+
+Makes the element clickable and sets the callback function.
+The callback is executed in a new coroutine when the user clicks on the element.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  | Function to call on click (no parameters) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+myText:SetClickable(function() print("Clicked!") end)
+```
+
+#### `ScreenText:SetColor(color)`
+
+Sets the text color.
+Color components should be integers in range 0-255.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `color` | `table` |  | Color table with fields \{r, g, b, a\} |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+myText:SetColor({ r = 255, g = 0, b = 0, a = 255 }) -- Red
+```
+
+#### `ScreenText:SetDraggable(draggable)`
+
+Makes the element draggable by the user with the mouse.
+When draggable, users can click and drag the element to reposition it on screen.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `draggable` | `boolean` |  | True to enable dragging, false to disable |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+myText:SetDraggable(true)
+```
+
+#### `ScreenText:SetEnabled(enabled)`
+
+Sets whether the element is visible/enabled.
+Disabled elements are not rendered but still exist in memory.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  | True to show the element, false to hide it |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+myText:SetEnabled(false) -- Hide the element
+```
+
+#### `ScreenText:SetParent(parent_id)`
+
+Sets the logical parent element for this screen text.
+When the parent is hidden, disabled, or removed, this child follows it.
+When the parent is moved by screen position or dragging, this child keeps its current offset.
+The parent and child must belong to the same script/HUD owner.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `parent_id` | `string` |  | Parent element id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+childText:SetParent(parentText.id)
+```
+
+#### `ScreenText:SetScreenPosition(x, y)`
+
+Sets the screen position in pixels from top-left corner.
+Only works for elements that have already been created with :Create().
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `number` |  | X coordinate in pixels (0 = left edge of screen) |
+| `y` | `number` |  | Y coordinate in pixels (0 = top edge of screen) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+myText:SetScreenPosition(100, 50)
+```
+
+#### `ScreenText:SetText(text)`
+
+Sets the text content.
+If called before :Create(), the text will be set when the element is created.
+If called after :Create(), the text is immediately updated in C++.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `text` | `string` |  | The text to display |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+myText:SetText("HP: 100%")
+```
 
 ### WorldBox
 
-- `WorldBox:ClearParent()`
-- `WorldBox:Create()`
-- `WorldBox:GetColor()`
-- `WorldBox:GetEnabled()`
-- `WorldBox:GetHeight()`
-- `WorldBox:GetPosition()`
-- `WorldBox:GetVisible()`
-- `WorldBox:GetWidth()`
-- `WorldBox:IsCreated()`
-- `WorldBox:New(id, x, y, z)`
-- `WorldBox:Remove()`
-- `WorldBox:SetBorderColor(border_color)`
-- `WorldBox:SetBorderWidth(border_width)`
-- `WorldBox:SetColor(color)`
-- `WorldBox:SetEnabled(enabled)`
-- `WorldBox:SetHeight(height)`
-- `WorldBox:SetLifetime(lifetime_ms)`
-- `WorldBox:SetParent(parent_id)`
-- `WorldBox:SetPosition(x, y, z)`
-- `WorldBox:SetSize(width, height)`
-- `WorldBox:SetWidth(width)`
+#### `WorldBox:ClearParent()`
+
+Clears the logical parent relationship for this world box.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+#### `WorldBox:Create()`
+
+Creates the element in C++ (sends creation request to HUD system).
+Must be called after configuring all properties.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+marker:Create()
+```
+
+#### `WorldBox:GetColor()`
+
+Queries the current color
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Color \{r, g, b, a\} |
+
+#### `WorldBox:GetEnabled()`
+
+Queries if the element is enabled
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `WorldBox:GetHeight()`
+
+Queries the element height
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Height in pixels |
+
+#### `WorldBox:GetPosition()`
+
+Queries the current world position
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Position \{x, y, z\} |
+
+#### `WorldBox:GetVisible()`
+
+Queries if the element is visible
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `WorldBox:GetWidth()`
+
+Queries the element width
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Width in pixels |
+
+#### `WorldBox:IsCreated()`
+
+Checks if the element has been created in C++.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if element exists in C++ |
+
+#### `WorldBox:New(id, x, y, z)`
+
+Creates a new world box element.
+World boxes are rectangular overlays anchored to 3D coordinates in the game world.
+Useful for highlighting tiles, areas, danger zones, or objects.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  | Unique identifier (must be unique across all HUD elements) |
+| `x` | `number` |  | World X coordinate |
+| `y` | `number` |  | World Y coordinate |
+| `z` | `number` |  | World Z coordinate (floor level) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | A new WorldBox instance (not yet created in C++) |
+
+**Usage**
+
+```lua
+local marker = WorldBox:New("danger_tile", 1024, 1025, 7)
+```
+
+#### `WorldBox:Remove()`
+
+Removes the element from the world.
+
+**Usage**
+
+```lua
+marker:Remove()
+```
+
+#### `WorldBox:SetBorderColor(border_color)`
+
+Sets just the border color, keeping width unchanged.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `border_color` | `table` |  | Border color \{r, g, b, a\} |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+marker:SetBorderColor({ r = 255, g = 0, b = 0, a = 255 }) -- Red border
+```
+
+#### `WorldBox:SetBorderWidth(border_width)`
+
+Sets just the border width, keeping color unchanged.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `border_width` | `number` |  | Border thickness in pixels (0 = no border) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+marker:SetBorderWidth(3)
+```
+
+#### `WorldBox:SetColor(color)`
+
+Sets the fill color of the box interior.
+Color components should be integers in range 0-255.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `color` | `table` |  | Color table with fields \{r, g, b, a\} |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+marker:SetColor({ r = 255, g = 0, b = 0, a = 100 }) -- Transparent red
+```
+
+#### `WorldBox:SetEnabled(enabled)`
+
+Sets whether the element is visible/enabled.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  | True to show the element, false to hide it |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+#### `WorldBox:SetHeight(height)`
+
+Sets just the height, keeping width unchanged.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `height` | `number` |  | Height in pixels (-1 for auto-size) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+marker:SetHeight(64)
+```
+
+#### `WorldBox:SetLifetime(lifetime_ms)`
+
+Sets the lifetime before automatic removal.
+Useful for temporary markers or highlighting effects.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `lifetime_ms` | `number` |  | Milliseconds before auto-removal (0 = never expires) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+marker:SetLifetime(5000) -- Remove after 5 seconds
+```
+
+#### `WorldBox:SetParent(parent_id)`
+
+Sets the logical parent element for this world box.
+Parent visibility and removal cascade to this child without changing its world position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `parent_id` | `string` |  | Parent element id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+#### `WorldBox:SetPosition(x, y, z)`
+
+Updates the world position of the box.
+The box will move to the new 3D coordinate in the game world.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `number` |  | World X coordinate |
+| `y` | `number` |  | World Y coordinate |
+| `z` | `number` |  | World Z coordinate (floor level) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+marker:SetPosition(1025, 1026, 7)
+```
+
+#### `WorldBox:SetSize(width, height)`
+
+Sets the box size in pixels.
+Use -1 for auto-sizing based on the tile/object at the world position.
+Can be called before or after :Create().
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `width` | `number` |  | Width in pixels (-1 for auto-size to tile width) |
+| `height` | `number` |  | Height in pixels (-1 for auto-size to tile height) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+marker:SetSize(32, 32) -- 32x32 pixel box (standard tile size)
+```
+
+#### `WorldBox:SetWidth(width)`
+
+Sets just the width, keeping height unchanged.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `width` | `number` |  | Width in pixels (-1 for auto-size) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+marker:SetWidth(64)
+```
 
 ### WorldImage
 
-- `WorldImage:ClearParent()`
-- `WorldImage:Create()`
-- `WorldImage:New(id, x, y, z)`
-- `WorldImage:Remove()`
-- `WorldImage:SetEnabled(enabled)`
-- `WorldImage:SetItemId(itemId)`
-- `WorldImage:SetItemName(itemName)`
-- `WorldImage:SetLifetime(lifetimeMs)`
-- `WorldImage:SetOffset(offsetX, offsetY)`
-- `WorldImage:SetParent(parent_id)`
-- `WorldImage:SetPosition(x, y, z)`
-- `WorldImage:SetSize(width, height)`
-- `WorldImage:SetSource(path)`
+#### `WorldImage:ClearParent()`
+
+Clears the logical parent relationship for this world image.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` | Returns self for method chaining |
+
+#### `WorldImage:Create()`
+
+#### `WorldImage:New(id, x, y, z)`
+
+#### `WorldImage:Remove()`
+
+#### `WorldImage:SetEnabled(enabled)`
+
+Sets whether the world image is visible/enabled.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  | True to show the element, false to hide it |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` | Returns self for method chaining |
+
+#### `WorldImage:SetItemId(itemId)`
+
+#### `WorldImage:SetItemName(itemName)`
+
+#### `WorldImage:SetLifetime(lifetimeMs)`
+
+#### `WorldImage:SetOffset(offsetX, offsetY)`
+
+#### `WorldImage:SetParent(parent_id)`
+
+Sets the logical parent element for this world image.
+Parent visibility and removal cascade to this image without changing its world position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `parent_id` | `string` |  | Parent element id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` | Returns self for method chaining |
+
+#### `WorldImage:SetPosition(x, y, z)`
+
+#### `WorldImage:SetSize(width, height)`
+
+#### `WorldImage:SetSource(path)`
 
 ### WorldText
 
-- `WorldText:ClearParent()`
-- `WorldText:Create()`
-- `WorldText:GetColor()`
-- `WorldText:GetEnabled()`
-- `WorldText:GetHeight()`
-- `WorldText:GetPosition()`
-- `WorldText:GetText()`
-- `WorldText:GetVisible()`
-- `WorldText:GetWidth()`
-- `WorldText:IsCreated()`
-- `WorldText:New(id, x, y, z)`
-- `WorldText:Remove()`
-- `WorldText:SetColor(color)`
-- `WorldText:SetEnabled(enabled)`
-- `WorldText:SetLifetime(lifetime_ms)`
-- `WorldText:SetOffset(offset_x, offset_y)`
-- `WorldText:SetParent(parent_id)`
-- `WorldText:SetPosition(x, y, z)`
-- `WorldText:SetText(text)`
+#### `WorldText:ClearParent()`
+
+Clears the logical parent relationship for this world text.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` | Returns self for method chaining |
+
+#### `WorldText:Create()`
+
+Creates the element in C++ (sends creation request to HUD system).
+Must be called after configuring all properties.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+label:Create()
+```
+
+#### `WorldText:GetColor()`
+
+Queries the current color
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Color \{r, g, b, a\} |
+
+#### `WorldText:GetEnabled()`
+
+Queries if the element is enabled
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `WorldText:GetHeight()`
+
+Queries the element height
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` |  |
+
+#### `WorldText:GetPosition()`
+
+Queries the current world position
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Position \{x, y, z\} |
+
+#### `WorldText:GetText()`
+
+Queries the current text content
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `WorldText:GetVisible()`
+
+Queries if the element is visible
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `WorldText:GetWidth()`
+
+Queries the element width
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` |  |
+
+#### `WorldText:IsCreated()`
+
+Checks if the element has been created in C++.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if element exists in C++ |
+
+#### `WorldText:New(id, x, y, z)`
+
+Creates a new world text element.
+World text is anchored to 3D coordinates in the game world and moves with the camera.
+Useful for labeling items, monsters, or locations in the game world.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  | Unique identifier (must be unique across all HUD elements) |
+| `x` | `number` |  | World X coordinate |
+| `y` | `number` |  | World Y coordinate |
+| `z` | `number` |  | World Z coordinate (floor level, typically 0-15) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` | A new WorldText instance (not yet created in C++) |
+
+**Usage**
+
+```lua
+local label = WorldText:New("item_label", 1024, 1025, 7)
+```
+
+#### `WorldText:Remove()`
+
+Removes the element from the world.
+
+**Usage**
+
+```lua
+label:Remove()
+```
+
+#### `WorldText:SetColor(color)`
+
+Sets the text color.
+Color components should be integers in range 0-255.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `color` | `table` |  | Color table with fields \{r, g, b, a\} |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+label:SetColor({ r = 255, g = 215, b = 0, a = 255 }) -- Gold
+```
+
+#### `WorldText:SetEnabled(enabled)`
+
+Sets whether the element is visible/enabled.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  | True to show the element, false to hide it |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` | Returns self for method chaining |
+
+#### `WorldText:SetLifetime(lifetime_ms)`
+
+Updates the lifetime of the element
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `lifetime_ms` | `number` |  | Milliseconds before auto-removal (0 = permanent) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText\|WorldBox` | Returns self for chaining |
+
+#### `WorldText:SetOffset(offset_x, offset_y)`
+
+Updates the pixel offset from world position
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `offset_x` | `number` |  | Horizontal offset in pixels |
+| `offset_y` | `number` |  | Vertical offset in pixels |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText\|WorldBox` | Returns self for chaining |
+
+#### `WorldText:SetParent(parent_id)`
+
+Sets the logical parent element for this world text.
+Parent visibility and removal cascade to this child without changing its world position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `parent_id` | `string` |  | Parent element id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` | Returns self for method chaining |
+
+#### `WorldText:SetPosition(x, y, z)`
+
+Updates the world position of the text.
+The text will move to the new 3D coordinate in the game world.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `number` |  | World X coordinate |
+| `y` | `number` |  | World Y coordinate |
+| `z` | `number` |  | World Z coordinate (floor level) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+label:SetPosition(1025, 1026, 7)
+```
+
+#### `WorldText:SetText(text)`
+
+Sets the text content.
+Can be called before or after :Create().
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `text` | `string` |  | The text to display |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` | Returns self for method chaining |
+
+**Usage**
+
+```lua
+label:SetText("Magic Sword")
+```
 
 ## Usage notes
 
@@ -131,3 +1154,4 @@ Core library: `hud_wrapper.lua`
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

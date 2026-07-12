@@ -11,10 +11,43 @@ Core library: `hotkeys.lua`
 
 ## Functions
 
-- `Hotkeys.ParseCombo(combination)`
-- `Hotkeys.RegisterCombo(params)`
+#### `Hotkeys.ParseCombo(combination)`
+
+Parses a textual hotkey combo (for example: "ctrl+f9", "insert", "shift+k").
+Supported modifiers: ctrl, shift.
+alt is intentionally rejected because current Events.RegisterKeyEvent API does not expose alt.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `combination` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | parsed Parsed table: \{keycode, ctrl, shift, trigger_on_keydown, extended\} |
+| `string\|nil` | err Error message when parsing fails |
+
+#### `Hotkeys.RegisterCombo(params)`
+
+Registers a combo through Events.RegisterKeyEvent.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `params` | `table` |  | Registration options table |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

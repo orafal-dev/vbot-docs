@@ -11,27 +11,324 @@ Core library: `container.lua`
 
 ## Functions
 
-- `Container.FindItem(containerNumber, itemId, tierLevel)`
-- `Container.FindItemInOpenContainers(itemId, tierLevel)`
-- `Container.GetById(containerId)`
-- `Container.GetByName(containerName)`
-- `Container.GetByNumber(containerNumber)`
-- `Container.GetFreeSlots(containerNumber)`
-- `Container.GetId(containerNumber)`
-- `Container.GetItem(containerNumber, slotIndex)`
-- `Container.GetItems(containerNumber)`
-- `Container.GetItemsCount(containerNumber)`
-- `Container.GetName(containerNumber)`
-- `Container.GetOpenContainers()`
-- `Container.GetSize(containerNumber)`
-- `Container.LookItem(itemId, itemPos, containerIndex)`
-- `Container.MoveItemFromEquipmentToContainer(equipmentSlot, containerIndex, slotIndex, itemId, itemCount)`
-- `Container.MoveItemToContainer(fromContainerIndex, fromSlotIndex, itemId, toContainerIndex, toSlotIndex, itemCount)`
-- `Container.MoveItemToEquipment(containerIndex, slotIndex, itemId, equipmentSlot, itemCount)`
-- `Container.MoveItemToFloor(containerIndex, slotIndex, itemId, toPosition, itemCount)`
-- `Container.UseItem(itemId, containerIndex, itemPos, useItemWithHotkey)`
+#### `Container.FindItem(containerNumber, itemId, tierLevel)`
+
+Finds an item in one opened Container by item id and optional tier.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `tierLevel` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | result |
+
+#### `Container.FindItemInOpenContainers(itemId, tierLevel)`
+
+Finds an item across all opened containers.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `tierLevel` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | result |
+
+#### `Container.GetById(containerId)`
+
+Returns Container metadata by Container item id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | Container |
+
+#### `Container.GetByName(containerName)`
+
+Returns Container metadata by Container name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | Container |
+
+#### `Container.GetByNumber(containerNumber)`
+
+Returns Container metadata by opened Container number.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | Container |
+
+#### `Container.GetFreeSlots(containerNumber)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` | value |
+
+#### `Container.GetId(containerNumber)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` | value |
+
+#### `Container.GetItem(containerNumber, slotIndex)`
+
+Returns one item from a Container slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+| `slotIndex` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` | item |
+
+#### `Container.GetItems(containerNumber)`
+
+Returns all items from a Container slot list.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` | items |
+
+#### `Container.GetItemsCount(containerNumber)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` | value |
+
+#### `Container.GetName(containerNumber)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` | value |
+
+#### `Container.GetOpenContainers()`
+
+Returns metadata for all currently opened containers.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` | containers |
+
+#### `Container.GetSize(containerNumber)`
+
+Convenience metadata getters.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerNumber` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` | value |
+
+#### `Container.LookItem(itemId, itemPos, containerIndex)`
+
+Performs look action on an item inside a Container.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `itemPos` | `integer` |  |  |
+| `containerIndex` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Container.MoveItemFromEquipmentToContainer(equipmentSlot, containerIndex, slotIndex, itemId, itemCount)`
+
+Moves an equipped item to a Container slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlot` | `integer` |  |  |
+| `containerIndex` | `integer` |  |  |
+| `slotIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Container.MoveItemToContainer(fromContainerIndex, fromSlotIndex, itemId, toContainerIndex, toSlotIndex, itemCount)`
+
+Moves an item from one Container slot to another Container slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromContainerIndex` | `integer` |  |  |
+| `fromSlotIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `toContainerIndex` | `integer` |  |  |
+| `toSlotIndex` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Container.MoveItemToEquipment(containerIndex, slotIndex, itemId, equipmentSlot, itemCount)`
+
+Moves an item from Container slot to equipment slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerIndex` | `integer` |  |  |
+| `slotIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `equipmentSlot` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Container.MoveItemToFloor(containerIndex, slotIndex, itemId, toPosition, itemCount)`
+
+Moves an item from a Container slot to floor position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerIndex` | `integer` |  |  |
+| `slotIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `toPosition` | `table` |  | position table \{x,y,z\} |
+| `itemCount` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Container.UseItem(itemId, containerIndex, itemPos, useItemWithHotkey)`
+
+Uses an item that is inside a Container.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `containerIndex` | `integer` |  |  |
+| `itemPos` | `integer` |  |  |
+| `useItemWithHotkey` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

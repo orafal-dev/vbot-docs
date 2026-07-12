@@ -11,81 +11,861 @@ Core library: `self.lua`
 
 ## Functions
 
-- `Self.Attack(creatureId)`
-- `Self.BuyItem(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
-- `Self.CancelWalk()`
-- `Self.Dismount()`
-- `Self.Equip(itemId, tierLevel)`
-- `Self.Follow(creatureId)`
-- `Self.FormatStatsSnapshot(stats, prefix)`
-- `Self.GetCapacity()`
-- `Self.GetCapacityFloor()`
-- `Self.GetCharacterWorld(characterName)`
-- `Self.GetFollowId()`
-- `Self.GetHealth()`
-- `Self.GetHealthPercentage()`
-- `Self.GetLevel()`
-- `Self.GetLevelPercentage()`
-- `Self.GetMana()`
-- `Self.GetManaPercentage()`
-- `Self.GetManaShieldCapacity()`
-- `Self.GetMaxHealth()`
-- `Self.GetMaxMana()`
-- `Self.GetMaxManaShieldCapacity()`
-- `Self.GetMousePositionInWorld()`
-- `Self.GetMousePositionText()`
-- `Self.GetMouseWorldX()`
-- `Self.GetMouseWorldY()`
-- `Self.GetMouseWorldZ()`
-- `Self.GetSoul()`
-- `Self.GetStamina()`
-- `Self.GetStaminaDays()`
-- `Self.GetStaminaHours()`
-- `Self.GetStatsSnapshot()`
-- `Self.GetStatusFlagsSnapshot()`
-- `Self.GetTargetId()`
-- `Self.HasFollow()`
-- `Self.HasTarget()`
-- `Self.IsAlive()`
-- `Self.IsAttacking()`
-- `Self.IsAvailable()`
-- `Self.IsBleeding()`
-- `Self.IsBurning()`
-- `Self.IsCursed()`
-- `Self.IsDazzled()`
-- `Self.IsDrowning()`
-- `Self.IsDrunk()`
-- `Self.IsElectrified()`
-- `Self.IsFeared()`
-- `Self.IsFollowing()`
-- `Self.IsFreezing()`
-- `Self.IsHasted()`
-- `Self.IsHungry()`
-- `Self.IsInCombat()`
-- `Self.IsInProtectionZone()`
-- `Self.IsInRestingArea()`
-- `Self.IsManaShielded()`
-- `Self.IsOnline()`
-- `Self.IsParalyzed()`
-- `Self.IsPoisoned()`
-- `Self.IsRooted()`
-- `Self.IsStrengthened()`
-- `Self.LookAtCreature(creatureId)`
-- `Self.LookAtPosition(position)`
-- `Self.Mount()`
-- `Self.PrivateMessage(playerName, message)`
-- `Self.Say(message)`
-- `Self.SayOnChannel(message, channelId)`
-- `Self.SayToNpc(message)`
-- `Self.SellItem(itemId, itemCount, sellEquipped)`
-- `Self.Step(direction)`
-- `Self.StopAttackAndFollow()`
-- `Self.UseItemInContainer(itemId, containerIndex, itemPos, useItemWithHotkey)`
-- `Self.UseItemOnFloor(position, stackPosition, itemId)`
-- `Self.Whisper(message)`
-- `Self.Yell(message)`
+#### `Self.Attack(creatureId)`
+
+Attacks a creature by id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `creatureId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.BuyItem(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
+
+Buys item from NPC trade window.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+| `ignoreCapacity` | `boolean` | Yes |  |
+| `buyInShoppingBags` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.CancelWalk()`
+
+Cancels current walk/autowalk.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.Dismount()`
+
+Dismounts current mount.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.Equip(itemId, tierLevel)`
+
+Equips an item with optional tier level.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `tierLevel` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.Follow(creatureId)`
+
+Follows a creature by id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `creatureId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.FormatStatsSnapshot(stats, prefix)`
+
+Formats a stats snapshot into one-line debug text.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `stats` | `table` | Yes |  |
+| `prefix` | `string` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Self.GetCapacity()`
+
+Returns current carrying capacity.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number\|nil` |  |
+
+#### `Self.GetCapacityFloor()`
+
+Returns floor of capacity value.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetCharacterWorld(characterName)`
+
+Returns the world name for a character from the character list.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `characterName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` |  |
+
+#### `Self.GetFollowId()`
+
+Returns followed creature id.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetHealth()`
+
+Returns current health points.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetHealthPercentage()`
+
+Returns health percentage 0-100.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number\|nil` |  |
+
+#### `Self.GetLevel()`
+
+Returns current level.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetLevelPercentage()`
+
+Returns level progression percent.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number\|nil` |  |
+
+#### `Self.GetMana()`
+
+Returns current mana points.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetManaPercentage()`
+
+Returns mana percentage 0-100.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number\|nil` |  |
+
+#### `Self.GetManaShieldCapacity()`
+
+Returns current mana shield capacity.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetMaxHealth()`
+
+Returns max health points.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetMaxMana()`
+
+Returns max mana points.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetMaxManaShieldCapacity()`
+
+Returns maximum mana shield capacity.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetMousePositionInWorld()`
+
+Returns mouse world position.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Self.GetMousePositionText()`
+
+Returns mouse position text for logging.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Self.GetMouseWorldX()`
+
+Returns mouse X world coordinate.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number\|nil` |  |
+
+#### `Self.GetMouseWorldY()`
+
+Returns mouse Y world coordinate.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number\|nil` |  |
+
+#### `Self.GetMouseWorldZ()`
+
+Returns mouse Z world floor.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number\|nil` |  |
+
+#### `Self.GetSoul()`
+
+Returns current soul value.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetStamina()`
+
+Returns stamina in minutes.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetStaminaDays()`
+
+Returns stamina expressed in full days.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetStaminaHours()`
+
+Returns stamina expressed in full hours.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.GetStatsSnapshot()`
+
+Returns a read-only snapshot of currently available player stats.
+Values can be nil when local player data is unavailable.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Self.GetStatusFlagsSnapshot()`
+
+Returns snapshot of status flags usually provided by player status controller.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Self.GetTargetId()`
+
+Returns attacked creature id.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Self.HasFollow()`
+
+Returns true when follow id is valid (>0).
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasTarget()`
+
+Returns true when target id is valid (>0).
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsAlive()`
+
+Returns alive state.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsAttacking()`
+
+Returns attacking state.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsAvailable()`
+
+Returns true when minimal local-player data can be queried.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Self.IsBleeding()`
+
+Returns true if character is bleeding.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsBurning()`
+
+Returns true if character is burning.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsCursed()`
+
+Returns true if character is cursed.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsDazzled()`
+
+Returns true if character is dazzled.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsDrowning()`
+
+Returns true if character is drowning.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsDrunk()`
+
+Returns true if character is drunk.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsElectrified()`
+
+Returns true if character is electrified.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsFeared()`
+
+Returns true if character is feared.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsFollowing()`
+
+Returns following state.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsFreezing()`
+
+Returns true if character is freezing.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsHasted()`
+
+Returns true if character is hasted.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsHungry()`
+
+Returns true if character is hungry.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsInCombat()`
+
+Returns true if character is in combat.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsInProtectionZone()`
+
+Returns true if character is in protection zone.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsInRestingArea()`
+
+Returns true if character is in resting area.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsManaShielded()`
+
+Returns true if mana shield is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsOnline()`
+
+Returns online state.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsParalyzed()`
+
+Returns true if character is paralyzed.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsPoisoned()`
+
+Returns true if character is poisoned.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsRooted()`
+
+Returns true if character is rooted.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsStrengthened()`
+
+Returns true if character is strengthened.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.LookAtCreature(creatureId)`
+
+Looks at a creature by id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `creatureId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.LookAtPosition(position)`
+
+Looks at a map position.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  | position table \{x,y,z\} |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.Mount()`
+
+Mounts current mount.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.PrivateMessage(playerName, message)`
+
+Sends private message to a player.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `playerName` | `string` |  |  |
+| `message` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Self.Say(message)`
+
+Says text in local chat.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `message` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Self.SayOnChannel(message, channelId)`
+
+Sends chat message to a specific channel.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `message` | `string` |  |  |
+| `channelId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.SayToNpc(message)`
+
+Sends message to NPC channel.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `message` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Self.SellItem(itemId, itemCount, sellEquipped)`
+
+Sells item through NPC trade window.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+| `sellEquipped` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.Step(direction)`
+
+Performs a movement step in given direction.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `direction` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.StopAttackAndFollow()`
+
+Stops both attack and follow actions.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.UseItemInContainer(itemId, containerIndex, itemPos, useItemWithHotkey)`
+
+Uses an item from a container slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `containerIndex` | `integer` |  |  |
+| `itemPos` | `integer` |  |  |
+| `useItemWithHotkey` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.UseItemOnFloor(position, stackPosition, itemId)`
+
+Uses an item on floor position and stack.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `position` | `table` |  | position table \{x,y,z\} |
+| `stackPosition` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | result Underlying Game API return value |
+
+#### `Self.Whisper(message)`
+
+Says text in whisper mode.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `message` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Self.Yell(message)`
+
+Says text in yell mode.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `message` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.

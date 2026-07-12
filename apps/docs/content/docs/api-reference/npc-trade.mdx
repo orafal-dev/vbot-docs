@@ -11,18 +11,137 @@ Core library: `npc_trade_storage.lua`
 
 ## Functions
 
-- `NpcTradeStorage.Buy(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
-- `NpcTradeStorage.FormatOffers()`
-- `NpcTradeStorage.GetNpcName()`
-- `NpcTradeStorage.GetOfferByItemId(itemId)`
-- `NpcTradeStorage.GetOfferByName(itemName)`
-- `NpcTradeStorage.GetOffers()`
-- `NpcTradeStorage.GetSnapshot()`
-- `NpcTradeStorage.IsAvailable()`
-- `NpcTradeStorage.IsOpen()`
-- `NpcTradeStorage.Sell(itemId, itemCount, sellEquipped)`
+#### `NpcTradeStorage.Buy(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
+
+Buys item from NPC trade.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+| `ignoreCapacity` | `boolean` | Yes |  |
+| `buyInShoppingBags` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `NpcTradeStorage.FormatOffers()`
+
+Returns formatted offers list for logging/debug.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string[]` |  |
+
+#### `NpcTradeStorage.GetNpcName()`
+
+Returns current NPC trade partner name when exposed by runtime.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` |  |
+
+#### `NpcTradeStorage.GetOfferByItemId(itemId)`
+
+Returns one offer by item id.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `NpcTradeStorage.GetOfferByName(itemName)`
+
+Returns one offer by case-insensitive name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `NpcTradeStorage.GetOffers()`
+
+Returns normalized NPC offers when exposed by runtime.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `NpcTradeStorage.GetSnapshot()`
+
+Returns NPC trade snapshot.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `NpcTradeStorage.IsAvailable()`
+
+Returns true when any NPC trade API is available.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `NpcTradeStorage.IsOpen()`
+
+Returns NPC trade window state when exposed by runtime.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `NpcTradeStorage.Sell(itemId, itemCount, sellEquipped)`
+
+Sells item to NPC trade.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+| `sellEquipped` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.
