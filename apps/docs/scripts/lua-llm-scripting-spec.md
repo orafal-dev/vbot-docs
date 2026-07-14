@@ -348,7 +348,7 @@ Runtime Cooldown metadata methods:
 - Cooldown.GetItemGroupCooldownIds(itemId) 
  
 ### spells.lua 
-ZeroBot-style spell cooldown facade. 
+High-level spell and item cooldown facade. 
  
 Primary API: 
 - Spells.GetIdByWords(words) 
