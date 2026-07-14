@@ -34,7 +34,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ q
                   {script.demo ? <Badge variant="outline">Demo data</Badge> : null}
                 </div>
                 <CardTitle className="text-balance">{script.title}</CardTitle>
-                <CardDescription>{script.description}</CardDescription>
+                <CardDescription className="line-clamp-3">{script.description}</CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground">Updated {script.updatedAt.toLocaleDateString("en-US", { dateStyle: "medium" })}</CardContent>
               <CardFooter className="mt-auto">
