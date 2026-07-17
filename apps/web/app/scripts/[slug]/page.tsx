@@ -10,6 +10,7 @@ import { ScriptScreenshotGallery } from "@/components/script-screenshot-gallery"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { getScreenshotServeUrl } from "@/lib/blob"
 import { highlightLuaCode } from "@/lib/highlight"
 import {
   getPublishedScriptBySlug,
@@ -25,10 +26,56 @@ export const generateStaticParams = async () => {
   return slugs.map((slug) => ({ slug }))
 }
 
+const getFirstScreenshotUrl = (screenshots: string[]): string | null => {
+  for (const ref of screenshots) {
+    const url = getScreenshotServeUrl(ref)
+    if (url) {
+      return url
+    }
+  }
+
+  return null
+}
+
 export const generateMetadata = async ({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> => {
   const { slug } = await params
   const script = await getPublishedScriptBySlug(slug)
-  return script ? { title: script.title, description: script.description } : { title: "Script not found" }
+
+  if (!script) {
+    return { title: "Script not found" }
+  }
+
+  const ogImage = getFirstScreenshotUrl(script.screenshots)
+
+  return {
+    title: script.title,
+    description: script.description,
+    openGraph: {
+      title: script.title,
+      description: script.description,
+      type: "article",
+      ...(ogImage
+        ? {
+            images: [
+              {
+                url: ogImage,
+                alt: `${script.title} preview`,
+              },
+            ],
+          }
+        : {}),
+    },
+    ...(ogImage
+      ? {
+          twitter: {
+            card: "summary_large_image",
+            title: script.title,
+            description: script.description,
+            images: [ogImage],
+          },
+        }
+      : {}),
+  }
 }
 
 export default async function ScriptDetailPage({ params }: { params: Promise<{ slug: string }> }) {
