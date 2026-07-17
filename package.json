@@ -12,9 +12,11 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "types:check": "turbo run types:check",
+    "test": "turbo run test",
     "db:generate": "turbo run db:generate --filter=@vbot/web",
     "db:migrate": "turbo run db:migrate --filter=@vbot/web"
   },
+
   "devDependencies": {
     "turbo": "latest"
   }
