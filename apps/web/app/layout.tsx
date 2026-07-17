@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Figtree, Geist_Mono } from "next/font/google"
 import Link from "next/link"
 import { IconBook2, IconCode } from "@tabler/icons-react"
+import { Analytics } from "@vercel/analytics/next"
 
 import "./globals.css"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -62,6 +63,7 @@ export default function RootLayout({
             </div>
           </footer>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
