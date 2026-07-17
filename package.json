@@ -16,8 +16,7 @@
     "db:generate": "turbo run db:generate --filter=@vbot/web",
     "db:migrate": "turbo run db:migrate --filter=@vbot/web"
   },
-
   "devDependencies": {
-    "turbo": "latest"
+    "turbo": "^2.10.4"
   }
 }
