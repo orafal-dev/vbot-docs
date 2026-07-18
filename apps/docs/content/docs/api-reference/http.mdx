@@ -1,0 +1,103 @@
+---
+title: Http
+description: API reference for Http (http.lua)
+---
+
+Core library: `http.lua`
+
+## Exported tables
+
+- `Http`
+
+## Functions
+
+#### `Http.Get(url, options)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `url` | `string` |  |  |
+| `options` | `table` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Http.GetJson(url, options)`
+
+Fetches and decodes a JSON response. Returns data and the full response.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `url` | `string` |  |  |
+| `options` | `table` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any\|nil` |  |
+| `table` |  |
+| `string\|nil` |  |
+
+#### `Http.Post(url, body, options)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `url` | `string` |  |  |
+| `body` | `string` | Yes |  |
+| `options` | `table` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Http.PostJson(url, value, options)`
+
+Encodes a value as JSON and posts it. Content-Type defaults to application/json.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `url` | `string` |  |  |
+| `value` | `any` |  |  |
+| `options` | `table` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Http.Request(options)`
+
+Performs an HTTP request. Must be called from a managed coroutine.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `options` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

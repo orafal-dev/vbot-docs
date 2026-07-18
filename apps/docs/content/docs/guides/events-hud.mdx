@@ -9,28 +9,28 @@ Subscribe to game packet events with proxy objects:
 
 ```lua
 local proxy = GenericTextMessageProxy:New("my_text_handler")
-proxy:OnReceive(function(p, messageMode, message)
+proxy:OnReceive(function(p, message)
     print("Message: " .. tostring(message))
 end)
 ```
 
-Available proxies:
+Available proxies and callback arguments after `proxy`:
 
-| Proxy | Event type |
+| Proxy | Callback args |
 | --- | --- |
-| `GenericTextMessageProxy` | Text messages |
-| `BattleMessageProxy` | Battle log |
-| `LootMessageProxy` | Loot messages |
-| `ContainerOpenProxy` | Container opened |
-| `ContainerCloseProxy` | Container closed |
-| `ContainerAddItemProxy` | Item added to container |
-| `ContainerUpdateItemProxy` | Item updated in container |
-| `ContainerRemoveItemProxy` | Item removed from container |
-| `StatsChangeProxy` | Stat changes |
-| `SkillsChangeProxy` | Skill changes |
-| `CreatureAddProxy` | Creature appeared |
-| `CreatureRemoveProxy` | Creature disappeared |
-| `DeathProxy` | Death event |
+| `GenericTextMessageProxy` | `message` |
+| `BattleMessageProxy` | `message` |
+| `LootMessageProxy` | `message` |
+| `ContainerOpenProxy` | `containerIndex, containerName, containerID` |
+| `ContainerCloseProxy` | `containerIndex` |
+| `ContainerAddItemProxy` | `containerIndex, slot, item` |
+| `ContainerUpdateItemProxy` | `containerIndex, slot, item` |
+| `ContainerRemoveItemProxy` | `containerIndex, slot` |
+| `StatsChangeProxy` | `eventData` |
+| `SkillsChangeProxy` | `eventData` |
+| `CreatureAddProxy` | `creatureId, creatureName, position` |
+| `CreatureRemoveProxy` | `creatureId` |
+| `DeathProxy` | _(none)_ |
 
 Common pattern:
 
@@ -78,6 +78,10 @@ icon
 
 - `SetLabel(text, color, offsetX, offsetY)` — attach or update label text
 - `SetParent(parent_id)` — parent to draggable ScreenText; children follow drag movement
+- `SetZIndex(zIndex)` — draw order for screen/world elements
+- `SetDragTarget(target)` / `SetOnDragEnd(callback)` — advanced drag behavior on screen elements
+
+All HUD classes support `New`, `Create`, `Remove`, `SetEnabled`, `SetZIndex`, `SetParent`, and `ClearParent` as applicable. Setters return the same object for chaining. `Engine.HUD` element operations retain per-script ownership — a script cannot mutate another script's HUD elements.
 
 ### World overlays
 
@@ -125,8 +129,11 @@ Play bot sounds and alerts:
 
 ```lua
 Sound.Play({ sound_id = BotSoundId.LOW_HEALTH })
-Sound.Play({ file_path = "path/to/sound.wav" })
+Sound.Play({ sound_name = "low_mana" })
+Sound.Play({ file_path = "path/to/sound.wav", instant = true })
 ```
+
+`Sound.Play` and `Sound.IsQueued` options must identify exactly one source: `sound_id = BotSoundId.*`, `sound_name = string`, or `file_path = string`. `Sound.Play` also accepts `instant = boolean`.
 
 | Function | Description |
 | --- | --- |
@@ -135,8 +142,10 @@ Sound.Play({ file_path = "path/to/sound.wav" })
 | `Sound.ClearQueue()` | Clear queue |
 | `Sound.IsPlaying()` / `IsQueued(options)` | Status |
 | `Sound.GetQueueSize()` | Queue length |
+| `Sound.SetMinDelay(delayMs)` | Minimum delay between queued sounds |
+| `Sound.GetCurrentDuration()` / `GetFileDuration(path)` | Duration helpers |
 
-Convenience globals: `soundPlayById`, `soundPlayByName`, `soundPlayFile`, `soundLowHealth`, `soundLowMana`, `soundPlayerDetected`, `soundGMDetected`
+Prefer these canonical `Sound.*` methods rather than legacy global sound helper functions.
 
 ## References
 

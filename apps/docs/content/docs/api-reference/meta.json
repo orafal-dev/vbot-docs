@@ -15,9 +15,11 @@
     "features",
     "game",
     "hotkeys",
+    "http",
     "hud",
     "inventory",
     "item",
+    "json",
     "constants",
     "map",
     "minimap",
@@ -27,7 +29,8 @@
     "self",
     "sound",
     "spells",
+    "storage",
     "vip",
-    "api-surface"
+    "websocket"
   ]
 }

@@ -5,14 +5,14 @@ description: How ValidusBot executes Lua scripts
 
 ## Architecture
 
-Scripts run inside the bot Lua runtime and rely on C++ bindings exposed as global tables. Core helper libraries in `Scripts/core` wrap those bindings into a stable, validated public API.
+Scripts run inside the bot Lua runtime and use supported APIs exposed as global tables. Core helper libraries in `Scripts/core` wrap those bindings into a stable, validated public API.
 
 ```
 Your script (.lua)
     ↓
 Core wrappers (Scripts/core/*.lua)
     ↓
-C++ game bindings
+Supported runtime APIs
     ↓
 Tibia client
 ```
@@ -32,6 +32,8 @@ Use one of these patterns for repeating or delayed logic:
 | `Module.New(name, fn, delayMs)` | Custom recurring module |
 | `wait(ms)` | Yield inside a long-running coroutine |
 
+HTTP and WebSocket operations also yield cooperatively while waiting. They must be started from a managed script coroutine (`init()` is managed and may call them).
+
 **Avoid** busy loops:
 
 ```lua
@@ -46,8 +48,8 @@ end
 Many APIs return `nil` when:
 
 - The player is not logged in or not available
-- Required C++ bindings are not loaded
-- Game state does not exist yet (e.g. no target, closed container)
+- A required capability is not loaded
+- Game state does not exist yet (e.g. no target, closed container, no NPC trade window)
 
 Always validate before use:
 
@@ -61,6 +63,8 @@ if type(hp) ~= "number" then
     return
 end
 ```
+
+Capability wrappers such as `Inventory` and `NpcTradeStorage` can return nil/false when the corresponding game state is unavailable. Check `IsAvailable` / capability methods where provided.
 
 Wrap risky blocks in `pcall` so one failure does not kill the entire script:
 
@@ -80,16 +84,26 @@ Each module table is exposed in PascalCase. Some modules expose nested namespace
 - `Cooldowns.Spell.IsReady(words)`
 - `Cavebot.Walker.Resume()`
 - `Engine.Healer.GetSpells()`
+- `Engine.MagicShooter.GetEntries()`
+- `Storage.Global.Get(key)`
 
-Compatibility aliases were removed. Use the exact names from the [API Reference](/docs/api-reference).
+Do not infer a `Query` or `Actions` namespace unless it is explicitly documented. Compatibility aliases are not part of the supported surface.
 
 ## Features API restriction
 
-The Objects Dumper feature is reserved and intentionally blocked from public `Features` API paths. Do not attempt to enable, disable, or query it from scripts.
+The Objects Dumper feature is reserved and intentionally blocked from public feature API paths. Do not attempt to enable, disable, or query it from scripts. Prefer `Engine.Features` for new scripts; the older global `Features` table remains for compatibility.
+
+## Network constraints
+
+- HTTP has no callback lifecycle API
+- WebSockets use explicit `Receive`; there are no `onOpen`, `onClose`, `onError`, `onRedirect`, or automatic reconnect callbacks
+- `validusbot.net`, its subdomains, and the registered service host are blocked
+- A script may have at most four pending HTTP requests and four simultaneous WebSockets
 
 ## Hotkey constraints
 
 - The **alt** modifier is not supported by the current hotkey registration API
 - Extended keys (insert, delete, home, end, page up/down, arrows) default to `extended = true` in `Hotkeys.ParseCombo`
+- Standard Lua `table.concat` is allowed in sandboxed user scripts
 
 See [Hotkeys API Reference](/docs/api-reference/hotkeys) for registration details.

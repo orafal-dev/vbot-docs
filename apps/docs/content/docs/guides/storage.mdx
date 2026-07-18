@@ -1,0 +1,54 @@
+---
+title: Storage
+description: Persistent JSON-compatible values scoped to the current script
+---
+
+`Storage` persists JSON-compatible values for the current script. No file paths or manual serialization are needed.
+
+## Direct scopes
+
+| Scope | Behavior |
+| --- | --- |
+| `Storage.Global` | Shared by characters running the same script |
+| `Storage.Character` | Isolated by the logged-in character |
+
+| Function | Description |
+| --- | --- |
+| `Get(key, default?)` | Read value (or default) |
+| `Set(key, value)` | Write value |
+| `Remove(key)` | Delete key |
+| `Clear()` | Clear the scope |
+
+```lua
+Storage.Global.Set("runs", (Storage.Global.Get("runs", 0) or 0) + 1)
+Storage.Character.Set("last_refill", os.time())
+```
+
+## Namespaces
+
+Logical namespaces avoid key collisions across features of the same script:
+
+| Function | Description |
+| --- | --- |
+| `Storage.Namespace(namespace, perCharacter?)` | Create/open a namespace scope |
+| `Storage.ForCharacter(namespace)` | Character-scoped namespace shortcut |
+| `scope:Get(key, default?)` / `Set` / `Remove` | Scoped helpers |
+
+```lua
+local hunt = Storage.ForCharacter("hunt_stats")
+hunt:Set("kills", (hunt:Get("kills", 0) or 0) + 1)
+```
+
+## Limits and value rules
+
+- Namespace names must be non-empty, at most **64 bytes**, and contain only letters, numbers, `_`, `-`, and `.`
+- A namespace plus key may not exceed **256 bytes**
+- Supported values: nil, booleans, finite numbers, strings, and nested tables with string keys or contiguous 1-based array indexes
+- Cyclic tables are rejected
+- Storage is limited to **2 MB** per script, **12** nested levels, and **4,096** entries per table
+
+Prefer a stable, script-specific namespace to avoid key collisions.
+
+## References
+
+- [Storage API Reference](/docs/api-reference/storage)

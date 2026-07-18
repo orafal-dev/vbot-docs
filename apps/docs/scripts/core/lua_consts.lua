@@ -480,7 +480,8 @@ EquipmentSlot = {
     LEGS = 7,
     BOOTS = 8,
     RING = 9,
-    ARROW = 10
+    ARROW = 10,
+    STORE = 11
 }
 
 -- Player skull types

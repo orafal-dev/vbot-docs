@@ -33,6 +33,12 @@ Disable a specific alarm
 
 Disable all alarms
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Engine.Alarms.Enable(alarmId)`
 
 Enable a specific alarm
@@ -53,6 +59,12 @@ Enable a specific alarm
 
 Enable all alarms
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Engine.Alarms.EnableOnly(alarmIdsList)`
 
 Enable only specific alarms
@@ -62,6 +74,20 @@ Enable only specific alarms
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `alarmIdsList` | `table` |  | Array of BotSoundId constants |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Alarms.GetConfig()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 #### `Engine.Alarms.GetCreatureFilter()`
 
@@ -153,6 +179,26 @@ Check if ally players are ignored
 
 Print all alarm states to console
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Alarms.SetAlarmMessages(messages)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `messages` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Alarms.SetBringToFocus(enabled)`
 
 Enable/disable bringing window to focus on alarm
@@ -168,6 +214,34 @@ Enable/disable bringing window to focus on alarm
 | Type | Description |
 | :-- | :-- |
 | `boolean` | Success |
+
+#### `Engine.Alarms.SetBringToFocusEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Alarms.SetCreatureDetectedNames(names)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `names` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Alarms.SetCreatureFilter(namesString)`
 
@@ -185,6 +259,35 @@ Set creature detection filter (comma-separated names)
 | :-- | :-- |
 | `boolean` | Success |
 
+#### `Engine.Alarms.SetDamageTakenRange(minimumDamage, maximumDamage)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `minimumDamage` | `integer` |  |  |
+| `maximumDamage` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Alarms.SetEnemyNames(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Alarms.SetFlashWindow(enabled)`
 
 Enable/disable window flashing on alarm
@@ -200,6 +303,48 @@ Enable/disable window flashing on alarm
 | Type | Description |
 | :-- | :-- |
 | `boolean` | Success |
+
+#### `Engine.Alarms.SetFlashWindowEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Alarms.SetGmChatCheckEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Alarms.SetGmNames(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Alarms.SetIgnoreAllyPlayers(ignore)`
 
@@ -217,6 +362,20 @@ Set whether to ignore ally players (party/guild members)
 | :-- | :-- |
 | `boolean` | Success |
 
+#### `Engine.Alarms.SetLowHealthPercentage(arg1)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `arg1` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Alarms.SetLowHealthThreshold(percentage)`
 
 Set low health alarm threshold
@@ -232,6 +391,20 @@ Set low health alarm threshold
 | Type | Description |
 | :-- | :-- |
 | `boolean` | Success |
+
+#### `Engine.Alarms.SetLowManaPercentage(arg1)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `arg1` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Alarms.SetLowManaThreshold(percentage)`
 
@@ -264,6 +437,90 @@ Set alarm messages filter (comma-separated messages)
 | Type | Description |
 | :-- | :-- |
 | `boolean` | Success |
+
+#### `Engine.Alarms.SetPlayerAttackFilterMode(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Alarms.SetPlayerAttackNames(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Alarms.SetPlayerDetectedFilterMode(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Alarms.SetPlayerDetectedNames(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Alarms.SetSkullFilterMode(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Alarms.SetSkullNames(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Alarms.Toggle(alarmId)`
 
@@ -319,6 +576,12 @@ Add new profile
 
 Clear all ammo from current profile
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Engine.AmmoRefill.Disable(index)`
 
 Disable an ammo refill entry in current profile
@@ -338,6 +601,12 @@ Disable an ammo refill entry in current profile
 #### `Engine.AmmoRefill.DisableAll()`
 
 Disable all ammo refill entries in current profile
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Engine.AmmoRefill.Enable(index)`
 
@@ -359,6 +628,12 @@ Enable an ammo refill entry in current profile
 
 Enable all ammo refill entries in current profile
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Engine.AmmoRefill.EnableOnly(itemIdsList)`
 
 Enable only specific ammo by item IDs in current profile
@@ -368,6 +643,12 @@ Enable only specific ammo by item IDs in current profile
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `itemIdsList` | `table` |  | Array of item IDs |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Engine.AmmoRefill.FindByItemId(itemId)`
 
@@ -447,32 +728,25 @@ Get all profile names
 | :-- | :-- |
 | `table` | Array of profile name strings |
 
-#### `Engine.AmmoRefill.Modify(index, refillAtCount, refillInLeftHand, equipFromHotkey)`
+#### `Engine.AmmoRefill.PrintProfiles()`
 
-Modify specific fields of an ammo entry (convenience wrapper)
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `index` | `number` |  | 1-based index |
-| `refillAtCount` | `number\|nil` |  | Refill threshold (optional) |
-| `refillInLeftHand` | `boolean\|nil` |  | Use left hand slot (optional) |
-| `equipFromHotkey` | `boolean\|nil` |  | Use hotkey to equip (optional) |
+Print all available profiles
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `boolean` | Success |
-
-#### `Engine.AmmoRefill.PrintProfiles()`
-
-Print all available profiles
+| `nil` |  |
 
 #### `Engine.AmmoRefill.PrintStatus()`
 
 Print current profile status and ammo configuration
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Engine.AmmoRefill.Remove(index)`
 
@@ -523,6 +797,81 @@ Rename profile
 | :-- | :-- |
 | `boolean` | Success |
 
+#### `Engine.AmmoRefill.SetEntryEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.AmmoRefill.SetEntryEquipFromHotkey(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.AmmoRefill.SetEntryItemId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.AmmoRefill.SetEntryRefillLeftHand(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.AmmoRefill.SetEntryThreshold(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.AmmoRefill.SetProfile(indexOrName)`
 
 Set current profile by index or name
@@ -555,22 +904,3806 @@ Toggle an ammo refill entry in current profile
 | :-- | :-- |
 | `boolean\|nil` | New enabled state, or nil if not found |
 
-#### `Engine.AmmoRefill.Update(index, updateData)`
+### Engine.Channels
 
-Update ammo configuration
+#### `Engine.Channels.AddEntry(name, message, intervalSeconds, channelId, talkAction, enabled)`
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `index` | `number` |  | 1-based index |
-| `updateData` | `table` |  | Table with fields to update (refill_at_count, refill_in_left_hand, equip_from_hotkey, enabled) |
+| `name` | `string` |  |  |
+| `message` | `string` |  |  |
+| `intervalSeconds` | `integer` |  |  |
+| `channelId` | `integer` |  |  |
+| `talkAction` | `integer` |  |  |
+| `enabled` | `boolean\|nil` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `boolean` | Success |
+| `integer` |  |
+
+#### `Engine.Channels.ClearEntries()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Channels.GetEntries()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.Channels.GetGlobalDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Channels.RemoveEntry(index)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Channels.SetEntryChannelId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Channels.SetEntryEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Channels.SetEntryIntervalSeconds(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Channels.SetEntryMessage(entryIndex, message)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `message` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Channels.SetEntryName(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Channels.SetEntryTalkAction(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Channels.SetGlobalDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.ComboBot
+
+#### `Engine.ComboBot.GetClientEntries()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.ComboBot.GetMode()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.ComboBot.GetRoomEntries()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.ComboBot.GetRoomState()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.ComboBot.SetClientEntryEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryFocusOption(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryLeaderAction(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryLeaderName(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryLeaderSpellWords(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryMyAction(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryMyRuneId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryMySpellWords(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryRange(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryRequiresTarget(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetClientEntryShootType(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetMode(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryEquipMode(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryLeaderAction(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryLeaderRuneId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryLeaderSpellWords(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryMyAction(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryMyRuneId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryMySpellWords(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryRange(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.ComboBot.SetRoomEntryRequiresTarget(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.Conditions
+
+#### `Engine.Conditions.GetCastInProtectionZoneEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.GetHoldSpells()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.Conditions.GetManaShieldDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Conditions.GetManaShieldTimerBased()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Conditions.GetRecoverySpellDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Conditions.GetRecoverySpellTimerBased()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Conditions.GetSpells()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.Conditions.GetUseHasteWithSharpShooterEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetCastInProtectionZoneEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetHoldSpellEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetHoldSpellFlag(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetHoldSpellManaCost(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetHoldSpellWords(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetManaShieldDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetManaShieldTimerBased(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetRecoverySpellDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetRecoverySpellTimerBased(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetSpellEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetSpellFlag(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetSpellManaCost(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetSpellWords(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Conditions.SetUseHasteWithSharpShooterEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.Delays
+
+#### `Engine.Delays.GetAlarmDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetAntiIdleDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetAttackCreatureDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetAttackItemDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetAttackSpellDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetConnectionStabilityCheckEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.GetDashDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetDropItemDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetEatFoodDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetEquipItemDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetGlobalQueueSystemEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.GetHealFriendItemDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetHealFriendSpellDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetHealItemDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetHealSpellDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetItemCooldownSystemEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.GetItemPredictionSystemEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.GetLootDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetMoveDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetReconnectDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetServerPingCheckEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.GetSpellCooldownSystemEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.GetSpellPredictionSystemEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.GetSupportSpellDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetTargetingWalkDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetUseItemInContainerDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetUseWithCooldownSystemEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.GetWalkerUseItemDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetWalkerUseWithItemDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.GetWalkerWalkDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Delays.SetAlarmDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetAntiIdleDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetAttackCreatureDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetAttackItemDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetAttackSpellDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetConnectionStabilityCheckEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetDashDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetDropItemDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetEatFoodDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetEquipItemDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetGlobalQueueSystemEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetHealFriendItemDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetHealFriendSpellDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetHealItemDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetHealSpellDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetItemCooldownSystemEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetItemPredictionSystemEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetLootDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetMoveDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetReconnectDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetServerPingCheckEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetSpellCooldownSystemEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetSpellPredictionSystemEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetSupportSpellDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetTargetingWalkDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetUseItemInContainerDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetUseWithCooldownSystemEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetWalkerUseItemDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetWalkerUseWithItemDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Delays.SetWalkerWalkDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.Equipment
+
+#### `Engine.Equipment.CanMove()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Equipment.CanRead()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Equipment.Equip(itemId, tierLevel)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `tierLevel` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Equipment.GetAllSlotItems()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.Equipment.GetSlotConstants()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.Equipment.GetSlotIds()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Engine.Equipment.GetSlotItem(equipmentSlot)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlot` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.Equipment.GetSlotItemId(equipmentSlot)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlot` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Engine.Equipment.GetSnapshot()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.Equipment.HasItemInSlot(equipmentSlot)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlot` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Engine.Equipment.LookSlotItem(itemId, equipmentSlot)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `equipmentSlot` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Equipment.MoveFromContainerToSlot(containerIndex, slotIndex, itemId, equipmentSlot, itemCount)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `containerIndex` | `integer` |  |  |
+| `slotIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `equipmentSlot` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Equipment.MoveFromSlotToContainer(equipmentSlot, containerIndex, slotIndex, itemId, itemCount)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlot` | `integer` |  |  |
+| `containerIndex` | `integer` |  |  |
+| `slotIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `itemCount` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.EquipmentManager
+
+#### `Engine.EquipmentManager.GetEntries()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.EquipmentManager.GetProfiles()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.EquipmentManager.SetActiveProfile(index)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetConditionCreatureNames(entryIndex, conditionIndex, creatureNames)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `conditionIndex` | `integer` |  |  |
+| `creatureNames` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetConditionCreaturesCount(entryIndex, conditionIndex, count)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `conditionIndex` | `integer` |  |  |
+| `count` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetConditionMonstersAround(entryIndex, conditionIndex, count)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `conditionIndex` | `integer` |  |  |
+| `count` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetConditionPlayersAround(entryIndex, conditionIndex, count)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `conditionIndex` | `integer` |  |  |
+| `count` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetConditionTargetName(entryIndex, conditionIndex, targetName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `conditionIndex` | `integer` |  |  |
+| `targetName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetConditionType(entryIndex, conditionIndex, conditionType)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `conditionIndex` | `integer` |  |  |
+| `conditionType` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryCheckHealthRange(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryCheckManaRange(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryConditionOperator(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryDelay(entryIndex, delayMs)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `delayMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryEquipAction(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryEquipFromHotkey(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryExcludedItemIds(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryExcludedItemIdsEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryHasDelay(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryHealthManaOperator(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryHealthRange(entryIndex, minimumPercentage, maximumPercentage)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `minimumPercentage` | `integer` |  |  |
+| `maximumPercentage` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryItemId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryKeepEquipped(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryKeepEquippedDuration(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryManaRange(entryIndex, minimumPercentage, maximumPercentage)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `minimumPercentage` | `integer` |  |  |
+| `maximumPercentage` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntrySecondaryItemId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntrySlot(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryTier(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetEntryUseExtraConditions(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.Extras
+
+#### `Engine.Extras.GetAntiIdleEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetAutoMountEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetChangeGoldEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetDashEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetDisableMagicEffectsEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetDisplayItemIdEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetDodgeEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetEatFoodEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetEatFoodIds()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Engine.Extras.GetExerciseDummyIds()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Engine.Extras.GetExerciseWeaponIds()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Engine.Extras.GetFakeXlogEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetFollowDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Extras.GetFollowMode()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Extras.GetFollowPlayerEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetFollowPlayerName()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Engine.Extras.GetGoldChangeIds()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Engine.Extras.GetOpenPrivateChannelOnPMEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetReconnectEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetReconnectWhenDeadEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetShowShootEffectsEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.GetTrainingDelay()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Extras.GetTrainingEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetAntiIdleEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetAutoMountEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetChangeGoldEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetDashEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetDisableMagicEffectsEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetDisplayItemIdEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetDodgeEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetEatFoodEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetEatFoodIds(itemIds)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemIds` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetExerciseDummyIds(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetExerciseWeaponIds(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetFakeXlogEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetFollowDistance(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetFollowMode(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetFollowPlayerEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetFollowPlayerName(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetGoldChangeIds(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetOpenPrivateChannelOnPMEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetReconnectEnabled(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetReconnectWhenDeadEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetShowShootEffectsEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetTrainingDelay(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.SetTrainingEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.StartTraining()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Extras.StopTraining()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.Features
+
+#### `Engine.Features.Disable(featureIdentifier)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Features.DisableAllExcept(excludeList)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `excludeList` | `table` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Features.DisableMultiple(featureList)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureList` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Features.Enable(featureIdentifier)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Features.EnableMultiple(featureList)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureList` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Features.GetActiveFeatures()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Engine.Features.GetAllFeatureIds()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
+#### `Engine.Features.GetName(featureIdentifier)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Engine.Features.IsActive(featureIdentifier)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Features.PrintStatus()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Features.SetActive(featureIdentifier, activeStatus)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+| `activeStatus` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Features.Toggle(featureIdentifier)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+### Engine.HUD
+
+#### `Engine.HUD.AddScreenImage(params)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `params` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.HUD.AddScreenText(params)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `params` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.HUD.AddWorldBox(params)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `params` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.HUD.AddWorldImage(params)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `params` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.HUD.AddWorldText(params)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `params` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.HUD.ClearParent(child_id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `child_id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.GetConfig()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.HUD.GetElementColor(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.HUD.GetElementEnabled(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.GetElementHeight(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` |  |
+
+#### `Engine.HUD.GetElementText(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` |  |
+
+#### `Engine.HUD.GetElementVisible(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.GetElementWidth(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` |  |
+
+#### `Engine.HUD.GetScreenElementPosition(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.HUD.GetSpecialFoodCounters()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.HUD.GetWorldElementPosition(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.HUD.RemoveElement(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.RemoveSpecialFoodCounter(itemId)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetAlignment(id, horizontal_align, vertical_align)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `horizontal_align` | `integer` |  |  |
+| `vertical_align` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.SetClickable(id, clickable, callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `clickable` | `boolean` |  |  |
+| `callback` | `function\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.SetDragTarget(id, targetId)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `targetId` | `string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.SetDraggable(id, draggable)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `draggable` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.SetEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetLevelSpyEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetMagicWallIds(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetMagicWallTimersEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetOnDragEnd(id, callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `callback` | `function\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.SetParent(child_id, parent_id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `child_id` | `string` |  |  |
+| `parent_id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.SetPosition(params)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `params` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.SetScreenPosition(params)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `params` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.SetSpecialFoodCounterDelay(itemId, delaySeconds)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `delaySeconds` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetTargetingAnchorEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetTimerColor(red, green, blue, alpha)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `red` | `number` |  |  |
+| `green` | `number` |  |  |
+| `blue` | `number` |  |  |
+| `alpha` | `number` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetWildGrowthIds(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetXRayEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HUD.SetZIndex(id, zIndex)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `zIndex` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.UpdateBorderColor(id, color)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `color` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.UpdateBorderWidth(id, border_width)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `border_width` | `number` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.UpdateColor(id, color)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `color` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.UpdateHeight(id, height)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `height` | `number` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.UpdateImageLabel(params)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `params` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.UpdateLifetime(id, lifetime_ms)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `lifetime_ms` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.UpdateOffset(id, offset_x, offset_y)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `offset_x` | `number` |  |  |
+| `offset_y` | `number` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.UpdateText(id, text)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `text` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.UpdateWidth(id, width)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `width` | `number` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+### Engine.HealFriend
+
+#### `Engine.HealFriend.GetArea()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.HealFriend.GetMode()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.HealFriend.GetPlayerNames()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Engine.HealFriend.GetPrioritizeBeforeHealer()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.HealFriend.GetPriorityOverHealer()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.HealFriend.GetSafeHealthPercentage()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.HealFriend.GetVocations()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.HealFriend.SetActionEnabled(vocationIndex, actionIndex, enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vocationIndex` | `integer` |  |  |
+| `actionIndex` | `integer` |  |  |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetActionHealthPercentage(vocationIndex, actionIndex, healthPercentage)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vocationIndex` | `integer` |  |  |
+| `actionIndex` | `integer` |  |  |
+| `healthPercentage` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetActionItemId(vocationIndex, actionIndex, itemId)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vocationIndex` | `integer` |  |  |
+| `actionIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetActionManaCost(vocationIndex, actionIndex, manaCost)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vocationIndex` | `integer` |  |  |
+| `actionIndex` | `integer` |  |  |
+| `manaCost` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetActionMethod(vocationIndex, actionIndex, method)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vocationIndex` | `integer` |  |  |
+| `actionIndex` | `integer` |  |  |
+| `method` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetActionSpellWords(vocationIndex, actionIndex, spellWords)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vocationIndex` | `integer` |  |  |
+| `actionIndex` | `integer` |  |  |
+| `spellWords` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaDruidRequired(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaExtended(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaHealthPercentage(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaKnightRequired(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaManaCost(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaMinimumHarmony(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaMonkRequired(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaPaladinRequired(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaPlayersNeeded(count)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `count` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaSorcererRequired(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaSpellWords(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetAreaVocation(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetMode(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetPlayerNames(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetPrioritizeBeforeHealer(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetPriorityOverHealer(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetSafeHealthPercentage(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetVocationEnabled(vocationIndex, enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vocationIndex` | `integer` |  |  |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.HealFriend.SetVocationPriority(vocationIndex, priority)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `vocationIndex` | `integer` |  |  |
+| `priority` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ### Engine.Healer
 
@@ -610,17 +4743,41 @@ Add new healing spell
 
 Clear all healing items
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Engine.Healer.ClearAllSpells()`
 
 Clear all healing spells
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Engine.Healer.DisableAllItems()`
 
 Disable all healing items
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Engine.Healer.DisableAllSpells()`
 
 Disable all healing spells
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Engine.Healer.DisableItem(index)`
 
@@ -679,6 +4836,12 @@ Enable only specific items by item IDs
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `itemIdsList` | `table` |  | Array of item IDs |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Engine.Healer.EnableOnlySpells(spellWordsList)`
 
@@ -780,31 +4943,25 @@ Get all healing spells with full details
 | :-- | :-- |
 | `table` | Array of spell data tables |
 
-#### `Engine.Healer.ModifySpell(index, castValue, manaCost)`
+#### `Engine.Healer.PrintItems()`
 
-Update spell cast value and/or mana cost
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `index` | `number` |  | 1-based index |
-| `castValue` | `number\|nil` |  | New cast value (optional) |
-| `manaCost` | `number\|nil` |  | New mana cost (optional) |
+Print all healing items to console
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `boolean` | Success (false if spell not found) |
-
-#### `Engine.Healer.PrintItems()`
-
-Print all healing items to console
+| `nil` |  |
 
 #### `Engine.Healer.PrintSpells()`
 
 Print all healing spells to console
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Engine.Healer.RemoveItem(index)`
 
@@ -838,6 +4995,216 @@ Remove healing spell by index
 | :-- | :-- |
 | `boolean` | Success |
 
+#### `Engine.Healer.SetItemAction(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetItemAttribute(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetItemCastValue(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetItemCondition(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetItemDelay(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetItemEnabled(index, enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `any` |  |  |
+| `enabled` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetItemId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetItemUseWhenFeared(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetSpellAttribute(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetSpellCastValue(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetSpellCondition(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetSpellEnabled(index, enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `any` |  |  |
+| `enabled` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetSpellManaCost(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Healer.SetSpellWords(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Healer.ToggleItem(index)`
 
 Toggle a healing item on/off
@@ -870,8 +5237,2622 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean\|nil` | New enabled state, or nil if spell not found |
 
+### Engine.Looter
+
+#### `Engine.Looter.GetActionType()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Looter.GetMinimumCapacity()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Looter.GetMode()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Looter.LootAroundCharacter()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Looter.SetActionType(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Looter.SetMinimumCapacity(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Looter.SetMode(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.Lure
+
+#### `Engine.Lure.AddSetting()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.ClearSettings()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.EndForceLure()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetAttackWhileLuring()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetConsiderOnlyReachable()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetIgnoringMonsters()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetLuredCreaturesCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetNearRange()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetOption()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetSettingCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetSettings()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetSlowWalkBurstSteps()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetSlowWalkDelayMs()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetSlowWalkingCreaturesCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetStartEndLureActive()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetState()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetUnblocking()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.GetWaypointDynamicLureActive()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.HasActiveSettings()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.IsEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.IsFighting()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.IsForceLure()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.IsLuring()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.IsOtherPlayerOnScreen()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.RemoveSetting()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetAttackWhileLuring()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetConsiderOnlyReachable()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetForceLure()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetIgnoringMonsters()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetNearRange()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetOption()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetSlowWalkBurstSteps()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetSlowWalkDelayMs()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetSlowWalkingCreaturesCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetStartEndLureActive()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetUnblocking()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Lure.SetWaypointDynamicLureActive()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+### Engine.MagicShooter
+
+#### `Engine.MagicShooter.GetActiveProfile()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.MagicShooter.GetCurrentProfile()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.MagicShooter.GetEntries(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]\|nil` |  |
+| `string\|nil` |  |
+
+#### `Engine.MagicShooter.GetProfileCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.MagicShooter.GetProfileNames()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string[]` |  |
+
+#### `Engine.MagicShooter.NextProfile()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.MagicShooter.SetActiveProfile(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetCurrentProfile(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryAttackSkillBuffSpell(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryCastMethod(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryCondition(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryCustomDelay(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryCustomSpell(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryDangerLevel(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryDistanceSkillIncreasePercentage(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryDontCastWhileWalking(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryEnabled(entryIndex, enabled, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `enabled` | `boolean` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryHarmony(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryHarmonyCondition(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryHealthCondition(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryHealthPercentage(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryManaPercentage(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMaximumMonsterHealthPercentage(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMeleeSkillIncreasePercentage(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMinimumMonsterHealthPercentage(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMomentumDelay(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMonsterCount(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMonsterCountCondition(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMonsterNames(entryIndex, names, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `names` | `string` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryOption(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryPVPSafe(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryPatternAnchor(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryPatternSource(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryPatternVariant(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryPrioritizeWithMomentum(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryRange(entryIndex, range, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `range` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryRequiresTarget(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryRune(entryIndex, runeId, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `runeId` | `integer` |  |  |
+| `profile` | `integer\|string` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
+
+#### `Engine.MagicShooter.SetEntryShootAfterWalkDelay(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryShootOverAllies(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntrySpell(entryIndex, spellWords, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `spellWords` | `string` |  |  |
+| `profile` | `integer\|string` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
+
+### Engine.PVPTools
+
+#### `Engine.PVPTools.GetConfig()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.PVPTools.IsAntiPushEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.IsHoldTargetEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.ResetLastTarget()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetAntiPushEnabled(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetAntiPushTrashItem(entryIndex, itemId, quantity)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `quantity` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetDelayBetweenRuneAndPush(delayMs)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `delayMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetHoldTargetEnabled(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetKillTargetEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetKillTargetHealthPercentage(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetKillTargetManaCost(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetKillTargetSpellWords(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetMagicWallKeeperEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetMouseTrashItem(entryIndex, itemId, quantity)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `itemId` | `integer` |  |  |
+| `quantity` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetPreviousSpotRuneIds(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetPreviousSpotWallEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetPushAttackedPlayerEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetPushmaxDisintegrateRuneId(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetPushmaxEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetPushmaxNonDisintegrateRuneId(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetTrashOnMouseEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetWallKeeperRuneIds(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetWildGrowthKeeperEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.SetWildGrowthKeeperRuneIds(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.ToggleAntiPush()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.PVPTools.ToggleHoldTarget()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.Scripter
+
+#### `Engine.Scripter.GetAutoStartEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Scripter.GetAvailableScripts()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.Scripter.GetRunningScripts()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.Scripter.IsRunning(scriptName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `scriptName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Scripter.Refresh()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Scripter.Restart(scriptName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `scriptName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Scripter.SetAutoStartEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Scripter.Start(scriptName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `scriptName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Scripter.Stop(scriptName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `scriptName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Scripter.StopSelf()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.SuppliesSorter
+
+#### `Engine.SuppliesSorter.AddEntry(destinationContainerId, itemIds, enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `destinationContainerId` | `integer` |  |  |
+| `itemIds` | `integer[]` |  |  |
+| `enabled` | `boolean\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.SuppliesSorter.ClearEntries()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.SuppliesSorter.GetEntries()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.SuppliesSorter.RemoveEntry(index)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.SuppliesSorter.SetEntryDestinationContainerId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.SuppliesSorter.SetEntryEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.SuppliesSorter.SetEntryItemIds(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.TankMode
+
+#### `Engine.TankMode.GetCancelManaShieldEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.GetCancelManaShieldHealthPercentage()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.TankMode.GetCancelManaShieldManaCost()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.TankMode.GetCancelManaShieldManaPercentage()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.TankMode.GetCancelManaShieldSpellWords()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Engine.TankMode.GetCancelWhileManaShieldReadyEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.GetManaShieldEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.GetManaShieldHealthPercentage()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.TankMode.GetManaShieldManaCost()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.TankMode.GetManaShieldManaPercentage()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.TankMode.GetManaShieldPotionEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.GetManaShieldPotionId()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.TankMode.GetManaShieldSpellWords()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Engine.TankMode.GetPotionOnSpellCooldownEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.GetPotionWhenFearedEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetCancelManaShieldEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetCancelManaShieldHealthPercentage(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetCancelManaShieldManaCost(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetCancelManaShieldManaPercentage(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetCancelManaShieldSpellWords(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetCancelWhileManaShieldReadyEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetManaShieldEnabled(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetManaShieldHealthPercentage(percentage)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `percentage` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetManaShieldManaCost(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetManaShieldManaPercentage(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetManaShieldPotionEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetManaShieldPotionId(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetManaShieldSpellWords(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetPotionOnSpellCooldownEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TankMode.SetPotionWhenFearedEnabled(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.Targeting
+
+#### `Engine.Targeting.GetActiveProfile()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.Targeting.GetCurrentProfile()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.Targeting.GetEntries(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]\|nil` |  |
+
+#### `Engine.Targeting.GetProfileCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Targeting.GetProfileNames()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string[]` |  |
+
+#### `Engine.Targeting.NextProfile()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
+#### `Engine.Targeting.SetActiveProfile(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetCurrentProfile(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryAnchoring(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryAnchoringRange(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryAttackOption(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryDangerLevel(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryKeepDistanceOption(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryKeepDistanceRange(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryLootMonster(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryMaximumHealthPercentage(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryMinimumHealthPercentage(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryMonsterName(entryIndex, name, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `name` | `string` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryMonstersIgnoreList(entryIndex, names, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `names` | `string` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryMustBeReachable(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryMustBeShootable(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryPriority(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.SetEntryStayDiagonal(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.TimerActions
+
+#### `Engine.TimerActions.AddEntry(type, spellWords, itemId, delay, timeUnit, useInProtectionZone, enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `type` | `integer` |  |  |
+| `spellWords` | `string` |  |  |
+| `itemId` | `integer` |  |  |
+| `delay` | `integer` |  |  |
+| `timeUnit` | `integer` |  |  |
+| `useInProtectionZone` | `boolean` |  |  |
+| `enabled` | `boolean\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.TimerActions.ClearEntries()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TimerActions.GetEntries()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.TimerActions.RemoveEntry(index)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TimerActions.SetEntryDelay(entryIndex, delay, timeUnit)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `delay` | `integer` |  |  |
+| `timeUnit` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TimerActions.SetEntryEnabled(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TimerActions.SetEntryItemId(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TimerActions.SetEntrySpellWords(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TimerActions.SetEntryType(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.TimerActions.SetEntryUseInProtectionZone(entryIndex, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Engine.Walker
+
+#### `Engine.Walker.AddWaypoint()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.ClearWaypoints()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.DeleteWaypoint()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetAutoRecorderEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetAutoRecorderOptions()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetDebugHud()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetDistanceBetweenWaypoints()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetLeaveLureOnPlayer()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetLeaveLurePlayerMode()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Walker.GetNodeDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetSelectedWaypointIndex()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetStartFromNearestWaypoint()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetWalkToLureCenter()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetWaypointCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GetWaypoints()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.GoTo()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.InsertWaypoint()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.IsEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.IsPausedByLua()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.IsStuck()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.MoveWaypointDown()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.MoveWaypointUp()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.ReplaceWaypoint()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.Resume()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SelectClosestWaypoint()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetAutoRecorderEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetAutoRecorderOptions()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetDebugHud()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetDistanceBetweenWaypoints()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetLeaveLureOnPlayer()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetLeaveLurePlayerMode(mode)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `mode` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.SetNodeDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetPausedByLua()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetSelectedWaypointIndex()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetStartFromNearestWaypoint()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Engine.Walker.SetWalkToLureCenter()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
-Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

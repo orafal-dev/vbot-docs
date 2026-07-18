@@ -7,10 +7,8 @@ Core library: `hud_wrapper.lua`
 
 ## Exported tables
 
-- `HorizontalAlignment`
 - `ScreenImage`
 - `ScreenText`
-- `VerticalAlignment`
 - `WorldBox`
 - `WorldImage`
 - `WorldText`
@@ -31,6 +29,56 @@ Clears the logical parent relationship for this screen image.
 
 #### `ScreenImage:Create()`
 
+#### `ScreenImage:GetEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `ScreenImage:GetHeight()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` |  |
+
+#### `ScreenImage:GetPosition()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Position table \{x, y, POS_X, POS_Y, POS_y\} |
+
+#### `ScreenImage:GetVisible()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `ScreenImage:GetWidth()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` |  |
+
+#### `ScreenImage:IsCreated()`
+
+Checks if the element has been created in C++.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `ScreenImage:New(id)`
 
 #### `ScreenImage:Remove()`
@@ -38,6 +86,22 @@ Clears the logical parent relationship for this screen image.
 #### `ScreenImage:SetAlignment(h_align, v_align)`
 
 #### `ScreenImage:SetClickable(callback)`
+
+#### `ScreenImage:SetDragTarget(target)`
+
+Makes this image a drag handle for another screen HUD element.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `target` | `ScreenText\|ScreenImage\|string\|nil` |  | Target element or element id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
 
 #### `ScreenImage:SetDraggable(draggable)`
 
@@ -49,7 +113,23 @@ Clears the logical parent relationship for this screen image.
 
 #### `ScreenImage:SetLabel(text, color, offsetX, offsetY)`
 
-#### `ScreenImage:SetParent(parent_id)`
+#### `ScreenImage:SetOnDragEnd(callback)`
+
+Runs after a drag finishes. The callback receives final target x and y coordinates.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function\|nil` |  | Callback function(x, y), or nil to clear it |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
+#### `ScreenImage:SetParent(parent)`
 
 Sets the logical parent element for this screen image.
 Parent visibility/removal cascade to this image, and parent screen movement keeps this image's current offset.
@@ -58,7 +138,7 @@ Parent visibility/removal cascade to this image, and parent screen movement keep
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `parent_id` | `string` |  | Parent element id |
+| `parent` | `ScreenText\|ScreenImage\|string` |  | Parent element or element id |
 
 **Returns**
 
@@ -87,6 +167,8 @@ If called before :Create(), the position is applied immediately after creation.
 #### `ScreenImage:SetSize(width, height)`
 
 #### `ScreenImage:SetSource(path)`
+
+#### `ScreenImage:SetZIndex(zIndex)`
 
 ### ScreenText
 
@@ -228,7 +310,7 @@ The element is not created until :Create() is called.
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `id` | `string` |  | Unique identifier (must be unique across all HUD elements) |
+| `id` | `string` |  | Unique identifier within this script |
 
 **Returns**
 
@@ -323,6 +405,23 @@ Color components should be integers in range 0-255.
 myText:SetColor({ r = 255, g = 0, b = 0, a = 255 }) -- Red
 ```
 
+#### `ScreenText:SetDragTarget(target)`
+
+Makes this element a drag handle for another screen HUD element.
+Pass nil to make the element move itself again.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `target` | `ScreenText\|ScreenImage\|string\|nil` |  | Target element or element id |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
+
 #### `ScreenText:SetDraggable(draggable)`
 
 Makes the element draggable by the user with the mouse.
@@ -369,7 +468,23 @@ Disabled elements are not rendered but still exist in memory.
 myText:SetEnabled(false) -- Hide the element
 ```
 
-#### `ScreenText:SetParent(parent_id)`
+#### `ScreenText:SetOnDragEnd(callback)`
+
+Runs after a drag finishes. The callback receives final target x and y coordinates.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function\|nil` |  | Callback function(x, y), or nil to clear it |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
+
+#### `ScreenText:SetParent(parent)`
 
 Sets the logical parent element for this screen text.
 When the parent is hidden, disabled, or removed, this child follows it.
@@ -380,7 +495,7 @@ The parent and child must belong to the same script/HUD owner.
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `parent_id` | `string` |  | Parent element id |
+| `parent` | `ScreenText\|ScreenImage\|string` |  | Parent element or element id |
 
 **Returns**
 
@@ -397,7 +512,7 @@ childText:SetParent(parentText.id)
 #### `ScreenText:SetScreenPosition(x, y)`
 
 Sets the screen position in pixels from top-left corner.
-Only works for elements that have already been created with :Create().
+If called before :Create(), the position is applied immediately after creation.
 
 **Parameters**
 
@@ -441,6 +556,23 @@ If called after :Create(), the text is immediately updated in C++.
 ```lua
 myText:SetText("HP: 100%")
 ```
+
+#### `ScreenText:SetZIndex(zIndex)`
+
+Sets draw order for this screen text.
+Higher values render and receive clicks above lower values.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `zIndex` | `number` |  | Integer draw order |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` | Returns self for method chaining |
 
 ### WorldBox
 
@@ -795,6 +927,22 @@ Sets just the width, keeping height unchanged.
 marker:SetWidth(64)
 ```
 
+#### `WorldBox:SetZIndex(zIndex)`
+
+Sets draw order for this world box.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `zIndex` | `number` |  | Integer draw order |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` | Returns self for method chaining |
+
 ### WorldImage
 
 #### `WorldImage:ClearParent()`
@@ -808,6 +956,56 @@ Clears the logical parent relationship for this world image.
 | `WorldImage` | Returns self for method chaining |
 
 #### `WorldImage:Create()`
+
+#### `WorldImage:GetEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `WorldImage:GetHeight()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` |  |
+
+#### `WorldImage:GetPosition()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` | Position table \{x, y, z\} |
+
+#### `WorldImage:GetVisible()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `WorldImage:GetWidth()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` |  |
+
+#### `WorldImage:IsCreated()`
+
+Checks if the element has been created in C++.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `WorldImage:New(id, x, y, z)`
 
@@ -859,6 +1057,8 @@ Parent visibility and removal cascade to this image without changing its world p
 #### `WorldImage:SetSize(width, height)`
 
 #### `WorldImage:SetSource(path)`
+
+#### `WorldImage:SetZIndex(zIndex)`
 
 ### WorldText
 
@@ -1143,15 +1343,25 @@ Can be called before or after :Create().
 label:SetText("Magic Sword")
 ```
 
-## Usage notes
+#### `WorldText:SetZIndex(zIndex)`
 
-- **ScreenImage:SetLabel(...)** — updates the label attached to an existing created image; use it after toggles to refresh ON/OFF text.
-- **ScreenImage:SetScreenPosition(x, y)** — can be called before or after Create(); if called before Create(), the saved screen position is applied immediately after creation.
-- Screen HUD children follow parent screen movement after 'SetParent(parent_id)', including drag movement, while preserving the offset they had when parented. Position the child first, then call 'SetParent(parent.id)'.
-- Low-level HUD bindings for the same behavior are HUD.SetScreenPosition(\{ id = id, x = x, y = y \}), HUD.SetParent(child_id, parent_id), HUD.ClearParent(child_id), and HUD.UpdateImageLabel(\{ id = id, label = text, label_color = color, label_offset_x = x, label_offset_y = y \}).
+Sets draw order for this world text.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `zIndex` | `number` |  | Integer draw order |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` | Returns self for method chaining |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
-Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

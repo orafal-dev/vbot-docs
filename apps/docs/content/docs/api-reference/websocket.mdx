@@ -1,0 +1,98 @@
+---
+title: WebSocket
+description: API reference for WebSocket (websocket.lua)
+---
+
+Core library: `websocket.lua`
+
+## Exported tables
+
+- `WebSocket`
+- `WebSocketConnection`
+
+## Functions
+
+### WebSocket
+
+#### `WebSocket.Connect(url, options)`
+
+Opens an independent WebSocket connection. Must be called from a managed coroutine.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `url` | `string` |  |  |
+| `options` | `table` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+| `string\|nil` |  |
+
+### WebSocketConnection
+
+#### `WebSocketConnection:Close(closeCode, reason)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `closeCode` | `integer` | Yes |  |
+| `reason` | `string` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
+
+#### `WebSocketConnection:IsOpen()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `WebSocketConnection:Receive(timeoutMs)`
+
+Waits for text, binary, close, error, or timeout event data.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `timeoutMs` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `WebSocketConnection:Send(data, binary)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `data` | `string` |  |  |
+| `binary` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

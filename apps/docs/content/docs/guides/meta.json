@@ -9,6 +9,8 @@
     "spells-cooldowns",
     "cavebot",
     "engine-features",
+    "networking",
+    "storage",
     "communication",
     "events-hud",
     "constants"

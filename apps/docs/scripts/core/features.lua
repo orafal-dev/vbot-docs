@@ -24,7 +24,8 @@ BotFeatureId = {
     HUD = 15,
     AMMO_REFILL = 16,
     TANK_MODE = 17,
-    TIMER_ACTIONS = 18
+    TIMER_ACTIONS = 18,
+    SUPPLIES_SORTER = 19
 }
 
 -- ============================================================================
@@ -48,7 +49,8 @@ BotFeatureName = {
     [BotFeatureId.HUD] = "HUD",
     [BotFeatureId.AMMO_REFILL] = "Ammo Refill",
     [BotFeatureId.TANK_MODE] = "Tank Mode",
-    [BotFeatureId.TIMER_ACTIONS] = "Timer Actions"
+    [BotFeatureId.TIMER_ACTIONS] = "Timer Actions",
+    [BotFeatureId.SUPPLIES_SORTER] = "Supplies Sorter"
 }
 
 -- Reverse mapping: string name -> feature ID (case-insensitive)
@@ -68,7 +70,7 @@ end
 --- Resolves a feature identifier to a numeric BotFeatureId
 local function resolveFeatureId(featureIdentifier)
     if type(featureIdentifier) == "number" then
-        if featureIdentifier < 0 or featureIdentifier > BotFeatureId.TIMER_ACTIONS then
+        if featureIdentifier < BotFeatureId.HEALER or featureIdentifier > BotFeatureId.SUPPLIES_SORTER then
             return nil
         end
         if isReservedInternalFeature(featureIdentifier) then
@@ -92,7 +94,7 @@ local function validateFeatureId(featureIdentifier, functionName)
             functionName,
             tostring(featureIdentifier),
             minPublicId,
-            BotFeatureId.TIMER_ACTIONS
+            BotFeatureId.SUPPLIES_SORTER
         )
         error(errorMsg, 3)
     end
@@ -107,12 +109,14 @@ end
 --- Store original C++ functions (will be set after this file loads)
 local _CPP_Toggle
 local _CPP_IsActive
+local _CPP_SetActive
 
 --- Initialize C++ function references (called automatically after binding)
 local function initializeCppFunctions()
-    if Features and Features.Toggle and Features.IsActive then
+    if Features and Features.Toggle and Features.IsActive and Features.SetActive then
         _CPP_Toggle = Features.Toggle
         _CPP_IsActive = Features.IsActive
+        _CPP_SetActive = Features.SetActive
         return true
     end
     return false
@@ -163,11 +167,9 @@ function featuresSetActive(featureIdentifier, activeStatus)
         ), 2)
     end
     
-    if activeStatus then
-        featuresEnable(featureIdentifier)
-    else
-        featuresDisable(featureIdentifier)
-    end
+    if not _CPP_SetActive then initializeCppFunctions() end
+    local featureId = validateFeatureId(featureIdentifier, "Features.SetActive")
+    return _CPP_SetActive(featureId, activeStatus)
 end
 
 --- Gets the human-readable name of a feature

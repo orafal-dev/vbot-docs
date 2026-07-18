@@ -7,15 +7,11 @@ Core library: `vip.lua`
 
 ## Exported tables
 
-- `Vip`
-- `VipStorage`
-- `VIPStorage`
+- `VIP`
 
 ## Functions
 
-#### `Vip.Count()`
-
-Returns Vip count.
+#### `VIP.Count()`
 
 **Returns**
 
@@ -23,9 +19,7 @@ Returns Vip count.
 | :-- | :-- |
 | `integer` |  |
 
-#### `Vip.CountOnline()`
-
-Returns count of online Vip entries.
+#### `VIP.CountOnline()`
 
 **Returns**
 
@@ -33,9 +27,7 @@ Returns count of online Vip entries.
 | :-- | :-- |
 | `integer` |  |
 
-#### `Vip.Exists(vipName)`
-
-Returns true if Vip entry exists by name.
+#### `VIP.Exists(vipName)`
 
 **Parameters**
 
@@ -49,9 +41,7 @@ Returns true if Vip entry exists by name.
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Vip.FindByPrefix(namePrefix, onlyOnline)`
-
-Finds Vip entries by case-insensitive name prefix.
+#### `VIP.FindByPrefix(namePrefix, onlyOnline)`
 
 **Parameters**
 
@@ -66,9 +56,7 @@ Finds Vip entries by case-insensitive name prefix.
 | :-- | :-- |
 | `table[]` |  |
 
-#### `Vip.Get(vipName)`
-
-Returns one Vip entry by exact name.
+#### `VIP.Get(vipName)`
 
 **Parameters**
 
@@ -82,9 +70,7 @@ Returns one Vip entry by exact name.
 | :-- | :-- |
 | `table\|nil` |  |
 
-#### `Vip.GetAll()`
-
-Returns all Vip entries from runtime storage.
+#### `VIP.GetAll()`
 
 **Returns**
 
@@ -92,9 +78,7 @@ Returns all Vip entries from runtime storage.
 | :-- | :-- |
 | `table[]` |  |
 
-#### `Vip.GetByType(vipType)`
-
-Returns all Vip entries with a specific Vip type flag.
+#### `VIP.GetByType(vipType)`
 
 **Parameters**
 
@@ -108,9 +92,7 @@ Returns all Vip entries with a specific Vip type flag.
 | :-- | :-- |
 | `table[]` |  |
 
-#### `Vip.GetDescription(vipName)`
-
-Returns Vip description by name.
+#### `VIP.GetDescription(vipName)`
 
 **Parameters**
 
@@ -124,9 +106,7 @@ Returns Vip description by name.
 | :-- | :-- |
 | `string\|nil` |  |
 
-#### `Vip.GetHearts()`
-
-Returns all Vip entries with HEART flag.
+#### `VIP.GetHearts()`
 
 **Returns**
 
@@ -134,9 +114,7 @@ Returns all Vip entries with HEART flag.
 | :-- | :-- |
 | `table[]` |  |
 
-#### `Vip.GetNames(onlyOnline)`
-
-Returns all Vip names sorted alphabetically.
+#### `VIP.GetNames(onlyOnline)`
 
 **Parameters**
 
@@ -150,9 +128,7 @@ Returns all Vip names sorted alphabetically.
 | :-- | :-- |
 | `string[]` |  |
 
-#### `Vip.GetNotifyOnLogin(vipName)`
-
-Returns notify-on-login status by name.
+#### `VIP.GetNotifyOnLogin(vipName)`
 
 **Parameters**
 
@@ -166,9 +142,7 @@ Returns notify-on-login status by name.
 | :-- | :-- |
 | `boolean\|nil` |  |
 
-#### `Vip.GetSnapshot()`
-
-Returns a snapshot table with common Vip stats and lists.
+#### `VIP.GetSnapshot()`
 
 **Returns**
 
@@ -176,9 +150,7 @@ Returns a snapshot table with common Vip stats and lists.
 | :-- | :-- |
 | `table` |  |
 
-#### `Vip.GetType(vipName)`
-
-Returns Vip type flag by name.
+#### `VIP.GetType(vipName)`
 
 **Parameters**
 
@@ -192,9 +164,7 @@ Returns Vip type flag by name.
 | :-- | :-- |
 | `integer\|nil` |  |
 
-#### `Vip.IsAvailable()`
-
-Returns whether a direct Vip backend is currently exposed to Lua.
+#### `VIP.IsAvailable()`
 
 **Returns**
 
@@ -202,9 +172,7 @@ Returns whether a direct Vip backend is currently exposed to Lua.
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Vip.IsHeart(vipName)`
-
-Returns true when Vip has HEART flag.
+#### `VIP.IsHeart(vipName)`
 
 **Parameters**
 
@@ -218,9 +186,7 @@ Returns true when Vip has HEART flag.
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Vip.IsOnline(vipName)`
-
-Returns true when the given Vip is currently online.
+#### `VIP.IsOnline(vipName)`
 
 **Parameters**
 
@@ -234,9 +200,7 @@ Returns true when the given Vip is currently online.
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Vip.ToLookupTable()`
-
-Returns a quick lookup table indexed by lowercase Vip name.
+#### `VIP.ToLookupTable()`
 
 **Returns**
 
@@ -248,4 +212,5 @@ Returns a quick lookup table indexed by lowercase Vip name.
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
-Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

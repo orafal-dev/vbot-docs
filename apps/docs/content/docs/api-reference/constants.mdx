@@ -9,28 +9,15 @@ Core library: `lua_consts.lua`
 
 - `CharacterFlag`
 - `ChaseMode`
-- `ClientOpcodes`
-- `CombatParam`
 - `CooldownGroupId`
 - `CreatureIcon`
 - `CreatureType`
 - `EquipmentSlot`
 - `FightMode`
-- `GameServerOpcodes`
-- `GuildShield`
-- `ItemCategory`
-- `MagicEffectClasses`
 - `MessageClasses`
 - `MessageMode`
-- `MoveDirection`
-- `PartyShield`
-- `PathFindFlags`
-- `PathFindResult`
-- `PlayerAvatarOutfitIds`
 - `PrintMessagePosition`
 - `PVPMode`
-- `RotateDirection`
-- `ShootType`
 - `Skill`
 - `Skull`
 - `SpeakClasses`
@@ -38,8 +25,328 @@ Core library: `lua_consts.lua`
 - `Vocation`
 - `WalkerEvent`
 
+## Constants
+
+### `CharacterFlag`
+
+| Constant | Value |
+| :-- | :-- |
+| `CharacterFlag.BLEEDING` | `15` |
+| `CharacterFlag.BURNING` | `1` |
+| `CharacterFlag.CURSED` | `11` |
+| `CharacterFlag.DAZZLED` | `10` |
+| `CharacterFlag.DROWNING` | `8` |
+| `CharacterFlag.DRUNK` | `3` |
+| `CharacterFlag.ELECTRIFIED` | `2` |
+| `CharacterFlag.FEARED` | `20` |
+| `CharacterFlag.FREEZING` | `9` |
+| `CharacterFlag.HASTED` | `6` |
+| `CharacterFlag.IN_COMBAT` | `7` |
+| `CharacterFlag.IN_PROTECTION_ZONE` | `14` |
+| `CharacterFlag.MANA_SHIELDED` | `4` |
+| `CharacterFlag.PARALYSED` | `5` |
+| `CharacterFlag.POISONED` | `0` |
+| `CharacterFlag.ROOTED` | `19` |
+| `CharacterFlag.STRENGTHENED` | `12` |
+
+### `ChaseMode`
+
+| Constant | Value |
+| :-- | :-- |
+| `ChaseMode.CHASE` | `1` |
+| `ChaseMode.STAND` | `0` |
+| `ChaseMode.UNKNOWN` | `2` |
+
+### `CooldownGroupId`
+
+| Constant | Value |
+| :-- | :-- |
+| `CooldownGroupId.ATTACK` | `1` |
+| `CooldownGroupId.BURST_OF_NATURE` | `10` |
+| `CooldownGroupId.CRIPPLING` | `5` |
+| `CooldownGroupId.FOCUS` | `7` |
+| `CooldownGroupId.GREAT_BEAMS` | `9` |
+| `CooldownGroupId.HEALING` | `2` |
+| `CooldownGroupId.SPECIAL` | `4` |
+| `CooldownGroupId.SUPPORT` | `3` |
+| `CooldownGroupId.ULTIMATE` | `8` |
+| `CooldownGroupId.VIRTUE` | `11` |
+
+### `CreatureIcon`
+
+| Constant | Value |
+| :-- | :-- |
+| `CreatureIcon.FIENDISH` | `5` |
+| `CreatureIcon.INFLUENCED` | `4` |
+| `CreatureIcon.LOWER_DAMAGE` | `2` |
+| `CreatureIcon.NONE` | `0` |
+| `CreatureIcon.REDUCED_HEALTH` | `6` |
+| `CreatureIcon.TURNED_MELEE` | `3` |
+| `CreatureIcon.WEAKENED` | `1` |
+
+### `CreatureType`
+
+| Constant | Value |
+| :-- | :-- |
+| `CreatureType.CREATURETYPE_HIDDEN` | `5` |
+| `CreatureType.CREATURETYPE_MONSTER` | `1` |
+| `CreatureType.CREATURETYPE_NPC` | `2` |
+| `CreatureType.CREATURETYPE_PLAYER` | `0` |
+| `CreatureType.CREATURETYPE_SUMMON_OTHERS` | `4` |
+| `CreatureType.CREATURETYPE_SUMMON_OWN` | `3` |
+| `CreatureType.HIDDEN` | `5` |
+| `CreatureType.MONSTER` | `1` |
+| `CreatureType.NPC` | `2` |
+| `CreatureType.PLAYER` | `0` |
+| `CreatureType.SUMMON_OTHERS` | `4` |
+| `CreatureType.SUMMON_OWN` | `3` |
+
+### `EquipmentSlot`
+
+| Constant | Value |
+| :-- | :-- |
+| `EquipmentSlot.AMULET` | `2` |
+| `EquipmentSlot.ARMOR` | `4` |
+| `EquipmentSlot.ARROW` | `10` |
+| `EquipmentSlot.BACKPACK` | `3` |
+| `EquipmentSlot.BOOTS` | `8` |
+| `EquipmentSlot.HELMET` | `1` |
+| `EquipmentSlot.LEFT_HAND` | `6` |
+| `EquipmentSlot.LEGS` | `7` |
+| `EquipmentSlot.NONE` | `0` |
+| `EquipmentSlot.RIGHT_HAND` | `5` |
+| `EquipmentSlot.RING` | `9` |
+| `EquipmentSlot.STORE` | `11` |
+
+### `FightMode`
+
+| Constant | Value |
+| :-- | :-- |
+| `FightMode.BALANCED` | `2` |
+| `FightMode.DEFENSIVE` | `3` |
+| `FightMode.OFFENSIVE` | `1` |
+| `FightMode.UNKNOWN` | `0` |
+
+### `MessageClasses`
+
+| Constant | Value |
+| :-- | :-- |
+| `MessageClasses.DAMAGE_DEALED` | `21` |
+| `MessageClasses.DAMAGE_OTHERS` | `25` |
+| `MessageClasses.DAMAGE_RECEIVED` | `22` |
+| `MessageClasses.EXP` | `24` |
+| `MessageClasses.EXP_OTHERS` | `27` |
+| `MessageClasses.FAILURE` | `19` |
+| `MessageClasses.GAME` | `18` |
+| `MessageClasses.GAME_HIGHLIGHT` | `50` |
+| `MessageClasses.GAME_MASTER_CONSOLE` | `13` |
+| `MessageClasses.GUILD` | `31` |
+| `MessageClasses.HEAL_OTHERS` | `26` |
+| `MessageClasses.HEALED` | `23` |
+| `MessageClasses.HOTKEY_USE` | `37` |
+| `MessageClasses.LOGIN` | `17` |
+| `MessageClasses.LOOK` | `20` |
+| `MessageClasses.LOOT` | `29` |
+| `MessageClasses.MANA` | `41` |
+| `MessageClasses.MONSTER_SAY` | `44` |
+| `MessageClasses.MONSTER_YELL` | `43` |
+| `MessageClasses.NONE` | `0` |
+| `MessageClasses.PARTY` | `33` |
+| `MessageClasses.PARTY_MANAGEMENT` | `32` |
+| `MessageClasses.REPORT` | `36` |
+| `MessageClasses.STATUS` | `28` |
+| `MessageClasses.STATUS_WARNING` | `9` |
+| `MessageClasses.TRADE_NPC` | `30` |
+
+### `MessageMode`
+
+| Constant | Value |
+| :-- | :-- |
+| `MessageMode.BARK_LOUD` | `35` |
+| `MessageMode.BARK_LOW` | `34` |
+| `MessageMode.BEYOND_LAST` | `42` |
+| `MessageMode.BLUE` | `46` |
+| `MessageMode.CHANNEL` | `7` |
+| `MessageMode.CHANNEL_HIGHLIGHT` | `8` |
+| `MessageMode.CHANNEL_MANAGEMENT` | `6` |
+| `MessageMode.DAMAGE_DEALED` | `21` |
+| `MessageMode.DAMAGE_OTHERS` | `25` |
+| `MessageMode.DAMAGE_RECEIVED` | `22` |
+| `MessageMode.EXP` | `24` |
+| `MessageMode.EXP_OTHERS` | `27` |
+| `MessageMode.FAILURE` | `19` |
+| `MessageMode.GAME` | `18` |
+| `MessageMode.GAME_HIGHLIGHT` | `50` |
+| `MessageMode.GAMEMASTER_BROADCAST` | `12` |
+| `MessageMode.GAMEMASTER_CHANNEL` | `13` |
+| `MessageMode.GAMEMASTER_PRIVATE_FROM` | `14` |
+| `MessageMode.GAMEMASTER_PRIVATE_TO` | `15` |
+| `MessageMode.GUILD` | `31` |
+| `MessageMode.HEAL` | `23` |
+| `MessageMode.HEAL_OTHERS` | `26` |
+| `MessageMode.HOTKEY_USE` | `37` |
+| `MessageMode.INVALID` | `255` |
+| `MessageMode.LAST` | `52` |
+| `MessageMode.LOGIN` | `16` |
+| `MessageMode.LOOK` | `20` |
+| `MessageMode.LOOT` | `29` |
+| `MessageMode.MANA` | `41` |
+| `MessageMode.MARKET` | `40` |
+| `MessageMode.MONSTER_SAY` | `44` |
+| `MessageMode.MONSTER_YELL` | `43` |
+| `MessageMode.NPC_FROM` | `10` |
+| `MessageMode.NPC_FROM_START_BLOCK` | `51` |
+| `MessageMode.NPC_TO` | `11` |
+| `MessageMode.PARTY` | `33` |
+| `MessageMode.PARTY_MANAGEMENT` | `32` |
+| `MessageMode.PRIVATE_FROM` | `4` |
+| `MessageMode.PRIVATE_TO` | `5` |
+| `MessageMode.RED` | `45` |
+| `MessageMode.REPORT` | `36` |
+| `MessageMode.RVR_ANSWER` | `48` |
+| `MessageMode.RVR_CHANNEL` | `47` |
+| `MessageMode.RVR_CONTINUE` | `49` |
+| `MessageMode.SAY` | `1` |
+| `MessageMode.SPELL` | `9` |
+| `MessageMode.STATUS` | `28` |
+| `MessageMode.THANKYOU` | `39` |
+| `MessageMode.TRADE_NPC` | `30` |
+| `MessageMode.TUTORIAL_HINT` | `38` |
+| `MessageMode.WARNING` | `17` |
+| `MessageMode.WHISPER` | `0` |
+| `MessageMode.YELL` | `2` |
+
+### `PrintMessagePosition`
+
+| Constant | Value |
+| :-- | :-- |
+| `PrintMessagePosition.BOTTOM` | `1` |
+| `PrintMessagePosition.LOOT` | `2` |
+| `PrintMessagePosition.MIDDLE` | `0` |
+
+### `PVPMode`
+
+| Constant | Value |
+| :-- | :-- |
+| `PVPMode.RED_FIST` | `3` |
+| `PVPMode.UNKNOWN` | `4` |
+| `PVPMode.WHITE_DOVE` | `0` |
+| `PVPMode.WHITE_HAND` | `1` |
+| `PVPMode.YELLOW_HAND` | `2` |
+
+### `Skill`
+
+| Constant | Value |
+| :-- | :-- |
+| `Skill.AXE` | `14` |
+| `Skill.CAPACITY` | `9` |
+| `Skill.CLEAVE_PERCENTAGE` | `30` |
+| `Skill.CLUB` | `12` |
+| `Skill.CRITICAL_CHANCE` | `21` |
+| `Skill.CRITICAL_EXTRA_DAMAGE` | `22` |
+| `Skill.DAMAGE_REFLECTION` | `36` |
+| `Skill.DISTANCE` | `11` |
+| `Skill.EXPERIENCE` | `1` |
+| `Skill.EXPERIENCE_GAIN` | `3` |
+| `Skill.FISHING` | `16` |
+| `Skill.FIST` | `15` |
+| `Skill.FOOD` | `17` |
+| `Skill.HIT_POINTS` | `6` |
+| `Skill.LEVEL` | `2` |
+| `Skill.LIFE_LEECH_AMOUNT` | `24` |
+| `Skill.LIFE_LEECH_CHANCE` | `23` |
+| `Skill.MAGIC_LEVEL` | `4` |
+| `Skill.MAGIC_SHIELD_FLAT` | `31` |
+| `Skill.MAGIC_SHIELD_PERCENT` | `32` |
+| `Skill.MANA` | `7` |
+| `Skill.MANA_LEECH_AMOUNT` | `26` |
+| `Skill.MANA_LEECH_CHANCE` | `25` |
+| `Skill.MOMENTUM_LEVEL` | `29` |
+| `Skill.NONE` | `0` |
+| `Skill.OFFLINE_TRAINING` | `20` |
+| `Skill.ONSLAUGHT_LEVEL` | `27` |
+| `Skill.PERFECT_SHOT_DAMAGE` | `33` |
+| `Skill.RUSE_LEVEL` | `28` |
+| `Skill.SHIELDING` | `10` |
+| `Skill.SOUL` | `18` |
+| `Skill.SPEED` | `8` |
+| `Skill.STAMINA` | `19` |
+| `Skill.SWORD` | `13` |
+
+### `Skull`
+
+| Constant | Value |
+| :-- | :-- |
+| `Skull.BLACK` | `5` |
+| `Skull.GREEN` | `2` |
+| `Skull.NO_SKULL` | `0` |
+| `Skull.RED` | `4` |
+| `Skull.REVENGE` | `6` |
+| `Skull.WHITE` | `3` |
+| `Skull.YELLOW` | `1` |
+
+### `SpeakClasses`
+
+| Constant | Value |
+| :-- | :-- |
+| `SpeakClasses.TALKTYPE_BROADCAST` | `13` |
+| `SpeakClasses.TALKTYPE_CHANNEL_MANAGER` | `6` |
+| `SpeakClasses.TALKTYPE_CHANNEL_O` | `8` |
+| `SpeakClasses.TALKTYPE_CHANNEL_R1` | `14` |
+| `SpeakClasses.TALKTYPE_CHANNEL_R2` | `0xFF` |
+| `SpeakClasses.TALKTYPE_CHANNEL_Y` | `7` |
+| `SpeakClasses.TALKTYPE_MONSTER_LAST_OLDPROTOCOL` | `38` |
+| `SpeakClasses.TALKTYPE_MONSTER_SAY` | `36` |
+| `SpeakClasses.TALKTYPE_MONSTER_YELL` | `37` |
+| `SpeakClasses.TALKTYPE_NPC_UNKOWN` | `11` |
+| `SpeakClasses.TALKTYPE_PRIVATE_FROM` | `4` |
+| `SpeakClasses.TALKTYPE_PRIVATE_NP` | `10` |
+| `SpeakClasses.TALKTYPE_PRIVATE_PN` | `12` |
+| `SpeakClasses.TALKTYPE_PRIVATE_RED_FROM` | `15` |
+| `SpeakClasses.TALKTYPE_PRIVATE_RED_TO` | `16` |
+| `SpeakClasses.TALKTYPE_PRIVATE_TO` | `5` |
+| `SpeakClasses.TALKTYPE_SAY` | `1` |
+| `SpeakClasses.TALKTYPE_SPELL_USE` | `9` |
+| `SpeakClasses.TALKTYPE_WHISPER` | `2` |
+| `SpeakClasses.TALKTYPE_YELL` | `3` |
+
+### `VipFlag`
+
+| Constant | Value |
+| :-- | :-- |
+| `VipFlag.AIM_TARGET` | `4` |
+| `VipFlag.CROSS` | `8` |
+| `VipFlag.GREEN_TARGET` | `10` |
+| `VipFlag.GREEN_TRIANGLE` | `7` |
+| `VipFlag.HEART` | `1` |
+| `VipFlag.MONEY_SIGN` | `9` |
+| `VipFlag.NO_FLAG` | `0` |
+| `VipFlag.SKULL_CROSSED` | `2` |
+| `VipFlag.STAR` | `5` |
+| `VipFlag.THUNDER` | `3` |
+| `VipFlag.YING_YANG` | `6` |
+
+### `Vocation`
+
+| Constant | Value |
+| :-- | :-- |
+| `Vocation.VOCATION_DRUID_CIP` | `4` |
+| `Vocation.VOCATION_KNIGHT_CIP` | `1` |
+| `Vocation.VOCATION_MONK_CIP` | `5` |
+| `Vocation.VOCATION_PALADIN_CIP` | `2` |
+| `Vocation.VOCATION_SORCERER_CIP` | `3` |
+
+### `WalkerEvent`
+
+| Constant | Value |
+| :-- | :-- |
+| `WalkerEvent.ON_ACTION` | `2` |
+| `WalkerEvent.ON_LABEL` | `0` |
+| `WalkerEvent.ON_WAYPOINT_CHANGE` | `1` |
+
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
-Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

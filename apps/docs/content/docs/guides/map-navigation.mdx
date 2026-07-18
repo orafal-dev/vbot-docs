@@ -17,11 +17,12 @@ local dist = pos:DistanceTo(otherPos)  -- returns 9999 on different floor
 ### Reachability and shooting
 
 ```lua
-Position.IsReachable(fromPos, toPos)   -- static, both positions
+Position.IsReachable(fromPos, toPos)   -- static; fromPos may default to local player
 Position.IsShootable(fromPos, toPos)
 
-pos:IsReachable(fromPos)  -- instance method, fromPos defaults to local player
-pos:IsShootable(fromPos)
+-- Instance form also works; fromPos defaults to local player when omitted
+targetPos:IsReachable(fromPos?)
+targetPos:IsShootable(fromPos?)
 ```
 
 ## Map

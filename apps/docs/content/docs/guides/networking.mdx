@@ -1,0 +1,145 @@
+---
+title: Networking & JSON
+description: Http, WebSocket, and Json helpers for ValidusBot scripts
+---
+
+`Json`, `Http`, and `WebSocket` are native-backed libraries. No extra dependency DLL is required. Network calls must run inside a **managed script coroutine** and yield cooperatively while waiting. `init()` is managed and may call them.
+
+## Json
+
+Native JSON encoding and decoding:
+
+| Function | Description |
+| --- | --- |
+| `Json.Encode(value, pretty?)` | Encode (raises on failure) |
+| `Json.Decode(text)` | Decode (raises on failure) |
+| `Json.TryEncode(value, pretty?)` | Encode without throwing — returns `nil, error` |
+| `Json.TryDecode(text)` | Decode without throwing — returns `nil, error` |
+| `Json.Array(table)` | Force empty/array encoding |
+| `Json.Object(table)` | Force object encoding |
+| `Json.Null` | Sentinel for JSON null |
+
+Notes:
+
+- Decoded JSON null values are represented by `Json.Null` so arrays/objects round-trip without losing null entries
+- Empty Lua tables encode as **objects** by default — use `Json.Array({})` for an empty array
+- Limits: 2 MB I/O, 32 nesting levels, 65,536 nodes
+- Supported values: nil, booleans, finite numbers, strings, tables, and `Json.Null`
+
+```lua
+local payload = Json.Encode({ status = "ok", count = 3 })
+local value, err = Json.TryDecode(payload)
+if not value then
+    print("decode failed: " .. tostring(err))
+end
+```
+
+## Http
+
+Coroutine-friendly HTTP and HTTPS requests.
+
+| Function | Description |
+| --- | --- |
+| `Http.Request(options)` | Full request |
+| `Http.Get(url, options?)` | GET shortcut |
+| `Http.Post(url, body?, options?)` | POST shortcut |
+| `Http.GetJson(url, options?)` | GET + JSON decode — returns `decoded, response, decodeError` |
+| `Http.PostJson(url, value, options?)` | JSON-encode body and POST |
+
+### Request options
+
+| Option | Type | Default / limits |
+| --- | --- | --- |
+| `url` | string | required |
+| `method` | string | `GET` (`POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`) |
+| `headers` | table | string name → string value |
+| `body` | string | empty; max 1 MB |
+| `timeoutMs` | integer | `5000` (clamped `250..30000`) |
+| `maxResponseBytes` | integer | 2 MB (clamped `1..4194304`) |
+| `followRedirects` | boolean | `true` (up to five redirects) |
+
+Response fields: `ok`, `status`, `headers`, `headerList`, `body`, `error`, `url`, `redirects`. `headers` uses lower-case names; `headerList` preserves repeated headers as ordered `{ name, value }` entries.
+
+```lua
+local response = Http.Get("https://example.com/api/status", {
+    timeoutMs = 8000,
+    headers = { ["User-Agent"] = "MyScript/1.0" },
+})
+
+if response.ok then
+    print("status " .. tostring(response.status))
+    print(response.body)
+else
+    print("request failed: " .. tostring(response.error))
+end
+```
+
+### Limits and security
+
+- At most **four** pending HTTP requests per script
+- Local/private endpoints are allowed
+- `validusbot.net`, its subdomains, and the registered service host are blocked (including redirect destinations)
+- TLS certificate validation stays enabled; HTTPS-to-HTTP redirects are rejected
+- Sensitive/custom headers are not forwarded across origins except a small safe set (`Accept`, `User-Agent`)
+- Cookies and automatic authentication are not provided
+- At most 64 request headers and 32 KB of combined header text
+
+HTTP has **no** callback lifecycle API — use the returned response table.
+
+## WebSocket
+
+Independent `ws://` and `wss://` client connections.
+
+| Function / method | Description |
+| --- | --- |
+| `WebSocket.Connect(url, options?)` | Connect — returns `connection, nil` or `nil, error` |
+| `connection:Send(data, binary?)` | Send text/binary — returns `boolean, errorOrNil` |
+| `connection:Receive(timeoutMs?)` | Yield until event — default timeout 30000 ms (`0..60000`) |
+| `connection:Close(closeCode?, reason?)` | Close — returns `boolean, errorOrNil` |
+| `connection:IsOpen()` | Connection state |
+
+### Connect options
+
+| Option | Default / limits |
+| --- | --- |
+| `headers` | Per-connection headers (including custom `User-Agent`) |
+| `subprotocol` | optional |
+| `timeoutMs` | `10000` |
+| `maxMessageBytes` | 1 MB (max 4 MB) for both send and receive |
+
+`Receive` returns an event table with `type` equal to `text`, `binary`, `close`, `error`, or `timeout`. Relevant fields include `data`, `closeCode`, `error`, and `url`.
+
+```lua
+local ws, err = WebSocket.Connect("wss://example.com/ws", {
+    headers = { ["User-Agent"] = "MyScript/1.0" },
+    timeoutMs = 10000,
+})
+if not ws then
+    print("connect failed: " .. tostring(err))
+    return
+end
+
+ws:Send("hello")
+local event = ws:Receive(5000)
+if event.type == "text" then
+    print("got: " .. tostring(event.data))
+elseif event.type == "error" or event.type == "close" then
+    print("socket ended: " .. tostring(event.error or event.closeCode))
+end
+
+ws:Close()
+```
+
+### Limits and reconnect
+
+- Up to **four** WebSockets per script; **eight** across all scripts
+- Queues and message sizes are bounded; text/reason values must be valid UTF-8
+- Connections are cancelled when their owning script stops
+- `validusbot.net` and related hosts are blocked; `wss://` uses normal TLS validation
+- There are **no** `onOpen` / `onClose` / `onError` / `onRedirect` callbacks and **no** automatic reconnect — call `WebSocket.Connect` again from script logic after close/error
+
+## References
+
+- [Json API Reference](/docs/api-reference/json)
+- [Http API Reference](/docs/api-reference/http)
+- [WebSocket API Reference](/docs/api-reference/websocket)

@@ -5,11 +5,12 @@ description: Complete function index for ValidusBot core Lua libraries
 
 Auto-generated index of every public function exported by ValidusBot core libraries.
 Each page corresponds to one core library file loaded from the bot's `Scripts/core` directory.
-Function descriptions, parameters, and return values are extracted from Lua `---` annotation blocks when present.
+Function descriptions, parameters, and return values are extracted from Lua `---` annotation blocks when present,
+and from typed signatures in the public API appendix otherwise.
 
 ## Modules
 
-- [Cavebot](/docs/api-reference/cavebot) — `cavebot.lua` (0/94 documented)
+- [Cavebot](/docs/api-reference/cavebot) — `cavebot.lua` (2/96 documented)
 - [Cavebot Actions](/docs/api-reference/cavebot-actions) — `cavebot_actions.lua` (0/3 documented)
 - [ChatChannel](/docs/api-reference/chat-channel) — `chat_channel.lua` (15/15 documented)
 - [ChatChannelStorage](/docs/api-reference/chat-channel-storage) — `chat_channel_storage.lua` (19/19 documented)
@@ -17,29 +18,34 @@ Function descriptions, parameters, and return values are extracted from Lua `---
 - [Cooldowns](/docs/api-reference/cooldowns) — `cooldowns.lua` (17/17 documented)
 - [Creature](/docs/api-reference/creature) — `creature.lua` (40/40 documented)
 - [Creatures](/docs/api-reference/creatures) — `creature_iterators.lua` (17/17 documented)
-- [Engine](/docs/api-reference/engine) — `engine.lua` (69/69 documented)
+- [Engine](/docs/api-reference/engine) — `engine.lua` (632/632 documented)
 - [Event Proxies](/docs/api-reference/event-proxies) — `event_proxies.lua` (39/39 documented)
-- [Features](/docs/api-reference/features) — `features.lua` (12/24 documented)
-- [Game](/docs/api-reference/game) — `game.lua` (6/6 documented)
+- [Features](/docs/api-reference/features) — `features.lua` (12/12 documented, 19 constants)
+- [Game](/docs/api-reference/game) — `game.lua` (8/8 documented)
 - [Hotkeys](/docs/api-reference/hotkeys) — `hotkeys.lua` (2/2 documented)
-- [HUD](/docs/api-reference/hud) — `hud_wrapper.lua` (66/88 documented)
+- [Http](/docs/api-reference/http) — `http.lua` (5/5 documented)
+- [HUD](/docs/api-reference/hud) — `hud_wrapper.lua` (85/109 documented)
 - [Inventory](/docs/api-reference/inventory) — `inventory.lua` (13/13 documented)
 - [Item](/docs/api-reference/item) — `item.lua` (13/21 documented)
-- [Constants](/docs/api-reference/constants) — `lua_consts.lua` (0/0 documented)
+- [Json](/docs/api-reference/json) — `json.lua` (6/6 documented)
+- [Constants](/docs/api-reference/constants) — `lua_consts.lua` (0/0 documented, 232 constants)
 - [Map](/docs/api-reference/map) — `map.lua` (8/8 documented)
 - [Minimap](/docs/api-reference/minimap) — `minimap.lua` (9/9 documented)
 - [Module](/docs/api-reference/module) — `module.lua` (0/12 documented)
 - [NpcTradeStorage](/docs/api-reference/npc-trade) — `npc_trade_storage.lua` (10/10 documented)
-- [Position](/docs/api-reference/position) — `position.lua` (6/6 documented)
+- [Position](/docs/api-reference/position) — `position.lua` (4/4 documented)
 - [Self](/docs/api-reference/self) — `self.lua` (73/73 documented)
-- [Sound](/docs/api-reference/sound) — `sound.lua` (20/29 documented)
+- [Sound](/docs/api-reference/sound) — `sound.lua` (9/9 documented, 19 constants)
 - [Spells](/docs/api-reference/spells) — `spells.lua` (0/19 documented)
+- [Storage](/docs/api-reference/storage) — `storage.lua` (13/13 documented)
 - [VIP](/docs/api-reference/vip) — `vip.lua` (17/17 documented)
-- [API Surface](/docs/api-reference/api-surface) — `zz_api_surface.lua` (0/0 documented)
+- [WebSocket](/docs/api-reference/websocket) — `websocket.lua` (5/5 documented)
 
 ## Conventions
 
-- All modules use **PascalCase** names (`Self`, `Map`, `Cavebot`, etc.).
+- All modules use **PascalCase** names (`Self`, `Map`, `Cavebot`, `Json`, `Http`, etc.).
+- Prefer `Engine.*` namespaces for feature configuration; older globals such as `Features` remain for compatibility.
 - Undocumented or internal helpers are unavailable to user scripts.
 - Some APIs return `nil` when game state or bindings are unavailable — always guard calls.
-- Parameter and return annotations follow Lua Language Server (`---@param`, `---@return`) conventions from core library source.
+- HTTP/WebSocket calls must run inside a managed script coroutine and yield cooperatively.
+- Parameter and return annotations follow Lua Language Server (`---@param`, `---@return`) conventions from core library source when available.

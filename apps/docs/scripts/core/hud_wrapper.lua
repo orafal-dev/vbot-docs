@@ -31,6 +31,16 @@ VerticalAlignment = {
     BASELINE = 256  -- Align text to baseline (for precise typography)
 }
 
+local function hud_element_id(value, functionName)
+    if type(value) == "string" and value ~= "" then
+        return value
+    end
+    if type(value) == "table" and type(value.id) == "string" and value.id ~= "" then
+        return value.id
+    end
+    error(functionName .. ": target must be a HUD element or non-empty element id")
+end
+
 -- ============================================================================
 -- SCREEN TEXT - Text anchored to screen coordinates (2D overlay)
 -- ============================================================================
@@ -44,7 +54,10 @@ VerticalAlignment = {
 ---@field is_draggable boolean Whether element can be dragged by user
 ---@field is_clickable boolean Whether element responds to mouse clicks
 ---@field enabled boolean Whether element is visible
+---@field z_index number Draw order; higher values render and receive clicks above lower values
 ---@field parent_id string|nil Optional parent element id for visibility/remove cascades
+---@field screen_x number|nil Explicit screen X position applied at creation
+---@field screen_y number|nil Explicit screen Y position applied at creation
 ---@field _created boolean Internal flag tracking if element exists in C++
 ---@field _clickCallback function Internal storage for click callback
 ScreenText = {}
@@ -53,7 +66,7 @@ ScreenText.__index = ScreenText
 --- Creates a new screen text element.
 --- Screen text is rendered as a 2D overlay on the screen at fixed positions.
 --- The element is not created until :Create() is called.
----@param id string Unique identifier (must be unique across all HUD elements)
+---@param id string Unique identifier within this script
 ---@return ScreenText A new ScreenText instance (not yet created in C++)
 ---@usage local myText = ScreenText:New("health_display")
 function ScreenText:New(id)
@@ -71,11 +84,16 @@ function ScreenText:New(id)
         is_draggable = false,
         is_clickable = false,
         enabled = true,
+        z_index = 0,
         parent_id = nil,
+        drag_target_id = nil,
+        screen_x = nil,
+        screen_y = nil,
         
         -- Internal state management
         _created = false,
-        _clickCallback = nil
+        _clickCallback = nil,
+        _dragEndCallback = nil
     }
     setmetatable(element, ScreenText)
     return element
@@ -136,6 +154,32 @@ function ScreenText:SetDraggable(draggable)
     return self
 end
 
+--- Makes this element a drag handle for another screen HUD element.
+--- Pass nil to make the element move itself again.
+---@param target ScreenText|ScreenImage|string|nil Target element or element id
+---@return ScreenText
+function ScreenText:SetDragTarget(target)
+    self.drag_target_id = target == nil and nil or hud_element_id(target, "ScreenText:SetDragTarget")
+    if self._created then
+        HUD.SetDragTarget(self.id, self.drag_target_id)
+    end
+    return self
+end
+
+--- Runs after a drag finishes. The callback receives final target x and y coordinates.
+---@param callback function|nil Callback function(x, y), or nil to clear it
+---@return ScreenText
+function ScreenText:SetOnDragEnd(callback)
+    if callback ~= nil and callback ~= false and type(callback) ~= "function" then
+        error("ScreenText:SetOnDragEnd: callback must be a function, false, or nil")
+    end
+    self._dragEndCallback = callback or nil
+    if self._created then
+        HUD.SetOnDragEnd(self.id, self._dragEndCallback)
+    end
+    return self
+end
+
 --- Makes the element clickable and sets the callback function.
 --- The callback is executed in a new coroutine when the user clicks on the element.
 ---@param callback function Function to call on click (no parameters)
@@ -161,12 +205,14 @@ function ScreenText:SetClickable(callback)
 end
 
 --- Sets the screen position in pixels from top-left corner.
---- Only works for elements that have already been created with :Create().
+--- If called before :Create(), the position is applied immediately after creation.
 ---@param x number X coordinate in pixels (0 = left edge of screen)
 ---@param y number Y coordinate in pixels (0 = top edge of screen)
 ---@return ScreenText Returns self for method chaining
 ---@usage myText:SetScreenPosition(100, 50)
 function ScreenText:SetScreenPosition(x, y)
+    self.screen_x = x
+    self.screen_y = y
     if self._created then
         HUD.SetScreenPosition({
             id = self.id,
@@ -181,13 +227,13 @@ end
 --- When the parent is hidden, disabled, or removed, this child follows it.
 --- When the parent is moved by screen position or dragging, this child keeps its current offset.
 --- The parent and child must belong to the same script/HUD owner.
----@param parent_id string Parent element id
+---@param parent ScreenText|ScreenImage|string Parent element or element id
 ---@return ScreenText Returns self for method chaining
 ---@usage childText:SetParent(parentText.id)
-function ScreenText:SetParent(parent_id)
-    self.parent_id = parent_id
+function ScreenText:SetParent(parent)
+    self.parent_id = hud_element_id(parent, "ScreenText:SetParent")
     if self._created then
-        HUD.SetParent(self.id, parent_id)
+        HUD.SetParent(self.id, self.parent_id)
     end
     return self
 end
@@ -217,6 +263,18 @@ function ScreenText:SetEnabled(enabled)
     return self
 end
 
+--- Sets draw order for this screen text.
+--- Higher values render and receive clicks above lower values.
+---@param zIndex number Integer draw order
+---@return ScreenText Returns self for method chaining
+function ScreenText:SetZIndex(zIndex)
+    self.z_index = zIndex
+    if self._created then
+        HUD.SetZIndex(self.id, zIndex)
+    end
+    return self
+end
+
 --- Creates the element in C++ (sends creation request to HUD system).
 --- This must be called after configuring all properties using the builder methods.
 --- After calling this, the element will be rendered on screen.
@@ -233,12 +291,26 @@ function ScreenText:Create()
         is_draggable = self.is_draggable,
         is_clickable = self.is_clickable,
         on_click = self._clickCallback,
-        enabled = self.enabled
+        enabled = self.enabled,
+        z_index = self.z_index
     })
 
     self._created = true
+    if type(self.screen_x) == "number" and type(self.screen_y) == "number" then
+        HUD.SetScreenPosition({
+            id = self.id,
+            x = self.screen_x,
+            y = self.screen_y
+        })
+    end
     if self.parent_id ~= nil then
         HUD.SetParent(self.id, self.parent_id)
+    end
+    if self.drag_target_id ~= nil then
+        HUD.SetDragTarget(self.id, self.drag_target_id)
+    end
+    if self._dragEndCallback ~= nil then
+        HUD.SetOnDragEnd(self.id, self._dragEndCallback)
     end
     return self
 end
@@ -320,6 +392,7 @@ end
 ---@field offset_x number Pixel offset from world position (X axis)
 ---@field offset_y number Pixel offset from world position (Y axis)
 ---@field enabled boolean Whether element is visible
+---@field z_index number Draw order; higher values render above lower values
 ---@field parent_id string|nil Optional parent element id for visibility/remove cascades
 ---@field _created boolean Internal flag tracking if element exists in C++
 WorldText = {}
@@ -353,6 +426,7 @@ function WorldText:New(id, x, y, z)
         
         -- State
         enabled = true,
+        z_index = 0,
         parent_id = nil,
         _created = false
     }
@@ -465,6 +539,17 @@ function WorldText:SetEnabled(enabled)
     return self
 end
 
+--- Sets draw order for this world text.
+---@param zIndex number Integer draw order
+---@return WorldText Returns self for method chaining
+function WorldText:SetZIndex(zIndex)
+    self.z_index = zIndex
+    if self._created then
+        HUD.SetZIndex(self.id, zIndex)
+    end
+    return self
+end
+
 --- Creates the element in C++ (sends creation request to HUD system).
 --- Must be called after configuring all properties.
 ---@return WorldText Returns self for method chaining
@@ -480,7 +565,8 @@ function WorldText:Create()
         lifetime_ms = self.lifetime_ms,
         offset_x = self.offset_x,
         offset_y = self.offset_y,
-        enabled = self.enabled
+        enabled = self.enabled,
+        z_index = self.z_index
     })
     
     self._created = true
@@ -563,6 +649,7 @@ end
 ---@field border_color table Border color with r, g, b, a fields (0-255)
 ---@field lifetime_ms number Auto-removal time in milliseconds (0 = permanent)
 ---@field enabled boolean Whether element is visible
+---@field z_index number Draw order; higher values render above lower values
 ---@field parent_id string|nil Optional parent element id for visibility/remove cascades
 ---@field _created boolean Internal flag tracking if element exists in C++
 WorldBox = {}
@@ -599,6 +686,7 @@ function WorldBox:New(id, x, y, z)
         
         -- State
         enabled = true,
+        z_index = 0,
         parent_id = nil,
         _created = false
     }
@@ -751,6 +839,17 @@ function WorldBox:SetEnabled(enabled)
     return self
 end
 
+--- Sets draw order for this world box.
+---@param zIndex number Integer draw order
+---@return WorldBox Returns self for method chaining
+function WorldBox:SetZIndex(zIndex)
+    self.z_index = zIndex
+    if self._created then
+        HUD.SetZIndex(self.id, zIndex)
+    end
+    return self
+end
+
 --- Creates the element in C++ (sends creation request to HUD system).
 --- Must be called after configuring all properties.
 ---@return WorldBox Returns self for method chaining
@@ -767,7 +866,8 @@ function WorldBox:Create()
         border_width = self.border_width,
         border_color = self.border_color,
         lifetime_ms = self.lifetime_ms,
-        enabled = self.enabled
+        enabled = self.enabled,
+        z_index = self.z_index
     })
     
     self._created = true
@@ -852,6 +952,7 @@ end
 ---@field is_draggable boolean
 ---@field is_clickable boolean
 ---@field enabled boolean
+---@field z_index number Draw order; higher values render and receive clicks above lower values
 ---@field parent_id string|nil
 ---@field screen_x number|nil
 ---@field screen_y number|nil
@@ -881,11 +982,14 @@ function ScreenImage:New(id)
         is_draggable = false,
         is_clickable = false,
         enabled = true,
+        z_index = 0,
         parent_id = nil,
+        drag_target_id = nil,
         screen_x = nil,
         screen_y = nil,
         _created = false,
-        _clickCallback = nil
+        _clickCallback = nil,
+        _dragEndCallback = nil
     }
     setmetatable(element, ScreenImage)
     return element
@@ -958,6 +1062,31 @@ function ScreenImage:SetDraggable(draggable)
     return self
 end
 
+--- Makes this image a drag handle for another screen HUD element.
+---@param target ScreenText|ScreenImage|string|nil Target element or element id
+---@return ScreenImage
+function ScreenImage:SetDragTarget(target)
+    self.drag_target_id = target == nil and nil or hud_element_id(target, "ScreenImage:SetDragTarget")
+    if self._created then
+        HUD.SetDragTarget(self.id, self.drag_target_id)
+    end
+    return self
+end
+
+--- Runs after a drag finishes. The callback receives final target x and y coordinates.
+---@param callback function|nil Callback function(x, y), or nil to clear it
+---@return ScreenImage
+function ScreenImage:SetOnDragEnd(callback)
+    if callback ~= nil and callback ~= false and type(callback) ~= "function" then
+        error("ScreenImage:SetOnDragEnd: callback must be a function, false, or nil")
+    end
+    self._dragEndCallback = callback or nil
+    if self._created then
+        HUD.SetOnDragEnd(self.id, self._dragEndCallback)
+    end
+    return self
+end
+
 function ScreenImage:SetClickable(callback)
     if callback == nil or callback == false then
         self.is_clickable = false
@@ -997,12 +1126,12 @@ end
 
 --- Sets the logical parent element for this screen image.
 --- Parent visibility/removal cascade to this image, and parent screen movement keeps this image's current offset.
----@param parent_id string Parent element id
+---@param parent ScreenText|ScreenImage|string Parent element or element id
 ---@return ScreenImage Returns self for method chaining
-function ScreenImage:SetParent(parent_id)
-    self.parent_id = parent_id
+function ScreenImage:SetParent(parent)
+    self.parent_id = hud_element_id(parent, "ScreenImage:SetParent")
     if self._created then
-        HUD.SetParent(self.id, parent_id)
+        HUD.SetParent(self.id, self.parent_id)
     end
     return self
 end
@@ -1025,6 +1154,14 @@ function ScreenImage:SetEnabled(enabled)
     return self
 end
 
+function ScreenImage:SetZIndex(zIndex)
+    self.z_index = zIndex
+    if self._created then
+        HUD.SetZIndex(self.id, zIndex)
+    end
+    return self
+end
+
 function ScreenImage:Create()
     local payload = {
         id = self.id,
@@ -1043,7 +1180,8 @@ function ScreenImage:Create()
         is_draggable = self.is_draggable,
         is_clickable = self.is_clickable,
         on_click = self._clickCallback,
-        enabled = self.enabled
+        enabled = self.enabled,
+        z_index = self.z_index
     }
 
     if type(self.source) == "string" and self.source ~= "" then
@@ -1068,6 +1206,12 @@ function ScreenImage:Create()
     if self.parent_id ~= nil then
         HUD.SetParent(self.id, self.parent_id)
     end
+    if self.drag_target_id ~= nil then
+        HUD.SetDragTarget(self.id, self.drag_target_id)
+    end
+    if self._dragEndCallback ~= nil then
+        HUD.SetOnDragEnd(self.id, self._dragEndCallback)
+    end
     return self
 end
 
@@ -1076,6 +1220,37 @@ function ScreenImage:Remove()
         HUD.RemoveElement(self.id)
         self._created = false
     end
+end
+
+--- Checks if the element has been created in C++.
+---@return boolean
+function ScreenImage:IsCreated()
+    return self._created
+end
+
+---@return boolean
+function ScreenImage:GetEnabled()
+    return HUD.GetElementEnabled(self.id)
+end
+
+---@return boolean
+function ScreenImage:GetVisible()
+    return HUD.GetElementVisible(self.id)
+end
+
+---@return table Position table {x, y, POS_X, POS_Y, POS_y}
+function ScreenImage:GetPosition()
+    return HUD.GetScreenElementPosition(self.id)
+end
+
+---@return number
+function ScreenImage:GetWidth()
+    return HUD.GetElementWidth(self.id)
+end
+
+---@return number
+function ScreenImage:GetHeight()
+    return HUD.GetElementHeight(self.id)
 end
 
 -- ============================================================================
@@ -1104,6 +1279,7 @@ end
 ---@field offset_x number
 ---@field offset_y number
 ---@field enabled boolean
+---@field z_index number Draw order; higher values render above lower values
 ---@field parent_id string|nil
 ---@field _created boolean
 WorldImage = {}
@@ -1132,6 +1308,7 @@ function WorldImage:New(id, x, y, z)
         offset_x = 0.0,
         offset_y = 0.0,
         enabled = true,
+        z_index = 0,
         parent_id = nil,
         _created = false
     }
@@ -1226,6 +1403,14 @@ function WorldImage:SetEnabled(enabled)
     return self
 end
 
+function WorldImage:SetZIndex(zIndex)
+    self.z_index = zIndex
+    if self._created then
+        HUD.SetZIndex(self.id, zIndex)
+    end
+    return self
+end
+
 function WorldImage:Create()
     local payload = {
         id = self.id,
@@ -1245,7 +1430,8 @@ function WorldImage:Create()
         lifetime_ms = self.lifetime_ms,
         offset_x = self.offset_x,
         offset_y = self.offset_y,
-        enabled = self.enabled
+        enabled = self.enabled,
+        z_index = self.z_index
     }
 
     if type(self.source) == "string" and self.source ~= "" then
@@ -1271,6 +1457,37 @@ function WorldImage:Remove()
         HUD.RemoveElement(self.id)
         self._created = false
     end
+end
+
+--- Checks if the element has been created in C++.
+---@return boolean
+function WorldImage:IsCreated()
+    return self._created
+end
+
+---@return boolean
+function WorldImage:GetEnabled()
+    return HUD.GetElementEnabled(self.id)
+end
+
+---@return boolean
+function WorldImage:GetVisible()
+    return HUD.GetElementVisible(self.id)
+end
+
+---@return table Position table {x, y, z}
+function WorldImage:GetPosition()
+    return HUD.GetWorldElementPosition(self.id)
+end
+
+---@return number
+function WorldImage:GetWidth()
+    return HUD.GetElementWidth(self.id)
+end
+
+---@return number
+function WorldImage:GetHeight()
+    return HUD.GetElementHeight(self.id)
 end
 
 -- PascalCase aliases for scripting compatibility.
@@ -1303,11 +1520,14 @@ attach_method_aliases(ScreenText, {
     { "SetColor", "setColor" },
     { "SetAlignment", "setAlignment" },
     { "SetDraggable", "setDraggable" },
+    { "SetDragTarget", "setDragTarget" },
+    { "SetOnDragEnd", "setOnDragEnd" },
     { "SetClickable", "setClickable" },
     { "SetScreenPosition", "setScreenPosition" },
     { "SetParent", "setParent" },
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
+    { "SetZIndex", "setZIndex" },
     { "Create", "create" },
     { "Remove", "remove" },
     { "IsCreated", "isCreated" },
@@ -1315,7 +1535,9 @@ attach_method_aliases(ScreenText, {
     { "GetVisible", "getVisible" },
     { "GetText", "getText" },
     { "GetColor", "getColor" },
-    { "GetPosition", "getPosition" }
+    { "GetPosition", "getPosition" },
+    { "GetWidth", "getWidth" },
+    { "GetHeight", "getHeight" }
 })
 
 attach_method_aliases(WorldText, {
@@ -1328,6 +1550,7 @@ attach_method_aliases(WorldText, {
     { "SetParent", "setParent" },
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
+    { "SetZIndex", "setZIndex" },
     { "Create", "create" },
     { "Remove", "remove" }
 })
@@ -1343,6 +1566,7 @@ attach_method_aliases(WorldBox, {
     { "SetParent", "setParent" },
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
+    { "SetZIndex", "setZIndex" },
     { "Create", "create" },
     { "Remove", "remove" }
 })
@@ -1356,13 +1580,22 @@ attach_method_aliases(ScreenImage, {
     { "SetLabel", "setLabel" },
     { "SetAlignment", "setAlignment" },
     { "SetDraggable", "setDraggable" },
+    { "SetDragTarget", "setDragTarget" },
+    { "SetOnDragEnd", "setOnDragEnd" },
     { "SetClickable", "setClickable" },
     { "SetScreenPosition", "setScreenPosition" },
     { "SetParent", "setParent" },
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
+    { "SetZIndex", "setZIndex" },
     { "Create", "create" },
-    { "Remove", "remove" }
+    { "Remove", "remove" },
+    { "IsCreated", "isCreated" },
+    { "GetEnabled", "getEnabled" },
+    { "GetVisible", "getVisible" },
+    { "GetPosition", "getPosition" },
+    { "GetWidth", "getWidth" },
+    { "GetHeight", "getHeight" }
 })
 
 attach_method_aliases(WorldImage, {
@@ -1377,8 +1610,15 @@ attach_method_aliases(WorldImage, {
     { "SetParent", "setParent" },
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
+    { "SetZIndex", "setZIndex" },
     { "Create", "create" },
-    { "Remove", "remove" }
+    { "Remove", "remove" },
+    { "IsCreated", "isCreated" },
+    { "GetEnabled", "getEnabled" },
+    { "GetVisible", "getVisible" },
+    { "GetPosition", "getPosition" },
+    { "GetWidth", "getWidth" },
+    { "GetHeight", "getHeight" }
 })
 
 

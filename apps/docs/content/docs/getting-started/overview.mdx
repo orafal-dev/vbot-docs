@@ -3,7 +3,7 @@ title: Overview
 description: Introduction to ValidusBot Lua scripting for Tibia
 ---
 
-ValidusBot scripts extend the bot with custom logic — from simple hotkey handlers to full cavebot action pipelines. Scripts run inside the bot's embedded Lua runtime with access to C++ game bindings through curated core wrapper libraries.
+ValidusBot scripts extend the bot with custom logic — from simple hotkey handlers to full cavebot action pipelines, HTTP integrations, and persistent storage. Scripts run inside the bot's embedded Lua runtime with access to curated core wrapper libraries.
 
 ## Script location
 
@@ -28,7 +28,7 @@ This documentation reflects:
 - The official Lua scripting specification maintained for ValidusBot
 - The public surface exported by each file in `Scripts/core`
 
-If a function is not listed in the [API Reference](/docs/api-reference), treat it as **unavailable** for user scripts. Internal C++ bindings and local helper functions inside core files are implementation details.
+If a function is not listed in the [API Reference](/docs/api-reference), treat it as **unavailable** for user scripts. Internal helpers and undocumented low-level globals are implementation details.
 
 ## Module overview
 
@@ -41,16 +41,19 @@ If a function is not listed in the [API Reference](/docs/api-reference), treat i
 | `Item` / `Container` / `Inventory` | Items, backpacks, equipment |
 | `Spells` / `Cooldowns` | Spell and item cooldown checks |
 | `Cavebot` | Walker, lure, and action orchestration |
-| `Engine` | Healer, alarms, ammo refill configuration |
-| `Features` | Enable/disable bot features |
+| `Engine` | Feature configuration (healer, shooter, targeting, delays, …) |
+| `Features` / `Engine.Features` | Enable/disable bot features |
 | `Hotkeys` | Keyboard combo registration |
 | `ChatChannel` / `ChatChannelStorage` | Chat channel helpers |
 | `VIP` | VIP list queries |
 | `NpcTradeStorage` | NPC trade window state |
+| `Json` | Native JSON encode/decode |
+| `Http` / `WebSocket` | Coroutine-friendly networking |
+| `Storage` | Persistent script-scoped values |
 | `Event Proxies` | Packet/event callbacks |
 | `ScreenText` / `WorldBox` / etc. | HUD overlays |
 | `Sound` | Audio alerts |
-| `Game` | Login/session helpers |
+| `Game` | Login/session and window helpers |
 | `lua_consts` tables | Shared enums and constants |
 
 ## Next steps

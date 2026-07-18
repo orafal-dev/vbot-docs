@@ -1,6 +1,6 @@
 ---
 title: Communication
-description: Chat channels, VIP list, and game session helpers
+description: Chat channels, VIP list, and game session/window helpers
 ---
 
 ## ChatChannel
@@ -44,26 +44,28 @@ Higher-level channel management:
 
 ## VIP
 
-Query the VIP list:
+Query the VIP list through the canonical `VIP` table:
 
 | Function | Description |
 | --- | --- |
-| `Vip.IsAvailable()` | VIP list loaded |
-| `Vip.GetAll()` | All VIP entries |
-| `Vip.Get(vipName)` | Single entry |
-| `Vip.Exists(vipName)` | Name in list |
-| `Vip.IsOnline(vipName)` | Online status |
-| `Vip.IsHeart(vipName)` | Marked as heart |
-| `Vip.GetType(vipName)` | VIP type |
-| `Vip.GetDescription(vipName)` | Description text |
-| `Vip.FindByPrefix(prefix, onlyOnline)` | Search by prefix |
-| `Vip.GetByType(vipType)` | Filter by type |
-| `Vip.Count()` / `CountOnline()` | Counts |
-| `Vip.GetSnapshot()` | Full snapshot |
+| `VIP.IsAvailable()` | VIP list loaded |
+| `VIP.GetAll()` | All VIP entries |
+| `VIP.Get(vipName)` | Single entry |
+| `VIP.Exists(vipName)` | Name in list |
+| `VIP.IsOnline(vipName)` | Online status |
+| `VIP.IsHeart(vipName)` | Marked as heart |
+| `VIP.GetType(vipName)` | VIP type |
+| `VIP.GetDescription(vipName)` | Description text |
+| `VIP.FindByPrefix(prefix, onlyOnline)` | Search by prefix |
+| `VIP.GetByType(vipType)` | Filter by type |
+| `VIP.Count()` / `CountOnline()` | Counts |
+| `VIP.GetSnapshot()` | Full snapshot |
+
+Normalized VIP entries contain `name`, `description`, `type`, `online`, and `notifyOnLogin`. Use `VipFlag.*` when filtering by type.
 
 ## Game (session)
 
-Login and session helpers. Prefer `Self` for in-game player operations.
+Login, session, and window helpers. Prefer `Self` for in-game player operations.
 
 | Function | Description |
 | --- | --- |
@@ -73,6 +75,10 @@ Login and session helpers. Prefer `Self` for in-game player operations.
 | `Game.Logout()` | Log out |
 | `Game.EnterWorld()` | Enter game world |
 | `Game.GetCharacterWorld(characterName)` | Character world lookup |
+| `Game.OpenStore()` | Open the in-game store |
+| `Game.OpenContainerInNewWindow(...)` | Open equipment slot or container item in a new window |
+
+`OpenContainerInNewWindow` accepts either one `EquipmentSlot.*` value, or a container item id plus its source container number and source slot.
 
 Login functions validate string arguments and return boolean success from the Lua wrapper.
 

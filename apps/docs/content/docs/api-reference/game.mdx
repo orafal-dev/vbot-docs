@@ -90,8 +90,38 @@ Logs out from the current session.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Game.OpenContainerInNewWindow(equipmentSlotOrContainerId, fromContainerNumber, fromContainerSlot)`
+
+Opens a container in a new window.
+Call with one equipment slot, or with container id + source container number + source slot.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `equipmentSlotOrContainerId` | `number` |  | EquipmentSlot.* value, or container item id |
+| `fromContainerNumber` | `number\|nil` |  | Source container number when opening from a container |
+| `fromContainerSlot` | `number\|nil` |  | Source slot index when opening from a container |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Game.OpenStore()`
+
+Opens the Store container in a new window.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
-Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

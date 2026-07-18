@@ -166,7 +166,6 @@ function Spells.Item.GetInfo(itemId)
     }
 end
 
--- Compatibility aliases
 Spells.GetIdByWords = Spells.GetIdByWords
 Spells.GetIdByName = Spells.GetIdByName
 Spells.GetWordsById = Spells.GetWordsById

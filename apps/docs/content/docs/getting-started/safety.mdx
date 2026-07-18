@@ -7,17 +7,18 @@ description: Hard rules and checklist for production-safe ValidusBot scripts
 
 These rules are non-negotiable for generated and hand-written scripts:
 
-1. **No process termination** — do not use `os.exit`, `os.execute`, or similar.
-2. **No Objects Dumper access** — never enable, disable, or query the internal Objects Dumper through `Features`.
+1. **No `os.execute`** — process execution is forbidden. Use `os.exit` only for an explicit emergency client-shutdown policy (for example, preventing red-skull equipment loss); it terminates the entire game client and is audit-logged.
+2. **No Objects Dumper access** — never enable, disable, or query the reserved Objects Dumper through `Features` / `Engine.Features`.
 3. **No busy loops** — repeating logic must yield via `wait(ms)` or `Module` helpers.
 4. **Validate all input** — check types and ranges before using external or config values.
 5. **Handle nil** — assume runtime values can be absent; use guards and fallbacks.
-6. **PascalCase API only** — use documented core wrappers (`Self.*`, `Map.*`, `Module.*`, etc.).
+6. **PascalCase API only** — use documented core wrappers (`Self.*`, `Map.*`, `Module.*`, `Engine.*`, etc.).
 7. **Use pcall for risky blocks** — prevent one error from crashing the script.
 8. **Keep scripts idempotent** — safe to re-run where possible.
 9. **Scope feature toggles** — only toggle user-facing features, not internal systems.
 10. **No legacy aliases** — do not use `self.*`, `map.*`, `CaveBot`, `_G.position`, or `engine.ammoRefill.*`.
-11. **No raw C++ globals** — prefer core wrappers unless explicitly documented as public API.
+11. **No undocumented low-level globals** — prefer core wrappers unless explicitly documented as public API.
+12. **HTTP/WebSocket from managed coroutines** — network calls must run inside a managed script coroutine and yield cooperatively while waiting.
 
 ## Pre-flight checklist
 
@@ -29,6 +30,7 @@ Before deploying a script, verify:
 - [ ] Hotkeys avoid the unsupported alt modifier
 - [ ] Position and creature access handles invalid objects safely
 - [ ] IDs and indices are validated as positive integers where required
+- [ ] Capability wrappers (`Inventory`, `NpcTradeStorage`, `VIP`) check availability before use
 - [ ] The script can be stopped cleanly without destructive side effects
 
 ## Deprecated patterns
@@ -39,7 +41,8 @@ Before deploying a script, verify:
 | `map.FindPath(...)` | `Map.FindPath(...)` |
 | `CaveBot.Resume()` | `Cavebot.Walker.Resume()` |
 | Raw creature globals | `Creature`, `Creatures` modules |
-| Undocumented C++ bindings | Documented core wrapper |
+| Legacy `Features` / `Inventory` for new work | Prefer `Engine.Features`, `Engine.Equipment` |
+| Undocumented low-level globals | Documented core wrappers |
 
 ## Error handling pattern
 

@@ -51,9 +51,21 @@ Full waypoint and walker control:
 | Control | `SetEnabled`, `IsEnabled`, `Resume`, `GoTo`, `IsPausedByLua`, `SetPausedByLua` |
 | Waypoints | `GetWaypoints`, `AddWaypoint`, `InsertWaypoint`, `ReplaceWaypoint`, `DeleteWaypoint`, `ClearWaypoints` |
 | Navigation | `GetSelectedWaypointIndex`, `SetSelectedWaypointIndex`, `SelectClosestWaypoint`, `GetWaypointCount` |
-| Settings | `SetNodeDistance`, `SetStartFromNearestWaypoint`, `SetWalkToLureCenter`, `SetLeaveLureOnPlayer` |
+| Settings | `SetNodeDistance`, `SetStartFromNearestWaypoint`, `SetWalkToLureCenter`, `SetLeaveLureOnPlayer`, `SetLeaveLurePlayerMode` |
 | Auto recorder | `SetAutoRecorderEnabled`, `GetAutoRecorderOptions`, `SetDistanceBetweenWaypoints` |
 | Debug | `IsStuck`, `SetDebugHud`, `GetDebugHud` |
+
+### Leave-lure player modes
+
+| Mode | Value | Behavior |
+| --- | --- | --- |
+| `Cavebot.Walker.LeaveLurePlayerMode.NonAllyPlayers` | `0` (default) | Ignores party and guild/allied-guild players |
+| `Cavebot.Walker.LeaveLurePlayerMode.AnyPlayer` | `1` | Reacts to every visible player other than the local character |
+
+```lua
+Cavebot.Walker.SetLeaveLureOnPlayer(true)
+Cavebot.Walker.SetLeaveLurePlayerMode(Cavebot.Walker.LeaveLurePlayerMode.AnyPlayer)
+```
 
 ### Waypoint script requirement
 

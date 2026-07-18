@@ -129,7 +129,10 @@ local moduleAliases = {
     { alias = "ChatChannelStorage", source = "chatChannelStorage" },
     { alias = "Inventory", source = "inventory" },
     { alias = "Minimap", source = "minimap" },
-    { alias = "NpcTradeStorage", source = "npcTradeStorage" }
+    { alias = "NpcTradeStorage", source = "npcTradeStorage" },
+    { alias = "Http", source = "Http" },
+    { alias = "Json", source = "Json" },
+    { alias = "WebSocket", source = "WebSocket" }
 }
 
 for i = 1, #moduleAliases do

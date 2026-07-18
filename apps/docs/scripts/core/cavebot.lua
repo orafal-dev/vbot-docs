@@ -203,6 +203,24 @@ function Cavebot.Walker.GetLeaveLureOnPlayer()
     return call_walker("GetLeaveLureOnPlayer")
 end
 
+-- Player detection mode used by Leave Box If Player On Screen.
+-- 0 = non-ally players, 1 = any player (including party/guild allies).
+Cavebot.Walker.LeaveLurePlayerMode = {
+    NonAllyPlayers = 0,
+    AnyPlayer = 1
+}
+
+---@param mode integer 0 for non-ally players, 1 for any player.
+---@return boolean
+function Cavebot.Walker.SetLeaveLurePlayerMode(mode)
+    return call_walker("SetLeaveLurePlayerMode", mode)
+end
+
+---@return integer mode 0 for non-ally players, 1 for any player.
+function Cavebot.Walker.GetLeaveLurePlayerMode()
+    return call_walker("GetLeaveLurePlayerMode")
+end
+
 function Cavebot.Walker.SetDebugHud(enabled)
     return call_walker("SetDebugHud", enabled)
 end

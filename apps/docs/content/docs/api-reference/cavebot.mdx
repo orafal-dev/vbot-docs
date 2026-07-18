@@ -151,6 +151,14 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.GetLeaveLureOnPlayer()`
 
+#### `Cavebot.Walker.GetLeaveLurePlayerMode()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` | mode 0 for non-ally players, 1 for any player. |
+
 #### `Cavebot.Walker.GetNodeDistance()`
 
 #### `Cavebot.Walker.GetSelectedWaypointIndex()`
@@ -195,6 +203,20 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.SetLeaveLureOnPlayer(enabled)`
 
+#### `Cavebot.Walker.SetLeaveLurePlayerMode(mode)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `mode` | `integer` |  | 0 for non-ally players, 1 for any player. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.SetNodeDistance(distance)`
 
 #### `Cavebot.Walker.SetPausedByLua(paused)`
@@ -209,4 +231,5 @@ Core library: `cavebot.lua`
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
-Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

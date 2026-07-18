@@ -7,297 +7,136 @@ Core library: `sound.lua`
 
 ## Exported tables
 
-- `BotSoundId`
 - `Sound`
+- `BotSoundId`
 
 ## Functions
 
-### General
-
-#### `soundGMDetected(instant)`
-
-Plays GM-detected notification sound if not already queued.
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `instant` | `boolean` | Yes |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `soundGetCurrentDuration()`
-
-Get the duration of currently playing sound
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `number` | Duration in milliseconds (0 if nothing playing) |
-
-#### `soundGetFileDuration(filePath)`
-
-Get the duration of a WAV file without playing it
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `filePath` | `string` |  | Path to WAV file |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `number` | Duration in milliseconds |
-
-#### `soundGetQueueLength()`
-
-Get the current sound queue length
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `number` | Queue size |
-
-#### `soundIsCurrentlyPlaying()`
-
-Check if a sound is currently playing
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` | True if playing |
-
-#### `soundIsQueued(options)`
-
-Check if a sound is queued or playing
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `options` | `table` |  | Sound configuration |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` | True if queued/playing |
-
-#### `soundLowHealth(instant)`
-
-Plays low-health notification sound if not already queued.
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `instant` | `boolean` | Yes |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `soundLowMana(instant)`
-
-Plays low-mana notification sound if not already queued.
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `instant` | `boolean` | Yes |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `soundPlayAndWait(options, maxWaitMs)`
-
-Play a sound and wait for it to finish (blocking, requires coroutine)
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `options` | `table` |  | Sound configuration |
-| `maxWaitMs` | `number` |  | Optional, maximum time to wait (default: 5000ms) |
-
-#### `soundPlayBotSound(filename, instant)`
-
-Play a custom notification sound from the bot's sounds folder
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `filename` | `string` |  | WAV filename (e.g., "notification.wav") |
-| `instant` | `boolean` |  | Optional, play immediately if true |
-
-#### `soundPlayById(soundId, instant)`
-
-Play a sound by ID (queued by default)
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `soundId` | `number` |  | BotSoundId enum value |
-| `instant` | `boolean` |  | Optional, play immediately if true |
-
-#### `soundPlayByIdSmart(soundId, instant)`
-
-Play a sound by ID only if not already queued/playing
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `soundId` | `number` |  | BotSoundId enum value |
-| `instant` | `boolean` |  | Optional, play immediately if true |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` | True if sound was queued, false if already queued |
-
-#### `soundPlayByName(soundName, instant)`
-
-Play a sound by name (queued by default)
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `soundName` | `string` |  | Name of the sound (case-insensitive) |
-| `instant` | `boolean` |  | Optional, play immediately if true |
-
-#### `soundPlayByNameSmart(soundName, instant)`
-
-Play a sound by name only if not already queued/playing
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `soundName` | `string` |  | Name of the sound |
-| `instant` | `boolean` |  | Optional, play immediately if true |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` | True if sound was queued, false if already queued |
-
-#### `soundPlayFile(filePath, instant)`
-
-Play a custom sound file (queued by default)
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `filePath` | `string` |  | Full path to WAV file |
-| `instant` | `boolean` |  | Optional, play immediately if true |
-
-#### `soundPlayFileSmart(filePath, instant)`
-
-Play a file only if not already queued/playing
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `filePath` | `string` |  | Path to WAV file |
-| `instant` | `boolean` |  | Optional, play immediately if true |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` | True if sound was queued, false if already queued |
-
-#### `soundPlayerDetected(instant)`
-
-Plays player-detected notification sound if not already queued.
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `instant` | `boolean` | Yes |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `soundSetQueueDelay(delayMs)`
-
-Set minimum delay between queued sounds (in milliseconds)
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `delayMs` | `number` |  | Delay in milliseconds |
-
-#### `soundStopAll()`
-
-Stop currently playing sound
-
-#### `soundWaitForCompletion(maxWaitMs)`
-
-Wait for current sound to finish (blocking)
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `maxWaitMs` | `number` |  | Optional max wait time (default: 10000ms) |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` | True if sound finished, false if timeout |
-
-### Sound
-
 #### `Sound.ClearQueue()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Sound.GetCurrentDuration()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Sound.GetFileDuration(filePath)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `filePath` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Sound.GetQueueSize()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Sound.IsPlaying()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Sound.IsQueued(options)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `options` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Sound.Play(options)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `options` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Sound.SetMinDelay(delayMs)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `delayMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Sound.Stop()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+## Constants
+
+### `BotSoundId`
+
+| Constant | Value |
+| :-- | :-- |
+| `BotSoundId.CREATURE_DETECTED` | `5` |
+| `BotSoundId.CUSTOM_SOUND_1` | `14` |
+| `BotSoundId.CUSTOM_SOUND_2` | `15` |
+| `BotSoundId.CUSTOM_SOUND_3` | `16` |
+| `BotSoundId.CUSTOM_SOUND_4` | `17` |
+| `BotSoundId.CUSTOM_SOUND_5` | `18` |
+| `BotSoundId.DAMAGE_TAKEN` | `1` |
+| `BotSoundId.DISCONNECTED` | `0` |
+| `BotSoundId.ENEMY_ON_SCREEN` | `9` |
+| `BotSoundId.GM_ON_SCREEN` | `11` |
+| `BotSoundId.LOCAL_MESSAGE` | `10` |
+| `BotSoundId.LOW_HEALTH` | `2` |
+| `BotSoundId.LOW_MANA` | `3` |
+| `BotSoundId.PLAYER_ATTACK` | `6` |
+| `BotSoundId.PLAYER_DETECTED` | `7` |
+| `BotSoundId.PRIVATE_MESSAGE` | `4` |
+| `BotSoundId.SKULL_ON_SCREEN` | `8` |
+| `BotSoundId.UNJUSTIFIED_KILL` | `13` |
+| `BotSoundId.WALKER_STUCK` | `12` |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
-Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

@@ -18,7 +18,6 @@ Engine.Healer = {
     GetSpell = Healer.GetSpell,
     GetAllSpells = Healer.GetAllSpells,
     SetSpellEnabled = Healer.SetSpellEnabled,
-    UpdateSpell = Healer.UpdateSpell,
     GetItemCount = Healer.GetItemCount,
     GetItem = Healer.GetItem,
     SetItemEnabled = Healer.SetItemEnabled
@@ -153,28 +152,6 @@ function Engine.Healer.ToggleSpell(index)
     local newState = not spell.enabled
     Healer.SetSpellEnabled(index, newState)
     return newState
-end
-
---- Update spell cast value and/or mana cost
----@param index number 1-based index
----@param castValue number|nil New cast value (optional)
----@param manaCost number|nil New mana cost (optional)
----@return boolean Success (false if spell not found)
-function Engine.Healer.ModifySpell(index, castValue, manaCost)
-    if type(index) ~= "number" or index < 1 then
-        return false
-    end
-    
-    local spell = Healer.GetSpell(index)
-    if not spell then
-        return false
-    end
-    
-    local updateData = {}
-    if castValue then updateData.cast_value = castValue end
-    if manaCost then updateData.mana_cost = manaCost end
-    
-    return Healer.UpdateSpell(index, updateData)
 end
 
 --- Get all healing items with full details
@@ -784,54 +761,6 @@ function Engine.AmmoRefill.PrintProfiles()
     print("============================")
 end
 
---- Update ammo configuration
----@param index number 1-based index
----@param updateData table Table with fields to update (refill_at_count, refill_in_left_hand, equip_from_hotkey, enabled)
----@return boolean Success
-function Engine.AmmoRefill.Update(index, updateData)
-    if type(index) ~= "number" or index < 1 then
-        return false
-    end
-    if type(updateData) ~= "table" then
-        error("Engine.AmmoRefill.Update: updateData must be a table", 2)
-    end
-    
-    return AmmoRefill.UpdateAmmo(index, updateData)
-end
-
---- Modify specific fields of an ammo entry (convenience wrapper)
----@param index number 1-based index
----@param refillAtCount number|nil Refill threshold (optional)
----@param refillInLeftHand boolean|nil Use left hand slot (optional)
----@param equipFromHotkey boolean|nil Use hotkey to equip (optional)
----@return boolean Success
-function Engine.AmmoRefill.Modify(index, refillAtCount, refillInLeftHand, equipFromHotkey)
-    local updateData = {}
-    
-    if refillAtCount ~= nil then
-        if type(refillAtCount) ~= "number" then
-            error("Engine.AmmoRefill.Modify: refillAtCount must be a number", 2)
-        end
-        updateData.refill_at_count = refillAtCount
-    end
-    
-    if refillInLeftHand ~= nil then
-        if type(refillInLeftHand) ~= "boolean" then
-            error("Engine.AmmoRefill.Modify: refillInLeftHand must be a boolean", 2)
-        end
-        updateData.refill_in_left_hand = refillInLeftHand
-    end
-    
-    if equipFromHotkey ~= nil then
-        if type(equipFromHotkey) ~= "boolean" then
-            error("Engine.AmmoRefill.Modify: equipFromHotkey must be a boolean", 2)
-        end
-        updateData.equip_from_hotkey = equipFromHotkey
-    end
-    
-    return AmmoRefill.UpdateAmmo(index, updateData)
-end
-
 --- Add new profile
 ---@param profileName string|nil Profile name (auto-generated if nil)
 ---@return number|boolean Profile index on success, false on failure
@@ -865,6 +794,628 @@ function Engine.AmmoRefill.RenameProfile(indexOrName, newName)
     end
     return AmmoRefill.RenameProfile(indexOrName, newName)
 end
+
+-- ============================================================================
+-- BOT FEATURE STATE API - Wraps the validated Features core library
+-- ============================================================================
+Engine.Features = {}
+
+local function callFeatures(methodName, ...)
+    local method = type(Features) == "table" and Features[methodName] or nil
+    if type(method) ~= "function" then
+        error("Engine.Features." .. methodName .. ": Features core API is unavailable", 3)
+    end
+    return method(...)
+end
+
+---@param featureIdentifier integer|string
+---@return boolean
+function Engine.Features.IsActive(featureIdentifier)
+    return callFeatures("IsActive", featureIdentifier)
+end
+
+---@param featureIdentifier integer|string
+function Engine.Features.Enable(featureIdentifier)
+    return callFeatures("Enable", featureIdentifier)
+end
+
+---@param featureIdentifier integer|string
+function Engine.Features.Disable(featureIdentifier)
+    return callFeatures("Disable", featureIdentifier)
+end
+
+---@param featureIdentifier integer|string
+function Engine.Features.Toggle(featureIdentifier)
+    return callFeatures("Toggle", featureIdentifier)
+end
+
+---@param featureIdentifier integer|string
+---@param activeStatus boolean
+function Engine.Features.SetActive(featureIdentifier, activeStatus)
+    return callFeatures("SetActive", featureIdentifier, activeStatus)
+end
+
+---@param featureIdentifier integer|string
+---@return string
+function Engine.Features.GetName(featureIdentifier)
+    return callFeatures("GetName", featureIdentifier)
+end
+
+---@return integer[]
+function Engine.Features.GetAllFeatureIds()
+    return callFeatures("GetAllFeatureIds")
+end
+
+---@return integer[]
+function Engine.Features.GetActiveFeatures()
+    return callFeatures("GetActiveFeatures")
+end
+
+---@param featureList table
+function Engine.Features.EnableMultiple(featureList)
+    return callFeatures("EnableMultiple", featureList)
+end
+
+---@param featureList table
+function Engine.Features.DisableMultiple(featureList)
+    return callFeatures("DisableMultiple", featureList)
+end
+
+---@param excludeList? table
+function Engine.Features.DisableAllExcept(excludeList)
+    return callFeatures("DisableAllExcept", excludeList)
+end
+
+function Engine.Features.PrintStatus()
+    return callFeatures("PrintStatus")
+end
+
+-- ============================================================================
+-- EQUIPMENT STATE API - Wraps the Inventory core library
+-- This is live equipped-item state. Equipment Manager enabled state is queried
+-- through Engine.Features with BotFeatureId.EQUIPMENT_MANAGER.
+-- ============================================================================
+Engine.Equipment = {}
+
+local function callInventory(methodName, ...)
+    local method = type(Inventory) == "table" and Inventory[methodName] or nil
+    if type(method) ~= "function" then
+        error("Engine.Equipment." .. methodName .. ": Inventory core API is unavailable", 3)
+    end
+    return method(...)
+end
+
+---@return table
+function Engine.Equipment.GetSlotConstants()
+    return callInventory("GetEquipmentSlotConstants")
+end
+
+---@return boolean
+function Engine.Equipment.CanRead()
+    return callInventory("CanReadEquipment")
+end
+
+---@return boolean
+function Engine.Equipment.CanMove()
+    return callInventory("CanMoveEquipment")
+end
+
+---@param equipmentSlot integer
+---@return table|nil
+function Engine.Equipment.GetSlotItem(equipmentSlot)
+    return callInventory("GetSlotItem", equipmentSlot)
+end
+
+---@return table
+function Engine.Equipment.GetAllSlotItems()
+    return callInventory("GetAllSlotItems")
+end
+
+---@param itemId integer
+---@param tierLevel? integer
+---@return boolean
+function Engine.Equipment.Equip(itemId, tierLevel)
+    return callInventory("Equip", itemId, tierLevel)
+end
+
+---@param itemId integer
+---@param equipmentSlot integer
+---@return boolean
+function Engine.Equipment.LookSlotItem(itemId, equipmentSlot)
+    return callInventory("LookSlotItem", itemId, equipmentSlot)
+end
+
+---@param containerIndex integer
+---@param slotIndex integer
+---@param itemId integer
+---@param equipmentSlot integer
+---@param itemCount integer
+---@return boolean
+function Engine.Equipment.MoveFromContainerToSlot(containerIndex, slotIndex, itemId, equipmentSlot, itemCount)
+    return callInventory("MoveFromContainerToSlot", containerIndex, slotIndex, itemId, equipmentSlot, itemCount)
+end
+
+---@param equipmentSlot integer
+---@param containerIndex integer
+---@param slotIndex integer
+---@param itemId integer
+---@param itemCount integer
+---@return boolean
+function Engine.Equipment.MoveFromSlotToContainer(equipmentSlot, containerIndex, slotIndex, itemId, itemCount)
+    return callInventory("MoveFromSlotToContainer", equipmentSlot, containerIndex, slotIndex, itemId, itemCount)
+end
+
+---@param equipmentSlot integer
+---@return integer|nil
+function Engine.Equipment.GetSlotItemId(equipmentSlot)
+    return callInventory("GetSlotItemId", equipmentSlot)
+end
+
+---@param equipmentSlot integer
+---@return boolean|nil
+function Engine.Equipment.HasItemInSlot(equipmentSlot)
+    return callInventory("HasItemInSlot", equipmentSlot)
+end
+
+---@return integer[]
+function Engine.Equipment.GetSlotIds()
+    return callInventory("GetSlotIds")
+end
+
+---@return table
+function Engine.Equipment.GetSnapshot()
+    return callInventory("GetSnapshot")
+end
+
+-- ============================================================================
+-- PVP TOOLS API - Wraps native PVP feature state
+-- ============================================================================
+local NativePVPTools = assert(PVPTools, "PVPTools native binding is unavailable")
+local nativeIsHoldTargetEnabled = assert(NativePVPTools.IsHoldTargetEnabled)
+local nativeSetHoldTargetEnabled = assert(NativePVPTools.SetHoldTargetEnabled)
+local nativeToggleHoldTarget = assert(NativePVPTools.ToggleHoldTarget)
+local nativeIsAntiPushEnabled = assert(NativePVPTools.IsAntiPushEnabled)
+local nativeSetAntiPushEnabled = assert(NativePVPTools.SetAntiPushEnabled)
+local nativeToggleAntiPush = assert(NativePVPTools.ToggleAntiPush)
+
+Engine.PVPTools = {}
+
+---@return boolean
+function Engine.PVPTools.IsHoldTargetEnabled()
+    return nativeIsHoldTargetEnabled()
+end
+
+---@param enabled boolean
+---@return boolean
+function Engine.PVPTools.SetHoldTargetEnabled(enabled)
+    if type(enabled) ~= "boolean" then
+        error("Engine.PVPTools.SetHoldTargetEnabled: enabled must be a boolean", 2)
+    end
+    return nativeSetHoldTargetEnabled(enabled)
+end
+
+---@return boolean
+function Engine.PVPTools.ToggleHoldTarget()
+    return nativeToggleHoldTarget()
+end
+
+---@return boolean
+function Engine.PVPTools.IsAntiPushEnabled()
+    return nativeIsAntiPushEnabled()
+end
+
+---@param enabled boolean
+---@return boolean
+function Engine.PVPTools.SetAntiPushEnabled(enabled)
+    if type(enabled) ~= "boolean" then
+        error("Engine.PVPTools.SetAntiPushEnabled: enabled must be a boolean", 2)
+    end
+    return nativeSetAntiPushEnabled(enabled)
+end
+
+---@return boolean
+function Engine.PVPTools.ToggleAntiPush()
+    return nativeToggleAntiPush()
+end
+
+local function validateOptionalProfile(profile, functionName)
+    if profile == nil then
+        return
+    end
+    if type(profile) == "number" and profile % 1 == 0 and profile >= 1 then
+        return
+    end
+    if type(profile) == "string" and profile ~= "" then
+        return
+    end
+    error(functionName .. ": profile must be a 1-based integer, non-empty exact name, or nil", 3)
+end
+
+local function validateRequiredProfile(profile, functionName)
+    if profile == nil then
+        error(functionName .. ": profile is required", 3)
+    end
+    validateOptionalProfile(profile, functionName)
+end
+
+-- ============================================================================
+-- MAGIC SHOOTER API - Wraps profiles and live entry action replacement
+-- ============================================================================
+local NativeMagicShooter = assert(MagicShooter, "MagicShooter native binding is unavailable")
+local nativeMagicShooterGetProfileCount = assert(NativeMagicShooter.GetProfileCount)
+local nativeMagicShooterGetProfileNames = assert(NativeMagicShooter.GetProfileNames)
+local nativeMagicShooterGetActiveProfile = assert(NativeMagicShooter.GetActiveProfile)
+local nativeMagicShooterSetActiveProfile = assert(NativeMagicShooter.SetActiveProfile)
+local nativeMagicShooterNextProfile = assert(NativeMagicShooter.NextProfile)
+local nativeMagicShooterGetEntries = assert(NativeMagicShooter.GetEntries)
+local nativeMagicShooterSetEntryRune = assert(NativeMagicShooter.SetEntryRune)
+local nativeMagicShooterSetEntrySpell = assert(NativeMagicShooter.SetEntrySpell)
+
+Engine.MagicShooter = {}
+
+---@return integer
+function Engine.MagicShooter.GetProfileCount()
+    return nativeMagicShooterGetProfileCount()
+end
+
+---@return string[]
+function Engine.MagicShooter.GetProfileNames()
+    return nativeMagicShooterGetProfileNames()
+end
+
+---@return table|nil
+function Engine.MagicShooter.GetActiveProfile()
+    return nativeMagicShooterGetActiveProfile()
+end
+
+---@return table|nil
+function Engine.MagicShooter.GetCurrentProfile()
+    return nativeMagicShooterGetActiveProfile()
+end
+
+---@param profile integer|string
+---@return boolean
+function Engine.MagicShooter.SetActiveProfile(profile)
+    validateRequiredProfile(profile, "Engine.MagicShooter.SetActiveProfile")
+    return nativeMagicShooterSetActiveProfile(profile)
+end
+
+---@param profile integer|string
+---@return boolean
+function Engine.MagicShooter.SetCurrentProfile(profile)
+    validateRequiredProfile(profile, "Engine.MagicShooter.SetCurrentProfile")
+    return nativeMagicShooterSetActiveProfile(profile)
+end
+
+---@return table|nil
+function Engine.MagicShooter.NextProfile()
+    return nativeMagicShooterNextProfile()
+end
+
+---@param profile? integer|string
+---@return table[]|nil, string|nil
+function Engine.MagicShooter.GetEntries(profile)
+    validateOptionalProfile(profile, "Engine.MagicShooter.GetEntries")
+    return nativeMagicShooterGetEntries(profile)
+end
+
+---@param entryIndex integer
+---@param runeId integer
+---@param profile? integer|string
+---@return boolean, string|nil
+function Engine.MagicShooter.SetEntryRune(entryIndex, runeId, profile)
+    if type(entryIndex) ~= "number" or entryIndex % 1 ~= 0 or entryIndex < 1 then
+        error("Engine.MagicShooter.SetEntryRune: entryIndex must be a 1-based integer", 2)
+    end
+    if type(runeId) ~= "number" or runeId % 1 ~= 0 or runeId < 1 or runeId > 65535 then
+        error("Engine.MagicShooter.SetEntryRune: runeId must be an integer between 1 and 65535", 2)
+    end
+    validateOptionalProfile(profile, "Engine.MagicShooter.SetEntryRune")
+    return nativeMagicShooterSetEntryRune(entryIndex, runeId, profile)
+end
+
+---@param entryIndex integer
+---@param spellWords string
+---@param profile? integer|string
+---@return boolean, string|nil
+function Engine.MagicShooter.SetEntrySpell(entryIndex, spellWords, profile)
+    if type(entryIndex) ~= "number" or entryIndex % 1 ~= 0 or entryIndex < 1 then
+        error("Engine.MagicShooter.SetEntrySpell: entryIndex must be a 1-based integer", 2)
+    end
+    if type(spellWords) ~= "string" or #spellWords < 1 or #spellWords > 255 then
+        error("Engine.MagicShooter.SetEntrySpell: spellWords must contain between 1 and 255 bytes", 2)
+    end
+    validateOptionalProfile(profile, "Engine.MagicShooter.SetEntrySpell")
+    return nativeMagicShooterSetEntrySpell(entryIndex, spellWords, profile)
+end
+
+-- ============================================================================
+-- TARGETING API - Wraps Targeting profile state
+-- ============================================================================
+local NativeTargeting = assert(Targeting, "Targeting native binding is unavailable")
+local nativeTargetingGetProfileCount = assert(NativeTargeting.GetProfileCount)
+local nativeTargetingGetProfileNames = assert(NativeTargeting.GetProfileNames)
+local nativeTargetingGetActiveProfile = assert(NativeTargeting.GetActiveProfile)
+local nativeTargetingSetActiveProfile = assert(NativeTargeting.SetActiveProfile)
+local nativeTargetingNextProfile = assert(NativeTargeting.NextProfile)
+
+Engine.Targeting = {}
+
+---@return integer
+function Engine.Targeting.GetProfileCount()
+    return nativeTargetingGetProfileCount()
+end
+
+---@return string[]
+function Engine.Targeting.GetProfileNames()
+    return nativeTargetingGetProfileNames()
+end
+
+---@return table|nil
+function Engine.Targeting.GetActiveProfile()
+    return nativeTargetingGetActiveProfile()
+end
+
+---@return table|nil
+function Engine.Targeting.GetCurrentProfile()
+    return nativeTargetingGetActiveProfile()
+end
+
+---@param profile integer|string
+---@return boolean
+function Engine.Targeting.SetActiveProfile(profile)
+    validateRequiredProfile(profile, "Engine.Targeting.SetActiveProfile")
+    return nativeTargetingSetActiveProfile(profile)
+end
+
+---@param profile integer|string
+---@return boolean
+function Engine.Targeting.SetCurrentProfile(profile)
+    validateRequiredProfile(profile, "Engine.Targeting.SetCurrentProfile")
+    return nativeTargetingSetActiveProfile(profile)
+end
+
+---@return table|nil
+function Engine.Targeting.NextProfile()
+    return nativeTargetingNextProfile()
+end
+
+-- ============================================================================
+-- FEATURE CONFIGURATION APIS
+-- Native setters are explicit and execute feature-owned side effects. GetEntries
+-- functions return detached snapshots; changing a returned table changes nothing.
+-- ============================================================================
+local function exposeNativeFunctions(engineName, nativeTable, functionNames)
+    assert(type(nativeTable) == "table", engineName .. " native binding is unavailable")
+    local namespace = Engine[engineName] or {}
+    Engine[engineName] = namespace
+    for _, functionName in ipairs(functionNames) do
+        namespace[functionName] = assert(nativeTable[functionName],
+            engineName .. "." .. functionName .. " native binding is unavailable")
+    end
+end
+
+exposeNativeFunctions("MagicShooter", MagicShooter, {
+    "SetEntryEnabled", "SetEntryRequiresTarget", "SetEntryPVPSafe", "SetEntryShootOverAllies",
+    "SetEntryCustomSpell", "SetEntryAttackSkillBuffSpell", "SetEntryDontCastWhileWalking",
+    "SetEntryPrioritizeWithMomentum", "SetEntryOption", "SetEntryCondition",
+    "SetEntryManaPercentage", "SetEntryHealthPercentage", "SetEntryHealthCondition",
+    "SetEntryHarmony", "SetEntryHarmonyCondition", "SetEntryMonsterCount", "SetEntryMonsterCountCondition",
+    "SetEntryMinimumMonsterHealthPercentage", "SetEntryMaximumMonsterHealthPercentage",
+    "SetEntryRange", "SetEntryDangerLevel", "SetEntryCustomDelay", "SetEntryShootAfterWalkDelay",
+    "SetEntryMomentumDelay", "SetEntryMeleeSkillIncreasePercentage",
+    "SetEntryDistanceSkillIncreasePercentage", "SetEntryCastMethod", "SetEntryPatternAnchor",
+    "SetEntryPatternSource", "SetEntryPatternVariant", "SetEntryMonsterNames"
+})
+
+exposeNativeFunctions("Healer", HealerControl, {
+    "SetSpellWords", "SetSpellCastValue", "SetSpellManaCost", "SetSpellAttribute",
+    "SetSpellCondition", "SetSpellEnabled", "SetItemId", "SetItemCastValue",
+    "SetItemDelay", "SetItemAttribute", "SetItemCondition", "SetItemAction",
+    "SetItemUseWhenFeared", "SetItemEnabled"
+})
+
+exposeNativeFunctions("Conditions", Conditions, {
+    "GetSpells", "GetHoldSpells", "SetSpellWords", "SetSpellManaCost", "SetSpellFlag",
+    "SetSpellEnabled", "SetHoldSpellWords", "SetHoldSpellManaCost", "SetHoldSpellFlag",
+    "SetHoldSpellEnabled", "GetUseHasteWithSharpShooterEnabled", "SetUseHasteWithSharpShooterEnabled",
+    "GetCastInProtectionZoneEnabled", "SetCastInProtectionZoneEnabled",
+    "GetManaShieldTimerBased", "SetManaShieldTimerBased",
+    "GetRecoverySpellTimerBased", "SetRecoverySpellTimerBased",
+    "GetManaShieldDelay", "SetManaShieldDelay", "GetRecoverySpellDelay", "SetRecoverySpellDelay"
+})
+
+exposeNativeFunctions("HealFriend", HealFriend, {
+    "GetVocations", "GetArea", "GetPlayerNames", "SetPlayerNames",
+    "GetSafeHealthPercentage", "SetSafeHealthPercentage", "GetMode", "SetMode",
+    "GetPriorityOverHealer", "SetPriorityOverHealer", "GetPrioritizeBeforeHealer",
+    "SetPrioritizeBeforeHealer", "SetVocationEnabled", "SetVocationPriority",
+    "SetActionEnabled", "SetActionManaCost", "SetActionSpellWords", "SetActionItemId",
+    "SetActionHealthPercentage", "SetActionMethod", "SetAreaSpellWords", "SetAreaManaCost",
+    "SetAreaVocation", "SetAreaPlayersNeeded", "SetAreaHealthPercentage", "SetAreaMinimumHarmony",
+    "SetAreaExtended", "SetAreaEnabled", "SetAreaKnightRequired", "SetAreaPaladinRequired",
+    "SetAreaSorcererRequired", "SetAreaDruidRequired", "SetAreaMonkRequired"
+})
+
+exposeNativeFunctions("AmmoRefill", AmmoControl, {
+    "SetEntryItemId", "SetEntryRefillLeftHand", "SetEntryEquipFromHotkey",
+    "SetEntryThreshold", "SetEntryEnabled"
+})
+
+exposeNativeFunctions("EquipmentManager", EquipmentManager, {
+    "GetProfiles", "SetActiveProfile", "GetEntries", "SetEntryItemId", "SetEntrySecondaryItemId",
+    "SetEntryExcludedItemIds", "SetEntryExcludedItemIdsEnabled", "SetEntryTier",
+    "SetEntryEquipFromHotkey", "SetEntryEquipAction", "SetEntryEnabled", "SetEntryDelay",
+    "SetEntryHasDelay", "SetEntryUseExtraConditions", "SetEntryCheckHealthRange",
+    "SetEntryCheckManaRange", "SetEntryHealthManaOperator", "SetEntryHealthRange", "SetEntryManaRange",
+    "SetEntryKeepEquipped", "SetEntryKeepEquippedDuration", "SetEntrySlot", "SetEntryConditionOperator",
+    "SetConditionType", "SetConditionMonstersAround", "SetConditionPlayersAround",
+    "SetConditionCreaturesCount", "SetConditionTargetName", "SetConditionCreatureNames"
+})
+
+exposeNativeFunctions("Alarms", AlarmsControl, {
+    "GetConfig", "SetLowHealthPercentage", "SetLowManaPercentage", "SetFlashWindowEnabled",
+    "SetBringToFocusEnabled", "SetIgnoreAllyPlayers", "SetGmChatCheckEnabled", "SetDamageTakenRange",
+    "SetPlayerAttackFilterMode", "SetPlayerDetectedFilterMode", "SetSkullFilterMode",
+    "SetCreatureDetectedNames", "SetAlarmMessages", "SetPlayerAttackNames",
+    "SetPlayerDetectedNames", "SetSkullNames", "SetEnemyNames", "SetGmNames"
+})
+
+exposeNativeFunctions("PVPTools", PVPControl, {
+    "GetConfig", "SetHoldTargetEnabled", "SetTrashOnMouseEnabled", "SetAntiPushEnabled",
+    "SetKillTargetEnabled", "SetMagicWallKeeperEnabled", "SetWildGrowthKeeperEnabled",
+    "SetPreviousSpotWallEnabled", "SetPushmaxEnabled", "SetPushAttackedPlayerEnabled",
+    "SetKillTargetManaCost", "SetKillTargetHealthPercentage", "SetKillTargetSpellWords",
+    "SetWallKeeperRuneIds", "SetWildGrowthKeeperRuneIds", "SetPreviousSpotRuneIds",
+    "SetPushmaxDisintegrateRuneId", "SetPushmaxNonDisintegrateRuneId",
+    "SetDelayBetweenRuneAndPush", "SetAntiPushTrashItem", "SetMouseTrashItem", "ResetLastTarget"
+})
+
+exposeNativeFunctions("ComboBot", ComboControl, {
+    "GetMode", "SetMode", "GetClientEntries", "GetRoomEntries", "GetRoomState",
+    "SetClientEntryLeaderName", "SetClientEntryLeaderSpellWords", "SetClientEntryMySpellWords",
+    "SetClientEntryMyRuneId", "SetClientEntryLeaderAction", "SetClientEntryMyAction",
+    "SetClientEntryFocusOption", "SetClientEntryShootType", "SetClientEntryRange",
+    "SetClientEntryEnabled", "SetClientEntryRequiresTarget", "SetRoomEntryLeaderSpellWords",
+    "SetRoomEntryMySpellWords", "SetRoomEntryLeaderRuneId", "SetRoomEntryMyRuneId",
+    "SetRoomEntryLeaderAction", "SetRoomEntryMyAction", "SetRoomEntryEquipMode",
+    "SetRoomEntryRange", "SetRoomEntryEnabled", "SetRoomEntryRequiresTarget"
+})
+
+exposeNativeFunctions("Targeting", Targeting, {
+    "GetEntries", "SetEntryEnabled", "SetEntryMonsterName", "SetEntryMonstersIgnoreList",
+    "SetEntryPriority", "SetEntryDangerLevel", "SetEntryAttackOption", "SetEntryKeepDistanceOption",
+    "SetEntryMinimumHealthPercentage", "SetEntryMaximumHealthPercentage",
+    "SetEntryKeepDistanceRange", "SetEntryAnchoringRange", "SetEntryLootMonster",
+    "SetEntryStayDiagonal", "SetEntryMustBeShootable", "SetEntryMustBeReachable", "SetEntryAnchoring"
+})
+
+exposeNativeFunctions("Extras", Extras, {
+    "GetEatFoodEnabled", "SetEatFoodEnabled", "GetAntiIdleEnabled", "SetAntiIdleEnabled",
+    "GetChangeGoldEnabled", "SetChangeGoldEnabled", "GetDashEnabled", "SetDashEnabled",
+    "GetDodgeEnabled", "SetDodgeEnabled", "GetTrainingEnabled", "SetTrainingEnabled",
+    "GetReconnectEnabled", "SetReconnectEnabled", "GetReconnectWhenDeadEnabled", "SetReconnectWhenDeadEnabled",
+    "GetAutoMountEnabled", "SetAutoMountEnabled", "GetFollowPlayerEnabled", "SetFollowPlayerEnabled",
+    "GetDisplayItemIdEnabled", "SetDisplayItemIdEnabled",
+    "GetOpenPrivateChannelOnPMEnabled", "SetOpenPrivateChannelOnPMEnabled",
+    "GetDisableMagicEffectsEnabled", "SetDisableMagicEffectsEnabled",
+    "GetShowShootEffectsEnabled", "SetShowShootEffectsEnabled", "GetFakeXlogEnabled", "SetFakeXlogEnabled",
+    "GetFollowPlayerName", "SetFollowPlayerName", "GetEatFoodIds", "SetEatFoodIds",
+    "GetGoldChangeIds", "SetGoldChangeIds", "GetExerciseWeaponIds", "SetExerciseWeaponIds",
+    "GetExerciseDummyIds", "SetExerciseDummyIds", "GetTrainingDelay", "SetTrainingDelay",
+    "GetFollowMode", "SetFollowMode", "GetFollowDistance", "SetFollowDistance",
+    "StartTraining", "StopTraining"
+})
+
+exposeNativeFunctions("TankMode", TankMode, {
+    "GetManaShieldEnabled", "SetManaShieldEnabled", "GetCancelManaShieldEnabled", "SetCancelManaShieldEnabled",
+    "GetCancelWhileManaShieldReadyEnabled", "SetCancelWhileManaShieldReadyEnabled",
+    "GetManaShieldPotionEnabled", "SetManaShieldPotionEnabled",
+    "GetPotionOnSpellCooldownEnabled", "SetPotionOnSpellCooldownEnabled",
+    "GetPotionWhenFearedEnabled", "SetPotionWhenFearedEnabled",
+    "GetManaShieldPotionId", "SetManaShieldPotionId",
+    "GetManaShieldManaCost", "SetManaShieldManaCost",
+    "GetCancelManaShieldManaCost", "SetCancelManaShieldManaCost",
+    "GetManaShieldHealthPercentage", "SetManaShieldHealthPercentage",
+    "GetManaShieldManaPercentage", "SetManaShieldManaPercentage",
+    "GetCancelManaShieldHealthPercentage", "SetCancelManaShieldHealthPercentage",
+    "GetCancelManaShieldManaPercentage", "SetCancelManaShieldManaPercentage",
+    "GetManaShieldSpellWords", "SetManaShieldSpellWords",
+    "GetCancelManaShieldSpellWords", "SetCancelManaShieldSpellWords"
+})
+
+exposeNativeFunctions("Looter", Looter, {
+    "GetActionType", "SetActionType", "GetMode", "SetMode",
+    "GetMinimumCapacity", "SetMinimumCapacity", "LootAroundCharacter"
+})
+
+exposeNativeFunctions("TimerActions", TimerActions, {
+    "GetEntries", "SetEntryEnabled", "SetEntrySpellWords", "SetEntryItemId",
+    "SetEntryType", "SetEntryDelay", "SetEntryUseInProtectionZone",
+    "AddEntry", "RemoveEntry", "ClearEntries"
+})
+
+exposeNativeFunctions("SuppliesSorter", SuppliesSorter, {
+    "GetEntries", "SetEntryEnabled", "SetEntryDestinationContainerId", "SetEntryItemIds",
+    "AddEntry", "RemoveEntry", "ClearEntries"
+})
+
+exposeNativeFunctions("Channels", Channels, {
+    "GetEntries", "SetEntryEnabled", "SetEntryName", "SetEntryMessage",
+    "SetEntryIntervalSeconds", "SetEntryChannelId", "SetEntryTalkAction",
+    "GetGlobalDelay", "SetGlobalDelay", "AddEntry", "RemoveEntry", "ClearEntries"
+})
+
+exposeNativeFunctions("Walker", Walker, {
+    "Resume", "SetEnabled", "IsEnabled", "IsStuck", "GoTo",
+    "GetSelectedWaypointIndex", "SetSelectedWaypointIndex", "SelectClosestWaypoint",
+    "GetWaypointCount", "GetWaypoints", "AddWaypoint", "InsertWaypoint", "ReplaceWaypoint",
+    "DeleteWaypoint", "ClearWaypoints", "MoveWaypointUp", "MoveWaypointDown",
+    "SetStartFromNearestWaypoint", "GetStartFromNearestWaypoint", "SetNodeDistance", "GetNodeDistance",
+    "SetWalkToLureCenter", "GetWalkToLureCenter", "SetLeaveLureOnPlayer", "GetLeaveLureOnPlayer",
+    "SetLeaveLurePlayerMode", "GetLeaveLurePlayerMode",
+    "SetDebugHud", "GetDebugHud", "SetAutoRecorderEnabled", "GetAutoRecorderEnabled",
+    "SetAutoRecorderOptions", "GetAutoRecorderOptions", "SetDistanceBetweenWaypoints",
+    "GetDistanceBetweenWaypoints", "SetPausedByLua", "IsPausedByLua"
+})
+
+exposeNativeFunctions("Lure", Lure, {
+    "SetEnabled", "IsEnabled", "GetState", "IsLuring", "IsFighting",
+    "SetForceLure", "IsForceLure", "EndForceLure", "SetOption", "GetOption",
+    "SetNearRange", "GetNearRange", "SetAttackWhileLuring", "GetAttackWhileLuring",
+    "SetConsiderOnlyReachable", "GetConsiderOnlyReachable", "SetSlowWalkDelayMs", "GetSlowWalkDelayMs",
+    "SetSlowWalkingCreaturesCount", "GetSlowWalkingCreaturesCount", "SetSlowWalkBurstSteps",
+    "GetSlowWalkBurstSteps", "SetIgnoringMonsters", "GetIgnoringMonsters",
+    "SetStartEndLureActive", "GetStartEndLureActive", "SetWaypointDynamicLureActive",
+    "GetWaypointDynamicLureActive", "SetUnblocking", "GetUnblocking", "GetLuredCreaturesCount",
+    "HasActiveSettings", "IsOtherPlayerOnScreen", "GetSettings", "GetSettingCount",
+    "AddSetting", "RemoveSetting", "ClearSettings"
+})
+
+-- HUD mutations retain per-script ownership because these functions are the
+-- original context-aware native closures, merely grouped under Engine.HUD.
+exposeNativeFunctions("HUD", HUD, {
+    "AddScreenText", "AddScreenImage", "AddWorldText", "AddWorldImage", "AddWorldBox",
+    "UpdateLifetime", "UpdateOffset", "RemoveElement", "UpdateText", "UpdateImageLabel",
+    "UpdateColor", "UpdateWidth", "UpdateHeight", "UpdateBorderWidth", "UpdateBorderColor",
+    "SetEnabled", "SetParent", "ClearParent", "SetDraggable", "SetDragTarget", "SetOnDragEnd",
+    "SetAlignment", "SetPosition", "SetScreenPosition", "SetZIndex", "SetClickable",
+    "GetElementEnabled", "GetElementVisible", "GetElementText", "GetElementColor",
+    "GetWorldElementPosition", "GetScreenElementPosition", "GetElementWidth", "GetElementHeight"
+})
+
+exposeNativeFunctions("HUD", HUDControl, {
+    "GetConfig", "SetMagicWallTimersEnabled", "SetXRayEnabled", "SetTargetingAnchorEnabled",
+    "SetLevelSpyEnabled", "SetMagicWallIds", "SetWildGrowthIds", "SetTimerColor",
+    "GetSpecialFoodCounters", "SetSpecialFoodCounterDelay", "RemoveSpecialFoodCounter"
+})
+
+exposeNativeFunctions("Delays", Delays, {
+    "GetHealSpellDelay", "SetHealSpellDelay", "GetHealItemDelay", "SetHealItemDelay",
+    "GetSupportSpellDelay", "SetSupportSpellDelay", "GetAttackSpellDelay", "SetAttackSpellDelay",
+    "GetAttackItemDelay", "SetAttackItemDelay", "GetAttackCreatureDelay", "SetAttackCreatureDelay",
+    "GetAntiIdleDelay", "SetAntiIdleDelay", "GetAlarmDelay", "SetAlarmDelay",
+    "GetEatFoodDelay", "SetEatFoodDelay", "GetDashDelay", "SetDashDelay",
+    "GetWalkerWalkDelay", "SetWalkerWalkDelay", "GetWalkerUseItemDelay", "SetWalkerUseItemDelay",
+    "GetWalkerUseWithItemDelay", "SetWalkerUseWithItemDelay", "GetTargetingWalkDelay", "SetTargetingWalkDelay",
+    "GetEquipItemDelay", "SetEquipItemDelay", "GetDropItemDelay", "SetDropItemDelay",
+    "GetHealFriendSpellDelay", "SetHealFriendSpellDelay", "GetHealFriendItemDelay", "SetHealFriendItemDelay",
+    "GetUseItemInContainerDelay", "SetUseItemInContainerDelay", "GetLootDelay", "SetLootDelay",
+    "GetReconnectDelay", "SetReconnectDelay", "GetMoveDelay", "SetMoveDelay",
+    "GetSpellCooldownSystemEnabled", "SetSpellCooldownSystemEnabled",
+    "GetItemCooldownSystemEnabled", "SetItemCooldownSystemEnabled",
+    "GetUseWithCooldownSystemEnabled", "SetUseWithCooldownSystemEnabled",
+    "GetGlobalQueueSystemEnabled", "SetGlobalQueueSystemEnabled",
+    "GetConnectionStabilityCheckEnabled", "SetConnectionStabilityCheckEnabled",
+    "GetSpellPredictionSystemEnabled", "SetSpellPredictionSystemEnabled",
+    "GetItemPredictionSystemEnabled", "SetItemPredictionSystemEnabled",
+    "GetServerPingCheckEnabled", "SetServerPingCheckEnabled"
+})
+
+exposeNativeFunctions("Scripter", ScripterControl, {
+    "Refresh", "GetAvailableScripts", "GetRunningScripts", "IsRunning",
+    "Start", "Stop", "Restart", "StopSelf", "GetAutoStartEnabled", "SetAutoStartEnabled"
+})
 
 return Engine
 

@@ -7,91 +7,88 @@ Core library: `features.lua`
 
 ## Exported tables
 
-- `BotFeatureId`
-- `BotFeatureName`
-- `ExcludeList`
 - `Features`
+- `BotFeatureId`
 
 ## Functions
 
-### Features
-
 #### `Features.Disable(featureIdentifier)`
-
-#### `Features.DisableAllExcept(excludeList)`
-
-#### `Features.DisableMultiple(featureList)`
-
-#### `Features.Enable(featureIdentifier)`
-
-#### `Features.EnableMultiple(featureList)`
-
-#### `Features.GetActiveFeatures()`
-
-#### `Features.GetAllFeatureIds()`
-
-#### `Features.GetName(featureIdentifier)`
-
-#### `Features.IsActive(featureIdentifier)`
-
-#### `Features.PrintStatus()`
-
-#### `Features.SetActive(featureIdentifier, activeStatus)`
-
-#### `Features.Toggle(featureIdentifier)`
-
-### General
-
-#### `featuresDisable(featureIdentifier)`
 
 Disables a feature (turns it off)
 
-#### `featuresDisableAllExcept(ExcludeList)`
+#### `Features.DisableAllExcept(ExcludeList)`
 
 Disables all features except those in the exclusion list
 
-#### `featuresDisableMultiple(featureList)`
+#### `Features.DisableMultiple(featureList)`
 
 Disables multiple features at once
 
-#### `featuresEnable(featureIdentifier)`
+#### `Features.Enable(featureIdentifier)`
 
 Enables a feature (turns it on)
 
-#### `featuresEnableMultiple(featureList)`
+#### `Features.EnableMultiple(featureList)`
 
 Enables multiple features at once
 
-#### `featuresGetActiveFeatures()`
+#### `Features.GetActiveFeatures()`
 
 Returns a list of all currently active features
 
-#### `featuresGetAllFeatureIds()`
+#### `Features.GetAllFeatureIds()`
 
 Returns a list of all available feature IDs
 
-#### `featuresGetName(featureIdentifier)`
+#### `Features.GetName(featureIdentifier)`
 
 Gets the human-readable name of a feature
 
-#### `featuresIsActive(featureIdentifier)`
+#### `Features.IsActive(featureIdentifier)`
 
 Checks if a feature is currently active/enabled
 
-#### `featuresPrintStatus()`
+#### `Features.PrintStatus()`
 
 Prints the status of all features
 
-#### `featuresSetActive(featureIdentifier, activeStatus)`
+#### `Features.SetActive(featureIdentifier, activeStatus)`
 
 Sets a feature to a specific active state
 
-#### `featuresToggle(featureIdentifier)`
+#### `Features.Toggle(featureIdentifier)`
 
 Toggles a feature's state (on -> off, off -> on)
+
+## Constants
+
+### `BotFeatureId`
+
+| Constant | Value |
+| :-- | :-- |
+| `BotFeatureId.ALARMS` | `8` |
+| `BotFeatureId.AMMO_REFILL` | `16` |
+| `BotFeatureId.CHANNELS_MANAGER` | `11` |
+| `BotFeatureId.COMBO_BOT` | `14` |
+| `BotFeatureId.CONDITIONS_MANAGER` | `2` |
+| `BotFeatureId.EQUIPMENT_MANAGER` | `10` |
+| `BotFeatureId.EXTRAS` | `9` |
+| `BotFeatureId.HEAL_FRIEND` | `3` |
+| `BotFeatureId.HEALER` | `1` |
+| `BotFeatureId.HUD` | `15` |
+| `BotFeatureId.LOOTER` | `13` |
+| `BotFeatureId.LURE_MANAGER` | `4` |
+| `BotFeatureId.MAGIC_SHOOTER` | `7` |
+| `BotFeatureId.PVP_TOOLS` | `12` |
+| `BotFeatureId.SUPPLIES_SORTER` | `19` |
+| `BotFeatureId.TANK_MODE` | `17` |
+| `BotFeatureId.TARGETING` | `6` |
+| `BotFeatureId.TIMER_ACTIONS` | `18` |
+| `BotFeatureId.WALKER` | `5` |
 
 ## Notes
 
 Internal helper functions in the core library are not part of the public scripting API.
 Use only the functions listed above when writing user scripts.
-Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

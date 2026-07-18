@@ -1,4 +1,5 @@
 import { defineConfig, defineDocs } from 'fumadocs-mdx/config';
+import { rehypeCodeDefaultOptions } from 'fumadocs-core/mdx-plugins';
 import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
 
 // You can customize Zod schemas for frontmatter and `meta.json` here
@@ -18,6 +19,11 @@ export const docs = defineDocs({
 
 export default defineConfig({
   mdxOptions: {
-    // MDX options
+    // Enable `code{:lua}` inline highlighting (Shiki).
+    // API-like backticks are also auto-highlighted by the MDX `code` component.
+    rehypeCodeOptions: {
+      ...rehypeCodeDefaultOptions,
+      inline: 'tailing-curly-colon',
+    },
   },
 });

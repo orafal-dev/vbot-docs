@@ -6,7 +6,9 @@ local native = {
     LoginToAccount = Game.LoginToAccount,
     LoginToCharacter = Game.LoginToCharacter,
     Logout = Game.Logout,
-    EnterWorld = Game.EnterWorld
+    EnterWorld = Game.EnterWorld,
+    OpenStore = Game.OpenStore,
+    OpenContainerInNewWindow = Game.OpenContainerInNewWindow
 }
 
 local function require_native_function(functionName)
@@ -66,4 +68,32 @@ end
 ---@return boolean
 function Game.EnterWorld()
     return require_native_function("EnterWorld")()
+end
+
+--- Opens the Store container in a new window.
+---@return boolean
+function Game.OpenStore()
+    return require_native_function("OpenStore")()
+end
+
+--- Opens a container in a new window.
+--- Call with one equipment slot, or with container id + source container number + source slot.
+---@param equipmentSlotOrContainerId number EquipmentSlot.* value, or container item id
+---@param fromContainerNumber number|nil Source container number when opening from a container
+---@param fromContainerSlot number|nil Source slot index when opening from a container
+---@return boolean
+function Game.OpenContainerInNewWindow(equipmentSlotOrContainerId, fromContainerNumber, fromContainerSlot)
+    if type(equipmentSlotOrContainerId) ~= "number" then
+        error("Game.OpenContainerInNewWindow: first argument must be a number", 3)
+    end
+
+    if fromContainerNumber == nil and fromContainerSlot == nil then
+        return require_native_function("OpenContainerInNewWindow")(equipmentSlotOrContainerId)
+    end
+
+    if type(fromContainerNumber) ~= "number" or type(fromContainerSlot) ~= "number" then
+        error("Game.OpenContainerInNewWindow: expected either (equipmentSlot) or (containerId, fromContainerNumber, fromContainerSlot)", 3)
+    end
+
+    return require_native_function("OpenContainerInNewWindow")(equipmentSlotOrContainerId, fromContainerNumber, fromContainerSlot)
 end

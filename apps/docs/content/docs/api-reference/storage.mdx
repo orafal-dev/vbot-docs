@@ -1,0 +1,217 @@
+---
+title: Storage
+description: API reference for Storage (storage.lua)
+---
+
+Core library: `storage.lua`
+
+## Exported tables
+
+- `Storage`
+- `StorageScope`
+
+## Functions
+
+### Storage
+
+#### `Storage.ForCharacter(namespace)`
+
+Creates a character-scoped logical namespace.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `namespace` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `StorageScope` |  |
+
+#### `Storage.Namespace(namespace, perCharacter)`
+
+Creates a logical namespace inside the current script's managed storage file.
+Set perCharacter to true to isolate its values by logged-in character name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `namespace` | `string` |  |  |
+| `perCharacter` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `StorageScope` |  |
+
+### Storage.Character
+
+#### `Storage.Character.Clear()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Storage.Character.Get(key, default)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+| `default` | `any` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Storage.Character.Remove(key)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Storage.Character.Set(key, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+| `value` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### Storage.Global
+
+#### `Storage.Global.Clear()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Storage.Global.Get(key, default)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+| `default` | `any` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Storage.Global.Remove(key)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Storage.Global.Set(key, value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+| `value` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### StorageScope
+
+#### `StorageScope:Get(key, default)`
+
+Reads a value from this logical namespace.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+| `default` | `any` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `StorageScope:Remove(key)`
+
+Removes a value from this logical namespace.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `StorageScope:Set(key, value)`
+
+Stores a value in this logical namespace.
+Supported values are nil, booleans, finite numbers, strings, and nested tables.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+| `value` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

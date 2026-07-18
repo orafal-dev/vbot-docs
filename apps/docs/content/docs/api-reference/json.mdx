@@ -1,0 +1,119 @@
+---
+title: Json
+description: API reference for Json (json.lua)
+---
+
+Core library: `json.lua`
+
+## Exported tables
+
+- `Json`
+
+## Functions
+
+#### `Json.Array(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Json.Decode(text)`
+
+Decodes JSON while preserving null as Json.Null and collection types for round trips.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `text` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
+#### `Json.Encode(value, pretty)`
+
+Encodes a Lua value as JSON. Raises an error for unsupported or oversized values.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `any` |  |  |
+| `pretty` | `boolean\|integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Json.Object(value)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Json.TryDecode(text)`
+
+Attempts to decode JSON without raising an error.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `text` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any\|nil` |  |
+| `string\|nil` |  |
+
+#### `Json.TryEncode(value, pretty)`
+
+Attempts to encode a value without raising an error.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `value` | `any` |  |  |
+| `pretty` | `boolean\|integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` |  |
+| `string\|nil` |  |
+
+## Usage notes
+
+- Constant: `Json.Null` (JSON null sentinel)
+
+## Notes
+
+Internal helper functions in the core library are not part of the public scripting API.
+Use only the functions listed above when writing user scripts.
+Descriptions, parameters, and return values come from `---` Lua annotation blocks in the core source when available,
+and from typed signatures in the public API appendix otherwise.

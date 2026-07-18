@@ -90,12 +90,7 @@ local function get_game_check_fn(name)
     return nil
 end
 
---- Checks whether toPos is reachable from fromPos.
---- If fromPos is nil, local player Position is used.
----@param fromPos table|nil Source Position table {x,y,z}
----@param toPos table Destination Position table {x,y,z}
----@return boolean
-function Position.IsReachable(fromPos, toPos)
+local function is_reachable(fromPos, toPos)
     local sourcePos = normalize_position(fromPos) or get_local_player_position()
     local targetPos = normalize_position(toPos)
     if not sourcePos or not targetPos then
@@ -114,12 +109,7 @@ function Position.IsReachable(fromPos, toPos)
     return ok and result == true
 end
 
---- Checks whether toPos is shootable from fromPos.
---- If fromPos is nil, local player Position is used.
----@param fromPos table|nil Source Position table {x,y,z}
----@param toPos table Destination Position table {x,y,z}
----@return boolean
-function Position.IsShootable(fromPos, toPos)
+local function is_shootable(fromPos, toPos)
     local sourcePos = normalize_position(fromPos) or get_local_player_position()
     local targetPos = normalize_position(toPos)
     if not sourcePos or not targetPos then
@@ -138,18 +128,30 @@ function Position.IsShootable(fromPos, toPos)
     return ok and result == true
 end
 
---- Instance helper for reachability to this Position.
----@param fromPos table|nil Source Position, defaults to local player Position
+--- Checks reachability in either supported call form:
+--- Position.IsReachable(fromPos, toPos) or targetPos:IsReachable(fromPos).
+--- The source defaults to the local player when omitted in the instance form.
+---@param fromOrTarget table|Position|nil
+---@param toOrFrom? table
 ---@return boolean
-function Position:IsReachable(fromPos)
-    return Position.IsReachable(fromPos, self)
+function Position.IsReachable(fromOrTarget, toOrFrom)
+    if getmetatable(fromOrTarget) == Position then
+        return is_reachable(toOrFrom, fromOrTarget)
+    end
+    return is_reachable(fromOrTarget, toOrFrom)
 end
 
---- Instance helper for shootability to this Position.
----@param fromPos table|nil Source Position, defaults to local player Position
+--- Checks shootability in either supported call form:
+--- Position.IsShootable(fromPos, toPos) or targetPos:IsShootable(fromPos).
+--- The source defaults to the local player when omitted in the instance form.
+---@param fromOrTarget table|Position|nil
+---@param toOrFrom? table
 ---@return boolean
-function Position:IsShootable(fromPos)
-    return Position.IsShootable(fromPos, self)
+function Position.IsShootable(fromOrTarget, toOrFrom)
+    if getmetatable(fromOrTarget) == Position then
+        return is_shootable(toOrFrom, fromOrTarget)
+    end
+    return is_shootable(fromOrTarget, toOrFrom)
 end
 
 -- Compatibility aliases for scripts preferring lower camel-case.
