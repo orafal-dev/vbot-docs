@@ -80,10 +80,218 @@ See [Spells & Cooldowns](/docs/guides/spells-cooldowns) for `CooldownGroupId`.
 
 ## Network opcodes
 
-Advanced scripts may reference:
+Advanced scripts may reference packet IDs from `lua_consts`. Prefer the named constants over raw numbers.
 
-- `GameServerOpcodes` — server-to-client packet IDs
-- `ClientOpcodes` — client-to-server packet IDs
+### GameServerOpcodes
+
+Server-to-client packet IDs.
+
+| Constant | Value |
+| --- | --- |
+| `GameServerOpcodes.NONE` | 0 |
+| `GameServerOpcodes.GAME_SERVER_INIT_GAME` | 10 |
+| `GameServerOpcodes.GAME_SERVER_GM_ACTIONS` | 11 |
+| `GameServerOpcodes.GAME_SERVER_ENTER_GAME` | 15 |
+| `GameServerOpcodes.GAME_SERVER_LOGIN_ERROR` | 20 |
+| `GameServerOpcodes.GAME_SERVER_LOGIN_ADVICE` | 21 |
+| `GameServerOpcodes.GAME_SERVER_LOGIN_WAIT` | 22 |
+| `GameServerOpcodes.GAME_SERVER_ADD_CREATURE` | 23 |
+| `GameServerOpcodes.GAME_SERVER_PING_BACK` | 29 |
+| `GameServerOpcodes.GAME_SERVER_PING` | 30 |
+| `GameServerOpcodes.GAME_SERVER_CHALLENGE` | 31 |
+| `GameServerOpcodes.GAME_SERVER_DEATH` | 40 |
+| `GameServerOpcodes.GAME_SERVER_EXTENDED_OPCODE` | 50 |
+| `GameServerOpcodes.GAME_SERVER_FULL_MAP` | 100 |
+| `GameServerOpcodes.GAME_SERVER_MAP_TOP_ROW` | 101 |
+| `GameServerOpcodes.GAME_SERVER_MAP_RIGHT_ROW` | 102 |
+| `GameServerOpcodes.GAME_SERVER_MAP_BOTTOM_ROW` | 103 |
+| `GameServerOpcodes.GAME_SERVER_MAP_LEFT_ROW` | 104 |
+| `GameServerOpcodes.GAME_SERVER_UPDATE_TILE` | 105 |
+| `GameServerOpcodes.GAME_SERVER_CREATE_ON_MAP` | 106 |
+| `GameServerOpcodes.GAME_SERVER_CHANGE_ON_MAP` | 107 |
+| `GameServerOpcodes.GAME_SERVER_DELETE_ON_MAP` | 108 |
+| `GameServerOpcodes.GAME_SERVER_MOVE_CREATURE` | 109 |
+| `GameServerOpcodes.GAME_SERVER_OPEN_CONTAINER` | 110 |
+| `GameServerOpcodes.GAME_SERVER_CLOSE_CONTAINER` | 111 |
+| `GameServerOpcodes.GAME_SERVER_CREATE_CONTAINER` | 112 |
+| `GameServerOpcodes.GAME_SERVER_CHANGE_IN_CONTAINER` | 113 |
+| `GameServerOpcodes.GAME_SERVER_DELETE_IN_CONTAINER` | 114 |
+| `GameServerOpcodes.GAME_SERVER_SET_INVENTORY` | 120 |
+| `GameServerOpcodes.GAME_SERVER_DELETE_INVENTORY` | 121 |
+| `GameServerOpcodes.GAME_SERVER_OPEN_NPC_TRADE` | 122 |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_GOODS` | 123 |
+| `GameServerOpcodes.GAME_SERVER_CLOSE_NPC_TRADE` | 124 |
+| `GameServerOpcodes.GAME_SERVER_OWN_TRADE` | 125 |
+| `GameServerOpcodes.GAME_SERVER_COUNTER_TRADE` | 126 |
+| `GameServerOpcodes.GAME_SERVER_CLOSE_TRADE` | 127 |
+| `GameServerOpcodes.GAME_SERVER_AMBIENT` | 130 |
+| `GameServerOpcodes.GAME_SERVER_GRAPHICAL_EFFECT` | 131 |
+| `GameServerOpcodes.GAME_SERVER_TEXT_EFFECT` | 132 |
+| `GameServerOpcodes.GAME_SERVER_MISSLE_EFFECT` | 133 |
+| `GameServerOpcodes.GAME_SERVER_MARK_CREATURE` | 134 |
+| `GameServerOpcodes.GAME_SERVER_TRAPPERS` | 135 |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_HEALTH` | 140 |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_LIGHT` | 141 |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_OUTFIT` | 142 |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_SPEED` | 143 |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_SKULL` | 144 |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_PARTY` | 145 |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_UNPASS` | 146 |
+| `GameServerOpcodes.GAME_SERVER_EDIT_TEXT` | 150 |
+| `GameServerOpcodes.GAME_SERVER_EDIT_LIST` | 151 |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_DATA_BASIC` | 159 |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_DATA` | 160 |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_SKILLS` | 161 |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_STATE` | 162 |
+| `GameServerOpcodes.GAME_SERVER_CLEAR_TARGET` | 163 |
+| `GameServerOpcodes.GAME_SERVER_SPELL_DELAY` | 164 |
+| `GameServerOpcodes.GAME_SERVER_SPELL_GROUP_DELAY` | 165 |
+| `GameServerOpcodes.GAME_SERVER_MULTI_USE_DELAY` | 166 |
+| `GameServerOpcodes.GAME_SERVER_TALK` | 170 |
+| `GameServerOpcodes.GAME_SERVER_CHANNELS` | 171 |
+| `GameServerOpcodes.GAME_SERVER_OPEN_CHANNEL` | 172 |
+| `GameServerOpcodes.GAME_SERVER_OPEN_PRIVATE_CHANNEL` | 173 |
+| `GameServerOpcodes.GAME_SERVER_RULE_VIOLATION_CHANNEL` | 174 |
+| `GameServerOpcodes.GAME_SERVER_RULE_VIOLATION_REMOVE` | 175 |
+| `GameServerOpcodes.GAME_SERVER_RULE_VIOLATION_CANCEL` | 176 |
+| `GameServerOpcodes.GAME_SERVER_RULE_VIOLATION_LOCK` | 177 |
+| `GameServerOpcodes.GAME_SERVER_OPEN_OWN_CHANNEL` | 178 |
+| `GameServerOpcodes.GAME_SERVER_CLOSE_CHANNEL` | 179 |
+| `GameServerOpcodes.GAME_SERVER_TEXT_MESSAGE` | 180 |
+| `GameServerOpcodes.GAME_SERVER_CANCEL_WALK` | 181 |
+| `GameServerOpcodes.GAME_SERVER_WALK_WAIT` | 182 |
+| `GameServerOpcodes.GAME_SERVER_UNJUSTIFIED_POINTS` | 183 |
+| `GameServerOpcodes.GAME_SERVER_FLOOR_CHANGE_UP` | 190 |
+| `GameServerOpcodes.GAME_SERVER_FLOOR_CHANGE_DOWN` | 191 |
+| `GameServerOpcodes.GAME_SERVER_CHOOSE_OUTFIT` | 200 |
+| `GameServerOpcodes.GAME_SERVER_VIP_ADD` | 210 |
+| `GameServerOpcodes.GAME_SERVER_VIP_LOGIN` | 211 |
+| `GameServerOpcodes.GAME_SERVER_VIP_LOGOUT` | 212 |
+| `GameServerOpcodes.GAME_SERVER_TUTORIAL_HINT` | 220 |
+| `GameServerOpcodes.GAME_SERVER_AUTOMAP_FLAG` | 221 |
+| `GameServerOpcodes.GAME_SERVER_COIN_BALANCE` | 223 |
+| `GameServerOpcodes.GAME_SERVER_STORE_ERROR` | 224 |
+| `GameServerOpcodes.GAME_SERVER_REQUEST_PURCHASE_DATA` | 225 |
+| `GameServerOpcodes.GAME_SERVER_QUEST_LOG` | 240 |
+| `GameServerOpcodes.GAME_SERVER_QUEST_LINE` | 241 |
+| `GameServerOpcodes.GAME_SERVER_COIN_BALANCE_UPDATING` | 242 |
+| `GameServerOpcodes.GAME_SERVER_CHANNEL_EVENT` | 243 |
+| `GameServerOpcodes.GAME_SERVER_ITEM_INFO` | 244 |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_INVENTORY` | 245 |
+| `GameServerOpcodes.GAME_SERVER_MARKET_ENTER` | 246 |
+| `GameServerOpcodes.GAME_SERVER_MARKET_LEAVE` | 247 |
+| `GameServerOpcodes.GAME_SERVER_MARKET_DETAIL` | 248 |
+| `GameServerOpcodes.GAME_SERVER_MARKET_BROWSE` | 249 |
+| `GameServerOpcodes.GAME_SERVER_SHOW_MODAL_DIALOG` | 250 |
+| `GameServerOpcodes.GAME_SERVER_STORE` | 251 |
+| `GameServerOpcodes.GAME_SERVER_STORE_OFFERS` | 252 |
+| `GameServerOpcodes.GAME_SERVER_STORE_TRANSACTION_HISTORY` | 253 |
+| `GameServerOpcodes.GAME_SERVER_STORE_COMPLETE_PURCHASE` | 254 |
+
+### ClientOpcodes
+
+Client-to-server packet IDs.
+
+| Constant | Value |
+| --- | --- |
+| `ClientOpcodes.CLIENT_ENTER_ACCOUNT` | 1 |
+| `ClientOpcodes.CLIENT_PENDING_GAME` | 10 |
+| `ClientOpcodes.CLIENT_ENTER_GAME` | 15 |
+| `ClientOpcodes.CLIENT_LEAVE_GAME` | 20 |
+| `ClientOpcodes.CLIENT_PING` | 29 |
+| `ClientOpcodes.CLIENT_PING_BACK` | 30 |
+| `ClientOpcodes.CLIENT_FIRST_GAME_OPCODE` | 50 |
+| `ClientOpcodes.CLIENT_EXTENDED_OPCODE` | 50 |
+| `ClientOpcodes.CLIENT_CHANGE_MAP_AWARE_RANGE` | 51 |
+| `ClientOpcodes.CLIENT_AUTO_WALK` | 100 |
+| `ClientOpcodes.CLIENT_WALK_NORTH` | 101 |
+| `ClientOpcodes.CLIENT_WALK_EAST` | 102 |
+| `ClientOpcodes.CLIENT_WALK_SOUTH` | 103 |
+| `ClientOpcodes.CLIENT_WALK_WEST` | 104 |
+| `ClientOpcodes.CLIENT_STOP` | 105 |
+| `ClientOpcodes.CLIENT_WALK_NORTH_EAST` | 106 |
+| `ClientOpcodes.CLIENT_WALK_SOUTH_EAST` | 107 |
+| `ClientOpcodes.CLIENT_WALK_SOUTH_WEST` | 108 |
+| `ClientOpcodes.CLIENT_WALK_NORTH_WEST` | 109 |
+| `ClientOpcodes.CLIENT_TURN_NORTH` | 111 |
+| `ClientOpcodes.CLIENT_TURN_EAST` | 112 |
+| `ClientOpcodes.CLIENT_TURN_SOUTH` | 113 |
+| `ClientOpcodes.CLIENT_TURN_WEST` | 114 |
+| `ClientOpcodes.CLIENT_EQUIP_ITEM` | 119 |
+| `ClientOpcodes.CLIENT_MOVE` | 120 |
+| `ClientOpcodes.CLIENT_INSPECT_NPC_TRADE` | 121 |
+| `ClientOpcodes.CLIENT_BUY_ITEM` | 122 |
+| `ClientOpcodes.CLIENT_SELL_ITEM` | 123 |
+| `ClientOpcodes.CLIENT_CLOSE_NPC_TRADE` | 124 |
+| `ClientOpcodes.CLIENT_REQUEST_TRADE` | 125 |
+| `ClientOpcodes.CLIENT_INSPECT_TRADE` | 126 |
+| `ClientOpcodes.CLIENT_ACCEPT_TRADE` | 127 |
+| `ClientOpcodes.CLIENT_REJECT_TRADE` | 128 |
+| `ClientOpcodes.CLIENT_USE_ITEM` | 130 |
+| `ClientOpcodes.CLIENT_USE_ITEM_WITH` | 131 |
+| `ClientOpcodes.CLIENT_USE_ON_CREATURE` | 132 |
+| `ClientOpcodes.CLIENT_ROTATE_ITEM` | 133 |
+| `ClientOpcodes.CLIENT_CLOSE_CONTAINER` | 135 |
+| `ClientOpcodes.CLIENT_UP_CONTAINER` | 136 |
+| `ClientOpcodes.CLIENT_EDIT_TEXT` | 137 |
+| `ClientOpcodes.CLIENT_EDIT_LIST` | 138 |
+| `ClientOpcodes.CLIENT_LOOK` | 140 |
+| `ClientOpcodes.CLIENT_LOOK_CREATURE` | 141 |
+| `ClientOpcodes.CLIENT_QUICK_LOOT` | 143 |
+| `ClientOpcodes.CLIENT_TALK` | 150 |
+| `ClientOpcodes.CLIENT_REQUEST_CHANNELS` | 151 |
+| `ClientOpcodes.CLIENT_JOIN_CHANNEL` | 152 |
+| `ClientOpcodes.CLIENT_LEAVE_CHANNEL` | 153 |
+| `ClientOpcodes.CLIENT_OPEN_PRIVATE_CHANNEL` | 154 |
+| `ClientOpcodes.CLIENT_OPEN_RULE_VIOLATION` | 155 |
+| `ClientOpcodes.CLIENT_CLOSE_RULE_VIOLATION` | 156 |
+| `ClientOpcodes.CLIENT_CANCEL_RULE_VIOLATION` | 157 |
+| `ClientOpcodes.CLIENT_CLOSE_NPC_CHANNEL` | 158 |
+| `ClientOpcodes.CLIENT_CHANGE_FIGHT_MODES` | 160 |
+| `ClientOpcodes.CLIENT_ATTACK` | 161 |
+| `ClientOpcodes.CLIENT_FOLLOW` | 162 |
+| `ClientOpcodes.CLIENT_INVITE_TO_PARTY` | 163 |
+| `ClientOpcodes.CLIENT_JOIN_PARTY` | 164 |
+| `ClientOpcodes.CLIENT_REVOKE_INVITATION` | 165 |
+| `ClientOpcodes.CLIENT_PASS_LEADERSHIP` | 166 |
+| `ClientOpcodes.CLIENT_LEAVE_PARTY` | 167 |
+| `ClientOpcodes.CLIENT_SHARE_EXPERIENCE` | 168 |
+| `ClientOpcodes.CLIENT_DISBAND_PARTY` | 169 |
+| `ClientOpcodes.CLIENT_OPEN_OWN_CHANNEL` | 170 |
+| `ClientOpcodes.CLIENT_INVITE_TO_OWN_CHANNEL` | 171 |
+| `ClientOpcodes.CLIENT_EXCLUDE_FROM_OWN_CHANNEL` | 172 |
+| `ClientOpcodes.CLIENT_CANCEL_ATTACK_AND_FOLLOW` | 190 |
+| `ClientOpcodes.CLIENT_UPDATE_TILE` | 201 |
+| `ClientOpcodes.CLIENT_REFRESH_CONTAINER` | 202 |
+| `ClientOpcodes.CLIENT_BROWSE_FIELD` | 203 |
+| `ClientOpcodes.CLIENT_SEEK_IN_CONTAINER` | 204 |
+| `ClientOpcodes.CLIENT_REQUEST_OUTFIT` | 210 |
+| `ClientOpcodes.CLIENT_CHANGE_OUTFIT` | 211 |
+| `ClientOpcodes.CLIENT_MOUNT` | 212 |
+| `ClientOpcodes.CLIENT_ADD_VIP` | 220 |
+| `ClientOpcodes.CLIENT_REMOVE_VIP` | 221 |
+| `ClientOpcodes.CLIENT_EDIT_VIP` | 222 |
+| `ClientOpcodes.CLIENT_BUG_REPORT` | 230 |
+| `ClientOpcodes.CLIENT_RULE_VIOLATION` | 231 |
+| `ClientOpcodes.CLIENT_DEBUG_REPORT` | 232 |
+| `ClientOpcodes.CLIENT_TRANSFER_COINS` | 239 |
+| `ClientOpcodes.CLIENT_REQUEST_QUEST_LOG` | 240 |
+| `ClientOpcodes.CLIENT_REQUEST_QUEST_LINE` | 241 |
+| `ClientOpcodes.CLIENT_NEW_RULE_VIOLATION` | 242 |
+| `ClientOpcodes.CLIENT_REQUEST_ITEM_INFO` | 243 |
+| `ClientOpcodes.CLIENT_MARKET_LEAVE` | 244 |
+| `ClientOpcodes.CLIENT_MARKET_BROWSE` | 245 |
+| `ClientOpcodes.CLIENT_MARKET_CREATE` | 246 |
+| `ClientOpcodes.CLIENT_MARKET_CANCEL` | 247 |
+| `ClientOpcodes.CLIENT_MARKET_ACCEPT` | 248 |
+| `ClientOpcodes.CLIENT_ANSWER_MODAL_DIALOG` | 249 |
+| `ClientOpcodes.CLIENT_OPEN_STORE` | 250 |
+| `ClientOpcodes.CLIENT_REQUEST_STORE_OFFERS` | 251 |
+| `ClientOpcodes.CLIENT_BUY_STORE_OFFER` | 252 |
+| `ClientOpcodes.CLIENT_OPEN_TRANSACTION_HISTORY` | 253 |
+| `ClientOpcodes.CLIENT_REQUEST_TRANSACTION_HISTORY` | 254 |
+
+> `CLIENT_FIRST_GAME_OPCODE` and `CLIENT_EXTENDED_OPCODE` both map to **50**.
 
 ## Cavebot
 
