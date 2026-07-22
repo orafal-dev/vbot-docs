@@ -168,6 +168,24 @@ Sells an Item to NPC trade.
 | :-- | :-- |
 | `any` | result Underlying Game API return value |
 
+#### `Item.Use(itemId)`
+
+Uses an Item directly by id, like pressing an in-game item hotkey.
+No backpack needs to be open and no container index or slot is required.
+Use this for direct-use items such as Magic Shield Potions.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | Item id to use |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | dispatched Whether the action was accepted for dispatch |
+
 #### `Item.UseFromContainerOnFloor(floorPosition, fromItemId, toItemId, toStackPosition)`
 
 Uses a container Item with an Item on the floor.
@@ -242,7 +260,25 @@ Uses an Item on a creature target.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched False when the creature is unavailable |
+
+#### `Item.UseOnSelf(itemId)`
+
+Uses a use-with Item on the local player.
+This is for Items that require a creature target. Direct-use Items should
+use Item.Use(itemId) instead.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | Item id to use on the local player |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | dispatched False when the local player is unavailable |
 
 ## Notes
 

@@ -51,6 +51,7 @@ Keep callbacks short and non-blocking. Use `Module.After` for deferred work.
 local hud = ScreenText:New("my_status_hud")
 hud
     :SetColor({ r = 255, g = 255, b = 255, a = 255 })
+    :SetFont("Segoe UI", 16)
     :SetText("Starting...")
     :Create()
     :SetScreenPosition(25, 80)
@@ -64,6 +65,29 @@ Module.Every("my_status_update", function()
 end, 1000)
 ```
 
+### Overlay layer — draw above Tibia panels
+
+Every HUD element defaults to `HUDRenderLayer.MAP`. Pass `HUDRenderLayer.OVERLAY` to `New(...)` or call `SetRenderLayer` **before** `Create()` to draw over client panels outside the map rectangle. Changing the layer after `Create()` raises an error. Logical parents and children must share the same render layer.
+
+```lua
+local overlayTitle = ScreenText:New("overlay_title", HUDRenderLayer.OVERLAY)
+    :SetText("Drawn above Tibia panels")
+    :SetFont("Segoe UI", 20)
+    :SetScreenPosition(700, 120)
+    :SetZIndex(10)
+    :Create()
+```
+
+### Fonts
+
+`ScreenText` and `WorldText` use Tibia's HUD font by default. Prefer common Windows font-family names:
+
+| Method | Description |
+| --- | --- |
+| `SetFont(family, pixelSize)` | Set family and size (1–256); works before/after `Create()` |
+| `SetFontFamily(family)` / `SetFontSize(pixelSize)` | Update one property |
+| `SetFont(nil, nil)` | Restore Tibia font and size |
+
 ### ScreenImage — icons with labels
 
 ```lua
@@ -76,12 +100,15 @@ icon
     :SetScreenPosition(100, 100)
 ```
 
-- `SetLabel(text, color, offsetX, offsetY)` — attach or update label text
+- `SetLabel(text, color, offsetX, offsetY)` — attach or update label text (also available on `WorldImage`)
+- `SetSourceBase64(base64Png)` / `SetSourceBytes(pngBytes)` — embed PNG data (raw Base64, `data:image/png;base64,...`, or byte arrays); PNG-only, max 4 MiB / 2048×2048
 - `SetParent(parent_id)` — parent to draggable ScreenText; children follow drag movement
-- `SetZIndex(zIndex)` — draw order for screen/world elements
+- `SetZIndex(zIndex)` — draw order within the selected render layer
 - `SetDragTarget(target)` / `SetOnDragEnd(callback)` — advanced drag behavior on screen elements
 
-All HUD classes support `New`, `Create`, `Remove`, `SetEnabled`, `SetZIndex`, `SetParent`, and `ClearParent` as applicable. Setters return the same object for chaining. `Engine.HUD` element operations retain per-script ownership — a script cannot mutate another script's HUD elements.
+Choose exactly one image source setter (`SetSource`, `SetSourceBase64`, `SetSourceBytes`, `SetItemId`, or `SetItemName`); calling another replaces the prior selection.
+
+All HUD classes support `New`, `Create`, `Remove`, `SetEnabled`, `SetZIndex`, `SetRenderLayer`, `SetParent`, and `ClearParent` as applicable. Setters return the same object for chaining. `Engine.HUD` element operations retain per-script ownership — a script cannot mutate another script's HUD elements. `Engine.HUD.UpdateFont` updates font family/size for an existing element id.
 
 ### World overlays
 
@@ -101,11 +128,12 @@ end
 
 Available world classes: `WorldText`, `WorldBox`, `WorldImage`
 
-Alignment constants: `HorizontalAlignment`, `VerticalAlignment`
+Alignment constants: `HorizontalAlignment`, `VerticalAlignment`  
+Render layers: `HUDRenderLayer.MAP`, `HUDRenderLayer.OVERLAY`
 
 ## Hotkeys
 
-Register keyboard combos (alt modifier **not supported**):
+Register keyboard combos. **alt** is not supported for `RegisterCombo` callbacks, but `SendKey` / `SendCombo` can send alt combinations to the client:
 
 ```lua
 Hotkeys.RegisterCombo({
@@ -119,9 +147,15 @@ Hotkeys.RegisterCombo({
     name = "Say hi",
     trigger_on_keydown = false,
 })
+
+-- Queue synthetic input to the injected Tibia window (clientOnly defaults to true)
+Hotkeys.SendKey("f1")
+Hotkeys.SendCombo("ctrl+shift+f9")
+Hotkeys.SendCombo("alt+f1")
+Hotkeys.SendCombo("ctrl+f1", false) -- route through normal ImGui/bot/Lua handling
 ```
 
-Extended keys (insert, delete, arrows, etc.) default to `extended = true` in `Hotkeys.ParseCombo`.
+A `true` return from `SendKey` / `SendCombo` means the key sequence was queued, not that Tibia had an action assigned. Extended keys (insert, delete, arrows, etc.) default to `extended = true` in `Hotkeys.ParseCombo`.
 
 ## Sound
 

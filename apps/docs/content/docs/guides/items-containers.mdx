@@ -11,12 +11,16 @@ Item interaction spans three modules: `Item`, `Container`, and `Inventory`.
 
 | Function | Description |
 | --- | --- |
-| `Item.UseOnCreature(itemId, creatureId)` | Use item on creature |
+| `Item.Use(itemId)` | Direct-use by id (like an item hotkey; no open backpack required) |
+| `Item.UseOnSelf(itemId)` | Use-with item on the local player |
+| `Item.UseOnCreature(itemId, creatureId)` | Use-with item on a creature |
 | `Item.Buy(itemId, count, ignoreCapacity, buyInShoppingBags)` | Buy from NPC |
 | `Item.Sell(itemId, count, sellEquipped)` | Sell to NPC |
 | `Item.UseFromContainerOnFloor(...)` | Use from backpack to floor |
 | `Item.UseFromFloorToContainer(...)` | Use from floor to backpack |
 | `Item.UseFromContainerToContainer(...)` | Use between containers |
+
+Use `Item.Use` for direct-use items (for example Magic Shield Potions). Use `Item.UseOnSelf` / `Item.UseOnCreature` for use-with items that need a creature target.
 
 ### Metadata
 

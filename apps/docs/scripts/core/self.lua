@@ -10,6 +10,18 @@ local function validate_positive_integer(value, argName, functionName)
     end
 end
 
+--- Validates that value is an integer within an inclusive range.
+---@param value any
+---@param minimum integer
+---@param maximum integer
+---@param argName string
+---@param functionName string
+local function validate_integer_in_range(value, minimum, maximum, argName, functionName)
+    if type(value) ~= "number" or value % 1 ~= 0 or value < minimum or value > maximum then
+        error(functionName .. ": argument '" .. argName .. "' must be an integer between " .. minimum .. " and " .. maximum)
+    end
+end
+
 --- Validates that table has integer x, y, z fields.
 ---@param pos table position table {x,y,z}
 ---@param functionName string
@@ -200,6 +212,26 @@ function Self.GetCapacity()
     end
 
     return Game.GetCapacity()
+end
+
+--- Returns the client-reported inventory count for an item, optionally filtered by tier.
+---@param itemId integer Item type id (1..65535)
+---@param tierLevel? integer Tier level (0..255); defaults to 0
+---@return integer
+function Self.GetItemCount(itemId, tierLevel)
+    validate_integer_in_range(itemId, 1, 65535, "itemId", "Self.GetItemCount")
+
+    local tier = tierLevel
+    if tier == nil then
+        tier = 0
+    end
+    validate_integer_in_range(tier, 0, 255, "tierLevel", "Self.GetItemCount")
+
+    if type(Game) ~= "table" or type(Game.GetItemCount) ~= "function" then
+        return 0
+    end
+
+    return Game.GetItemCount(itemId, tier)
 end
 
 --- Returns the world name for a character from the character list.

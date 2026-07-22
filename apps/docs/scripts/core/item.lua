@@ -15,11 +15,31 @@ end
 --- Uses an Item on a creature target.
 ---@param itemId integer Item id to use
 ---@param creatureId integer creature id target
----@return any result Underlying Game API return value
+---@return boolean dispatched False when the creature is unavailable
 function Item.UseOnCreature(itemId, creatureId)
     validate_positive_integer(itemId, "itemId", "Item.UseOnCreature")
     validate_positive_integer(creatureId, "creatureId", "Item.UseOnCreature")
     return Game.UseWithItemOnCreature(itemId, creatureId)
+end
+
+--- Uses an Item directly by id, like pressing an in-game item hotkey.
+--- No backpack needs to be open and no container index or slot is required.
+--- Use this for direct-use items such as Magic Shield Potions.
+---@param itemId integer Item id to use
+---@return boolean dispatched Whether the action was accepted for dispatch
+function Item.Use(itemId)
+    validate_positive_integer(itemId, "itemId", "Item.Use")
+    return Game.UseItem(itemId)
+end
+
+--- Uses a use-with Item on the local player.
+--- This is for Items that require a creature target. Direct-use Items should
+--- use Item.Use(itemId) instead.
+---@param itemId integer Item id to use on the local player
+---@return boolean dispatched False when the local player is unavailable
+function Item.UseOnSelf(itemId)
+    validate_positive_integer(itemId, "itemId", "Item.UseOnSelf")
+    return Game.UseWithItemOnSelf(itemId)
 end
 
 --- Buys an Item from NPC trade.

@@ -153,6 +153,24 @@ Hotkeys.RegisterCombo({
 })
 ```
 
+## Send client hotkey
+
+```lua
+-- Queue a key sequence to the injected Tibia window (bypasses ImGui/bot handlers by default)
+Hotkeys.SendKey("f1")
+Hotkeys.SendCombo("alt+f1") -- alt is allowed for Send*, not for RegisterCombo
+```
+
+## Direct item use
+
+```lua
+-- Direct-use by item id (no open backpack required)
+Item.Use(7643)
+
+-- Use-with item on the local player
+Item.UseOnSelf(3160)
+```
+
 ## Good vs bad API style
 
 ```lua

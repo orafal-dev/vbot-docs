@@ -79,7 +79,13 @@ Checks if the element has been created in C++.
 | :-- | :-- |
 | `boolean` |  |
 
-#### `ScreenImage:New(id)`
+#### `ScreenImage:New(id, renderLayer)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `renderLayer` | `string` | Yes | Optional HUDRenderLayer value |
 
 #### `ScreenImage:Remove()`
 
@@ -146,6 +152,22 @@ Parent visibility/removal cascade to this image, and parent screen movement keep
 | :-- | :-- |
 | `ScreenImage` | Returns self for method chaining |
 
+#### `ScreenImage:SetRenderLayer(renderLayer)`
+
+Selects the Qt scene layer. This must be called before Create().
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `renderLayer` | `string` |  | HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
 #### `ScreenImage:SetScreenPosition(x, y)`
 
 Sets the screen position in pixels from top-left corner.
@@ -167,6 +189,38 @@ If called before :Create(), the position is applied immediately after creation.
 #### `ScreenImage:SetSize(width, height)`
 
 #### `ScreenImage:SetSource(path)`
+
+#### `ScreenImage:SetSourceBase64(base64Png)`
+
+Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `base64Png` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
+#### `ScreenImage:SetSourceBytes(pngBytes)`
+
+Uses a PNG embedded as a byte array, for example \{0x89, 0x50, 0x4E, 0x47, ...\}.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `pngBytes` | `number[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
 
 #### `ScreenImage:SetZIndex(zIndex)`
 
@@ -300,7 +354,7 @@ Checks if the element has been created in C++.
 if myText:IsCreated() then print("Element exists") end
 ```
 
-#### `ScreenText:New(id)`
+#### `ScreenText:New(id, renderLayer)`
 
 Creates a new screen text element.
 Screen text is rendered as a 2D overlay on the screen at fixed positions.
@@ -311,6 +365,7 @@ The element is not created until :Create() is called.
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `id` | `string` |  | Unique identifier within this script |
+| `renderLayer` | `string` | Yes | Optional HUDRenderLayer value |
 
 **Returns**
 
@@ -468,6 +523,57 @@ Disabled elements are not rendered but still exist in memory.
 myText:SetEnabled(false) -- Hide the element
 ```
 
+#### `ScreenText:SetFont(family, pixelSize)`
+
+Sets the installed system-font family and pixel size.
+Either value may be nil to inherit that property from Tibia's HUD font.
+This can be called before or after Create(). Set both to nil to reset.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `family` | `string\|nil` |  | Installed system-font family name |
+| `pixelSize` | `integer\|nil` |  | Font size in pixels (1-256) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
+
+#### `ScreenText:SetFontFamily(family)`
+
+Changes only the installed system-font family. Pass nil to restore Tibia's family.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `family` | `string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
+
+#### `ScreenText:SetFontSize(pixelSize)`
+
+Changes only the font pixel size. Pass nil to restore Tibia's font size.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `pixelSize` | `integer\|nil` |  | Font size in pixels (1-256) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
+
 #### `ScreenText:SetOnDragEnd(callback)`
 
 Runs after a drag finishes. The callback receives final target x and y coordinates.
@@ -508,6 +614,22 @@ The parent and child must belong to the same script/HUD owner.
 ```lua
 childText:SetParent(parentText.id)
 ```
+
+#### `ScreenText:SetRenderLayer(renderLayer)`
+
+Selects the Qt scene layer. This must be called before Create().
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `renderLayer` | `string` |  | HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
 
 #### `ScreenText:SetScreenPosition(x, y)`
 
@@ -673,7 +795,7 @@ Checks if the element has been created in C++.
 | :-- | :-- |
 | `boolean` | True if element exists in C++ |
 
-#### `WorldBox:New(id, x, y, z)`
+#### `WorldBox:New(id, x, y, z, renderLayer)`
 
 Creates a new world box element.
 World boxes are rectangular overlays anchored to 3D coordinates in the game world.
@@ -687,6 +809,7 @@ Useful for highlighting tiles, areas, danger zones, or objects.
 | `x` | `number` |  | World X coordinate |
 | `y` | `number` |  | World Y coordinate |
 | `z` | `number` |  | World Z coordinate (floor level) |
+| `renderLayer` | `string` | Yes | Optional HUDRenderLayer value |
 
 **Returns**
 
@@ -880,6 +1003,22 @@ The box will move to the new 3D coordinate in the game world.
 marker:SetPosition(1025, 1026, 7)
 ```
 
+#### `WorldBox:SetRenderLayer(renderLayer)`
+
+Selects the Qt scene layer. This must be called before Create().
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `renderLayer` | `string` |  | HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldBox` |  |
+
 #### `WorldBox:SetSize(width, height)`
 
 Sets the box size in pixels.
@@ -1007,7 +1146,13 @@ Checks if the element has been created in C++.
 | :-- | :-- |
 | `boolean` |  |
 
-#### `WorldImage:New(id, x, y, z)`
+#### `WorldImage:New(id, x, y, z, renderLayer)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `renderLayer` | `string` | Yes | Optional HUDRenderLayer value |
 
 #### `WorldImage:Remove()`
 
@@ -1030,6 +1175,25 @@ Sets whether the world image is visible/enabled.
 #### `WorldImage:SetItemId(itemId)`
 
 #### `WorldImage:SetItemName(itemName)`
+
+#### `WorldImage:SetLabel(text, color, offsetX, offsetY)`
+
+Sets or updates text rendered with this world image.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `text` | `string\|nil` |  | Label text; nil clears it |
+| `color` | `table` | Yes | Optional \{r, g, b, a\} label color |
+| `offsetX` | `number` | Yes | Optional horizontal pixel offset |
+| `offsetY` | `number` | Yes | Optional vertical pixel offset |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
 
 #### `WorldImage:SetLifetime(lifetimeMs)`
 
@@ -1054,9 +1218,57 @@ Parent visibility and removal cascade to this image without changing its world p
 
 #### `WorldImage:SetPosition(x, y, z)`
 
+#### `WorldImage:SetRenderLayer(renderLayer)`
+
+Selects the Qt scene layer. This must be called before Create().
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `renderLayer` | `string` |  | HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
+
 #### `WorldImage:SetSize(width, height)`
 
 #### `WorldImage:SetSource(path)`
+
+#### `WorldImage:SetSourceBase64(base64Png)`
+
+Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `base64Png` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
+
+#### `WorldImage:SetSourceBytes(pngBytes)`
+
+Uses a PNG embedded as a byte array, for example \{0x89, 0x50, 0x4E, 0x47, ...\}.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `pngBytes` | `number[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
 
 #### `WorldImage:SetZIndex(zIndex)`
 
@@ -1169,7 +1381,7 @@ Checks if the element has been created in C++.
 | :-- | :-- |
 | `boolean` | True if element exists in C++ |
 
-#### `WorldText:New(id, x, y, z)`
+#### `WorldText:New(id, x, y, z, renderLayer)`
 
 Creates a new world text element.
 World text is anchored to 3D coordinates in the game world and moves with the camera.
@@ -1183,6 +1395,7 @@ Useful for labeling items, monsters, or locations in the game world.
 | `x` | `number` |  | World X coordinate |
 | `y` | `number` |  | World Y coordinate |
 | `z` | `number` |  | World Z coordinate (floor level, typically 0-15) |
+| `renderLayer` | `string` | Yes | Optional HUDRenderLayer value |
 
 **Returns**
 
@@ -1244,6 +1457,57 @@ Sets whether the element is visible/enabled.
 | Type | Description |
 | :-- | :-- |
 | `WorldText` | Returns self for method chaining |
+
+#### `WorldText:SetFont(family, pixelSize)`
+
+Sets the installed system-font family and pixel size.
+Either value may be nil to inherit that property from Tibia's HUD font.
+This can be called before or after Create(). Set both to nil to reset.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `family` | `string\|nil` |  | Installed system-font family name |
+| `pixelSize` | `integer\|nil` |  | Font size in pixels (1-256) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` |  |
+
+#### `WorldText:SetFontFamily(family)`
+
+Changes only the installed system-font family. Pass nil to restore Tibia's family.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `family` | `string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` |  |
+
+#### `WorldText:SetFontSize(pixelSize)`
+
+Changes only the font pixel size. Pass nil to restore Tibia's font size.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `pixelSize` | `integer\|nil` |  | Font size in pixels (1-256) |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` |  |
 
 #### `WorldText:SetLifetime(lifetime_ms)`
 
@@ -1319,6 +1583,22 @@ The text will move to the new 3D coordinate in the game world.
 ```lua
 label:SetPosition(1025, 1026, 7)
 ```
+
+#### `WorldText:SetRenderLayer(renderLayer)`
+
+Selects the Qt scene layer. This must be called before Create().
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `renderLayer` | `string` |  | HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldText` |  |
 
 #### `WorldText:SetText(text)`
 

@@ -27,7 +27,7 @@ Before deploying a script, verify:
 - [ ] All loops yield and cannot freeze the runtime
 - [ ] Table access checks nil/type when data can be absent
 - [ ] Feature operations do not touch reserved internal features
-- [ ] Hotkeys avoid the unsupported alt modifier
+- [ ] Hotkey callbacks avoid alt (`RegisterCombo`); use `Hotkeys.SendCombo` when alt must be sent to the client
 - [ ] Position and creature access handles invalid objects safely
 - [ ] IDs and indices are validated as positive integers where required
 - [ ] Capability wrappers (`Inventory`, `NpcTradeStorage`, `VIP`) check availability before use
@@ -70,7 +70,7 @@ When using AI to generate scripts, instruct the model to:
 1. Use only APIs from this documentation
 2. Prefer core wrappers over low-level calls
 3. Include argument validation and nil checks
-4. Never use alt for hotkeys
+4. Never register alt hotkey callbacks (`RegisterCombo`); `Hotkeys.SendCombo` may use alt
 5. Never touch Objects Dumper
 6. Use `Module.Every` / `Module.After` for repeated logic
 7. Return a complete runnable file without TODO placeholders

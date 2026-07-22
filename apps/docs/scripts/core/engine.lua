@@ -1376,7 +1376,7 @@ exposeNativeFunctions("Lure", Lure, {
 -- original context-aware native closures, merely grouped under Engine.HUD.
 exposeNativeFunctions("HUD", HUD, {
     "AddScreenText", "AddScreenImage", "AddWorldText", "AddWorldImage", "AddWorldBox",
-    "UpdateLifetime", "UpdateOffset", "RemoveElement", "UpdateText", "UpdateImageLabel",
+    "UpdateLifetime", "UpdateOffset", "RemoveElement", "UpdateText", "UpdateFont", "UpdateImageLabel",
     "UpdateColor", "UpdateWidth", "UpdateHeight", "UpdateBorderWidth", "UpdateBorderColor",
     "SetEnabled", "SetParent", "ClearParent", "SetDraggable", "SetDragTarget", "SetOnDragEnd",
     "SetAlignment", "SetPosition", "SetScreenPosition", "SetZIndex", "SetClickable",

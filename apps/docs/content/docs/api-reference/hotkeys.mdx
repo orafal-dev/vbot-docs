@@ -14,8 +14,8 @@ Core library: `hotkeys.lua`
 #### `Hotkeys.ParseCombo(combination)`
 
 Parses a textual hotkey combo (for example: "ctrl+f9", "insert", "shift+k").
-Supported modifiers: ctrl, shift.
-alt is intentionally rejected because current Events.RegisterKeyEvent API does not expose alt.
+Supported modifiers: ctrl, shift, alt. Alt combinations can be sent to the
+client, but cannot be registered as Lua callback hotkeys.
 
 **Parameters**
 
@@ -27,7 +27,7 @@ alt is intentionally rejected because current Events.RegisterKeyEvent API does n
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` | parsed Parsed table: \{keycode, ctrl, shift, trigger_on_keydown, extended\} |
+| `table\|nil` | parsed Parsed table: \{keycode, ctrl, shift, alt, trigger_on_keydown, extended\} |
 | `string\|nil` | err Error message when parsing fails |
 
 #### `Hotkeys.RegisterCombo(params)`
@@ -45,6 +45,47 @@ Registers a combo through Events.RegisterKeyEvent.
 | Type | Description |
 | :-- | :-- |
 | `boolean` |  |
+
+#### `Hotkeys.SendCombo(combination, clientOnly)`
+
+Sends a full key combination such as "ctrl+shift+f9" or "alt+f1".
+Modifiers are pressed in order and released in reverse order. clientOnly
+defaults to true so the combination goes to Tibia without activating ImGui,
+Lua callback hotkeys, or ValidusBot feature hotkeys.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `combination` | `string` |  |  |
+| `clientOnly` | `boolean` | Yes | When false, route through the normal client window procedure |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | queued False when the Tibia window is unavailable or the message could not be queued |
+
+#### `Hotkeys.SendKey(key, clientOnly)`
+
+Sends one key press (down then up) to this script's Tibia client window.
+A key may be a supported name such as "f1", "delete", or "a", or a
+Windows virtual-key integer from 1 through 255. String combinations are
+also accepted, though SendCombo is clearer for that use.
+clientOnly defaults to true, bypassing ImGui and ValidusBot hotkey handlers.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string\|integer` |  |  |
+| `clientOnly` | `boolean` | Yes | When false, route through the normal client window procedure |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | queued False when the Tibia window is unavailable or the message could not be queued |
 
 ## Notes
 

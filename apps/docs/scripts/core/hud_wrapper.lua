@@ -31,6 +31,18 @@ VerticalAlignment = {
     BASELINE = 256  -- Align text to baseline (for precise typography)
 }
 
+--- Qt scene layer used by HUD elements.
+--- MAP preserves the normal game-view clipping behavior.
+--- OVERLAY draws through the highest available Tibia scene item and can cover
+--- client panels outside the map rectangle.
+---@class HUDRenderLayer
+---@field MAP 'map'
+---@field OVERLAY 'overlay'
+HUDRenderLayer = {
+    MAP = "map",
+    OVERLAY = "overlay"
+}
+
 local function hud_element_id(value, functionName)
     if type(value) == "string" and value ~= "" then
         return value
@@ -41,6 +53,34 @@ local function hud_element_id(value, functionName)
     error(functionName .. ": target must be a HUD element or non-empty element id")
 end
 
+local function validate_font_family(family, functionName)
+    if family ~= nil and (type(family) ~= "string" or family == "" or #family > 256) then
+        error(functionName .. ": font family must be nil or a non-empty installed system-font name up to 256 bytes")
+    end
+end
+
+local function validate_font_size(pixelSize, functionName)
+    if pixelSize ~= nil and
+        (type(pixelSize) ~= "number" or pixelSize % 1 ~= 0 or pixelSize < 1 or pixelSize > 256) then
+        error(functionName .. ": font size must be nil or an integer from 1 to 256 pixels")
+    end
+end
+
+local function validate_render_layer(renderLayer, functionName)
+    if renderLayer ~= HUDRenderLayer.MAP and renderLayer ~= HUDRenderLayer.OVERLAY then
+        error(functionName .. ": render layer must be HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY")
+    end
+end
+
+local function set_render_layer(element, renderLayer, functionName)
+    validate_render_layer(renderLayer, functionName)
+    if element._created then
+        error(functionName .. ": render layer must be selected before Create()")
+    end
+    element.render_layer = renderLayer
+    return element
+end
+
 -- ============================================================================
 -- SCREEN TEXT - Text anchored to screen coordinates (2D overlay)
 -- ============================================================================
@@ -49,12 +89,15 @@ end
 ---@field id string Unique identifier for this element
 ---@field text string Text content to display
 ---@field color table Color table with r, g, b, a fields (0-255)
+---@field font_family string|nil Installed system-font family, or nil for Tibia's font
+---@field font_size integer|nil Pixel size, or nil for Tibia's font size
 ---@field h_align number Horizontal alignment (HorizontalAlignment enum)
 ---@field v_align number Vertical alignment (VerticalAlignment enum)
 ---@field is_draggable boolean Whether element can be dragged by user
 ---@field is_clickable boolean Whether element responds to mouse clicks
 ---@field enabled boolean Whether element is visible
 ---@field z_index number Draw order; higher values render and receive clicks above lower values
+---@field render_layer string HUDRenderLayer.MAP (default) or HUDRenderLayer.OVERLAY
 ---@field parent_id string|nil Optional parent element id for visibility/remove cascades
 ---@field screen_x number|nil Explicit screen X position applied at creation
 ---@field screen_y number|nil Explicit screen Y position applied at creation
@@ -69,7 +112,10 @@ ScreenText.__index = ScreenText
 ---@param id string Unique identifier within this script
 ---@return ScreenText A new ScreenText instance (not yet created in C++)
 ---@usage local myText = ScreenText:New("health_display")
-function ScreenText:New(id)
+---@param renderLayer? string Optional HUDRenderLayer value
+function ScreenText:New(id, renderLayer)
+    renderLayer = renderLayer or HUDRenderLayer.MAP
+    validate_render_layer(renderLayer, "ScreenText:New")
     local element = {
         -- Required fields
         id = id,
@@ -77,6 +123,8 @@ function ScreenText:New(id)
         
         -- Visual properties with sensible defaults
         color = { r = 255, g = 255, b = 255, a = 255 },  -- White, fully opaque
+        font_family = nil,
+        font_size = nil,
         h_align = HorizontalAlignment.LEFT,
         v_align = VerticalAlignment.TOP,
         
@@ -85,6 +133,7 @@ function ScreenText:New(id)
         is_clickable = false,
         enabled = true,
         z_index = 0,
+        render_layer = renderLayer,
         parent_id = nil,
         drag_target_id = nil,
         screen_x = nil,
@@ -150,6 +199,47 @@ function ScreenText:SetDraggable(draggable)
     self.is_draggable = draggable
     if self._created then
         HUD.SetDraggable(self.id, draggable)
+    end
+    return self
+end
+
+--- Sets the installed system-font family and pixel size.
+--- Either value may be nil to inherit that property from Tibia's HUD font.
+--- This can be called before or after Create(). Set both to nil to reset.
+---@param family string|nil Installed system-font family name
+---@param pixelSize integer|nil Font size in pixels (1-256)
+---@return ScreenText
+function ScreenText:SetFont(family, pixelSize)
+    validate_font_family(family, "ScreenText:SetFont")
+    validate_font_size(pixelSize, "ScreenText:SetFont")
+    self.font_family = family
+    self.font_size = pixelSize
+    if self._created then
+        HUD.UpdateFont(self.id, family, pixelSize)
+    end
+    return self
+end
+
+--- Changes only the installed system-font family. Pass nil to restore Tibia's family.
+---@param family string|nil
+---@return ScreenText
+function ScreenText:SetFontFamily(family)
+    validate_font_family(family, "ScreenText:SetFontFamily")
+    self.font_family = family
+    if self._created then
+        HUD.UpdateFont(self.id, self.font_family, self.font_size)
+    end
+    return self
+end
+
+--- Changes only the font pixel size. Pass nil to restore Tibia's font size.
+---@param pixelSize integer|nil Font size in pixels (1-256)
+---@return ScreenText
+function ScreenText:SetFontSize(pixelSize)
+    validate_font_size(pixelSize, "ScreenText:SetFontSize")
+    self.font_size = pixelSize
+    if self._created then
+        HUD.UpdateFont(self.id, self.font_family, self.font_size)
     end
     return self
 end
@@ -275,6 +365,13 @@ function ScreenText:SetZIndex(zIndex)
     return self
 end
 
+--- Selects the Qt scene layer. This must be called before Create().
+---@param renderLayer string HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY
+---@return ScreenText
+function ScreenText:SetRenderLayer(renderLayer)
+    return set_render_layer(self, renderLayer, "ScreenText:SetRenderLayer")
+end
+
 --- Creates the element in C++ (sends creation request to HUD system).
 --- This must be called after configuring all properties using the builder methods.
 --- After calling this, the element will be rendered on screen.
@@ -286,13 +383,16 @@ function ScreenText:Create()
         id = self.id,
         text = self.text,
         color = self.color,
+        font_family = self.font_family,
+        font_size = self.font_size,
         h_align = self.h_align,
         v_align = self.v_align,
         is_draggable = self.is_draggable,
         is_clickable = self.is_clickable,
         on_click = self._clickCallback,
         enabled = self.enabled,
-        z_index = self.z_index
+        z_index = self.z_index,
+        render_layer = self.render_layer
     })
 
     self._created = true
@@ -388,11 +488,14 @@ end
 ---@field z number World Z coordinate (floor level)
 ---@field text string Text content to display
 ---@field color table Color table with r, g, b, a fields (0-255)
+---@field font_family string|nil Installed system-font family, or nil for Tibia's font
+---@field font_size integer|nil Pixel size, or nil for Tibia's font size
 ---@field lifetime_ms number Auto-removal time in milliseconds (0 = permanent)
 ---@field offset_x number Pixel offset from world position (X axis)
 ---@field offset_y number Pixel offset from world position (Y axis)
 ---@field enabled boolean Whether element is visible
 ---@field z_index number Draw order; higher values render above lower values
+---@field render_layer string HUDRenderLayer.MAP (default) or HUDRenderLayer.OVERLAY
 ---@field parent_id string|nil Optional parent element id for visibility/remove cascades
 ---@field _created boolean Internal flag tracking if element exists in C++
 WorldText = {}
@@ -405,9 +508,12 @@ WorldText.__index = WorldText
 ---@param x number World X coordinate
 ---@param y number World Y coordinate
 ---@param z number World Z coordinate (floor level, typically 0-15)
+---@param renderLayer? string Optional HUDRenderLayer value
 ---@return WorldText A new WorldText instance (not yet created in C++)
 ---@usage local label = WorldText:New("item_label", 1024, 1025, 7)
-function WorldText:New(id, x, y, z)
+function WorldText:New(id, x, y, z, renderLayer)
+    renderLayer = renderLayer or HUDRenderLayer.MAP
+    validate_render_layer(renderLayer, "WorldText:New")
     local element = {
         -- Required fields
         id = id,
@@ -418,6 +524,8 @@ function WorldText:New(id, x, y, z)
         
         -- Visual properties with sensible defaults
         color = { r = 255, g = 255, b = 255, a = 255 },  -- White, fully opaque
+        font_family = nil,
+        font_size = nil,
         offset_x = 0.0,
         offset_y = 0.0,
         
@@ -427,6 +535,7 @@ function WorldText:New(id, x, y, z)
         -- State
         enabled = true,
         z_index = 0,
+        render_layer = renderLayer,
         parent_id = nil,
         _created = false
     }
@@ -539,6 +648,47 @@ function WorldText:SetEnabled(enabled)
     return self
 end
 
+--- Sets the installed system-font family and pixel size.
+--- Either value may be nil to inherit that property from Tibia's HUD font.
+--- This can be called before or after Create(). Set both to nil to reset.
+---@param family string|nil Installed system-font family name
+---@param pixelSize integer|nil Font size in pixels (1-256)
+---@return WorldText
+function WorldText:SetFont(family, pixelSize)
+    validate_font_family(family, "WorldText:SetFont")
+    validate_font_size(pixelSize, "WorldText:SetFont")
+    self.font_family = family
+    self.font_size = pixelSize
+    if self._created then
+        HUD.UpdateFont(self.id, family, pixelSize)
+    end
+    return self
+end
+
+--- Changes only the installed system-font family. Pass nil to restore Tibia's family.
+---@param family string|nil
+---@return WorldText
+function WorldText:SetFontFamily(family)
+    validate_font_family(family, "WorldText:SetFontFamily")
+    self.font_family = family
+    if self._created then
+        HUD.UpdateFont(self.id, self.font_family, self.font_size)
+    end
+    return self
+end
+
+--- Changes only the font pixel size. Pass nil to restore Tibia's font size.
+---@param pixelSize integer|nil Font size in pixels (1-256)
+---@return WorldText
+function WorldText:SetFontSize(pixelSize)
+    validate_font_size(pixelSize, "WorldText:SetFontSize")
+    self.font_size = pixelSize
+    if self._created then
+        HUD.UpdateFont(self.id, self.font_family, self.font_size)
+    end
+    return self
+end
+
 --- Sets draw order for this world text.
 ---@param zIndex number Integer draw order
 ---@return WorldText Returns self for method chaining
@@ -548,6 +698,13 @@ function WorldText:SetZIndex(zIndex)
         HUD.SetZIndex(self.id, zIndex)
     end
     return self
+end
+
+--- Selects the Qt scene layer. This must be called before Create().
+---@param renderLayer string HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY
+---@return WorldText
+function WorldText:SetRenderLayer(renderLayer)
+    return set_render_layer(self, renderLayer, "WorldText:SetRenderLayer")
 end
 
 --- Creates the element in C++ (sends creation request to HUD system).
@@ -562,11 +719,14 @@ function WorldText:Create()
         z = self.z,
         text = self.text,
         color = self.color,
+        font_family = self.font_family,
+        font_size = self.font_size,
         lifetime_ms = self.lifetime_ms,
         offset_x = self.offset_x,
         offset_y = self.offset_y,
         enabled = self.enabled,
-        z_index = self.z_index
+        z_index = self.z_index,
+        render_layer = self.render_layer
     })
     
     self._created = true
@@ -650,6 +810,7 @@ end
 ---@field lifetime_ms number Auto-removal time in milliseconds (0 = permanent)
 ---@field enabled boolean Whether element is visible
 ---@field z_index number Draw order; higher values render above lower values
+---@field render_layer string HUDRenderLayer.MAP (default) or HUDRenderLayer.OVERLAY
 ---@field parent_id string|nil Optional parent element id for visibility/remove cascades
 ---@field _created boolean Internal flag tracking if element exists in C++
 WorldBox = {}
@@ -662,9 +823,12 @@ WorldBox.__index = WorldBox
 ---@param x number World X coordinate
 ---@param y number World Y coordinate
 ---@param z number World Z coordinate (floor level)
+---@param renderLayer? string Optional HUDRenderLayer value
 ---@return WorldBox A new WorldBox instance (not yet created in C++)
 ---@usage local marker = WorldBox:New("danger_tile", 1024, 1025, 7)
-function WorldBox:New(id, x, y, z)
+function WorldBox:New(id, x, y, z, renderLayer)
+    renderLayer = renderLayer or HUDRenderLayer.MAP
+    validate_render_layer(renderLayer, "WorldBox:New")
     local element = {
         -- Required fields
         id = id,
@@ -687,6 +851,7 @@ function WorldBox:New(id, x, y, z)
         -- State
         enabled = true,
         z_index = 0,
+        render_layer = renderLayer,
         parent_id = nil,
         _created = false
     }
@@ -850,6 +1015,13 @@ function WorldBox:SetZIndex(zIndex)
     return self
 end
 
+--- Selects the Qt scene layer. This must be called before Create().
+---@param renderLayer string HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY
+---@return WorldBox
+function WorldBox:SetRenderLayer(renderLayer)
+    return set_render_layer(self, renderLayer, "WorldBox:SetRenderLayer")
+end
+
 --- Creates the element in C++ (sends creation request to HUD system).
 --- Must be called after configuring all properties.
 ---@return WorldBox Returns self for method chaining
@@ -867,7 +1039,8 @@ function WorldBox:Create()
         border_color = self.border_color,
         lifetime_ms = self.lifetime_ms,
         enabled = self.enabled,
-        z_index = self.z_index
+        z_index = self.z_index,
+        render_layer = self.render_layer
     })
     
     self._created = true
@@ -935,6 +1108,8 @@ end
 ---@class ScreenImage
 ---@field id string
 ---@field source string?
+---@field source_base64 string?
+---@field source_bytes number[]?
 ---@field item_id number?
 ---@field item_name string?
 ---@field width number
@@ -953,6 +1128,7 @@ end
 ---@field is_clickable boolean
 ---@field enabled boolean
 ---@field z_index number Draw order; higher values render and receive clicks above lower values
+---@field render_layer string HUDRenderLayer.MAP (default) or HUDRenderLayer.OVERLAY
 ---@field parent_id string|nil
 ---@field screen_x number|nil
 ---@field screen_y number|nil
@@ -961,10 +1137,15 @@ end
 ScreenImage = {}
 ScreenImage.__index = ScreenImage
 
-function ScreenImage:New(id)
+---@param renderLayer? string Optional HUDRenderLayer value
+function ScreenImage:New(id, renderLayer)
+    renderLayer = renderLayer or HUDRenderLayer.MAP
+    validate_render_layer(renderLayer, "ScreenImage:New")
     local element = {
         id = id,
         source = nil,
+        source_base64 = nil,
+        source_bytes = nil,
         item_id = nil,
         item_name = nil,
         width = -1.0,
@@ -983,6 +1164,7 @@ function ScreenImage:New(id)
         is_clickable = false,
         enabled = true,
         z_index = 0,
+        render_layer = renderLayer,
         parent_id = nil,
         drag_target_id = nil,
         screen_x = nil,
@@ -997,6 +1179,32 @@ end
 
 function ScreenImage:SetSource(path)
     self.source = path
+    self.source_base64 = nil
+    self.source_bytes = nil
+    self.item_id = nil
+    self.item_name = nil
+    return self
+end
+
+--- Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
+---@param base64Png string
+---@return ScreenImage
+function ScreenImage:SetSourceBase64(base64Png)
+    self.source_base64 = base64Png
+    self.source = nil
+    self.source_bytes = nil
+    self.item_id = nil
+    self.item_name = nil
+    return self
+end
+
+--- Uses a PNG embedded as a byte array, for example {0x89, 0x50, 0x4E, 0x47, ...}.
+---@param pngBytes number[]
+---@return ScreenImage
+function ScreenImage:SetSourceBytes(pngBytes)
+    self.source_bytes = pngBytes
+    self.source = nil
+    self.source_base64 = nil
     self.item_id = nil
     self.item_name = nil
     return self
@@ -1005,6 +1213,8 @@ end
 function ScreenImage:SetItemId(itemId)
     self.item_id = itemId
     self.source = nil
+    self.source_base64 = nil
+    self.source_bytes = nil
     self.item_name = nil
     return self
 end
@@ -1012,6 +1222,8 @@ end
 function ScreenImage:SetItemName(itemName)
     self.item_name = itemName
     self.source = nil
+    self.source_base64 = nil
+    self.source_bytes = nil
     self.item_id = nil
     return self
 end
@@ -1162,6 +1374,13 @@ function ScreenImage:SetZIndex(zIndex)
     return self
 end
 
+--- Selects the Qt scene layer. This must be called before Create().
+---@param renderLayer string HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY
+---@return ScreenImage
+function ScreenImage:SetRenderLayer(renderLayer)
+    return set_render_layer(self, renderLayer, "ScreenImage:SetRenderLayer")
+end
+
 function ScreenImage:Create()
     local payload = {
         id = self.id,
@@ -1181,17 +1400,22 @@ function ScreenImage:Create()
         is_clickable = self.is_clickable,
         on_click = self._clickCallback,
         enabled = self.enabled,
-        z_index = self.z_index
+        z_index = self.z_index,
+        render_layer = self.render_layer
     }
 
     if type(self.source) == "string" and self.source ~= "" then
         payload.source = self.source
+    elseif type(self.source_base64) == "string" and self.source_base64 ~= "" then
+        payload.source_base64 = self.source_base64
+    elseif type(self.source_bytes) == "table" and #self.source_bytes > 0 then
+        payload.source_bytes = self.source_bytes
     elseif type(self.item_id) == "number" and self.item_id > 0 then
         payload.item_id = self.item_id
     elseif type(self.item_name) == "string" and self.item_name ~= "" then
         payload.item_name = self.item_name
     else
-        error("ScreenImage:Create requires source, item_id, or item_name")
+        error("ScreenImage:Create requires source, source_base64, source_bytes, item_id, or item_name")
     end
 
     HUD.AddScreenImage(payload)
@@ -1263,6 +1487,8 @@ end
 ---@field y number
 ---@field z number
 ---@field source string?
+---@field source_base64 string?
+---@field source_bytes number[]?
 ---@field item_id number?
 ---@field item_name string?
 ---@field width number
@@ -1280,18 +1506,24 @@ end
 ---@field offset_y number
 ---@field enabled boolean
 ---@field z_index number Draw order; higher values render above lower values
+---@field render_layer string HUDRenderLayer.MAP (default) or HUDRenderLayer.OVERLAY
 ---@field parent_id string|nil
 ---@field _created boolean
 WorldImage = {}
 WorldImage.__index = WorldImage
 
-function WorldImage:New(id, x, y, z)
+---@param renderLayer? string Optional HUDRenderLayer value
+function WorldImage:New(id, x, y, z, renderLayer)
+    renderLayer = renderLayer or HUDRenderLayer.MAP
+    validate_render_layer(renderLayer, "WorldImage:New")
     local element = {
         id = id,
         x = x,
         y = y,
         z = z,
         source = nil,
+        source_base64 = nil,
+        source_bytes = nil,
         item_id = nil,
         item_name = nil,
         width = -1.0,
@@ -1309,6 +1541,7 @@ function WorldImage:New(id, x, y, z)
         offset_y = 0.0,
         enabled = true,
         z_index = 0,
+        render_layer = renderLayer,
         parent_id = nil,
         _created = false
     }
@@ -1318,6 +1551,32 @@ end
 
 function WorldImage:SetSource(path)
     self.source = path
+    self.source_base64 = nil
+    self.source_bytes = nil
+    self.item_id = nil
+    self.item_name = nil
+    return self
+end
+
+--- Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
+---@param base64Png string
+---@return WorldImage
+function WorldImage:SetSourceBase64(base64Png)
+    self.source_base64 = base64Png
+    self.source = nil
+    self.source_bytes = nil
+    self.item_id = nil
+    self.item_name = nil
+    return self
+end
+
+--- Uses a PNG embedded as a byte array, for example {0x89, 0x50, 0x4E, 0x47, ...}.
+---@param pngBytes number[]
+---@return WorldImage
+function WorldImage:SetSourceBytes(pngBytes)
+    self.source_bytes = pngBytes
+    self.source = nil
+    self.source_base64 = nil
     self.item_id = nil
     self.item_name = nil
     return self
@@ -1326,6 +1585,8 @@ end
 function WorldImage:SetItemId(itemId)
     self.item_id = itemId
     self.source = nil
+    self.source_base64 = nil
+    self.source_bytes = nil
     self.item_name = nil
     return self
 end
@@ -1333,6 +1594,8 @@ end
 function WorldImage:SetItemName(itemName)
     self.item_name = itemName
     self.source = nil
+    self.source_base64 = nil
+    self.source_bytes = nil
     self.item_id = nil
     return self
 end
@@ -1340,6 +1603,35 @@ end
 function WorldImage:SetSize(width, height)
     self.width = width
     self.height = height
+    return self
+end
+
+--- Sets or updates text rendered with this world image.
+---@param text string|nil Label text; nil clears it
+---@param color? table Optional {r, g, b, a} label color
+---@param offsetX? number Optional horizontal pixel offset
+---@param offsetY? number Optional vertical pixel offset
+---@return WorldImage
+function WorldImage:SetLabel(text, color, offsetX, offsetY)
+    self.label = text or ""
+    if type(color) == "table" then
+        self.label_color = color
+    end
+    if type(offsetX) == "number" then
+        self.label_offset_x = offsetX
+    end
+    if type(offsetY) == "number" then
+        self.label_offset_y = offsetY
+    end
+    if self._created and type(HUD.UpdateImageLabel) == "function" then
+        HUD.UpdateImageLabel({
+            id = self.id,
+            label = self.label,
+            label_color = self.label_color,
+            label_offset_x = self.label_offset_x,
+            label_offset_y = self.label_offset_y
+        })
+    end
     return self
 end
 
@@ -1411,6 +1703,13 @@ function WorldImage:SetZIndex(zIndex)
     return self
 end
 
+--- Selects the Qt scene layer. This must be called before Create().
+---@param renderLayer string HUDRenderLayer.MAP or HUDRenderLayer.OVERLAY
+---@return WorldImage
+function WorldImage:SetRenderLayer(renderLayer)
+    return set_render_layer(self, renderLayer, "WorldImage:SetRenderLayer")
+end
+
 function WorldImage:Create()
     local payload = {
         id = self.id,
@@ -1431,17 +1730,22 @@ function WorldImage:Create()
         offset_x = self.offset_x,
         offset_y = self.offset_y,
         enabled = self.enabled,
-        z_index = self.z_index
+        z_index = self.z_index,
+        render_layer = self.render_layer
     }
 
     if type(self.source) == "string" and self.source ~= "" then
         payload.source = self.source
+    elseif type(self.source_base64) == "string" and self.source_base64 ~= "" then
+        payload.source_base64 = self.source_base64
+    elseif type(self.source_bytes) == "table" and #self.source_bytes > 0 then
+        payload.source_bytes = self.source_bytes
     elseif type(self.item_id) == "number" and self.item_id > 0 then
         payload.item_id = self.item_id
     elseif type(self.item_name) == "string" and self.item_name ~= "" then
         payload.item_name = self.item_name
     else
-        error("WorldImage:Create requires source, item_id, or item_name")
+        error("WorldImage:Create requires source, source_base64, source_bytes, item_id, or item_name")
     end
 
     HUD.AddWorldImage(payload)
@@ -1518,6 +1822,9 @@ attach_method_aliases(ScreenText, {
     { "New", "new" },
     { "SetText", "setText" },
     { "SetColor", "setColor" },
+    { "SetFont", "setFont" },
+    { "SetFontFamily", "setFontFamily" },
+    { "SetFontSize", "setFontSize" },
     { "SetAlignment", "setAlignment" },
     { "SetDraggable", "setDraggable" },
     { "SetDragTarget", "setDragTarget" },
@@ -1528,6 +1835,7 @@ attach_method_aliases(ScreenText, {
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
     { "SetZIndex", "setZIndex" },
+    { "SetRenderLayer", "setRenderLayer" },
     { "Create", "create" },
     { "Remove", "remove" },
     { "IsCreated", "isCreated" },
@@ -1544,6 +1852,9 @@ attach_method_aliases(WorldText, {
     { "New", "new" },
     { "SetText", "setText" },
     { "SetColor", "setColor" },
+    { "SetFont", "setFont" },
+    { "SetFontFamily", "setFontFamily" },
+    { "SetFontSize", "setFontSize" },
     { "SetOffset", "setOffset" },
     { "SetPosition", "setPosition" },
     { "SetLifetime", "setLifetime" },
@@ -1551,6 +1862,7 @@ attach_method_aliases(WorldText, {
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
     { "SetZIndex", "setZIndex" },
+    { "SetRenderLayer", "setRenderLayer" },
     { "Create", "create" },
     { "Remove", "remove" }
 })
@@ -1567,6 +1879,7 @@ attach_method_aliases(WorldBox, {
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
     { "SetZIndex", "setZIndex" },
+    { "SetRenderLayer", "setRenderLayer" },
     { "Create", "create" },
     { "Remove", "remove" }
 })
@@ -1574,6 +1887,8 @@ attach_method_aliases(WorldBox, {
 attach_method_aliases(ScreenImage, {
     { "New", "new" },
     { "SetSource", "setSource" },
+    { "SetSourceBase64", "setSourceBase64" },
+    { "SetSourceBytes", "setSourceBytes" },
     { "SetItemId", "setItemId" },
     { "SetItemName", "setItemName" },
     { "SetSize", "setSize" },
@@ -1588,6 +1903,7 @@ attach_method_aliases(ScreenImage, {
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
     { "SetZIndex", "setZIndex" },
+    { "SetRenderLayer", "setRenderLayer" },
     { "Create", "create" },
     { "Remove", "remove" },
     { "IsCreated", "isCreated" },
@@ -1601,9 +1917,12 @@ attach_method_aliases(ScreenImage, {
 attach_method_aliases(WorldImage, {
     { "New", "new" },
     { "SetSource", "setSource" },
+    { "SetSourceBase64", "setSourceBase64" },
+    { "SetSourceBytes", "setSourceBytes" },
     { "SetItemId", "setItemId" },
     { "SetItemName", "setItemName" },
     { "SetSize", "setSize" },
+    { "SetLabel", "setLabel" },
     { "SetPosition", "setPosition" },
     { "SetOffset", "setOffset" },
     { "SetLifetime", "setLifetime" },
@@ -1611,6 +1930,7 @@ attach_method_aliases(WorldImage, {
     { "ClearParent", "clearParent" },
     { "SetEnabled", "setEnabled" },
     { "SetZIndex", "setZIndex" },
+    { "SetRenderLayer", "setRenderLayer" },
     { "Create", "create" },
     { "Remove", "remove" },
     { "IsCreated", "isCreated" },

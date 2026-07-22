@@ -102,8 +102,8 @@ The Objects Dumper feature is reserved and intentionally blocked from public fea
 
 ## Hotkey constraints
 
-- The **alt** modifier is not supported by the current hotkey registration API
+- **alt** cannot be used with `Events.RegisterKeyEvent` / `Hotkeys.RegisterCombo`, but it is supported by `Hotkeys.SendCombo` / `Hotkeys.SendKey`
 - Extended keys (insert, delete, home, end, page up/down, arrows) default to `extended = true` in `Hotkeys.ParseCombo`
 - Standard Lua `table.concat` is allowed in sandboxed user scripts
 
-See [Hotkeys API Reference](/docs/api-reference/hotkeys) for registration details.
+See [Hotkeys API Reference](/docs/api-reference/hotkeys) for registration and send helpers.

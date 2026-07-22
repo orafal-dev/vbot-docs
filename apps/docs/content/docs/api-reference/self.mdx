@@ -182,6 +182,23 @@ Returns health percentage 0-100.
 | :-- | :-- |
 | `number\|nil` |  |
 
+#### `Self.GetItemCount(itemId, tierLevel)`
+
+Returns the client-reported inventory count for an item, optionally filtered by tier.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  | Item type id (1..65535) |
+| `tierLevel` | `integer` | Yes | Tier level (0..255); defaults to 0 |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Self.GetLevel()`
 
 Returns current level.
