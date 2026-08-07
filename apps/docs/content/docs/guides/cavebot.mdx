@@ -17,25 +17,58 @@ description: Walker, lure manager, actions, and waypoint scripting
 | `Cavebot.IsLureEnabled()` | Lure status |
 | `Cavebot.SetEnginesEnabled(walker, lure)` | Both at once |
 | `Cavebot.Resume()` | Resume walker |
+| `Cavebot.Defer(timeoutMs)` | Owner-scoped hold inside an interceptor |
 | `Cavebot.GoTo(labelName)` / `GoToLabel(labelName)` | Jump to label |
 | `Cavebot.Pause(ms, autoResume)` | Temporary pause |
 | `Cavebot.GetStatus()` / `PrintStatus()` | Debug status |
 
 ## Events
 
-Register callbacks for cavebot lifecycle:
+Prefer explicit observe / intercept / lifecycle APIs. Legacy `OnLabel` and `OnAction` retain historical blocking behavior.
+
+### Non-blocking observers
+
+| Function | Behavior |
+| --- | --- |
+| `Cavebot.ObserveLabel(callback)` | Label reached; cannot pause Walker |
+| `Cavebot.ObserveAction(callback)` | Action waypoint reached (before interceptors finish) — not a success signal |
+| `Cavebot.ObserveWaypointChange(callback)` | Selected waypoint changed |
+| `Cavebot.OnWaypointChange(callback)` | Compatibility alias for `ObserveWaypointChange` |
+| `Cavebot.OnActionStarted(callback)` | Action actually started |
+| `Cavebot.OnActionCompleted(callback)` | Terminal Action result |
+
+`ObserveWaypointChange` receives one table with `previousIndex`, `index`, `type`, `x`, `y`, `z`, `label`, `labelName`, and `uniqueId`. Indices are 1-based; `previousIndex` is `nil` for the initial selection.
+
+`OnActionStarted` / `OnActionCompleted` each receive one table with `executionId`, `action`/`name`, numeric `kind`, and a `waypoint` table (`index`, `uniqueId`, `x`, `y`, `z`). Completion additionally includes:
+
+| Field | Meaning |
+| --- | --- |
+| `ok` | `true` only on successful terminal result |
+| `outcome` | `success`, `skipped`, `failure`, `timeout`, or `cancelled` |
+| `description` | Result or error description |
+| `result` / `error` | Description on success / failure; otherwise `nil` |
+| `durationMs` | Elapsed ms from actual Action start |
+
+Use `executionId` to correlate start with exactly one completion. Changing the selected waypoint, replacing/deleting the Action, clearing/reloading the route, or resetting Walker completes an active Action as `cancelled`.
+
+### Blocking interceptors
+
+| Function | Behavior |
+| --- | --- |
+| `Cavebot.InterceptLabel(callback)` | Preferred blocking label interceptor |
+| `Cavebot.InterceptAction(callback)` | Preferred blocking Action interceptor |
+| `Cavebot.OnLabel(callback)` | Legacy blocking alias |
+| `Cavebot.OnAction(callback)` | Legacy blocking alias |
+
+Blocking interceptors release automatically when their callback returns. Call `Cavebot.Defer(timeoutMs)` only inside an interceptor when work must continue after return. It returns an owner-scoped handle with `handle:Complete()` and `handle:Cancel()`; both release the hold and return `true` only on the first successful release. `timeoutMs` must be between 1 and 60000; expiration fails open.
 
 ```lua
-Cavebot.OnLabel(function(labelName)
+Cavebot.ObserveLabel(function(labelName)
     print("Reached label: " .. tostring(labelName))
 end)
 
-Cavebot.OnWaypointChange(function(index)
-    print("Waypoint: " .. tostring(index))
-end)
-
-Cavebot.OnAction(function(actionType, result)
-    print("Action: " .. tostring(actionType))
+Cavebot.OnActionCompleted(function(event)
+    print(event.outcome, event.description, event.durationMs)
 end)
 
 Cavebot.RegisterEvent(eventId, callback)
@@ -48,12 +81,14 @@ Full waypoint and walker control:
 
 | Category | Key functions |
 | --- | --- |
-| Control | `SetEnabled`, `IsEnabled`, `Resume`, `GoTo`, `IsPausedByLua`, `SetPausedByLua` |
-| Waypoints | `GetWaypoints`, `AddWaypoint`, `InsertWaypoint`, `ReplaceWaypoint`, `DeleteWaypoint`, `ClearWaypoints` |
+| Control | `SetEnabled`, `IsEnabled`, `Resume`, `Defer`, `CompleteDeferred`, `GoTo`, `IsPausedByLua`, `SetPausedByLua` |
+| Waypoints | `GetWaypoints`, `AddWaypoint`, `InsertWaypoint`, `ReplaceWaypoint`, `DeleteWaypoint`, `ClearWaypoints`, `SetWaypointPosition` |
 | Navigation | `GetSelectedWaypointIndex`, `SetSelectedWaypointIndex`, `SelectClosestWaypoint`, `GetWaypointCount` |
 | Settings | `SetNodeDistance`, `SetStartFromNearestWaypoint`, `SetWalkToLureCenter`, `SetLeaveLureOnPlayer`, `SetLeaveLurePlayerMode` |
 | Auto recorder | `SetAutoRecorderEnabled`, `GetAutoRecorderOptions`, `SetDistanceBetweenWaypoints` |
 | Debug | `IsStuck`, `SetDebugHud`, `GetDebugHud` |
+
+`Cavebot.Walker.Defer(timeoutMs)` / `CompleteDeferred(token)` implement the same owner-bound decision handshake as `Engine.Walker.Defer`.
 
 ### Leave-lure player modes
 
@@ -132,13 +167,18 @@ The `Cavebot.Lure` namespace controls lure behavior:
 | Category | Key functions |
 | --- | --- |
 | State | `GetState`, `IsLuring`, `IsFighting`, `GetLuredCreaturesCount` |
-| Control | `SetEnabled`, `IsEnabled`, `SetForceLure`, `EndForceLure` |
+| Control | `SetEnabled`, `IsEnabled`, `SetForceLure`, `EndForceLure`, `SetOption` |
 | Settings | `SetNearRange`, `SetAttackWhileLuring`, `SetConsiderOnlyReachable` |
 | Slow walk | `SetSlowWalkDelayMs`, `SetSlowWalkingCreaturesCount`, `SetSlowWalkBurstSteps` |
 | Dynamic | `SetStartEndLureActive`, `SetWaypointDynamicLureActive`, `SetUnblocking` |
 | Profiles | `GetSettings`, `AddSetting`, `UpdateSetting`, `RemoveSetting`, `ClearSettings` |
 
+`Cavebot.Lure.SetOption(option)` values: **0** = Start/End, **1** = Dynamic, **2** = Kiting.
+
+`UpdateSetting(index, updateData)` updates a 1-based setting through native validation; tables from `GetSettings()` remain detached copies.
+
 ## References
 
 - [Cavebot API Reference](/docs/api-reference/cavebot)
 - [Cavebot Actions API Reference](/docs/api-reference/cavebot-actions)
+- [WalkerEvent constants](/docs/guides/constants)

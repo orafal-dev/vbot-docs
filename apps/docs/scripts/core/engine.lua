@@ -1050,8 +1050,53 @@ local nativeMagicShooterNextProfile = assert(NativeMagicShooter.NextProfile)
 local nativeMagicShooterGetEntries = assert(NativeMagicShooter.GetEntries)
 local nativeMagicShooterSetEntryRune = assert(NativeMagicShooter.SetEntryRune)
 local nativeMagicShooterSetEntrySpell = assert(NativeMagicShooter.SetEntrySpell)
+local hasMagicShooterX64 = type(NativeMagicShooter.SetEntryStanceId) == "function"
 
 Engine.MagicShooter = {}
+
+Engine.MagicShooter.CastMethod = {
+    None = 0, SpeakSpell = 1, UseRuneOnCreature = 2, UseRuneOnTile = 3
+}
+Engine.MagicShooter.Option = {
+    TargetedSpell = 0, AreaRune = 1, TargetedRune = 2, Empowerment = 3,
+    AbsoluteSpell = 4, Avatar = 5, Challenge = 6
+}
+Engine.MagicShooter.Condition = {
+    MonsterName = 0, MonsterCount = 1, WalkerStuck = 2
+}
+Engine.MagicShooter.CastCondition = { Below = 0, Above = 1 }
+Engine.MagicShooter.MonsterCountCondition = { Equal = 0, AtLeast = 1, AtMost = 2 }
+Engine.MagicShooter.PatternAnchor = {
+    None = 0, Self = 1, Target = 2, BestTile = 3
+}
+Engine.MagicShooter.PatternSource = { None = 0, BuiltIn = 1, Custom = 2 }
+Engine.MagicShooter.PatternVariant = { Default = 0, Custom = 2 }
+Engine.MagicShooter.EffectType = {
+    Auto = 0, SingleTarget = 1, StaticArea = 2, DirectionalArea = 3,
+    TargetArea = 4, Chain = 5, MultiStage = 6, Support = 7
+}
+Engine.MagicShooter.PriorityLane = {
+    Auto = 0, PreAction = 1, Primary = 2, Fallback = 3, Idle = 4
+}
+Engine.MagicShooter.TargetPolicy = {
+    CurrentTarget = 0, Nearest = 1, LowestHealth = 2,
+    HighestHealth = 3, HighestScore = 4
+}
+Engine.MagicShooter.HitCountMode = { Guaranteed = 0, Possible = 1 }
+Engine.MagicShooter.EquipmentRequirement = { None = 0, Shield = 1 }
+Engine.MagicShooter.TrackedEffect = {
+    None = 0, SkillBuff = 1, TargetWeakened = 2,
+    TargetDamageReduced = 3, TargetTurnedMelee = 4, Avatar = 5
+}
+Engine.MagicShooter.ChainSelector = { Closest = 0, Random = 1, HighestHealth = 2 }
+
+-- These values correspond to client systems which do not exist in x86.
+if hasMagicShooterX64 then
+    Engine.MagicShooter.CastMethod.CrossHairSpell = 4
+    Engine.MagicShooter.PatternAnchor.TargetOrSelf = 4
+    Engine.MagicShooter.EffectType.Stance = 8
+    Engine.MagicShooter.TrackedEffect.Stance = 6
+end
 
 ---@return integer
 function Engine.MagicShooter.GetProfileCount()
@@ -1200,13 +1245,26 @@ exposeNativeFunctions("MagicShooter", MagicShooter, {
     "SetEntryCustomSpell", "SetEntryAttackSkillBuffSpell", "SetEntryDontCastWhileWalking",
     "SetEntryPrioritizeWithMomentum", "SetEntryOption", "SetEntryCondition",
     "SetEntryManaPercentage", "SetEntryHealthPercentage", "SetEntryHealthCondition",
-    "SetEntryHarmony", "SetEntryHarmonyCondition", "SetEntryMonsterCount", "SetEntryMonsterCountCondition",
+    "SetEntryMonsterCount", "SetEntryMonsterCountCondition",
     "SetEntryMinimumMonsterHealthPercentage", "SetEntryMaximumMonsterHealthPercentage",
     "SetEntryRange", "SetEntryDangerLevel", "SetEntryCustomDelay", "SetEntryShootAfterWalkDelay",
     "SetEntryMomentumDelay", "SetEntryMeleeSkillIncreasePercentage",
     "SetEntryDistanceSkillIncreasePercentage", "SetEntryCastMethod", "SetEntryPatternAnchor",
-    "SetEntryPatternSource", "SetEntryPatternVariant", "SetEntryMonsterNames"
+    "SetEntryPatternSource", "SetEntryPatternVariant", "SetEntryEffectType",
+    "SetEntryPriorityLane", "SetEntryTargetPolicy", "SetEntryHitCountMode",
+    "SetEntryEquipmentRequirement", "SetEntryTrackedEffect", "SetEntryPatternId",
+    "SetEntryChainMaxTargets", "SetEntryChainJumpRange", "SetEntryChainSelector",
+    "SetEntryMonsterNames"
 })
+
+-- Harmony, stance state, and crosshair spell support do not exist in x86
+-- clients. Export these controls only when the native x64 build provides them.
+if hasMagicShooterX64 then
+    exposeNativeFunctions("MagicShooter", NativeMagicShooter, {
+        "SetEntryHarmony", "SetEntryHarmonyCondition", "SetEntryStanceGroup",
+        "SetEntryStanceId", "SetEntryForceUnknownStance"
+    })
+end
 
 exposeNativeFunctions("Healer", HealerControl, {
     "SetSpellWords", "SetSpellCastValue", "SetSpellManaCost", "SetSpellAttribute",
@@ -1347,8 +1405,8 @@ exposeNativeFunctions("Channels", Channels, {
 })
 
 exposeNativeFunctions("Walker", Walker, {
-    "Resume", "SetEnabled", "IsEnabled", "IsStuck", "GoTo",
-    "GetSelectedWaypointIndex", "SetSelectedWaypointIndex", "SelectClosestWaypoint",
+    "Resume", "Defer", "CompleteDeferred", "SetEnabled", "IsEnabled", "IsStuck", "GoTo",
+    "GetSelectedWaypointIndex", "SetSelectedWaypointIndex", "SetWaypointPosition", "SelectClosestWaypoint",
     "GetWaypointCount", "GetWaypoints", "AddWaypoint", "InsertWaypoint", "ReplaceWaypoint",
     "DeleteWaypoint", "ClearWaypoints", "MoveWaypointUp", "MoveWaypointDown",
     "SetStartFromNearestWaypoint", "GetStartFromNearestWaypoint", "SetNodeDistance", "GetNodeDistance",
@@ -1369,7 +1427,7 @@ exposeNativeFunctions("Lure", Lure, {
     "SetStartEndLureActive", "GetStartEndLureActive", "SetWaypointDynamicLureActive",
     "GetWaypointDynamicLureActive", "SetUnblocking", "GetUnblocking", "GetLuredCreaturesCount",
     "HasActiveSettings", "IsOtherPlayerOnScreen", "GetSettings", "GetSettingCount",
-    "AddSetting", "RemoveSetting", "ClearSettings"
+    "AddSetting", "UpdateSetting", "RemoveSetting", "ClearSettings"
 })
 
 -- HUD mutations retain per-script ownership because these functions are the
@@ -1413,7 +1471,7 @@ exposeNativeFunctions("Delays", Delays, {
 })
 
 exposeNativeFunctions("Scripter", ScripterControl, {
-    "Refresh", "GetAvailableScripts", "GetRunningScripts", "IsRunning",
+    "Refresh", "GetAvailableScripts", "GetRunningScripts", "GetOutput", "IsRunning",
     "Start", "Stop", "Restart", "StopSelf", "GetAutoStartEnabled", "SetAutoStartEnabled"
 })
 

@@ -100,7 +100,9 @@ function Minimap.IsPathable(position)
     return flags.isPathable == true
 end
 
---- Returns Minimap pixel color index at a world position when binding exists.
+--- Compatibility capability query for older/future runtimes that expose
+--- Game.GetMinimapTilePixelColor. Current builds do not expose that binding;
+--- use Minimap.GetTileFlags/IsWalkable for supported map-cache decisions.
 ---@param position table
 ---@return integer|nil
 function Minimap.GetTilePixelColor(position)

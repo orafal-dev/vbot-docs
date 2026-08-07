@@ -17,6 +17,12 @@ Supported runtime APIs
 Tibia client
 ```
 
+Lua runs cooperatively on the bot/game thread. Managed coroutines provide yielding and fairness; they are not background OS threads. Game reads/actions, script callbacks, and Lua state access remain serialized.
+
+With the sandbox enabled, each user file has a private `_ENV`. Supported native/core globals are available through a restricted fallback. The top-level script body is a managed coroutine; after it finishes, the runtime starts `init()` from the same private `_ENV` if present. `init()` may call `wait`, HTTP, or WebSocket APIs.
+
+A normal script stays alive while it owns runnable/sleeping coroutines, registered callbacks, scheduled events, HUD elements, or WebSockets. A script with no remaining work finishes automatically.
+
 ## Cooperative execution
 
 Script execution is **cooperative**, not preemptive. The runtime can only switch to other work when your script yields control. Blocking the runtime with a tight loop will freeze the bot.
@@ -29,6 +35,7 @@ Use one of these patterns for repeating or delayed logic:
 | --- | --- |
 | `Module.Every(name, fn, delayMs)` | Repeating task on an interval |
 | `Module.After(name, fn, delayMs)` | One-shot delayed callback |
+| `Events.Schedule(fn, delayMs, ...)` | Owner-scoped one-shot schedule |
 | `Module.New(name, fn, delayMs)` | Custom recurring module |
 | `wait(ms)` | Yield inside a long-running coroutine |
 
@@ -42,6 +49,55 @@ while true do
     -- work without wait()
 end
 ```
+
+### Time
+
+Use `Time.MonotonicMs()` for elapsed time, retry backoff, timeouts, and telemetry cadence. Compare two returned values; the epoch is unspecified. Do **not** use `os.clock()` for wall-time timeouts — Lua defines it as process CPU time.
+
+### Lifecycle hooks
+
+| Hook | Rules |
+| --- | --- |
+| Top-level body | Runs first as a managed coroutine |
+| `init()` | Optional setup that may yield; prefer putting `Module.Every` here |
+| `terminate()` | Protected synchronous cleanup only — cannot yield, 50 ms limit, runs at most once |
+
+Do not start HTTP, WebSocket, scheduled, or module work from `terminate()`. Native owner-scoped resources are released automatically; use `terminate()` to restore intentional shared/live setting changes.
+
+## Failure isolation and diagnostics
+
+- `pcall` / `xpcall` retain normal Lua behavior. Expected errors you catch do not count as uncaught runtime failures.
+- An uncaught top-level or `init()` error stops only that script.
+- An uncaught repeating-module error stops that module. Sibling healthy modules keep running; if it was the only module, the script stops.
+- An uncaught `Events.Schedule` error ends only that one-shot callback.
+- A key, packet, or Walker event registration is disabled after **three consecutive** uncaught callback failures. One successful completion resets the counter.
+- A Walker interceptor always releases its owned pause before failure policy runs.
+
+Do **not** wrap an entire repeating module in `pcall` merely to print and continue. That hides genuine component failures from the runtime. Catch only errors the script can handle meaningfully, then recover or rethrow.
+
+## Ownership, cleanup, and budgets
+
+Key/packet/Walker events, scheduled events, HUD elements, HTTP results, WebSockets, sounds, and Walker holds are owned by the creating script. Teardown removes only that owner's resources.
+
+Per script budgets include 64 MiB Lua memory, 256 managed coroutines, 64 pending event callbacks, and 32 outstanding async result tokens. Scheduler limits are 3 ms per coroutine resume, 4 ms per script per frame, and 8 ms for all Lua work per frame. Yieldable Lua is time-sliced. A single unpreemptable **50 ms** overrun, or **three consecutive** smaller unpreemptable budget overruns, circuit-breaks the offending component. Delays are integer milliseconds from **0** through **86,400,000** unless a narrower function-specific range is documented.
+
+Supported C++ exceptions from native bindings become contextual Lua errors and follow the same component policy. An ordinary C++ exception escaping a script tick quarantines that script. A native access violation is the exceptional emergency case: Lua execution is disabled for the client session, Walker ownership is released, and a dump is written. Diagnostics serialize error values without invoking user `__tostring` metamethods.
+
+## Script lifecycle and cross-script control
+
+- `Engine.Scripter.GetAvailableScripts()` lists exact runnable `.lua` filenames.
+- `Engine.Scripter.Start(name)`, `Stop(name)`, and `Restart(name)` operate on those exact names.
+- `Engine.Scripter.GetRunningScripts()` reports currently active script names.
+- `Engine.Scripter.GetOutput(name)` returns current or most recently archived output (empty string when none).
+- `Engine.Scripter.StopSelf()` is the only supported way for a running script to stop itself. Prefer it over the compatibility `Script.Unload()`.
+- A script cannot `Stop` / `Restart` itself and cannot disable the sandbox or execute an arbitrary source string.
+
+Every script writes its own runtime log under the product `UserData/BotLogs` area. Diagnostic/test scripts should print explicit `PASS` and `FAIL` lines.
+
+## Sandbox file and module limits
+
+- Sandboxed `io.open`, `os.remove`, and `os.rename` resolve inside the product user `Scripts` directory and cannot access `Scripts/core`. Individual file reads/writes are limited to **1 MiB**. Prefer `Storage` for normal script state.
+- Sandboxed `require` loads text-only Lua modules from allowed script/library roots. Do not depend on native C-module loading or DLL search paths.
 
 ## Nil-safe design
 
@@ -66,16 +122,7 @@ end
 
 Capability wrappers such as `Inventory` and `NpcTradeStorage` can return nil/false when the corresponding game state is unavailable. Check `IsAvailable` / capability methods where provided.
 
-Wrap risky blocks in `pcall` so one failure does not kill the entire script:
-
-```lua
-local ok, err = pcall(function()
-    -- runtime logic
-end)
-if not ok then
-    print("Error: " .. tostring(err))
-end
-```
+Getter tables from `Engine` are **detached snapshots**. Mutating them does nothing — call the matching setter.
 
 ## Module naming convention
 
@@ -86,6 +133,7 @@ Each module table is exposed in PascalCase. Some modules expose nested namespace
 - `Engine.Healer.GetSpells()`
 - `Engine.MagicShooter.GetEntries()`
 - `Storage.Global.Get(key)`
+- `Storage.Shared("name"):Get(key)`
 
 Do not infer a `Query` or `Actions` namespace unless it is explicitly documented. Compatibility aliases are not part of the supported surface.
 

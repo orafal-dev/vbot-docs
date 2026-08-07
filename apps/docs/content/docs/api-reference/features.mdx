@@ -16,6 +16,18 @@ Core library: `features.lua`
 
 Disables a feature (turns it off)
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | active |
+
 #### `Features.DisableAllExcept(ExcludeList)`
 
 Disables all features except those in the exclusion list
@@ -27,6 +39,18 @@ Disables multiple features at once
 #### `Features.Enable(featureIdentifier)`
 
 Enables a feature (turns it on)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | active |
 
 #### `Features.EnableMultiple(featureList)`
 
@@ -56,9 +80,34 @@ Prints the status of all features
 
 Sets a feature to a specific active state
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+| `activeStatus` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | active |
+
 #### `Features.Toggle(featureIdentifier)`
 
 Toggles a feature's state (on -> off, off -> on)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | active |
 
 ## Constants
 

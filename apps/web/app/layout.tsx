@@ -5,8 +5,10 @@ import { IconBook2, IconCode } from "@tabler/icons-react"
 import { Analytics } from "@vercel/analytics/next"
 
 import "./globals.css"
+import { ThemeProvider } from "@wrksz/themes/next"
+
+import { ThemeHotkey } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { ThemeProvider } from "@/components/theme-provider"
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-figtree" })
 
@@ -38,7 +40,13 @@ export default function RootLayout({
       className={`${figtree.variable} ${fontMono.variable}`}
     >
       <body className="min-h-svh antialiased">
-        <ThemeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ThemeHotkey />
           <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
               <Link href="/" className="flex items-center gap-2 font-semibold" aria-label="ValidusBot home">

@@ -7,10 +7,142 @@ Core library: `storage.lua`
 
 ## Exported tables
 
+- `SharedStorageScope`
 - `Storage`
 - `StorageScope`
 
 ## Functions
+
+### SharedStorageScope
+
+#### `SharedStorageScope:Clear()`
+
+Clears only this scope. Character scopes never clear global or other-character data.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | success |
+| `string\|nil` | errorMessage |
+
+#### `SharedStorageScope:Get(key, default)`
+
+Reads a value from this named shared namespace.
+The second return value is nil on success or an I/O/validation error string.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+| `default` | `any` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` | value |
+| `string\|nil` | errorMessage |
+
+#### `SharedStorageScope:OffChanged(subscriptionId)`
+
+Removes a shared-storage change subscription owned by this script.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `subscriptionId` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | success |
+| `string\|nil` | errorMessage |
+
+#### `SharedStorageScope:OnChanged(callback, key, includeSelf)`
+
+Registers an owner-scoped callback for changes committed by another script.
+Pass key to observe one field or nil to observe this entire scope.
+includeSelf defaults to false. The callback receives one event table.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  |  |
+| `key` | `string` | Yes |  |
+| `includeSelf` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` | subscriptionId |
+| `string\|nil` | errorMessage |
+
+#### `SharedStorageScope:Remove(key)`
+
+Removes a value from this named shared namespace.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | success |
+| `string\|nil` | errorMessage |
+
+#### `SharedStorageScope:Set(key, value)`
+
+Stores a value in this named shared namespace.
+Passing nil removes the key.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+| `value` | `any` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | success |
+| `string\|nil` | errorMessage |
+
+#### `SharedStorageScope:Update(key, updater, default)`
+
+Atomically updates one shared key with bounded optimistic retries.
+The updater may run more than once after a concurrent write, so it should
+avoid side effects and should only calculate and return the replacement value.
+If default is a table, do not mutate it in place; return a new table instead.
+Returning nil removes the key. No native or filesystem lock is held while
+the updater runs, so yielding or throwing cannot deadlock shared storage.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `key` | `string` |  |  |
+| `updater` | `function` |  |  |
+| `default` | `any` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | success |
+| `any` | newValue |
+| `string\|nil` | errorMessage |
 
 ### Storage
 
@@ -47,6 +179,39 @@ Set perCharacter to true to isolate its values by logged-in character name.
 | Type | Description |
 | :-- | :-- |
 | `StorageScope` |  |
+
+#### `Storage.Shared(namespace)`
+
+Opens a persistent namespace shared by every Lua script and character.
+The namespace is an opt-in coordination boundary, not a security boundary.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `namespace` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `SharedStorageScope` |  |
+
+#### `Storage.SharedForCharacter(namespace)`
+
+Opens a persistent namespace shared by every Lua script for this character.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `namespace` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `SharedStorageScope` |  |
 
 ### Storage.Character
 

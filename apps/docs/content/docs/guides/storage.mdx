@@ -1,16 +1,18 @@
 ---
 title: Storage
-description: Persistent JSON-compatible values scoped to the current script
+description: Persistent JSON-compatible values with per-script and shared scopes
 ---
 
-`Storage` persists JSON-compatible values for the current script. No file paths or manual serialization are needed.
+`Storage` persists JSON-compatible values. No file paths or manual serialization are needed.
 
-## Direct scopes
+## Direct scopes (per script)
 
 | Scope | Behavior |
 | --- | --- |
-| `Storage.Global` | Shared by characters running the same script |
-| `Storage.Character` | Isolated by the logged-in character |
+| `Storage.Global` | Shared by characters running **this** script file |
+| `Storage.Character` | Isolated by the logged-in character for this script |
+
+"Global" here means every character running that one script — not every Lua script in the bot.
 
 | Function | Description |
 | --- | --- |
@@ -24,7 +26,7 @@ Storage.Global.Set("runs", (Storage.Global.Get("runs", 0) or 0) + 1)
 Storage.Character.Set("last_refill", os.time())
 ```
 
-## Namespaces
+## Namespaces (per script)
 
 Logical namespaces avoid key collisions across features of the same script:
 
@@ -39,13 +41,46 @@ local hunt = Storage.ForCharacter("hunt_stats")
 hunt:Set("kills", (hunt:Get("kills", 0) or 0) + 1)
 ```
 
+## Shared scopes (cross-script)
+
+Named shared scopes coordinate between scripts, including temporary Walker Lua waypoints. Any installed script that knows the namespace can access it — a namespace is a coordination boundary, not a security boundary.
+
+| Function | Description |
+| --- | --- |
+| `Storage.Shared(namespace)` | Durable namespace for every script |
+| `Storage.SharedForCharacter(namespace)` | Same namespace, isolated by logged-in character |
+| `shared:Get` / `Set` / `Remove` / `Clear` | Return `success, errorMessage?` (Get returns `value, errorMessage?`) |
+| `shared:Update(key, updater, default?)` | Optimistic read-modify-write |
+| `shared:OnChanged(callback, key?, includeSelf?)` | Process-local change notifications |
+| `shared:OffChanged(subscriptionId)` | Remove a subscription early |
+
+```lua
+local state = Storage.SharedForCharacter("cavebot.supplies")
+local success, visits, updateError = state:Update("visits", function(current)
+    return (current or 0) + 1
+end)
+```
+
+The updater runs without a native lock and may retry when another writer wins (at most eight retries). It must be deterministic and free of external side effects. Returning `nil` removes the key. If `default` is a table, do not mutate it in place — return a new table.
+
+```lua
+local state = Storage.Shared("cavebot.supplies")
+local subscriptionId, subscribeError = state:OnChanged(function(event)
+    print(event.operation, event.key, event.writer.name, event.revision)
+end, "visits")
+```
+
+Notifications exclude writes from the subscribing script unless `includeSelf` is true. They are process-local: writes remain safe across bot processes, but another injected client's change is observed on the next explicit `Get`, not through `OnChanged`. Reads do not emit access events. Subscriptions are owned by the script (max 64) and removed automatically on stop; a subscription is disabled after three consecutive uncaught callback failures.
+
+Persist meaningful state transitions rather than using storage as a per-frame message bus.
+
 ## Limits and value rules
 
 - Namespace names must be non-empty, at most **64 bytes**, and contain only letters, numbers, `_`, `-`, and `.`
-- A namespace plus key may not exceed **256 bytes**
+- Per-script namespace+key combinations and shared keys may not exceed **256 bytes**; shared keys cannot contain NUL bytes
 - Supported values: nil, booleans, finite numbers, strings, and nested tables with string keys or contiguous 1-based array indexes
 - Cyclic tables are rejected
-- Storage is limited to **2 MB** per script, **12** nested levels, and **4,096** entries per table
+- Each storage file is limited to **2 MB**, **12** nested levels, and **4,096** entries per table
 
 Prefer a stable, script-specific namespace to avoid key collisions.
 

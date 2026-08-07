@@ -30,8 +30,9 @@ Docs update progress:
 - [ ] 3. Regenerate API reference
 - [ ] 4. Update narrative docs (guides / getting-started / examples)
 - [ ] 5. Fix generator module maps if new .lua files appeared
-- [ ] 6. Validate build
-- [ ] 7. Summarize changes for the user
+- [ ] 6. Update changelog page
+- [ ] 7. Validate build
+- [ ] 8. Summarize changes for the user
 ```
 
 ### 1. Sync sources
@@ -67,6 +68,12 @@ Focus review on:
 - New/removed/renamed `*.lua` in core
 - Spec sections: Hard Rules, Known Constraints, Core Libraries Overview, Practical Examples, Engine feature-control API, Appendix A
 - Behavior notes that guides must mirror (nil rules, Engine snapshot semantics, HTTP/WS limits, hotkey alt rules, etc.)
+
+While reviewing, collect bullet material for the changelog (step 6):
+
+- **Added** — new modules, APIs, constraints, examples, or doc pages
+- **Changed** — behavior/rule updates and notable regenerated API surfaces
+- **Removed** — deleted core modules, removed public APIs, or retired doc claims
 
 ### 3. Regenerate API reference
 
@@ -114,7 +121,46 @@ If core gained a new public `.lua` file that should appear in API docs, update i
 
 Skip bootstrap-only files such as `zz_api_surface.lua` unless the spec appendix lists them as public.
 
-### 6. Validate
+### 6. Update changelog page
+
+**Required on every successful sync run**, even when the delta is small.
+
+File: `apps/docs/content/docs/changelog.mdx`  
+Nav: listed in `apps/docs/content/docs/meta.json` as `changelog`
+
+1. Resolve today's date as `YYYY-MM-DD` from the user/environment clock (do not invent a different day).
+2. Prepend a new dated section **immediately after** the frontmatter + intro paragraphs (newest first). Do not rewrite or reorder older entries unless fixing a clear factual error from the same run.
+3. Use this exact structure:
+
+```mdx
+## YYYY-MM-DD
+
+Optional one-line context (spec commit / core path / scope).
+
+### Added
+
+- …
+
+### Changed
+
+- …
+
+### Removed
+
+- …
+```
+
+4. Writing rules:
+
+- Keep bullets user-facing and concise (API / behavior / docs impact — not raw diffstat)
+- Prefer concrete names (`Storage.Shared`, `Cavebot.Defer`, guide titles) over vague “misc updates”
+- If a bucket has nothing, keep the heading and write a single bullet such as `Nothing removed this sync`
+- Mentions of regenerated API pages belong under **Changed** unless a whole module page is new (**Added**) or deleted (**Removed**)
+- Do not invent APIs; only list items actually reflected in the synced spec/core or narrative edits from this run
+
+5. If `changelog.mdx` is missing, recreate it with frontmatter, a short intro, nav entry in `meta.json`, and the new dated section.
+
+### 7. Validate
 
 ```bash
 cd /home/olsza/dev/vbot-docs
@@ -129,13 +175,14 @@ cd apps/docs && bun run types:check && bun run build
 
 Fix failures before finishing.
 
-### 7. Summarize for the user
+### 8. Summarize for the user
 
 Report:
 
 - Spec commit/source refreshed (yes/no) and core sync path used
 - New/changed/removed modules or notable APIs
 - Which narrative pages were edited
+- Changelog date heading written
 - Build result
 
 Do **not** commit unless the user asks.
@@ -152,3 +199,4 @@ Do **not** commit unless the user asks.
 - Documenting undocumented/raw globals as public API
 - Skipping core sync and regenerating from stale `scripts/core`
 - Leaving guides claiming old rules after the spec changed them
+- Finishing a sync without prepending a dated `changelog.mdx` entry

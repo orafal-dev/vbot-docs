@@ -78,6 +78,10 @@ end
 | `CooldownGroupId.BURST_OF_NATURE` | 10 |
 | `CooldownGroupId.VIRTUE` | 11 |
 
+## Casting
+
+There is no separate cast helper in `Spells`. Speak words with `Self.Say(...)` (or configure Magic Shooter / Healer via `Engine.*`). Cooldown helpers only report readiness.
+
 ## Example: check healing spell
 
 ```lua
@@ -87,6 +91,8 @@ if Spells.IsReady(HEAL) then
     Self.Say(HEAL)
 end
 ```
+
+For profile-driven spell/rune selection, see [Engine & Features — Magic Shooter](/docs/guides/engine-features).
 
 ## Example: group cooldown status
 

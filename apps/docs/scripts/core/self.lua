@@ -47,8 +47,7 @@ function Self.Say(message)
         error("Self.Say: argument 'message' must be a non-empty string")
     end
 
-    Game.Say(message)
-    return true
+    return Game.Say(message)
 end
 
 --- Returns private C++-bound Self method by name when available.
@@ -62,29 +61,32 @@ local function get_self_cpp_binding(preferredName)
     return nil
 end
 
---- Returns first available status function from Game table.
----@param preferredNames string[]
----@return function|nil
-local function get_game_status_binding(preferredNames)
-    if type(Game) ~= "table" then
-        return nil
-    end
+local CHARACTER_FLAG = {
+    poisoned = 0,
+    burning = 1,
+    electrified = 2,
+    drunk = 3,
+    manaShielded = 4,
+    paralyzed = 5,
+    hasted = 6,
+    inCombat = 7,
+    drowning = 8,
+    freezing = 9,
+    dazzled = 10,
+    cursed = 11,
+    strengthened = 12,
+    inProtectionZone = 14,
+    bleeding = 15,
+    rooted = 19,
+    feared = 20,
+    newManaShield = 26
+}
 
-    for i = 1, #preferredNames do
-        local fn = Game[preferredNames[i]]
-        if type(fn) == "function" then
-            return fn
-        end
-    end
-
-    return nil
-end
-
---- Calls a status function and normalizes result to boolean|nil.
----@param preferredNames string[]
+--- Calls a private C++ boolean getter and normalizes its result.
+---@param bindingName string
 ---@return boolean|nil
-local function call_status_boolean(preferredNames)
-    local fn = get_game_status_binding(preferredNames)
+local function call_cpp_boolean(bindingName)
+    local fn = get_self_cpp_binding(bindingName)
     if not fn then
         return nil
     end
@@ -99,6 +101,23 @@ local function call_status_boolean(preferredNames)
     end
 
     return nil
+end
+
+--- Reads one version-aware player condition flag.
+---@param flag integer
+---@return boolean|nil
+local function call_character_status(flag)
+    local fn = get_self_cpp_binding("_HasStatusFlag_CPP")
+    if not fn then
+        return nil
+    end
+
+    local ok, result = pcall(fn, flag)
+    if not ok or type(result) ~= "boolean" then
+        return nil
+    end
+
+    return result
 end
 
 --- Returns current health points.
@@ -302,115 +321,121 @@ end
 --- Returns true if character is hungry.
 ---@return boolean|nil
 function Self.IsHungry()
-    return call_status_boolean({ "IsHungry" })
+    return call_cpp_boolean("_IsHungry_CPP")
 end
 
 --- Returns true if character is in resting area.
 ---@return boolean|nil
 function Self.IsInRestingArea()
-    return call_status_boolean({ "IsInRestingArea" })
+    return call_cpp_boolean("_IsInRestingArea_CPP")
 end
 
 --- Returns true if character is poisoned.
 ---@return boolean|nil
 function Self.IsPoisoned()
-    return call_status_boolean({ "IsPoisoned" })
+    return call_character_status(CHARACTER_FLAG.poisoned)
 end
 
 --- Returns true if character is burning.
 ---@return boolean|nil
 function Self.IsBurning()
-    return call_status_boolean({ "IsBurning" })
+    return call_character_status(CHARACTER_FLAG.burning)
 end
 
 --- Returns true if character is electrified.
 ---@return boolean|nil
 function Self.IsElectrified()
-    return call_status_boolean({ "IsElectrified" })
+    return call_character_status(CHARACTER_FLAG.electrified)
 end
 
 --- Returns true if character is drunk.
 ---@return boolean|nil
 function Self.IsDrunk()
-    return call_status_boolean({ "IsDrunk" })
+    return call_character_status(CHARACTER_FLAG.drunk)
 end
 
 --- Returns true if mana shield is active.
 ---@return boolean|nil
 function Self.IsManaShielded()
-    return call_status_boolean({ "IsManaShielded" })
+    local oldShield = call_character_status(CHARACTER_FLAG.manaShielded)
+    local newShield = call_character_status(CHARACTER_FLAG.newManaShield)
+    if oldShield == nil or newShield == nil then
+        return nil
+    end
+
+    return oldShield or newShield
 end
 
 --- Returns true if character is paralyzed.
 ---@return boolean|nil
 function Self.IsParalyzed()
-    return call_status_boolean({ "IsParalysed", "IsParalyzed" })
+    return call_character_status(CHARACTER_FLAG.paralyzed)
 end
 
 --- Returns true if character is hasted.
 ---@return boolean|nil
 function Self.IsHasted()
-    return call_status_boolean({ "IsHasted" })
+    return call_character_status(CHARACTER_FLAG.hasted)
 end
 
 --- Returns true if character is in combat.
 ---@return boolean|nil
 function Self.IsInCombat()
-    return call_status_boolean({ "IsInCombat" })
+    return call_character_status(CHARACTER_FLAG.inCombat)
 end
 
 --- Returns true if character is drowning.
 ---@return boolean|nil
 function Self.IsDrowning()
-    return call_status_boolean({ "IsDrowning" })
+    return call_character_status(CHARACTER_FLAG.drowning)
 end
 
 --- Returns true if character is freezing.
 ---@return boolean|nil
 function Self.IsFreezing()
-    return call_status_boolean({ "IsFreezing" })
+    return call_character_status(CHARACTER_FLAG.freezing)
 end
 
 --- Returns true if character is dazzled.
 ---@return boolean|nil
 function Self.IsDazzled()
-    return call_status_boolean({ "IsDazzled" })
+    return call_character_status(CHARACTER_FLAG.dazzled)
 end
 
 --- Returns true if character is cursed.
 ---@return boolean|nil
 function Self.IsCursed()
-    return call_status_boolean({ "IsCursed" })
+    return call_character_status(CHARACTER_FLAG.cursed)
 end
 
 --- Returns true if character is strengthened.
 ---@return boolean|nil
 function Self.IsStrengthened()
-    return call_status_boolean({ "IsStreghtended", "IsStrengthened" })
+    return call_character_status(CHARACTER_FLAG.strengthened)
 end
 
 --- Returns true if character is in protection zone.
 ---@return boolean|nil
 function Self.IsInProtectionZone()
-    return call_status_boolean({ "IsInProtectionZone" })
+    return call_character_status(CHARACTER_FLAG.inProtectionZone)
 end
 
 --- Returns true if character is bleeding.
 ---@return boolean|nil
 function Self.IsBleeding()
-    return call_status_boolean({ "IsBleeding" })
+    return call_character_status(CHARACTER_FLAG.bleeding)
 end
 
 --- Returns true if character is rooted.
 ---@return boolean|nil
 function Self.IsRooted()
-    return call_status_boolean({ "IsRooted" })
+    return call_character_status(CHARACTER_FLAG.rooted)
 end
 
 --- Returns true if character is feared.
 ---@return boolean|nil
 function Self.IsFeared()
-    return call_status_boolean({ "IsFeared" })
+    return call_character_status(CHARACTER_FLAG.feared)
 end
 
 --- Returns current mana shield capacity.
@@ -605,7 +630,7 @@ function Self.HasFollow()
     return followId > 0
 end
 
---- Returns snapshot of status flags usually provided by player status controller.
+--- Returns a snapshot of live character condition flags.
 ---@return table
 function Self.GetStatusFlagsSnapshot()
     return {
@@ -689,12 +714,7 @@ end
 --- Returns true when minimal local-player data can be queried.
 ---@return boolean
 function Self.IsAvailable()
-    local stats = Self.GetStatsSnapshot()
-    if not stats then
-        return false
-    end
-
-    return stats.health ~= nil
+    return Self.GetHealth() ~= nil
 end
 
 --- Says text in whisper mode.
@@ -705,8 +725,7 @@ function Self.Whisper(message)
         error("Self.Whisper: argument 'message' must be a non-empty string")
     end
 
-    Game.Whisper(message)
-    return true
+    return Game.Whisper(message)
 end
 
 --- Says text in yell mode.
@@ -717,14 +736,13 @@ function Self.Yell(message)
         error("Self.Yell: argument 'message' must be a non-empty string")
     end
 
-    Game.Yell(message)
-    return true
+    return Game.Yell(message)
 end
 
 --- Sends chat message to a specific channel.
 ---@param message string
 ---@param channelId integer
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.SayOnChannel(message, channelId)
     if type(message) ~= "string" or message == "" then
         error("Self.SayOnChannel: argument 'message' must be a non-empty string")
@@ -745,8 +763,7 @@ function Self.SayToNpc(message)
         error("Self.SayToNpc: argument 'message' must be a non-empty string")
     end
 
-    Game.TalkToNPC(message)
-    return true
+    return Game.TalkToNPC(message)
 end
 
 --- Sends private message to a player.
@@ -762,14 +779,13 @@ function Self.PrivateMessage(playerName, message)
         error("Self.PrivateMessage: argument 'message' must be a non-empty string")
     end
 
-    Game.TalkPrivate(message, playerName)
-    return true
+    return Game.TalkPrivate(message, playerName)
 end
 
 --- Equips an item with optional tier level.
 ---@param itemId integer
 ---@param tierLevel? integer
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.Equip(itemId, tierLevel)
     validate_positive_integer(itemId, "itemId", "Self.Equip")
 
@@ -787,7 +803,7 @@ end
 
 --- Attacks a creature by id.
 ---@param creatureId integer
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.Attack(creatureId)
     validate_positive_integer(creatureId, "creatureId", "Self.Attack")
     return Game.AttackCreature(creatureId)
@@ -795,14 +811,14 @@ end
 
 --- Follows a creature by id.
 ---@param creatureId integer
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.Follow(creatureId)
     validate_positive_integer(creatureId, "creatureId", "Self.Follow")
     return Game.FollowCreature(creatureId)
 end
 
 --- Stops both attack and follow actions.
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.StopAttackAndFollow()
     return Game.CancelAttackAndFollow()
 end
@@ -812,7 +828,7 @@ end
 ---@param containerIndex integer
 ---@param itemPos integer
 ---@param useItemWithHotkey? boolean
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.UseItemInContainer(itemId, containerIndex, itemPos, useItemWithHotkey)
     validate_positive_integer(itemId, "itemId", "Self.UseItemInContainer")
 
@@ -836,7 +852,7 @@ end
 ---@param position table position table {x,y,z}
 ---@param stackPosition integer
 ---@param itemId integer
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.UseItemOnFloor(position, stackPosition, itemId)
     validate_position_table(position, "Self.UseItemOnFloor")
 
@@ -851,7 +867,7 @@ end
 
 --- Performs a movement step in given direction.
 ---@param direction integer
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.Step(direction)
     if type(direction) ~= "number" or direction % 1 ~= 0 then
         error("Self.Step: argument 'direction' must be an integer")
@@ -861,26 +877,26 @@ function Self.Step(direction)
 end
 
 --- Cancels current walk/autowalk.
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.CancelWalk()
     return Game.CancelWalk()
 end
 
 --- Mounts current mount.
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.Mount()
     return Game.Mount()
 end
 
 --- Dismounts current mount.
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.Dismount()
     return Game.Dismount()
 end
 
 --- Looks at a map position.
 ---@param position table position table {x,y,z}
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.LookAtPosition(position)
     validate_position_table(position, "Self.LookAtPosition")
     return Game.LookOnMap(position.x, position.y, position.z)
@@ -888,7 +904,7 @@ end
 
 --- Looks at a creature by id.
 ---@param creatureId integer
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.LookAtCreature(creatureId)
     validate_positive_integer(creatureId, "creatureId", "Self.LookAtCreature")
     return Game.LookOnCreature(creatureId)
@@ -899,7 +915,7 @@ end
 ---@param itemCount integer
 ---@param ignoreCapacity? boolean
 ---@param buyInShoppingBags? boolean
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.BuyItem(itemId, itemCount, ignoreCapacity, buyInShoppingBags)
     validate_positive_integer(itemId, "itemId", "Self.BuyItem")
     validate_positive_integer(itemCount, "itemCount", "Self.BuyItem")
@@ -913,7 +929,7 @@ end
 ---@param itemId integer
 ---@param itemCount integer
 ---@param sellEquipped? boolean
----@return any result Underlying Game API return value
+---@return boolean dispatched True when the action was submitted to the client
 function Self.SellItem(itemId, itemCount, sellEquipped)
     validate_positive_integer(itemId, "itemId", "Self.SellItem")
     validate_positive_integer(itemCount, "itemCount", "Self.SellItem")

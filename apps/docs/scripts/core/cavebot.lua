@@ -106,6 +106,21 @@ function Cavebot.Walker.Resume()
     return call_walker("Resume")
 end
 
+function Cavebot.Walker.Defer(timeoutMs)
+    if type(timeoutMs) ~= "number" or timeoutMs % 1 ~= 0 or
+        timeoutMs < 1 or timeoutMs > 60000 then
+        error("Cavebot.Walker.Defer: timeoutMs must be an integer between 1 and 60000", 2)
+    end
+    return call_walker("Defer", timeoutMs)
+end
+
+function Cavebot.Walker.CompleteDeferred(token)
+    if type(token) ~= "number" or token % 1 ~= 0 or token < 1 then
+        error("Cavebot.Walker.CompleteDeferred: token must be a positive integer", 2)
+    end
+    return call_walker("CompleteDeferred", token)
+end
+
 function Cavebot.Walker.GoTo(labelName)
     if type(labelName) ~= "string" or labelName == "" then
         error("Cavebot.Walker.GoTo: labelName must be a non-empty string", 2)
@@ -119,6 +134,16 @@ end
 
 function Cavebot.Walker.SetSelectedWaypointIndex(index)
     return call_walker("SetSelectedWaypointIndex", index)
+end
+
+---Moves an existing waypoint without replacing its identity, type, or action data.
+---@param index integer One-based waypoint index.
+---@param x integer
+---@param y integer
+---@param z integer
+---@return boolean
+function Cavebot.Walker.SetWaypointPosition(index, x, y, z)
+    return call_walker("SetWaypointPosition", index, x, y, z)
 end
 
 function Cavebot.Walker.SelectClosestWaypoint()
@@ -473,6 +498,29 @@ function Cavebot.Resume()
     return Cavebot.Walker.Resume()
 end
 
+function Cavebot.Defer(timeoutMs)
+    local token = Cavebot.Walker.Defer(timeoutMs)
+    local completed = false
+    local handle = {
+        token = token
+    }
+
+    function handle:Complete()
+        if completed then
+            return false
+        end
+
+        local result = Cavebot.Walker.CompleteDeferred(token)
+        if result then
+            completed = true
+        end
+        return result
+    end
+
+    handle.Cancel = handle.Complete
+    return handle
+end
+
 function Cavebot.GoTo(labelName)
     return Cavebot.Walker.GoTo(labelName)
 end
@@ -507,6 +555,39 @@ function Cavebot.RegisterEvent(eventId, callback)
     return call_events("RegisterWalkerEvent", eventId, callback)
 end
 
+local function register_waypoint_observer(apiName, callback)
+    if type(callback) ~= "function" then
+        error(apiName .. ": callback must be a function", 3)
+    end
+
+    require_table("WalkerEvent", WalkerEvent)
+    if type(WalkerEvent.ON_WAYPOINT_CHANGE) ~= "number" then
+        error(apiName .. ": WalkerEvent.ON_WAYPOINT_CHANGE is not available", 3)
+    end
+
+    return Cavebot.RegisterEvent(
+        WalkerEvent.ON_WAYPOINT_CHANGE,
+        function(previousIndex, index, waypointType, x, y, z, labelName, uniqueId)
+            if previousIndex == 0 then
+                previousIndex = nil
+            end
+
+            return callback({
+                previousIndex = previousIndex,
+                index = index,
+                type = waypointType,
+                x = x,
+                y = y,
+                z = z,
+                label = labelName,
+                labelName = labelName,
+                uniqueId = uniqueId
+            })
+        end
+    )
+end
+
+-- Legacy blocking handler. Prefer Cavebot.ObserveLabel for telemetry.
 function Cavebot.OnLabel(callback)
     require_table("WalkerEvent", WalkerEvent)
     if type(WalkerEvent.ON_LABEL) ~= "number" then
@@ -515,20 +596,135 @@ function Cavebot.OnLabel(callback)
     return Cavebot.RegisterEvent(WalkerEvent.ON_LABEL, callback)
 end
 
-function Cavebot.OnWaypointChange(callback)
-    require_table("WalkerEvent", WalkerEvent)
-    if type(WalkerEvent.ON_WAYPOINT_CHANGE) ~= "number" then
-        error("Cavebot.OnWaypointChange: WalkerEvent.ON_WAYPOINT_CHANGE is not available", 2)
-    end
-    return Cavebot.RegisterEvent(WalkerEvent.ON_WAYPOINT_CHANGE, callback)
+-- Explicit alias for the legacy blocking behavior.
+function Cavebot.InterceptLabel(callback)
+    return Cavebot.OnLabel(callback)
 end
 
+-- Non-blocking label observer.
+function Cavebot.ObserveLabel(callback)
+    require_table("WalkerEvent", WalkerEvent)
+    if type(WalkerEvent.OBSERVE_LABEL) ~= "number" then
+        error("Cavebot.ObserveLabel: WalkerEvent.OBSERVE_LABEL is not available", 2)
+    end
+    return Cavebot.RegisterEvent(WalkerEvent.OBSERVE_LABEL, callback)
+end
+
+-- Compatibility name; waypoint-change has always been documented as observational.
+function Cavebot.OnWaypointChange(callback)
+    return register_waypoint_observer("Cavebot.OnWaypointChange", callback)
+end
+
+function Cavebot.ObserveWaypointChange(callback)
+    return register_waypoint_observer("Cavebot.ObserveWaypointChange", callback)
+end
+
+-- Legacy blocking handler. Prefer Cavebot.ObserveAction for telemetry.
 function Cavebot.OnAction(callback)
     require_table("WalkerEvent", WalkerEvent)
     if type(WalkerEvent.ON_ACTION) ~= "number" then
         error("Cavebot.OnAction: WalkerEvent.ON_ACTION is not available", 2)
     end
     return Cavebot.RegisterEvent(WalkerEvent.ON_ACTION, callback)
+end
+
+-- Explicit alias for the legacy blocking behavior.
+function Cavebot.InterceptAction(callback)
+    return Cavebot.OnAction(callback)
+end
+
+-- Non-blocking observer fired when an Action waypoint is reached, before any
+-- legacy interceptor finishes. Use OnActionStarted/OnActionCompleted for
+-- truthful execution telemetry.
+function Cavebot.ObserveAction(callback)
+    require_table("WalkerEvent", WalkerEvent)
+    if type(WalkerEvent.OBSERVE_ACTION) ~= "number" then
+        error("Cavebot.ObserveAction: WalkerEvent.OBSERVE_ACTION is not available", 2)
+    end
+    return Cavebot.RegisterEvent(WalkerEvent.OBSERVE_ACTION, callback)
+end
+
+local function register_action_lifecycle_observer(
+    apiName,
+    eventId,
+    callback,
+    includeCompletion)
+    if type(callback) ~= "function" then
+        error(apiName .. ": callback must be a function", 3)
+    end
+
+    return Cavebot.RegisterEvent(
+        eventId,
+        function(
+            executionId,
+            actionName,
+            actionKind,
+            waypointIndex,
+            waypointUniqueId,
+            x,
+            y,
+            z,
+            ok,
+            outcome,
+            description,
+            durationMs)
+            local event = {
+                executionId = executionId,
+                action = actionName,
+                name = actionName,
+                kind = actionKind,
+                waypoint = {
+                    index = waypointIndex,
+                    uniqueId = waypointUniqueId,
+                    x = x,
+                    y = y,
+                    z = z
+                }
+            }
+
+            if includeCompletion then
+                event.ok = ok
+                event.outcome = outcome
+                event.description = description
+                event.durationMs = durationMs
+                if ok then
+                    event.result = description
+                else
+                    event.error = description
+                end
+            end
+
+            return callback(event)
+        end
+    )
+end
+
+-- Non-blocking. Fired once after Action interception has finished and the
+-- Action state machine is about to run for the first time.
+function Cavebot.OnActionStarted(callback)
+    require_table("WalkerEvent", WalkerEvent)
+    if type(WalkerEvent.ACTION_STARTED) ~= "number" then
+        error("Cavebot.OnActionStarted: WalkerEvent.ACTION_STARTED is not available", 2)
+    end
+    return register_action_lifecycle_observer(
+        "Cavebot.OnActionStarted",
+        WalkerEvent.ACTION_STARTED,
+        callback,
+        false)
+end
+
+-- Non-blocking. Fired once for every started Action when it reaches a terminal
+-- success, handled failure, timeout, or cancellation result.
+function Cavebot.OnActionCompleted(callback)
+    require_table("WalkerEvent", WalkerEvent)
+    if type(WalkerEvent.ACTION_COMPLETED) ~= "number" then
+        error("Cavebot.OnActionCompleted: WalkerEvent.ACTION_COMPLETED is not available", 2)
+    end
+    return register_action_lifecycle_observer(
+        "Cavebot.OnActionCompleted",
+        WalkerEvent.ACTION_COMPLETED,
+        callback,
+        true)
 end
 
 function Cavebot.UnregisterAllEvents()

@@ -1,0 +1,33 @@
+---
+title: Changelog
+description: Documentation updates synced from the ValidusBot Lua spec and Scripts/core
+---
+
+User-facing record of documentation syncs. Newest entries first. Each run of the docs update workflow prepends a dated section covering **Added**, **Changed**, and **Removed**.
+
+## 2026-08-07
+
+Synced upstream `lua-llm-scripting-spec.md` (`58d29b1`) and local `Scripts/core` (31 Lua files). Regenerated the API reference and updated narrative guides.
+
+### Added
+
+- Runtime docs for failure isolation, ownership/budgets, sandbox file/`require` limits, and `Engine.Scripter` lifecycle
+- `Time.MonotonicMs()` guidance and LLM API-selection workflow on the safety page
+- Cross-script `Storage.Shared` / `Storage.SharedForCharacter` (`Update`, `OnChanged`)
+- Cavebot Observe*/Intercept*/Defer APIs, Action lifecycle (`OnActionStarted` / `OnActionCompleted`), and leave-lure player modes
+- Native `Events` scheduling/registration notes; Sound Smart/`PlayAndWait` helpers; HUD GIF/async image limits
+- Examples for shared storage counters and Cavebot observe + Action lifecycle
+- This changelog page
+
+### Changed
+
+- Hard rules / checklist: narrow `pcall`, monotonic time, PASS/FAIL diagnostics, `init`/`terminate`
+- Engine / Magic Shooter guide: strict vector order, Momentum, stance/x64 capability checks
+- Module scheduling: `Every`/`After` registry vs raw `Module.New`
+- Minimap guide: `GetTilePixelColor` / `IsWalkableByColor` documented as nil stubs
+- Lure `SetOption` values documented (`0` Start/End, `1` Dynamic, `2` Kiting)
+- Regenerated API pages for cavebot, engine, features, hotkeys, hud, module, self, sound, storage, minimap, constants
+
+### Removed
+
+- Nothing removed from the public core module set (no `.lua` files added or deleted this sync)

@@ -13,27 +13,171 @@ Core library: `module.lua`
 
 #### `Module.After(name, callback, delayMs)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+| `callback` | `function` |  |  |
+| `delayMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Module.Cancel(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Module.Every(name, callback, delayMs)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+| `callback` | `function` |  |  |
+| `delayMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Module.Exists(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Module.Get(name)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table\|nil` |  |
+
 #### `Module.List()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
 
 #### `Module.New(name, callback, delayMs)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+| `callback` | `function` |  |  |
+| `delayMs` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Module.Pause(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Module.PauseManaged(name)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Module.Resume(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Module.ResumeManaged(name)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Module.Stop(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 ## Notes
 

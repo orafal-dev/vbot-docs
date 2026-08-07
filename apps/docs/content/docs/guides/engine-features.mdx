@@ -14,9 +14,9 @@ Control built-in bot features by numeric `BotFeatureId` or name string. Public I
 | Function | Description |
 | --- | --- |
 | `Engine.Features.IsActive(featureIdentifier)` | Check if feature is on |
-| `Engine.Features.Enable(featureIdentifier)` | Enable feature |
-| `Engine.Features.Disable(featureIdentifier)` | Disable feature |
-| `Engine.Features.Toggle(featureIdentifier)` | Toggle feature |
+| `Engine.Features.Enable(featureIdentifier)` | Enable feature; returns resulting active state |
+| `Engine.Features.Disable(featureIdentifier)` | Disable feature; returns resulting active state |
+| `Engine.Features.Toggle(featureIdentifier)` | Toggle feature; returns new state |
 | `Engine.Features.SetActive(featureIdentifier, active)` | Set explicit state |
 | `Engine.Features.GetName(featureIdentifier)` | Feature display name |
 | `Engine.Features.GetAllFeatureIds()` | All feature IDs |
@@ -25,6 +25,8 @@ Control built-in bot features by numeric `BotFeatureId` or name string. Public I
 | `Engine.Features.DisableMultiple(list)` | Disable several at once |
 | `Engine.Features.DisableAllExcept(excludeList)` | Disable all except listed |
 | `Engine.Features.PrintStatus()` | Print feature status |
+
+`Enable` / `Disable` use the native idempotent `SetActive` operation. Prefer them over blind toggles when you know the desired state.
 
 ```lua
 if not Engine.Features.IsActive("HEALER") then
@@ -64,11 +66,11 @@ end
 | `Engine.Walker` / `Engine.Lure` | Walker and lure configuration |
 | `Engine.HUD` | HUD elements (per-script ownership) |
 | `Engine.Delays` | Action delays and prediction systems |
-| `Engine.Scripter` | Start/stop/restart scripts |
+| `Engine.Scripter` | Start/stop/restart scripts and read output |
 
 ## Magic Shooter entries
 
-Inspect and configure existing Magic Shooter entries without rebuilding profiles:
+Magic Shooter uses one normalized action model for spells, runes, directional attacks, target-centered areas, chains, support effects, and stances. Inspect and configure existing entries without rebuilding profiles:
 
 | Function | Description |
 | --- | --- |
@@ -79,9 +81,33 @@ Inspect and configure existing Magic Shooter entries without rebuilding profiles
 | `Engine.MagicShooter.SetEntryMonsterNames(entryIndex, names, profile?)` | Monster filter |
 | `Engine.MagicShooter.SetEntryRange(entryIndex, range, profile?)` | Range |
 
-`profile` defaults to the active profile (1-based index or exact name). Explicit setters also cover option, condition, mana/health/harmony thresholds, monster count, HP range, danger, PvP safety, ally shooting, delays, skill buffs, cast method, and pattern fields.
+`profile` defaults to the active profile (1-based index or exact name). Explicit setters also cover invocation/placement, evaluation/ordering, chain behavior, requirements, tracked effects, thresholds, delays, safety, and momentum flags.
 
-Replacing an action preserves enabled state, position, monster names, conditions, delays, and advanced settings. A recognized rune or spell also updates action type, range, and built-in pattern. Unknown custom actions cannot cross from rune to spell or spell to rune.
+### Enums
+
+Named constants live under `Engine.MagicShooter`: `Option`, `Condition`, `CastCondition`, `MonsterCountCondition`, `CastMethod`, `PatternAnchor`, `PatternSource`, `PatternVariant`, `EffectType`, `PriorityLane`, `TargetPolicy`, `HitCountMode`, `EquipmentRequirement`, `TrackedEffect`, and `ChainSelector`. Use these instead of hard-coded integers. `PatternVariant` exposes only `Default` and `Custom`; numeric value `1` is reserved and rejected.
+
+### Selection order
+
+Runtime selection is **strict vector order**. On every pass Magic Shooter starts at entry 1, checks that entry's complete type-specific conditions and cooldowns, then continues downward only when it cannot use that entry. The first fully eligible entry is used. Spell/rune type, area size, `PriorityLane`, and `dangerLevel` do **not** reorder evaluation — arrange priority by moving entries in the profile UI.
+
+Conditions are evaluated per entry, including `DontCastWhileWalking`. Creature candidates are read from current game storage while the entry is evaluated; there is no shared editable creature snapshot.
+
+### Chains, targeting, and momentum
+
+- Chain entries can count guaranteed or possible hits. `ChainSelector` provides `Closest`, `Random`, and `HighestHealth`.
+- For runes and supported crosshair spells, `SetEntryRequiresTarget(false)` lets the target-selection policy choose a creature without an existing client attack target. Ordinary spoken targeted spells still resolve against Tibia's current attack target.
+- Monster names are case-insensitive and accept comma, semicolon, or newline separators. PvP safety is evaluated independently of monster-name and HP filters.
+- **Momentum** is the sole intentional priority exception: when triggered, the first enabled attack spell/rune with `PrioritizeWithMomentum` whose cooldown is at most `MomentumDelay` is reserved. Other attack spells/runes are skipped until it fires or the window expires. Stances, support, challenge/exeta, and avatar entries may still run.
+- Prefer `TrackedEffect.SkillBuff` over legacy `SetEntryAttackSkillBuffSpell` for new scripts.
+
+### Stances and client capability
+
+x64-only controls (Harmony/Monk, crosshair/target-or-self, stance tracking, `SetEntryStanceGroup` / `SetEntryStanceId` / `SetEntryForceUnknownStance`) require newer x64 client features and do not exist in the x86 API. Check `type(Engine.MagicShooter.SetEntryStanceId) == "function"` when targeting both architectures.
+
+The stance tracker observes outgoing manual and scripted stance words even while Magic Shooter is disabled. Place sequence entries in order (for example stance, then fire attack, then fallback). The stance entry runs only when its group is not already in the requested state.
+
+Replacing an action preserves enabled state, position, filters, conditions, delays, momentum option, stance fields, and advanced settings. Unknown custom actions cannot cross from rune to spell or spell to rune. Transient runtime state (momentum timestamps, pending stances, retry timers) is not persisted.
 
 ```lua
 local AREA_RUNE_ENTRY = 4
@@ -110,7 +136,7 @@ Explicit setters also cover priority, danger, attack option, keep-distance optio
 | Function | Description |
 | --- | --- |
 | `Engine.Healer.GetSpells()` / `GetItems()` | List configured entries |
-| `Engine.Healer.AddSpell(spellData)` / `AddItem(itemData)` | Add entry |
+| `Engine.Healer.AddSpell(spellData)` / `AddItem(itemData)` | Add entry (returns index) |
 | `Engine.Healer.RemoveSpell(index)` / `RemoveItem(index)` | Remove entry |
 | `Engine.Healer.SetSpellEnabled` / `SetItemEnabled` | Toggle entry |
 | `Engine.Healer.SetSpellWords` / `SetSpellCastValue` / `SetSpellManaCost` | Edit spell fields |
@@ -159,16 +185,25 @@ Additional setters cover player/GM/skull filters, damage-taken range, and alarm 
 | `Engine.SuppliesSorter` | Copied entries, destination container, item IDs, add/remove/clear |
 | `Engine.Channels` | Channel message entries, global delay, add/remove/clear |
 | `Engine.Delays` | Action delays plus cooldown/prediction/queue system toggles |
-| `Engine.Scripter` | `GetAvailableScripts`, `Start`, `Stop`, `Restart`, `StopSelf` |
+| `Engine.Scripter` | `GetAvailableScripts`, `Start`, `Stop`, `Restart`, `GetOutput`, `StopSelf` |
 | `Engine.ComboBot` | Client/room entry setters; `GetRoomState()` omits passwords |
 | `Engine.PVPTools` | Anti-push, hold/kill target, wall keepers, trash items |
 | `Engine.Equipment` | Live slot reads/moves (distinct from Equipment Manager config) |
 | `Engine.EquipmentManager` | Saved profile entries and condition setters |
+| `Engine.Walker` | Waypoint/lure config plus `Defer` / `CompleteDeferred` decision handshake |
+| `Engine.Lure` | Lure settings; `UpdateSetting(index, setting)` validates through native parsing |
 
 ### Scripter notes
 
 - `Engine.Scripter.Start(name)` accepts only an exact `.lua` filename from `GetAvailableScripts()` — not source strings.
+- `Engine.Scripter.GetOutput(name)` returns the current or most recently archived Runtime Workspace output (empty string when none).
 - A running script must call `Engine.Scripter.StopSelf()` to unload itself. Self-restart is unavailable; another script may call `Restart(name)`.
+- `Script.Unload()` remains a compatibility self-stop; prefer `StopSelf`.
+
+### Walker defer notes
+
+- `Engine.Walker.Defer(timeoutMs)` returns an owner-bound decision token. Finish it with `CompleteDeferred(token)`.
+- Invalid, expired, or cross-script tokens are rejected. Complete or allow every accepted token before its timeout.
 
 ### Combo Bot notes
 

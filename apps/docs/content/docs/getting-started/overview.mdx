@@ -21,6 +21,8 @@ local player = Creature.GetLocalPlayer()
 
 Removed compatibility aliases (`self.*`, `map.*`, `engine.ammoRefill.*`, `CaveBot`, `_G.position`) must not be used in new scripts.
 
+Prefer putting yieldable setup in `init()` and only fast, non-yielding cleanup in `terminate()`. Use `Storage.Shared` / `Storage.SharedForCharacter` when scripts must coordinate across files.
+
 ## What is documented here
 
 This documentation reflects:
@@ -49,7 +51,9 @@ If a function is not listed in the [API Reference](/docs/api-reference), treat i
 | `NpcTradeStorage` | NPC trade window state |
 | `Json` | Native JSON encode/decode |
 | `Http` / `WebSocket` | Coroutine-friendly networking |
-| `Storage` | Persistent script-scoped values |
+| `Storage` | Persistent per-script and shared cross-script values |
+| `Time` | Monotonic elapsed-time helper (`Time.MonotonicMs`) |
+| `Events` | Native schedule / key / packet / walker registrations |
 | `Event Proxies` | Packet/event callbacks |
 | `ScreenText` / `WorldBox` / etc. | HUD overlays |
 | `Sound` | Audio alerts |

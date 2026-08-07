@@ -25,7 +25,7 @@ Attacks a creature by id.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.BuyItem(itemId, itemCount, ignoreCapacity, buyInShoppingBags)`
 
@@ -44,7 +44,7 @@ Buys item from NPC trade window.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.CancelWalk()`
 
@@ -54,7 +54,7 @@ Cancels current walk/autowalk.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.Dismount()`
 
@@ -64,7 +64,7 @@ Dismounts current mount.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.Equip(itemId, tierLevel)`
 
@@ -81,7 +81,7 @@ Equips an item with optional tier level.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.Follow(creatureId)`
 
@@ -97,7 +97,7 @@ Follows a creature by id.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.FormatStatsSnapshot(stats, prefix)`
 
@@ -382,7 +382,7 @@ Values can be nil when local player data is unavailable.
 
 #### `Self.GetStatusFlagsSnapshot()`
 
-Returns snapshot of status flags usually provided by player status controller.
+Returns a snapshot of live character condition flags.
 
 **Returns**
 
@@ -674,7 +674,7 @@ Looks at a creature by id.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.LookAtPosition(position)`
 
@@ -690,7 +690,7 @@ Looks at a map position.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.Mount()`
 
@@ -700,7 +700,7 @@ Mounts current mount.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.PrivateMessage(playerName, message)`
 
@@ -750,7 +750,7 @@ Sends chat message to a specific channel.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.SayToNpc(message)`
 
@@ -784,7 +784,7 @@ Sells item through NPC trade window.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.Step(direction)`
 
@@ -800,7 +800,7 @@ Performs a movement step in given direction.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.StopAttackAndFollow()`
 
@@ -810,7 +810,7 @@ Stops both attack and follow actions.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.UseItemInContainer(itemId, containerIndex, itemPos, useItemWithHotkey)`
 
@@ -829,7 +829,7 @@ Uses an item from a container slot.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.UseItemOnFloor(position, stackPosition, itemId)`
 
@@ -847,7 +847,7 @@ Uses an item on floor position and stack.
 
 | Type | Description |
 | :-- | :-- |
-| `any` | result Underlying Game API return value |
+| `boolean` | dispatched True when the action was submitted to the client |
 
 #### `Self.Whisper(message)`
 

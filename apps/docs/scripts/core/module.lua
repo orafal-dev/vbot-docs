@@ -5,7 +5,12 @@ local rawModuleNew = Module.New or Module.new
 local rawModuleStop = Module.Stop or Module.stop
 local rawModulePause = Module.Pause or Module.pause
 local rawModuleResume = Module.Resume or Module.resume
+local MAX_DELAY_MS = 86400000
 
+---@param name string
+---@param callback function
+---@param delayMs? integer
+---@return nil
 function Module.New(name, callback, delayMs)
     if type(rawModuleNew) ~= "function" then
         error("Module.New: underlying module binding is unavailable", 2)
@@ -14,6 +19,8 @@ function Module.New(name, callback, delayMs)
     return rawModuleNew(name, callback, delayMs)
 end
 
+---@param name string
+---@return nil
 function Module.Stop(name)
     if type(rawModuleStop) ~= "function" then
         error("Module.Stop: underlying module binding is unavailable", 2)
@@ -22,6 +29,8 @@ function Module.Stop(name)
     return rawModuleStop(name)
 end
 
+---@param name string
+---@return nil
 function Module.Pause(name)
     if type(rawModulePause) ~= "function" then
         error("Module.Pause: underlying module binding is unavailable", 2)
@@ -30,6 +39,8 @@ function Module.Pause(name)
     return rawModulePause(name)
 end
 
+---@param name string
+---@return nil
 function Module.Resume(name)
     if type(rawModuleResume) ~= "function" then
         error("Module.Resume: underlying module binding is unavailable", 2)
@@ -52,12 +63,16 @@ local function ensure_module_pause_resume_api(functionName)
 end
 
 local function normalize_delay(delayMs, functionName)
-    if type(delayMs) ~= "number" or delayMs < 0 or delayMs % 1 ~= 0 then
-        error(functionName .. ": delayMs must be an integer >= 0", 3)
+    if type(delayMs) ~= "number" or delayMs < 0 or delayMs > MAX_DELAY_MS or delayMs % 1 ~= 0 then
+        error(functionName .. ": delayMs must be an integer between 0 and 86400000", 3)
     end
     return delayMs
 end
 
+---@param name string
+---@param callback function
+---@param delayMs integer
+---@return boolean
 function Module.Every(name, callback, delayMs)
     ensure_module_api("Module.Every")
 
@@ -83,6 +98,10 @@ function Module.Every(name, callback, delayMs)
     return true
 end
 
+---@param name string
+---@param callback function
+---@param delayMs integer
+---@return boolean
 function Module.After(name, callback, delayMs)
     ensure_module_api("Module.After")
 
@@ -102,9 +121,12 @@ function Module.After(name, callback, delayMs)
             wait(delay)
         end
 
-        callback()
+        local ok, callbackError = pcall(callback)
         Module.Stop(name)
         registry[name] = nil
+        if not ok then
+            error(callbackError, 0)
+        end
     end, 0)
 
     registry[name] = {
@@ -116,6 +138,8 @@ function Module.After(name, callback, delayMs)
     return true
 end
 
+---@param name string
+---@return boolean
 function Module.Cancel(name)
     ensure_module_api("Module.Cancel")
 
@@ -128,6 +152,8 @@ function Module.Cancel(name)
     return true
 end
 
+---@param name string
+---@return boolean
 function Module.PauseManaged(name)
     ensure_module_pause_resume_api("Module.PauseManaged")
 
@@ -144,6 +170,8 @@ function Module.PauseManaged(name)
     return true
 end
 
+---@param name string
+---@return boolean
 function Module.ResumeManaged(name)
     ensure_module_pause_resume_api("Module.ResumeManaged")
 
@@ -160,14 +188,19 @@ function Module.ResumeManaged(name)
     return true
 end
 
+---@param name string
+---@return boolean
 function Module.Exists(name)
     return registry[name] ~= nil
 end
 
+---@param name string
+---@return table|nil
 function Module.Get(name)
     return registry[name]
 end
 
+---@return table[]
 function Module.List()
     local out = {}
     for moduleName, data in pairs(registry) do

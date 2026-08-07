@@ -8,17 +8,14 @@ Core library: `sound.lua`
 ## Exported tables
 
 - `Sound`
+- `Time`
 - `BotSoundId`
 
 ## Functions
 
+### Sound
+
 #### `Sound.ClearQueue()`
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
 
 #### `Sound.GetCurrentDuration()`
 
@@ -80,12 +77,6 @@ Core library: `sound.lua`
 | :-- | :-- | :--: | :-- |
 | `options` | `table` |  |  |
 
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
 #### `Sound.SetMinDelay(delayMs)`
 
 **Parameters**
@@ -94,19 +85,17 @@ Core library: `sound.lua`
 | :-- | :-- | :--: | :-- |
 | `delayMs` | `integer` |  |  |
 
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
 #### `Sound.Stop()`
 
+### Time
+
+#### `Time.MonotonicMs()`
+
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `boolean` |  |
+| `integer` |  |
 
 ## Constants
 
@@ -115,11 +104,6 @@ Core library: `sound.lua`
 | Constant | Value |
 | :-- | :-- |
 | `BotSoundId.CREATURE_DETECTED` | `5` |
-| `BotSoundId.CUSTOM_SOUND_1` | `14` |
-| `BotSoundId.CUSTOM_SOUND_2` | `15` |
-| `BotSoundId.CUSTOM_SOUND_3` | `16` |
-| `BotSoundId.CUSTOM_SOUND_4` | `17` |
-| `BotSoundId.CUSTOM_SOUND_5` | `18` |
 | `BotSoundId.DAMAGE_TAKEN` | `1` |
 | `BotSoundId.DISCONNECTED` | `0` |
 | `BotSoundId.ENEMY_ON_SCREEN` | `9` |

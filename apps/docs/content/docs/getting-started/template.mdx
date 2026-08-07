@@ -3,7 +3,7 @@ title: Script Template
 description: Recommended starting template for ValidusBot Lua scripts
 ---
 
-Copy this template as the baseline for new scripts. It includes logging, safe execution, and a scheduled tick loop.
+Copy this template as the baseline for new scripts. It uses `init()` / `terminate()` and leaves unexpected module errors visible to the runtime.
 
 ```lua
 local SCRIPT_ID = "my_script_id"
@@ -12,27 +12,26 @@ local function log(msg)
     print("[" .. SCRIPT_ID .. "] " .. tostring(msg))
 end
 
-local function safe_run(fn, context)
-    local ok, err = pcall(fn)
-    if not ok then
-        log("ERROR in " .. tostring(context) .. ": " .. tostring(err))
-    end
-end
-
 local function tick()
     if not Self.IsAvailable() then
         return
     end
 
-    -- Put guarded logic here.
-    -- Always assume runtime values can be nil.
+    -- Keep work bounded. Let unexpected errors reach the runtime so this
+    -- module is logged and isolated. Use pcall only for a known recoverable
+    -- operation with a real fallback.
 end
 
-Module.Every(SCRIPT_ID .. "_tick", function()
-    safe_run(tick, "tick")
-end, 200)
+function init()
+    Module.Every(SCRIPT_ID .. "_tick", tick, 200)
+    log("PASS: initialized")
+end
 
-log("started")
+function terminate()
+    -- Do not call wait() here. Native owner-scoped resources are cleaned
+    -- automatically; only restore intentional shared/live setting changes.
+    log("stopped")
+end
 ```
 
 ## Customization tips
@@ -42,6 +41,8 @@ log("started")
 | `SCRIPT_ID` | Unique prefix for module names and log output |
 | Tick interval (`200`) | Milliseconds between executions — increase for lighter scripts |
 | `tick()` | Main logic body — keep it fast and non-blocking |
+| `init()` | Yieldable setup; start modules and event registrations here |
+| `terminate()` | Synchronous cleanup only (no `wait`, HTTP, or new schedules) |
 
 ## Cavebot waypoint scripts
 

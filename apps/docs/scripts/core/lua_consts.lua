@@ -602,16 +602,29 @@ CreatureType = {
 
 WalkerEvent = {
     -- Fired when the walker reaches a 'Label' waypoint.
-    -- The callback function will receive the label's name as a string.
+    -- Legacy blocking handler. Prefer OBSERVE_LABEL for telemetry.
     ON_LABEL = 0,
 
-    -- Fired just before the walker moves to a new waypoint.
-    -- The callback will receive a table with waypoint information (type, x, y, z, label, etc.).
+    -- Non-blocking. Fired when the selected waypoint changes.
     ON_WAYPOINT_CHANGE = 1,
 
     -- Fired when the walker executes an 'Action' waypoint.
-    -- The callback function will receive the action name as a string.
+    -- Legacy blocking handler. Prefer OBSERVE_ACTION for telemetry.
     ON_ACTION = 2,
+
+    -- Non-blocking label observer.
+    OBSERVE_LABEL = 3,
+
+    -- Non-blocking observer fired when an Action waypoint is reached, before
+    -- any legacy interceptor finishes. Prefer ACTION_STARTED/ACTION_COMPLETED
+    -- when the real execution lifecycle matters.
+    OBSERVE_ACTION = 4,
+
+    -- Non-blocking. Fired once when an Action actually starts executing.
+    ACTION_STARTED = 5,
+
+    -- Non-blocking. Fired once with the terminal result of a started Action.
+    ACTION_COMPLETED = 6,
 }
 
 

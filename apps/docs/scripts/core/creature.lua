@@ -374,39 +374,16 @@ function Creature:IsReachable()
         return false
     end
 
-    if type(g_Game) ~= "table" or type(g_Game.IsReachable) ~= "function" then
-        return false
-    end
-
-    if type(g_Creature) ~= "table"
-        or type(g_Creature.GetPosition) ~= "function"
-        or (type(g_Creature.GetPlayerId) ~= "function" and type(g_Creature.GetLocalPlayerId) ~= "function") then
-        return false
-    end
-
-    -- g_Game.IsReachable(fromX, fromY, fromZ, toX, toY, toZ)
     local myPos = self:GetPosition()
-    local playerId = 0
-    if type(g_Creature.GetPlayerId) == "function" then
-        playerId = g_Creature.GetPlayerId()
-    else
-        playerId = g_Creature.GetLocalPlayerId()
-    end
-
-    if type(playerId) ~= "number" or playerId <= 0 then
+    if type(myPos) ~= "table" then
         return false
     end
 
-    local playerPos = g_Creature.GetPosition(playerId)
-
-    if type(playerPos) ~= "table" then
+    if type(Position) ~= "table" or type(Position.IsReachable) ~= "function" then
         return false
     end
 
-    return g_Game.IsReachable(
-        playerPos.x, playerPos.y, playerPos.z,
-        myPos.x, myPos.y, myPos.z
-    )
+    return Position.IsReachable(nil, myPos)
 end
 
 --- Checks if this Creature is shootable (line-of-sight) from local player.

@@ -244,7 +244,8 @@ end
 ---@param params.name? string Optional display name
 ---@param params.trigger_on_keydown? boolean Optional trigger mode (default false = key up)
 ---@param params.extended? boolean Optional override for extended key flag
----@return boolean
+---@return boolean success
+---@return string registrationId Opaque owner-scoped id accepted by Events.UnregisterKeyEvent
 function Hotkeys.RegisterCombo(params)
     if type(params) ~= "table" then
         error("Hotkeys.RegisterCombo: params must be a table", 2)
@@ -280,7 +281,7 @@ function Hotkeys.RegisterCombo(params)
         name = "Lua: " .. params.id
     end
 
-    Events.RegisterKeyEvent({
+    local registrationId = Events.RegisterKeyEvent({
         id = params.id,
         name = name,
         keycode = parsed.keycode,
@@ -291,7 +292,7 @@ function Hotkeys.RegisterCombo(params)
         extended = parsed.extended
     })
 
-    return true
+    return true, registrationId
 end
 
 

@@ -7,31 +7,37 @@ description: Hard rules and checklist for production-safe ValidusBot scripts
 
 These rules are non-negotiable for generated and hand-written scripts:
 
-1. **No `os.execute`** — process execution is forbidden. Use `os.exit` only for an explicit emergency client-shutdown policy (for example, preventing red-skull equipment loss); it terminates the entire game client and is audit-logged.
-2. **No Objects Dumper access** — never enable, disable, or query the reserved Objects Dumper through `Features` / `Engine.Features`.
-3. **No busy loops** — repeating logic must yield via `wait(ms)` or `Module` helpers.
-4. **Validate all input** — check types and ranges before using external or config values.
-5. **Handle nil** — assume runtime values can be absent; use guards and fallbacks.
-6. **PascalCase API only** — use documented core wrappers (`Self.*`, `Map.*`, `Module.*`, `Engine.*`, etc.).
-7. **Use pcall for risky blocks** — prevent one error from crashing the script.
-8. **Keep scripts idempotent** — safe to re-run where possible.
-9. **Scope feature toggles** — only toggle user-facing features, not internal systems.
-10. **No legacy aliases** — do not use `self.*`, `map.*`, `CaveBot`, `_G.position`, or `engine.ammoRefill.*`.
-11. **No undocumented low-level globals** — prefer core wrappers unless explicitly documented as public API.
-12. **HTTP/WebSocket from managed coroutines** — network calls must run inside a managed script coroutine and yield cooperatively while waiting.
+1. **Documented APIs only** — never invent a plausible function name; treat an absent function as unavailable.
+2. **PascalCase modules only** — do not generate `self.*`, `map.*`, `CaveBot`, `_G.position`, or old `engine.ammoRefill.*` paths.
+3. **No busy loops** — repeating work must use `Module.Every`, `Events.Schedule`, or a loop that calls `wait(ms)`.
+4. **No `os.execute` / `os.getenv` / `os.tmpname`** — `os.exit()` is reserved for an explicit emergency full-client shutdown policy and is audit-logged.
+5. **No Objects Dumper** — never expose, query, or toggle it through `Features` / `Engine.Features`.
+6. **Validate input** — treat game-derived objects, capabilities, and snapshots as potentially `nil` or stale.
+7. **Narrow `pcall` only** — catch only operations with a defined local recovery path. Let unexpected module/event errors reach the runtime policy.
+8. **Engine getters are snapshots** — mutating a returned table does nothing; use the matching validated setter.
+9. **Idempotent feature changes** — prefer `SetActive` / `Enable` / `Disable` over blind toggles.
+10. **Monotonic time** — use `Time.MonotonicMs()` for elapsed time. Never use `os.clock()` for wall-time timeouts.
+11. **Keep callbacks short** — use stable owner-local IDs; avoid high-frequency allocation or full-creature scans when a smaller query suffices.
+12. **Restore intentional config** — if the script changes persistent bot configuration, state whether it should remain and restore it in `terminate()` when appropriate.
 
 ## Pre-flight checklist
 
 Before deploying a script, verify:
 
-- [ ] All loops yield and cannot freeze the runtime
-- [ ] Table access checks nil/type when data can be absent
-- [ ] Feature operations do not touch reserved internal features
-- [ ] Hotkey callbacks avoid alt (`RegisterCombo`); use `Hotkeys.SendCombo` when alt must be sent to the client
-- [ ] Position and creature access handles invalid objects safely
-- [ ] IDs and indices are validated as positive integers where required
-- [ ] Capability wrappers (`Inventory`, `NpcTradeStorage`, `VIP`) check availability before use
-- [ ] The script can be stopped cleanly without destructive side effects
+- [ ] All loops yield with `wait`, a module, or a scheduled callback
+- [ ] Table access checks nil/type when live game or feature data can be absent
+- [ ] Only documented PascalCase APIs and named enum constants are used
+- [ ] Feature operations avoid reserved/internal features and use idempotent Set/Enable/Disable
+- [ ] Alt is not used for registered callback hotkeys; it is allowed only for `Hotkeys.SendCombo`
+- [ ] Position/creature access handles invalid, despawned, or cross-floor objects
+- [ ] IDs, indexes, percentages, delays, and ranges are validated before mutation
+- [ ] Repeating modules are not hidden inside a blanket `pcall`
+- [ ] Callback work is bounded and delays use monotonic time
+- [ ] Detached getter snapshots are never edited as live settings
+- [ ] Every accepted Walker defer token is completed or intentionally allowed to time out
+- [ ] `terminate()` is synchronous, non-yielding, and fast
+- [ ] Stable IDs/names are used for modules, events, hotkeys, HUD elements, and storage namespaces
+- [ ] Tests print explicit PASS and FAIL results so UI output and per-script logs are useful
 
 ## Deprecated patterns
 
@@ -42,6 +48,8 @@ Before deploying a script, verify:
 | `CaveBot.Resume()` | `Cavebot.Walker.Resume()` |
 | Raw creature globals | `Creature`, `Creatures` modules |
 | Legacy `Features` / `Inventory` for new work | Prefer `Engine.Features`, `Engine.Equipment` |
+| Blanket `pcall` around `Module.Every` | Narrow catch, or let runtime isolate the module |
+| `os.clock()` for timeouts | `Time.MonotonicMs()` |
 | Undocumented low-level globals | Documented core wrappers |
 
 ## Error handling pattern
@@ -53,28 +61,49 @@ local function log(msg)
     print("[" .. SCRIPT_ID .. "] " .. tostring(msg))
 end
 
-local function safe_run(fn, context)
+-- Use pcall only around a known recoverable operation.
+local function try_recoverable(fn, context)
     local ok, err = pcall(fn)
     if not ok then
-        log("ERROR in " .. tostring(context) .. ": " .. tostring(err))
+        log("recoverable failure in " .. tostring(context) .. ": " .. tostring(err))
+        return false
     end
+    return true
 end
 ```
 
-Use `safe_run` around tick bodies, event callbacks, and hotkey handlers.
+Leave unexpected repeating-module failures uncaught so the runtime can log and isolate the broken module.
 
 ## LLM generation rules
 
 When using AI to generate scripts, instruct the model to:
 
-1. Use only APIs from this documentation
-2. Prefer core wrappers over low-level calls
-3. Include argument validation and nil checks
-4. Never register alt hotkey callbacks (`RegisterCombo`); `Hotkeys.SendCombo` may use alt
-5. Never touch Objects Dumper
-6. Use `Module.Every` / `Module.After` for repeated logic
-7. Return a complete runnable file without TODO placeholders
+1. Use only exact APIs and enum names from this documentation and the API Reference; never invent a getter, action, or generic update table
+2. Prefer canonical core wrappers and `Engine.*` over compatibility globals
+3. Include argument validation and nil/type checks
+4. Use Alt only with `Hotkeys.SendCombo`, never with callback registration
+5. Never touch Objects Dumper or other reserved/internal features
+6. Use `Module.Every` for repeating work; `Module.After` / `Events.Schedule` for one-shots; all loops must yield
+7. Keep callbacks small — Lua shares the game thread and is cooperatively budgeted
+8. Do not blanket-`pcall` repeating modules
+9. Treat getter tables as snapshots; mutate via explicit setters
+10. Use `Time.MonotonicMs()` and `Storage` for timing and persistence
+11. Put yieldable setup in `init()` and only fast cleanup in `terminate()`
+12. Use stable owner-scoped names and emit explicit PASS/FAIL lines in diagnostic scripts
+13. Return a complete runnable `.lua` file without TODO placeholders
+
+## LLM API-selection workflow
+
+For each requested behavior:
+
+1. Find the canonical signature in the [API Reference](/docs/api-reference) and named constants in [Constants](/docs/guides/constants)
+2. Prefer the highest-level matching wrapper (`Cavebot`, `Hotkeys`, `Cooldowns`, `Spells`, `Sound`, `Storage`, or a HUD class)
+3. Use `Engine.<Feature>` only for explicit feature configuration or actions; call a setter rather than editing a getter snapshot
+4. Choose `init`, `Module.Every`, `Module.After` / `Events.Schedule`, or an event proxy based on whether the work is immediate, repeating, one-shot, or event-driven
+5. Add capability checks for architecture/client-version-specific functions and nil checks for unavailable game state
+6. Identify owner-scoped resources and any shared/live setting that must be restored in `terminate()`
+7. Keep errors observable, callbacks bounded, and validation/test output stating PASS or FAIL explicitly
 
 Example prompt:
 
-> Generate a production-safe ValidusBot Lua script using only APIs from the attached documentation. Goal: [describe goal]. Include robust nil checks, validation, and non-blocking scheduling. Return one complete `.lua` file.
+> Generate a production-safe ValidusBot Lua script using only exact APIs from the attached documentation and its API appendix. Goal: [describe goal]. Prefer canonical high-level wrappers, validate live values, use managed yielding/scheduling, keep callbacks bounded, and let unexpected module errors reach the runtime. Use Alt only for synthetic SendCombo calls. Return one complete `.lua` file with explicit diagnostic logging and no invented APIs.

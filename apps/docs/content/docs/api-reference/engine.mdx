@@ -3931,19 +3931,20 @@ Toggle an ammo refill entry in current profile
 | :-- | :-- |
 | `nil` |  |
 
-#### `Engine.HUD.SetEnabled(value)`
+#### `Engine.HUD.SetEnabled(elementId, enabled)`
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `value` | `boolean` |  |  |
+| `elementId` | `string` |  |  |
+| `enabled` | `boolean` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `boolean` |  |
+| `nil` |  |
 
 #### `Engine.HUD.SetLevelSpyEnabled(value)`
 
@@ -5635,6 +5636,14 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `any` |  |
 
+#### `Engine.Lure.UpdateSetting()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `any` |  |
+
 ### Engine.MagicShooter
 
 #### `Engine.MagicShooter.GetActiveProfile()`
@@ -5720,112 +5729,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryAttackSkillBuffSpell(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryCastMethod(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryCondition(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryCustomDelay(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryCustomSpell(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryDangerLevel(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryDistanceSkillIncreasePercentage(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryDontCastWhileWalking(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryAttackSkillBuffSpell(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -5833,6 +5737,183 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `boolean` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryCastMethod(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryChainJumpRange(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryChainMaxTargets(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryChainSelector(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryCondition(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryCustomDelay(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryCustomSpell(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryDangerLevel(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryDistanceSkillIncreasePercentage(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryDontCastWhileWalking(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryEffectType(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -5856,7 +5937,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryHarmony(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryEquipmentRequirement(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -5864,6 +5945,7 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -5871,112 +5953,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryHarmonyCondition(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryHealthCondition(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryHealthPercentage(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryManaPercentage(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryMaximumMonsterHealthPercentage(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryMeleeSkillIncreasePercentage(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryMinimumMonsterHealthPercentage(entryIndex, value)`
-
-**Parameters**
-
-| Name | Type | Optional | Description |
-| :-- | :-- | :--: | :-- |
-| `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
-
-**Returns**
-
-| Type | Description |
-| :-- | :-- |
-| `boolean` |  |
-
-#### `Engine.MagicShooter.SetEntryMomentumDelay(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryForceUnknownStance(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -5984,6 +5961,7 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `boolean` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -5991,7 +5969,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryMonsterCount(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryHarmony(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -5999,6 +5977,7 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6006,7 +5985,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryMonsterCountCondition(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryHarmonyCondition(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -6014,6 +5993,167 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryHealthCondition(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryHealthPercentage(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryHitCountMode(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryManaPercentage(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMaximumMonsterHealthPercentage(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMeleeSkillIncreasePercentage(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMinimumMonsterHealthPercentage(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMomentumDelay(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMonsterCount(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryMonsterCountCondition(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6037,7 +6177,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryOption(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryOption(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -6045,6 +6185,7 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6052,7 +6193,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryPVPSafe(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryPVPSafe(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -6060,6 +6201,7 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `boolean` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6067,7 +6209,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryPatternAnchor(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryPatternAnchor(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -6075,6 +6217,7 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6082,14 +6225,15 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryPatternSource(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryPatternId(entryIndex, patternId, profile)`
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
-| `value` | `string` |  |  |
+| `patternId` | `string` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6097,7 +6241,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryPatternVariant(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryPatternSource(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -6105,6 +6249,7 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6112,7 +6257,23 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryPrioritizeWithMomentum(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryPatternVariant(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryPrioritizeWithMomentum(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -6120,6 +6281,23 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `boolean` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryPriorityLane(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6143,14 +6321,15 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryRequiresTarget(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryRequiresTarget(entryIndex, value, profile)`
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
-| `value` | `integer` |  |  |
+| `value` | `boolean` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6175,7 +6354,7 @@ Toggle a healing spell on/off
 | `boolean` |  |
 | `string\|nil` |  |
 
-#### `Engine.MagicShooter.SetEntryShootAfterWalkDelay(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryShootAfterWalkDelay(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -6183,6 +6362,7 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6190,7 +6370,7 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.MagicShooter.SetEntryShootOverAllies(entryIndex, value)`
+#### `Engine.MagicShooter.SetEntryShootOverAllies(entryIndex, value, profile)`
 
 **Parameters**
 
@@ -6198,6 +6378,7 @@ Toggle a healing spell on/off
 | :-- | :-- | :--: | :-- |
 | `entryIndex` | `integer` |  |  |
 | `value` | `boolean` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
 
 **Returns**
 
@@ -6221,6 +6402,70 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 | `string\|nil` |  |
+
+#### `Engine.MagicShooter.SetEntryStanceGroup(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryStanceId(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `string` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryTargetPolicy(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.SetEntryTrackedEffect(entryIndex, value, profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `entryIndex` | `integer` |  |  |
+| `value` | `integer` |  |  |
+| `profile` | `integer\|string\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ### Engine.PVPTools
 
@@ -6573,6 +6818,20 @@ Toggle a healing spell on/off
 | Type | Description |
 | :-- | :-- |
 | `table[]` |  |
+
+#### `Engine.Scripter.GetOutput(scriptName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `scriptName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
 
 #### `Engine.Scripter.GetRunningScripts()`
 
@@ -7580,6 +7839,34 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `any` |  |
 
+#### `Engine.Walker.CompleteDeferred(token)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `token` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.Defer(timeoutMs)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `timeoutMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Engine.Walker.DeleteWaypoint()`
 
 **Returns**
@@ -7865,6 +8152,23 @@ Toggle a healing spell on/off
 | Type | Description |
 | :-- | :-- |
 | `any` |  |
+
+#### `Engine.Walker.SetWaypointPosition(index, x, y, z)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ## Notes
 

@@ -22,13 +22,7 @@ BotSoundId = {
     LOCAL_MESSAGE = 10,
     GM_ON_SCREEN = 11,
     WALKER_STUCK = 12,
-    UNJUSTIFIED_KILL = 13,
-    
-    CUSTOM_SOUND_1 = 14,
-    CUSTOM_SOUND_2 = 15,
-    CUSTOM_SOUND_3 = 16,
-    CUSTOM_SOUND_4 = 17,
-    CUSTOM_SOUND_5 = 18
+    UNJUSTIFIED_KILL = 13
 }
 
 -- ============================================================================
@@ -123,9 +117,9 @@ function soundPlayAndWait(options, maxWaitMs)
     Sound.Play(options)
     
     -- Wait for it to start playing
-    local startTime = os.clock() * 1000
+    local startTime = Time.MonotonicMs()
     while not Sound.IsPlaying() do
-        if (os.clock() * 1000 - startTime) > maxWaitMs then
+        if (Time.MonotonicMs() - startTime) > maxWaitMs then
             return false
         end
         wait(50)
@@ -133,7 +127,7 @@ function soundPlayAndWait(options, maxWaitMs)
     
     -- Wait for it to finish
     while Sound.IsPlaying() do
-        if (os.clock() * 1000 - startTime) > maxWaitMs then
+        if (Time.MonotonicMs() - startTime) > maxWaitMs then
             return false
         end
         wait(50)
@@ -142,13 +136,17 @@ function soundPlayAndWait(options, maxWaitMs)
     return true
 end
 
---- Play a custom notification sound from the bot's sounds folder
----@param filename string WAV filename (e.g., "notification.wav")
+--- Play a built-in bot sound by canonical name or WAV filename.
+--- For arbitrary files, call Sound.Play({ file_path = absolutePath }) instead.
+---@param filename string Built-in name (for example "low_health" or "low_health.wav")
 ---@param instant boolean Optional, play immediately if true
 function soundPlayBotSound(filename, instant)
-    -- Assumes sounds are in: Documents/ValidusBot/Alarms/
-    local path = "C:\\Users\\" .. os.getenv("USERNAME") .. "\\Documents\\ValidusBot\\Alarms\\" .. filename
-    soundPlayFile(path, instant)
+    if type(filename) ~= "string" or filename == "" then
+        error("Sound.PlayBotSound: filename must be a non-empty string", 2)
+    end
+
+    local soundName = filename:lower():gsub("%.wav$", "")
+    soundPlayByName(soundName, instant)
 end
 
 --- Get the duration of currently playing sound
@@ -173,10 +171,10 @@ end
 ---@return boolean True if sound finished, false if timeout
 function soundWaitForCompletion(maxWaitMs)
     maxWaitMs = maxWaitMs or 10000
-    local startTime = os.clock() * 1000
+    local startTime = Time.MonotonicMs()
     
     while Sound.IsPlaying() do
-        local elapsed = (os.clock() * 1000) - startTime
+        local elapsed = Time.MonotonicMs() - startTime
         if elapsed > maxWaitMs then
             return false
         end
@@ -267,6 +265,23 @@ end
 function soundGMDetected(instant)
     return soundPlayByIdSmart(BotSoundId.GM_ON_SCREEN, instant)
 end
+
+-- Canonical high-level methods. The historical global helpers below remain
+-- available for existing scripts, while new scripts should use Sound.*.
+Sound.PlayById = soundPlayById
+Sound.PlayByName = soundPlayByName
+Sound.PlayFile = soundPlayFile
+Sound.StopAll = soundStopAll
+Sound.GetQueueLength = soundGetQueueLength
+Sound.PlayAndWait = soundPlayAndWait
+Sound.WaitForCompletion = soundWaitForCompletion
+Sound.PlayByIdSmart = soundPlayByIdSmart
+Sound.PlayByNameSmart = soundPlayByNameSmart
+Sound.PlayFileSmart = soundPlayFileSmart
+Sound.PlayBotSound = soundPlayBotSound
+
+Core = Core or {}
+Core.Sound = Sound
 
 return {
     PlayById = soundPlayById,

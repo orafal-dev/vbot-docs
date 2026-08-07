@@ -30,7 +30,7 @@
         print("Waiting " .. Cooldowns.Utils.FormatTime(timeLeft))
         wait(100)
     end
-    Game.CastSpell("exura vita")
+    Self.Say("exura vita")
 ]]
 
 -- ============================================================================

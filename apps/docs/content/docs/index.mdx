@@ -34,9 +34,11 @@ ValidusBot exposes a Lua scripting runtime for automating gameplay, building cav
 
 ## Core principles
 
-- Scripts run in a **cooperative** runtime — long loops must yield via `wait(ms)` or `Module` schedulers.
+- Scripts run in a **cooperative** runtime — long loops must yield via `wait(ms)`, `Module`, or `Events.Schedule`.
 - Use only **documented** PascalCase APIs. Treat undocumented globals as unavailable.
 - Always handle **nil** returns when game state or bindings are missing.
+- Prefer `init()` / `terminate()` lifecycle hooks; use `Time.MonotonicMs()` for elapsed time.
+- Use `pcall` only for known recoverable operations — do not blanket-wrap repeating modules.
 - Never use removed aliases like `self.*`, `map.*`, `CaveBot`, or `_G.position`.
 
 ## Documentation sections
@@ -46,4 +48,5 @@ ValidusBot exposes a Lua scripting runtime for automating gameplay, building cav
 | [Getting Started](/docs/getting-started/overview) | Runtime model, safety rules, and starter template |
 | [Guides](/docs/guides/module-scheduling) | Topic-based API walkthroughs with examples |
 | [Examples](/docs/examples) | Copy-paste script patterns |
+| [Changelog](/docs/changelog) | Docs sync history (added / changed / removed) |
 | [API Reference](/docs/api-reference) | Complete function index per core library |

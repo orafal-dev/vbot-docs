@@ -1109,7 +1109,7 @@ end
 ---@field id string
 ---@field source string?
 ---@field source_base64 string?
----@field source_bytes number[]?
+---@field source_bytes number[]|string?
 ---@field item_id number?
 ---@field item_name string?
 ---@field width number
@@ -1177,6 +1177,9 @@ function ScreenImage:New(id, renderLayer)
     return element
 end
 
+--- Uses a PNG, JPG, or animated GIF from a full file path.
+---@param path string
+---@return ScreenImage
 function ScreenImage:SetSource(path)
     self.source = path
     self.source_base64 = nil
@@ -1186,11 +1189,12 @@ function ScreenImage:SetSource(path)
     return self
 end
 
---- Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
----@param base64Png string
+--- Uses a PNG or animated GIF embedded as Base64.
+--- Raw Base64 and data:image/png;base64 or data:image/gif;base64 URIs are accepted.
+---@param base64Image string
 ---@return ScreenImage
-function ScreenImage:SetSourceBase64(base64Png)
-    self.source_base64 = base64Png
+function ScreenImage:SetSourceBase64(base64Image)
+    self.source_base64 = base64Image
     self.source = nil
     self.source_bytes = nil
     self.item_id = nil
@@ -1198,11 +1202,11 @@ function ScreenImage:SetSourceBase64(base64Png)
     return self
 end
 
---- Uses a PNG embedded as a byte array, for example {0x89, 0x50, 0x4E, 0x47, ...}.
----@param pngBytes number[]
+--- Uses a PNG or animated GIF embedded as a byte array or binary string.
+---@param imageBytes number[]|string
 ---@return ScreenImage
-function ScreenImage:SetSourceBytes(pngBytes)
-    self.source_bytes = pngBytes
+function ScreenImage:SetSourceBytes(imageBytes)
+    self.source_bytes = imageBytes
     self.source = nil
     self.source_base64 = nil
     self.item_id = nil
@@ -1408,7 +1412,8 @@ function ScreenImage:Create()
         payload.source = self.source
     elseif type(self.source_base64) == "string" and self.source_base64 ~= "" then
         payload.source_base64 = self.source_base64
-    elseif type(self.source_bytes) == "table" and #self.source_bytes > 0 then
+    elseif (type(self.source_bytes) == "table" or type(self.source_bytes) == "string")
+        and #self.source_bytes > 0 then
         payload.source_bytes = self.source_bytes
     elseif type(self.item_id) == "number" and self.item_id > 0 then
         payload.item_id = self.item_id
@@ -1488,7 +1493,7 @@ end
 ---@field z number
 ---@field source string?
 ---@field source_base64 string?
----@field source_bytes number[]?
+---@field source_bytes number[]|string?
 ---@field item_id number?
 ---@field item_name string?
 ---@field width number
@@ -1549,6 +1554,9 @@ function WorldImage:New(id, x, y, z, renderLayer)
     return element
 end
 
+--- Uses a PNG, JPG, or animated GIF from a full file path.
+---@param path string
+---@return WorldImage
 function WorldImage:SetSource(path)
     self.source = path
     self.source_base64 = nil
@@ -1558,11 +1566,12 @@ function WorldImage:SetSource(path)
     return self
 end
 
---- Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
----@param base64Png string
+--- Uses a PNG or animated GIF embedded as Base64.
+--- Raw Base64 and data:image/png;base64 or data:image/gif;base64 URIs are accepted.
+---@param base64Image string
 ---@return WorldImage
-function WorldImage:SetSourceBase64(base64Png)
-    self.source_base64 = base64Png
+function WorldImage:SetSourceBase64(base64Image)
+    self.source_base64 = base64Image
     self.source = nil
     self.source_bytes = nil
     self.item_id = nil
@@ -1570,11 +1579,11 @@ function WorldImage:SetSourceBase64(base64Png)
     return self
 end
 
---- Uses a PNG embedded as a byte array, for example {0x89, 0x50, 0x4E, 0x47, ...}.
----@param pngBytes number[]
+--- Uses a PNG or animated GIF embedded as a byte array or binary string.
+---@param imageBytes number[]|string
 ---@return WorldImage
-function WorldImage:SetSourceBytes(pngBytes)
-    self.source_bytes = pngBytes
+function WorldImage:SetSourceBytes(imageBytes)
+    self.source_bytes = imageBytes
     self.source = nil
     self.source_base64 = nil
     self.item_id = nil
@@ -1738,7 +1747,8 @@ function WorldImage:Create()
         payload.source = self.source
     elseif type(self.source_base64) == "string" and self.source_base64 ~= "" then
         payload.source_base64 = self.source_base64
-    elseif type(self.source_bytes) == "table" and #self.source_bytes > 0 then
+    elseif (type(self.source_bytes) == "table" or type(self.source_bytes) == "string")
+        and #self.source_bytes > 0 then
         payload.source_bytes = self.source_bytes
     elseif type(self.item_id) == "number" and self.item_id > 0 then
         payload.item_id = self.item_id

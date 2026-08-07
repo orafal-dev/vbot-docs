@@ -13,6 +13,8 @@ Core library: `cavebot.lua`
 
 ### Cavebot
 
+#### `Cavebot.Defer(timeoutMs)`
+
 #### `Cavebot.Disable()`
 
 #### `Cavebot.DisableLure()`
@@ -27,11 +29,25 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.GoToLabel(labelName)`
 
+#### `Cavebot.InterceptAction(callback)`
+
+#### `Cavebot.InterceptLabel(callback)`
+
 #### `Cavebot.IsEnabled()`
 
 #### `Cavebot.IsLureEnabled()`
 
+#### `Cavebot.ObserveAction(callback)`
+
+#### `Cavebot.ObserveLabel(callback)`
+
+#### `Cavebot.ObserveWaypointChange(callback)`
+
 #### `Cavebot.OnAction(callback)`
+
+#### `Cavebot.OnActionCompleted(callback)`
+
+#### `Cavebot.OnActionStarted(callback)`
 
 #### `Cavebot.OnLabel(callback)`
 
@@ -139,6 +155,10 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.ClearWaypoints()`
 
+#### `Cavebot.Walker.CompleteDeferred(token)`
+
+#### `Cavebot.Walker.Defer(timeoutMs)`
+
 #### `Cavebot.Walker.DeleteWaypoint(index)`
 
 #### `Cavebot.Walker.GetAutoRecorderEnabled()`
@@ -226,6 +246,25 @@ Core library: `cavebot.lua`
 #### `Cavebot.Walker.SetStartFromNearestWaypoint(enabled)`
 
 #### `Cavebot.Walker.SetWalkToLureCenter(enabled)`
+
+#### `Cavebot.Walker.SetWaypointPosition(index, x, y, z)`
+
+Moves an existing waypoint without replacing its identity, type, or action data.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  | One-based waypoint index. |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ## Notes
 

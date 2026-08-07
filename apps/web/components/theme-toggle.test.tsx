@@ -12,7 +12,7 @@ const { setThemeMock, useThemeMock } = vi.hoisted(() => {
   return { setThemeMock, useThemeMock }
 })
 
-vi.mock("next-themes", () => ({
+vi.mock("@wrksz/themes/client", () => ({
   useTheme: useThemeMock,
 }))
 

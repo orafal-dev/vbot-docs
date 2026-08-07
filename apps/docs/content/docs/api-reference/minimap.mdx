@@ -82,7 +82,9 @@ Returns map tile objects at a world position.
 
 #### `Minimap.GetTilePixelColor(position)`
 
-Returns Minimap pixel color index at a world position when binding exists.
+Compatibility capability query for older/future runtimes that expose
+Game.GetMinimapTilePixelColor. Current builds do not expose that binding;
+use Minimap.GetTileFlags/IsWalkable for supported map-cache decisions.
 
 **Parameters**
 

@@ -80,7 +80,7 @@ Combine with bitwise OR:
 
 ## Minimap
 
-The minimap module provides color-based walkability and tile info:
+The minimap module provides tile flags, walkability, and pathfinding helpers:
 
 | Function | Description |
 | --- | --- |
@@ -88,11 +88,10 @@ The minimap module provides color-based walkability and tile info:
 | `Minimap.GetTileInfo(position, includeCreatures)` | Tile info |
 | `Minimap.GetTileItems(position, includeCreatures)` | Items on tile |
 | `Minimap.GetTileFlags(position)` | Tile flags |
-| `Minimap.GetTilePixelColor(position)` | Minimap pixel color |
 | `Minimap.IsWalkable(position)` | Walkability check |
 | `Minimap.IsPathable(position)` | Pathability check |
-| `Minimap.IsWalkableByColor(position)` | Color-based walkability |
-| `Minimap.IsPixelColorWalkable(pixelColorIndex)` | Check color index |
+
+Current builds do not export `Game.GetMinimapTilePixelColor`. `Minimap.GetTilePixelColor` and `Minimap.IsWalkableByColor` are compatibility stubs that return `nil` — prefer `GetTileFlags`, `IsWalkable`, or `Map` pathfinding.
 
 ## MoveDirection constants
 

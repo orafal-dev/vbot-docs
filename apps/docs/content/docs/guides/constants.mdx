@@ -295,7 +295,19 @@ Client-to-server packet IDs.
 
 ## Cavebot
 
-`WalkerEvent` — walker event type constants for `Cavebot.RegisterEvent`.
+`WalkerEvent` values for `Cavebot.RegisterEvent` / `Events.RegisterWalkerEvent`:
+
+| Constant | Value | Notes |
+| --- | --- | --- |
+| `WalkerEvent.ON_LABEL` | 0 | Legacy blocking label handler |
+| `WalkerEvent.ON_WAYPOINT_CHANGE` | 1 | Non-blocking waypoint change |
+| `WalkerEvent.ON_ACTION` | 2 | Legacy blocking Action handler |
+| `WalkerEvent.OBSERVE_LABEL` | 3 | Non-blocking label observer |
+| `WalkerEvent.OBSERVE_ACTION` | 4 | Non-blocking Action reached (before interceptors) |
+| `WalkerEvent.ACTION_STARTED` | 5 | Non-blocking Action start |
+| `WalkerEvent.ACTION_COMPLETED` | 6 | Non-blocking Action terminal result |
+
+Prefer `Cavebot.Observe*` / `OnActionStarted` / `OnActionCompleted` for telemetry, and `Intercept*` when blocking is intentional. See [Cavebot](/docs/guides/cavebot).
 
 ## Features
 

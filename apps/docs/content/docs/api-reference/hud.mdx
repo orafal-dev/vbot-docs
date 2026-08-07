@@ -190,15 +190,13 @@ If called before :Create(), the position is applied immediately after creation.
 
 #### `ScreenImage:SetSource(path)`
 
-#### `ScreenImage:SetSourceBase64(base64Png)`
-
-Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
+Uses a PNG, JPG, or animated GIF from a full file path.
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `base64Png` | `string` |  |  |
+| `path` | `string` |  |  |
 
 **Returns**
 
@@ -206,15 +204,32 @@ Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
 | :-- | :-- |
 | `ScreenImage` |  |
 
-#### `ScreenImage:SetSourceBytes(pngBytes)`
+#### `ScreenImage:SetSourceBase64(base64Image)`
 
-Uses a PNG embedded as a byte array, for example \{0x89, 0x50, 0x4E, 0x47, ...\}.
+Uses a PNG or animated GIF embedded as Base64.
+Raw Base64 and data:image/png;base64 or data:image/gif;base64 URIs are accepted.
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `pngBytes` | `number[]` |  |  |
+| `base64Image` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
+#### `ScreenImage:SetSourceBytes(imageBytes)`
+
+Uses a PNG or animated GIF embedded as a byte array or binary string.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `imageBytes` | `number[]\|string` |  |  |
 
 **Returns**
 
@@ -1238,15 +1253,13 @@ Selects the Qt scene layer. This must be called before Create().
 
 #### `WorldImage:SetSource(path)`
 
-#### `WorldImage:SetSourceBase64(base64Png)`
-
-Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
+Uses a PNG, JPG, or animated GIF from a full file path.
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `base64Png` | `string` |  |  |
+| `path` | `string` |  |  |
 
 **Returns**
 
@@ -1254,15 +1267,32 @@ Uses a PNG embedded as a Base64 string or data:image/png;base64 URI.
 | :-- | :-- |
 | `WorldImage` |  |
 
-#### `WorldImage:SetSourceBytes(pngBytes)`
+#### `WorldImage:SetSourceBase64(base64Image)`
 
-Uses a PNG embedded as a byte array, for example \{0x89, 0x50, 0x4E, 0x47, ...\}.
+Uses a PNG or animated GIF embedded as Base64.
+Raw Base64 and data:image/png;base64 or data:image/gif;base64 URIs are accepted.
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `pngBytes` | `number[]` |  |  |
+| `base64Image` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
+
+#### `WorldImage:SetSourceBytes(imageBytes)`
+
+Uses a PNG or animated GIF embedded as a byte array or binary string.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `imageBytes` | `number[]\|string` |  |  |
 
 **Returns**
 

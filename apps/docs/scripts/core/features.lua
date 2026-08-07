@@ -134,31 +134,36 @@ function featuresIsActive(featureIdentifier)
 end
 
 --- Enables a feature (turns it on)
+---@param featureIdentifier integer|string
+---@return boolean active
 function featuresEnable(featureIdentifier)
-    if not _CPP_Toggle then initializeCppFunctions() end
+    if not _CPP_SetActive then initializeCppFunctions() end
     local featureId = validateFeatureId(featureIdentifier, "Features.Enable")
-    if not featuresIsActive(featureId) then
-        _CPP_Toggle(featureId)
-    end
+    return _CPP_SetActive(featureId, true)
 end
 
 --- Disables a feature (turns it off)
+---@param featureIdentifier integer|string
+---@return boolean active
 function featuresDisable(featureIdentifier)
-    if not _CPP_Toggle then initializeCppFunctions() end
+    if not _CPP_SetActive then initializeCppFunctions() end
     local featureId = validateFeatureId(featureIdentifier, "Features.Disable")
-    if featuresIsActive(featureId) then
-        _CPP_Toggle(featureId)
-    end
+    return _CPP_SetActive(featureId, false)
 end
 
 --- Toggles a feature's state (on -> off, off -> on)
+---@param featureIdentifier integer|string
+---@return boolean active
 function featuresToggle(featureIdentifier)
     if not _CPP_Toggle then initializeCppFunctions() end
     local featureId = validateFeatureId(featureIdentifier, "Features.Toggle")
-    _CPP_Toggle(featureId)
+    return _CPP_Toggle(featureId)
 end
 
 --- Sets a feature to a specific active state
+---@param featureIdentifier integer|string
+---@param activeStatus boolean
+---@return boolean active
 function featuresSetActive(featureIdentifier, activeStatus)
     if type(activeStatus) ~= "boolean" then
         error(string.format(

@@ -5,7 +5,7 @@ import { StreamLanguage } from "@codemirror/language"
 import { lua } from "@codemirror/legacy-modes/mode/lua"
 import { oneDark } from "@codemirror/theme-one-dark"
 import CodeMirror from "@uiw/react-codemirror"
-import { useTheme } from "next-themes"
+import { useTheme } from "@wrksz/themes/client"
 
 import type { LuaEditorProps } from "./lua-editor.types"
 

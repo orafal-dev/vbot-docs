@@ -7,25 +7,26 @@ Production-safe examples using the public PascalCase API. Each pattern includes 
 
 ## Low HP sound alert
 
+Leave unexpected module failures uncaught so the runtime can isolate the module. Use a narrow `pcall` only around a known recoverable operation.
+
 ```lua
 local SCRIPT_ID = "low_hp_sound"
 
-local function safe(fn, label)
-    local ok, err = pcall(fn)
-    if not ok then
-        print("[" .. SCRIPT_ID .. "] " .. label .. " failed: " .. tostring(err))
+local function tick()
+    if not Self.IsAvailable() then
+        return
+    end
+
+    local hp = Self.GetHealthPercentage()
+    if type(hp) == "number" and hp <= 35 then
+        Sound.PlayByIdSmart(BotSoundId.LOW_HEALTH)
     end
 end
 
-Module.Every(SCRIPT_ID .. "_tick", function()
-    safe(function()
-        if not Self.IsAvailable() then return end
-        local hp = Self.GetHealthPercentage()
-        if type(hp) == "number" and hp <= 35 then
-            Sound.Play({ sound_id = BotSoundId.LOW_HEALTH })
-        end
-    end, "tick")
-end, 1000)
+function init()
+    Module.Every(SCRIPT_ID .. "_tick", tick, 1000)
+    print("[" .. SCRIPT_ID .. "] PASS: initialized")
+end
 ```
 
 ## Scan visible monsters
@@ -104,6 +105,33 @@ if item then
 else
     print("Item " .. ITEM_ID .. " not in open containers")
 end
+```
+
+## Shared storage counter
+
+```lua
+local state = Storage.SharedForCharacter("cavebot.supplies")
+local success, visits, updateError = state:Update("visits", function(current)
+    return (current or 0) + 1
+end)
+
+if success then
+    print("PASS: visits=" .. tostring(visits))
+else
+    print("FAIL: " .. tostring(updateError))
+end
+```
+
+## Cavebot observe + action lifecycle
+
+```lua
+Cavebot.ObserveLabel(function(labelName)
+    print("Reached label: " .. tostring(labelName))
+end)
+
+Cavebot.OnActionCompleted(function(event)
+    print(event.outcome, event.description, event.durationMs)
+end)
 ```
 
 ## Cavebot waypoint script

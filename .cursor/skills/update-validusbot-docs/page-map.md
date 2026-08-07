@@ -12,6 +12,7 @@ Use this when deciding which hand-written pages to edit after a sync.
 | Hard rules + checklist | `getting-started/safety.mdx` |
 | Recommended template | `getting-started/template.mdx` |
 | Practical examples | `apps/docs/content/docs/examples.mdx` |
+| Docs sync history | `apps/docs/content/docs/changelog.mdx` |
 
 ## Guides ↔ core modules
 
