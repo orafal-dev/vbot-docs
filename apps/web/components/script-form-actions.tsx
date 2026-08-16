@@ -9,12 +9,12 @@ export const ScriptFormActions = ({ mode }: ScriptFormActionsProps) => (
     <div
       role="toolbar"
       aria-label="Script form actions"
-      className="pointer-events-auto flex w-full max-w-md items-center justify-between gap-3 rounded-full border border-primary bg-[oklch(0.23_0.055_155)] px-4 py-2 shadow-lg shadow-primary/25 sm:max-w-lg"
+      className="pointer-events-auto flex w-full max-w-md items-center justify-between gap-3 rounded-full border border-border bg-background/90 px-4 py-2 shadow-lg backdrop-blur sm:max-w-lg"
     >
       <Button
-        variant="ghost"
+        variant="outline"
         size="lg"
-        className="rounded-full text-white hover:bg-white/10 hover:text-white"
+        className="rounded-full"
         render={<Link href="/admin" />}
         aria-label="Cancel and return to the admin dashboard"
       >
