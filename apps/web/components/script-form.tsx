@@ -1,9 +1,6 @@
-import Link from "next/link"
-
 import { LuaEditorField } from "@/components/lua-editor-field"
-import { PendingSubmitButton } from "@/components/pending-submit-button"
+import { ScriptFormActions } from "@/components/script-form-actions"
 import { ScriptScreenshotUploader } from "@/components/script-screenshot-uploader"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -15,7 +12,7 @@ import type { ScriptFormProps } from "./script-form.types"
 const starterCode = `local SCRIPT_ID = "my_script"\n\nModule.Every(SCRIPT_ID .. "_tick", function()\n  if not Self.IsAvailable() then\n    return\n  end\n\n  -- Safe, non-blocking logic here.\nend, 1000)`
 
 export const ScriptForm = ({ action, script, error, mode }: ScriptFormProps) => (
-  <form action={action} className="grid gap-6">
+  <form action={action} className="grid gap-6 pb-28">
     {error ? <p role="alert" className="rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">{error}</p> : null}
     <Card>
       <CardHeader><CardTitle>Script details</CardTitle></CardHeader>
@@ -80,6 +77,6 @@ export const ScriptForm = ({ action, script, error, mode }: ScriptFormProps) => 
         <LuaEditorField name="code" value={script?.code ?? starterCode} />
       </CardContent>
     </Card>
-    <div className="flex justify-end gap-3"><Button variant="outline" render={<Link href="/admin" />}>Cancel</Button><PendingSubmitButton idleLabel={mode === "create" ? "Create script" : "Save changes"} pendingLabel={mode === "create" ? "Creating…" : "Saving…"} /></div>
+    <ScriptFormActions mode={mode} />
   </form>
 )
