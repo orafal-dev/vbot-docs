@@ -17,6 +17,7 @@ const createAuth = () => {
   return betterAuth({
     appName: "ValidusBot Script Library",
     baseURL: authEnvironment.baseURL,
+    trustedOrigins: authEnvironment.trustedOrigins,
     secret: authEnvironment.secret,
     database: drizzleAdapter(database, { provider: "pg", schema }),
     emailAndPassword: { enabled: false },

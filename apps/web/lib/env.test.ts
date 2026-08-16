@@ -27,6 +27,7 @@ describe("env helpers", () => {
   })
 
   it("requires auth environment values at runtime", async () => {
+    vi.stubEnv("NODE_ENV", "test")
     vi.stubEnv("BETTER_AUTH_URL", "https://example.test")
     vi.stubEnv("BETTER_AUTH_SECRET", "secret")
     vi.stubEnv("DISCORD_CLIENT_ID", "discord-id")
@@ -39,7 +40,23 @@ describe("env helpers", () => {
       secret: "secret",
       discordClientId: "discord-id",
       discordClientSecret: "discord-secret",
+      trustedOrigins: ["https://example.test"],
     })
+  })
+
+  it("trusts the local microfrontends proxy origin in development", async () => {
+    vi.stubEnv("NODE_ENV", "development")
+    vi.stubEnv("BETTER_AUTH_URL", "http://localhost:3000")
+    vi.stubEnv("BETTER_AUTH_SECRET", "secret")
+    vi.stubEnv("DISCORD_CLIENT_ID", "discord-id")
+    vi.stubEnv("DISCORD_CLIENT_SECRET", "discord-secret")
+
+    const { getAuthEnvironment } = await import("./env")
+
+    expect(getAuthEnvironment().trustedOrigins).toEqual([
+      "http://localhost:3000",
+      "http://localhost:3024",
+    ])
   })
 
   it("throws when an auth environment value is missing", async () => {
