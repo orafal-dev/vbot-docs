@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm"
+import { relations, sql } from "drizzle-orm"
 import {
   boolean,
   index,
@@ -79,6 +79,10 @@ export const scripts = pgTable("scripts", {
   description: text("description").notNull(),
   code: text("code").notNull(),
   screenshots: jsonb("screenshots").$type<string[]>().default([]).notNull(),
+  tags: text("tags")
+    .array()
+    .notNull()
+    .default(sql`'{}'::text[]`),
   status: text("status").$type<ScriptStatus>().default("draft").notNull(),
   published: boolean("published").default(false).notNull(),
   authorId: text("author_id").notNull().references(() => user.id, { onDelete: "restrict" }),
@@ -92,6 +96,7 @@ export const scripts = pgTable("scripts", {
   uniqueIndex("scripts_slug_idx").on(table.slug),
   index("scripts_author_id_idx").on(table.authorId),
   index("scripts_published_idx").on(table.published, table.publishedAt),
+  index("scripts_tags_idx").using("gin", table.tags),
 ])
 
 export const adminInvitations = pgTable("admin_invitations", {

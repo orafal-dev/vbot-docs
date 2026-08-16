@@ -8,6 +8,7 @@ type PublicScriptFields = Pick<
   | "title"
   | "description"
   | "screenshots"
+  | "tags"
   | "published"
   | "authorId"
   | "createdAt"
@@ -30,4 +31,5 @@ export type ScriptSummary = PublicScriptFields & {
 
 export type ScriptSearch = {
   query?: unknown
+  tag?: unknown
 }

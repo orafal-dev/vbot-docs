@@ -1,6 +1,7 @@
 import { z } from "zod"
 
 import { normalizeScreenshotRef } from "@/lib/blob"
+import { SCRIPT_TAG_IDS } from "@/lib/script-tags.types"
 
 export const generateSlug = (value: string) =>
   value.trim().toLowerCase().normalize("NFKD")
@@ -62,6 +63,17 @@ export const scriptFormSchema = z.object({
     (value) => (Array.isArray(value) ? value : parseScreenshotsField(value as FormDataEntryValue | null)),
     scriptScreenshotsSchema
   ),
+  tags: z.preprocess((value) => {
+    if (Array.isArray(value)) {
+      return value.filter((entry): entry is string => typeof entry === "string")
+    }
+
+    if (typeof value === "string" && value.trim()) {
+      return [value]
+    }
+
+    return []
+  }, z.array(z.enum(SCRIPT_TAG_IDS)).max(SCRIPT_TAG_IDS.length)),
   published: z.boolean(),
 })
 
@@ -75,6 +87,12 @@ export const invitationFormSchema = z.object({
 
 export const publicScriptSearchSchema = z.object({
   query: z.string().trim().max(100, "Search is limited to 100 characters.").optional(),
+  tag: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .pipe(z.enum(SCRIPT_TAG_IDS))
+    .optional(),
 })
 
 export const scriptSlugParamSchema = z.object({

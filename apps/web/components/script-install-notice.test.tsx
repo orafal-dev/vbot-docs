@@ -17,4 +17,14 @@ describe("ScriptInstallNotice", () => {
       )
     ).toBeInTheDocument()
   })
+
+  it("explains how to paste cavebot snippets into a script waypoint", () => {
+    render(<ScriptInstallNotice tags={["cavebot-snippet"]} />)
+
+    expect(
+      screen.getByLabelText("Cavebot snippet installation instructions")
+    ).toBeInTheDocument()
+    expect(screen.getByText("Where to use this snippet")).toBeInTheDocument()
+    expect(screen.getByText(/script waypoint/i)).toBeInTheDocument()
+  })
 })

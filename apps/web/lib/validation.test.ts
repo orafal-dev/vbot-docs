@@ -38,6 +38,7 @@ describe("scriptFormSchema", () => {
     if (result.success) {
       expect(result.data.slug).toBe("heal-bot")
       expect(result.data.screenshots).toEqual(["scripts/demo/shot.png"])
+      expect(result.data.tags).toEqual([])
     }
   })
 
@@ -49,6 +50,23 @@ describe("scriptFormSchema", () => {
     })
 
     expect(result.success).toBe(false)
+  })
+
+  it("accepts catalog tags and rejects unknown tags", () => {
+    const accepted = scriptFormSchema.safeParse({
+      ...validInput,
+      tags: ["cavebot-snippet", "alerts"],
+    })
+    const rejected = scriptFormSchema.safeParse({
+      ...validInput,
+      tags: ["unknown"],
+    })
+
+    expect(accepted.success).toBe(true)
+    if (accepted.success) {
+      expect(accepted.data.tags).toEqual(["cavebot-snippet", "alerts"])
+    }
+    expect(rejected.success).toBe(false)
   })
 })
 
@@ -75,11 +93,17 @@ describe("publicScriptSearchSchema", () => {
     expect(publicScriptSearchSchema.safeParse({ query: "  heal  " }).success).toBe(
       true
     )
+    expect(
+      publicScriptSearchSchema.safeParse({ tag: "cavebot-snippet" }).success
+    ).toBe(true)
   })
 
   it("rejects overly long queries", () => {
     expect(
       publicScriptSearchSchema.safeParse({ query: "x".repeat(101) }).success
+    ).toBe(false)
+    expect(
+      publicScriptSearchSchema.safeParse({ tag: "not-a-catalog-tag" }).success
     ).toBe(false)
   })
 })

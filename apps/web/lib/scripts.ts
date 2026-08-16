@@ -1,5 +1,5 @@
 import { cache } from "react"
-import { and, desc, eq, ilike, or } from "drizzle-orm"
+import { and, desc, eq, ilike, or, sql } from "drizzle-orm"
 
 import { hasDatabase, requireDb } from "@/lib/db"
 import { scripts, user } from "@/lib/db/schema"
@@ -24,6 +24,7 @@ const demoScripts: ScriptRecord[] = [
     updatedAt: new Date("2026-04-18T12:00:00.000Z"),
     publishedAt: new Date("2026-04-18T12:00:00.000Z"),
     screenshots: [],
+    tags: ["alerts"],
     viewCount: 128,
     copyCount: 42,
     downloadCount: 19,
@@ -40,9 +41,51 @@ const demoScripts: ScriptRecord[] = [
     updatedAt: new Date("2026-05-01T12:00:00.000Z"),
     publishedAt: new Date("2026-05-01T12:00:00.000Z"),
     screenshots: [],
+    tags: ["utility"],
     viewCount: 256,
     copyCount: 87,
     downloadCount: 31,
+    demo: true,
+  },
+  {
+    id: "demo-stamina-waypoint",
+    slug: "cavebot-stamina-label-check",
+    title: "Cavebot stamina label check",
+    description:
+      "Cavebot script waypoint that jumps to a refill or train label when stamina is below or above a minute threshold.",
+    code: `local MIN_STAMINA_MINUTES = 16 * 60
+local MAX_STAMINA_MINUTES = nil
+local LOW_STAMINA_LABEL = "refill"
+local HIGH_STAMINA_LABEL = "train"
+
+local stamina = Self.GetStamina()
+if type(stamina) ~= "number" then
+  Cavebot.Walker.Resume()
+  return
+end
+
+if stamina < MIN_STAMINA_MINUTES then
+  Cavebot.GoTo(LOW_STAMINA_LABEL)
+  Cavebot.Walker.Resume()
+  return
+end
+
+if type(MAX_STAMINA_MINUTES) == "number" and type(HIGH_STAMINA_LABEL) == "string" and stamina > MAX_STAMINA_MINUTES then
+  Cavebot.GoTo(HIGH_STAMINA_LABEL)
+  Cavebot.Walker.Resume()
+  return
+end
+
+Cavebot.Walker.Resume()`,
+    status: "published", published: true, authorId: "demo", authorName: "ValidusBot",
+    createdAt: new Date("2026-03-12T12:00:00.000Z"),
+    updatedAt: new Date("2026-08-16T12:00:00.000Z"),
+    publishedAt: new Date("2026-08-16T12:00:00.000Z"),
+    screenshots: [],
+    tags: ["cavebot-snippet"],
+    viewCount: 64,
+    copyCount: 21,
+    downloadCount: 11,
     demo: true,
   },
 ]
@@ -54,6 +97,7 @@ const scriptSelection = {
   description: scripts.description,
   code: scripts.code,
   screenshots: scripts.screenshots,
+  tags: scripts.tags,
   status: scripts.status,
   published: scripts.published,
   authorId: scripts.authorId,
@@ -72,6 +116,7 @@ const scriptSummarySelection = {
   title: scripts.title,
   description: scripts.description,
   screenshots: scripts.screenshots,
+  tags: scripts.tags,
   published: scripts.published,
   authorId: scripts.authorId,
   authorName: user.name,
@@ -89,6 +134,7 @@ const toScriptSummary = (script: ScriptRecord): ScriptSummary => ({
   title: script.title,
   description: script.description,
   screenshots: script.screenshots,
+  tags: script.tags,
   published: script.published,
   authorId: script.authorId,
   authorName: script.authorName,
@@ -106,28 +152,33 @@ const escapeLikePattern = (value: string) =>
 
 export const getPublishedScripts = async ({
   query,
+  tag,
 }: ScriptSearch = {}): Promise<ScriptSummary[]> => {
-  const parsedSearch = publicScriptSearchSchema.safeParse({ query })
+  const parsedSearch = publicScriptSearchSchema.safeParse({ query, tag })
 
   if (!parsedSearch.success) {
     return []
   }
 
   const normalizedQuery = parsedSearch.data.query?.toLowerCase()
+  const selectedTag = parsedSearch.data.tag
 
   if (!hasDatabase) {
     if (!canUseDemoData) {
       requireDb()
     }
 
-    const summaries = demoScripts.map(toScriptSummary)
-    return normalizedQuery
-      ? summaries.filter((script) =>
-          `${script.title} ${script.description}`
-            .toLowerCase()
-            .includes(normalizedQuery)
-        )
-      : summaries
+    return demoScripts
+      .map(toScriptSummary)
+      .filter((script) => {
+        const matchesQuery = normalizedQuery
+          ? `${script.title} ${script.description}`
+              .toLowerCase()
+              .includes(normalizedQuery)
+          : true
+        const matchesTag = selectedTag ? script.tags.includes(selectedTag) : true
+        return matchesQuery && matchesTag
+      })
   }
 
   const escapedQuery = normalizedQuery
@@ -139,15 +190,18 @@ export const getPublishedScripts = async ({
     .from(scripts)
     .innerJoin(user, eq(scripts.authorId, user.id))
     .where(
-      escapedQuery
-        ? and(
-            eq(scripts.published, true),
-            or(
+      and(
+        eq(scripts.published, true),
+        selectedTag
+          ? sql`${scripts.tags} @> ARRAY[${selectedTag}]::text[]`
+          : undefined,
+        escapedQuery
+          ? or(
               ilike(scripts.title, `%${escapedQuery}%`),
               ilike(scripts.description, `%${escapedQuery}%`)
             )
-          )
-        : eq(scripts.published, true)
+          : undefined
+      )
     )
     .orderBy(desc(scripts.publishedAt), desc(scripts.updatedAt))
     .limit(50)

@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { getScreenshotServeUrl } from "@/lib/blob"
 import { highlightLuaCode } from "@/lib/highlight"
+import { buildScriptLibraryHref, getScriptTagLabel } from "@/lib/script-tags"
 import {
   getPublishedScriptBySlug,
   getPublishedScriptSlugs,
@@ -87,7 +88,27 @@ export default async function ScriptDetailPage({ params }: { params: Promise<{ s
     <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <Link href="/" className="mb-8 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><IconArrowLeft className="size-4" /> Back to library</Link>
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div className="max-w-3xl"><Badge className="mb-4">Lua script</Badge><h1 className="text-4xl font-semibold tracking-tight">{script.title}</h1><p className="mt-4 text-lg leading-8 text-muted-foreground">{script.description}</p></div>
+        <div className="max-w-3xl">
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <Badge>Lua script</Badge>
+            {script.tags.map((tag) => (
+              <Badge
+                key={tag}
+                variant="outline"
+                render={
+                  <Link
+                    href={buildScriptLibraryHref({ tag })}
+                    aria-label={`View ${getScriptTagLabel(tag)} scripts`}
+                  />
+                }
+              >
+                {getScriptTagLabel(tag)}
+              </Badge>
+            ))}
+          </div>
+          <h1 className="text-4xl font-semibold tracking-tight">{script.title}</h1>
+          <p className="mt-4 text-lg leading-8 text-muted-foreground">{script.description}</p>
+        </div>
         <CodeActions code={script.code} filename={`${script.slug}.lua`} scriptSlug={script.slug} />
       </div>
       <div className="my-8 flex flex-wrap gap-5 text-sm text-muted-foreground">
@@ -100,7 +121,7 @@ export default async function ScriptDetailPage({ params }: { params: Promise<{ s
         screenshots={script.screenshots}
         scriptTitle={script.title}
       />
-      <ScriptInstallNotice />
+      <ScriptInstallNotice tags={script.tags} />
       <Card className="overflow-hidden p-0"><CardContent className="overflow-x-auto p-0"><div className="shiki-dual min-w-max text-sm leading-6 [&_pre]:p-5" dangerouslySetInnerHTML={{ __html: highlightedCode }} /></CardContent></Card>
     </main>
   )
