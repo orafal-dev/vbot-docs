@@ -788,7 +788,10 @@ Sells item through NPC trade window.
 
 #### `Self.Step(direction)`
 
-Performs a movement step in given direction.
+Performs a movement step in the given direction.
+Uses Engine.Delays.GetDashDelay(), the optional server-ping padding, and
+the optional connection-stability gate. A false result means the step was
+not dispatched (including when the configured cadence has not elapsed).
 
 **Parameters**
 
@@ -800,7 +803,7 @@ Performs a movement step in given direction.
 
 | Type | Description |
 | :-- | :-- |
-| `boolean` | dispatched True when the action was submitted to the client |
+| `boolean` | dispatched True when submitted to the client; callers must still confirm the observed position before consuming a path step |
 
 #### `Self.StopAttackAndFollow()`
 

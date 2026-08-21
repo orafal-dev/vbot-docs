@@ -83,6 +83,38 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Lure.GetIgnoringMonsters()`
 
+#### `Cavebot.Lure.GetKitingCloseMonsterCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Lure.GetKitingCloseMonsterDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Lure.GetKitingMaximumFarthestDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Lure.GetKitingPreferredFarthestDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Cavebot.Lure.GetLuredCreaturesCount()`
 
 #### `Cavebot.Lure.GetNearRange()`
@@ -131,6 +163,62 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Lure.SetIgnoringMonsters(enabled)`
 
+#### `Cavebot.Lure.SetKitingCloseMonsterCount(count)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `count` | `integer` |  | 0..200. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Lure.SetKitingCloseMonsterDistance(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  | 1..7. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Lure.SetKitingMaximumFarthestDistance(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  | 1..7 and not below the current preferred distance. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Lure.SetKitingPreferredFarthestDistance(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  | 1..7 and not above the current maximum. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.SetNearRange(range)`
 
 #### `Cavebot.Lure.SetOption(option)`
@@ -151,7 +239,51 @@ Core library: `cavebot.lua`
 
 ### Cavebot.Walker
 
+#### `Cavebot.Walker.AddAutoExploreConnector(connector)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `connector` | `table` |  | Requires kind, source=\{x,y,z\}, destination=\{x,y,z\}; enabled and pairedConnectorId are optional. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|string\|false` | assignedId |
+
+#### `Cavebot.Walker.AddSpecialArea(area)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `area` | `table` |  | Must contain x, y, z; width, height, featureMask, and enabled may be omitted. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|string\|false` | assignedId |
+
 #### `Cavebot.Walker.AddWaypoint(waypoint)`
+
+#### `Cavebot.Walker.ClearAutoExploreConnectors()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | removedAny |
+
+#### `Cavebot.Walker.ClearSpecialAreas()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | removedAny |
 
 #### `Cavebot.Walker.ClearWaypoints()`
 
@@ -159,7 +291,67 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.Defer(timeoutMs)`
 
+#### `Cavebot.Walker.DeleteAutoExploreConnector(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.DeleteSpecialArea(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.DeleteWaypoint(index)`
+
+#### `Cavebot.Walker.GetAutoExploreConnectorRecording()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.GetAutoExploreConnectors()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Cavebot.Walker.GetAutoExploreSettings()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Cavebot.Walker.GetAutoExploreStatus()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 #### `Cavebot.Walker.GetAutoRecorderEnabled()`
 
@@ -179,9 +371,33 @@ Core library: `cavebot.lua`
 | :-- | :-- |
 | `integer` | mode 0 for non-ally players, 1 for any player. |
 
+#### `Cavebot.Walker.GetNavigationMode()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `"waypoints"\|"auto_explore"` |  |
+
 #### `Cavebot.Walker.GetNodeDistance()`
 
 #### `Cavebot.Walker.GetSelectedWaypointIndex()`
+
+#### `Cavebot.Walker.GetSpecialAreaCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Walker.GetSpecialAreas()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
 
 #### `Cavebot.Walker.GetStartFromNearestWaypoint()`
 
@@ -195,9 +411,42 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.InsertWaypoint(index, waypoint)`
 
+#### `Cavebot.Walker.IsAutoExplorePositionPainted(x, y, z)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.IsEnabled()`
 
 #### `Cavebot.Walker.IsPausedByLua()`
+
+#### `Cavebot.Walker.IsPositionInsideSpecialArea(x, y, z, featureMask)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+| `featureMask` | `integer` |  | Cavebot.Walker.SpecialAreaFeature value or combined mask. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.IsStuck()`
 
@@ -205,11 +454,63 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.MoveWaypointUp(index)`
 
+#### `Cavebot.Walker.ReorderSpecialArea(sourceIndex, targetIndex, dropAfterTarget)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `sourceIndex` | `integer` |  | One-based source index. |
+| `targetIndex` | `integer` |  | One-based target index. |
+| `dropAfterTarget` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.ReplaceWaypoint(index, waypoint)`
+
+#### `Cavebot.Walker.ResetAutoExploreCoverage()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.Resume()`
 
 #### `Cavebot.Walker.SelectClosestWaypoint()`
+
+#### `Cavebot.Walker.SetAutoExploreConnectorRecording(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.SetAutoExploreSettings(settings)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `settings` | `table` |  | Partial settings update: style, maximumFloorsUp/Down, allowWalkOn/Ladder/Rope/Hole/Teleport, autoOpenDoors. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.SetAutoRecorderEnabled(enabled)`
 
@@ -230,6 +531,20 @@ Core library: `cavebot.lua`
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `mode` | `integer` |  | 0 for non-ally players, 1 for any player. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.SetNavigationMode(mode)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `mode` | `"waypoints"\|"auto_explore"` |  | Navigation mode can change only while Walker is stopped. |
 
 **Returns**
 
@@ -259,6 +574,36 @@ Moves an existing waypoint without replacing its identity, type, or action data.
 | `x` | `integer` |  |  |
 | `y` | `integer` |  |  |
 | `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.UpdateAutoExploreConnector(id, updateData)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `integer\|string` |  |  |
+| `updateData` | `table` |  | Partial connector update. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.UpdateSpecialArea(id, updateData)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `integer\|string` |  | Stable area ID returned by AddSpecialArea/GetSpecialAreas. |
+| `updateData` | `table` |  | Fields to update; omitted fields remain unchanged. |
 
 **Returns**
 

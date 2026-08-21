@@ -86,7 +86,7 @@ Use `Self.GetStatusFlagsSnapshot()` or `Self.GetStatsSnapshot()` for aggregated 
 | `Self.Attack(creatureId)` | Attack creature |
 | `Self.Follow(creatureId)` | Follow creature |
 | `Self.StopAttackAndFollow()` | Clear attack/follow |
-| `Self.Step(direction)` | Step in direction (use `MoveDirection` constants) |
+| `Self.Step(direction)` | Step in direction (use `MoveDirection` constants). Uses dash delay, optional ping padding, and optional connection-stability gate. `true` means dispatched — confirm observed position before consuming a path step |
 | `Self.CancelWalk()` | Cancel current walk |
 | `Self.Mount()` / `Self.Dismount()` | Toggle mount |
 

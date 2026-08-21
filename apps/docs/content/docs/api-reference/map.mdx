@@ -33,6 +33,9 @@ Computes a path between two world positions using game pathfinding.
 #### `Map.GetObjectInfo(itemId)`
 
 Gets static object info/flags for an item id.
+`isFloorChange` identifies yellow automap stairs/ladders/holes; `isTeleport`
+matches the client's teleport-id list. `isTopEffect` is only a static item
+draw-order flag; it is not Tibia's active loot glow.
 
 **Parameters**
 
@@ -48,7 +51,8 @@ Gets static object info/flags for an item id.
 
 #### `Map.GetTileFlags(position)`
 
-Gets cached Map tile flags at a world position.
+Gets cached Map tile flags at a world position. `hasTeleport` is true when
+a visible item on the tile matches the client's teleport-id list.
 
 **Parameters**
 
@@ -64,7 +68,8 @@ Gets cached Map tile flags at a world position.
 
 #### `Map.GetTileItems(position, includeCreatures)`
 
-Gets objects currently present on a Map tile.
+Gets objects currently present on a Map tile. Item records include passive
+`isFloorChange` and `isTeleport` classifiers for pre-step safety checks.
 
 **Parameters**
 

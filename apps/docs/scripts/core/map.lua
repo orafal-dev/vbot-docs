@@ -88,7 +88,8 @@ function Map.MoveItemFloorToFloor(fromPosition, itemId, toPosition, itemCount)
     )
 end
 
---- Gets cached Map tile flags at a world position.
+--- Gets cached Map tile flags at a world position. `hasTeleport` is true when
+--- a visible item on the tile matches the client's teleport-id list.
 ---@param position table position table with integer x, y, z
 ---@return table|nil flags Tile flags or nil when tile is unavailable
 function Map.GetTileFlags(position)
@@ -96,7 +97,8 @@ function Map.GetTileFlags(position)
     return Game.GetMapTileFlags(position.x, position.y, position.z)
 end
 
---- Gets objects currently present on a Map tile.
+--- Gets objects currently present on a Map tile. Item records include passive
+--- `isFloorChange` and `isTeleport` classifiers for pre-step safety checks.
 ---@param position table position table with integer x, y, z
 ---@param includeCreatures? boolean Include creature appearances in the result
 ---@return table[] items
@@ -107,6 +109,9 @@ function Map.GetTileItems(position, includeCreatures)
 end
 
 --- Gets static object info/flags for an item id.
+--- `isFloorChange` identifies yellow automap stairs/ladders/holes; `isTeleport`
+--- matches the client's teleport-id list. `isTopEffect` is only a static item
+--- draw-order flag; it is not Tibia's active loot glow.
 ---@param itemId integer item id
 ---@return table|nil info
 function Map.GetObjectInfo(itemId)

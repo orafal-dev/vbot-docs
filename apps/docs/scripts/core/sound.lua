@@ -57,23 +57,27 @@ end
 
 --- Play a sound by ID (queued by default)
 ---@param soundId number BotSoundId enum value
----@param instant boolean Optional, play immediately if true
+---@param instant? boolean Play immediately when true.
 function soundPlayById(soundId, instant)
     instant = instant or false
     Sound.Play({sound_id = soundId, instant = instant})
 end
 
---- Play a sound by name (queued by default)
----@param soundName string Name of the sound (case-insensitive)
----@param instant boolean Optional, play immediately if true
+--- Play an alarm by name (queued by default).
+--- A bare name is resolved in the product Alarms folder first, then beside the
+--- calling script. A fully qualified path is used directly. Missing or invalid
+--- WAV files raise an error. Historical built-in aliases are tried only after
+--- both exact filename locations and require their canonical packaged WAV.
+---@param soundName string Bare alarm name/WAV filename or full absolute WAV path
+---@param instant? boolean Play immediately when true.
 function soundPlayByName(soundName, instant)
     instant = instant or false
     Sound.Play({sound_name = soundName, instant = instant})
 end
 
---- Play a custom sound file (queued by default)
----@param filePath string Full path to WAV file
----@param instant boolean Optional, play immediately if true
+--- Play a custom sound from an explicit full path (queued by default).
+---@param filePath string Fully qualified absolute path to a WAV file
+---@param instant? boolean Play immediately when true.
 function soundPlayFile(filePath, instant)
     instant = instant or false
     Sound.Play({file_path = filePath, instant = instant})
@@ -109,7 +113,8 @@ end
 
 --- Play a sound and wait for it to finish (blocking, requires coroutine)
 ---@param options table Sound configuration
----@param maxWaitMs number Optional, maximum time to wait (default: 5000ms)
+---@param maxWaitMs? number Maximum wait; defaults to 5000 ms.
+---@return boolean completed
 function soundPlayAndWait(options, maxWaitMs)
     maxWaitMs = maxWaitMs or 5000
     
@@ -136,17 +141,17 @@ function soundPlayAndWait(options, maxWaitMs)
     return true
 end
 
---- Play a built-in bot sound by canonical name or WAV filename.
---- For arbitrary files, call Sound.Play({ file_path = absolutePath }) instead.
----@param filename string Built-in name (for example "low_health" or "low_health.wav")
----@param instant boolean Optional, play immediately if true
+--- Play an alarm by bare name, WAV filename, or fully qualified path.
+--- Bare names search the product Alarms folder before the calling script's
+--- folder. Full paths are used directly without either lookup.
+---@param filename string Alarm name, WAV filename, or full absolute WAV path
+---@param instant? boolean Play immediately when true.
 function soundPlayBotSound(filename, instant)
     if type(filename) ~= "string" or filename == "" then
         error("Sound.PlayBotSound: filename must be a non-empty string", 2)
     end
 
-    local soundName = filename:lower():gsub("%.wav$", "")
-    soundPlayByName(soundName, instant)
+    soundPlayByName(filename, instant)
 end
 
 --- Get the duration of currently playing sound
@@ -167,7 +172,7 @@ function soundGetFileDuration(filePath)
 end
 
 --- Wait for current sound to finish (blocking)
----@param maxWaitMs number Optional max wait time (default: 10000ms)
+---@param maxWaitMs? number Maximum wait; defaults to 10000 ms.
 ---@return boolean True if sound finished, false if timeout
 function soundWaitForCompletion(maxWaitMs)
     maxWaitMs = maxWaitMs or 10000
@@ -186,7 +191,7 @@ end
 
 --- Play a sound by ID only if not already queued/playing
 ---@param soundId number BotSoundId enum value
----@param instant boolean Optional, play immediately if true
+---@param instant? boolean Play immediately when true.
 ---@return boolean True if sound was queued, false if already queued
 function soundPlayByIdSmart(soundId, instant)
     instant = instant or false
@@ -200,9 +205,11 @@ function soundPlayByIdSmart(soundId, instant)
     return true
 end
 
---- Play a sound by name only if not already queued/playing
----@param soundName string Name of the sound
----@param instant boolean Optional, play immediately if true
+--- Play a resolved alarm only if it is not already queued/playing.
+--- Uses the same Alarms-folder, script-folder, and absolute-path resolution as
+--- Sound.PlayByName.
+---@param soundName string Alarm name, WAV filename, or full absolute WAV path
+---@param instant? boolean Play immediately when true.
 ---@return boolean True if sound was queued, false if already queued
 function soundPlayByNameSmart(soundName, instant)
     instant = instant or false
@@ -215,9 +222,9 @@ function soundPlayByNameSmart(soundName, instant)
     return true
 end
 
---- Play a file only if not already queued/playing
----@param filePath string Path to WAV file
----@param instant boolean Optional, play immediately if true
+--- Play a full-path WAV only if not already queued/playing.
+---@param filePath string Fully qualified absolute path to a WAV file
+---@param instant? boolean Play immediately when true.
 ---@return boolean True if sound was queued, false if already queued
 function soundPlayFileSmart(filePath, instant)
     instant = instant or false
@@ -230,7 +237,8 @@ function soundPlayFileSmart(filePath, instant)
     return true
 end
 
---- Check if a sound is queued or playing
+--- Check whether the resolved sound is queued or playing. Name and path
+--- resolution is identical to Sound.Play, and missing files raise an error.
 ---@param options table Sound configuration
 ---@return boolean True if queued/playing
 function soundIsQueued(options)

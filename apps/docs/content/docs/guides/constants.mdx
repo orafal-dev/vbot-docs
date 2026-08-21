@@ -309,6 +309,18 @@ Client-to-server packet IDs.
 
 Prefer `Cavebot.Observe*` / `OnActionStarted` / `OnActionCompleted` for telemetry, and `Intercept*` when blocking is intentional. See [Cavebot](/docs/guides/cavebot).
 
+### SpecialAreaFeature
+
+Bit mask for Walker Special Areas (also mirrored on `Cavebot.Walker.SpecialAreaFeature` / `Engine.Walker.SpecialAreaFeature`). Combine with bitwise OR when one rectangle disables multiple features:
+
+| Constant | Value |
+| --- | --- |
+| `SpecialAreaFeature.Walker` | 1 |
+| `SpecialAreaFeature.Targeting` | 2 |
+| `SpecialAreaFeature.MagicShooter` | 4 |
+| `SpecialAreaFeature.Looter` | 8 |
+| `SpecialAreaFeature.All` | 15 |
+
 ## Features
 
 `BotFeatureId` — numeric IDs for public features (`HEALER`, `TARGETING`, `MAGIC_SHOOTER`, `TIMER_ACTIONS`, …). Prefer these or feature name strings with `Engine.Features` / `Features`. Objects Dumper is reserved and blocked.
@@ -317,6 +329,6 @@ Prefer `Cavebot.Observe*` / `OnActionStarted` / `OnActionCompleted` for telemetr
 
 The constants module exports these tables (no functions):
 
-`CharacterFlag`, `ChaseMode`, `ClientOpcodes`, `CombatParam`, `CooldownGroupId`, `CreatureIcon`, `CreatureType`, `EquipmentSlot`, `FightMode`, `GameServerOpcodes`, `GuildShield`, `ItemCategory`, `MagicEffectClasses`, `MessageClasses`, `MessageMode`, `MoveDirection`, `PartyShield`, `PathFindFlags`, `PathFindResult`, `PlayerAvatarOutfitIds`, `PrintMessagePosition`, `PVPMode`, `RotateDirection`, `ShootType`, `Skill`, `Skull`, `SpeakClasses`, `VipFlag`, `Vocation`, `WalkerEvent`
+`CharacterFlag`, `ChaseMode`, `ClientOpcodes`, `CombatParam`, `CooldownGroupId`, `CreatureIcon`, `CreatureType`, `EquipmentSlot`, `FightMode`, `GameServerOpcodes`, `GuildShield`, `ItemCategory`, `MagicEffectClasses`, `MessageClasses`, `MessageMode`, `MoveDirection`, `PartyShield`, `PathFindFlags`, `PathFindResult`, `PlayerAvatarOutfitIds`, `PrintMessagePosition`, `PVPMode`, `RotateDirection`, `ShootType`, `Skill`, `Skull`, `SpeakClasses`, `SpecialAreaFeature`, `VipFlag`, `Vocation`, `WalkerEvent`
 
 See [Constants API Reference](/docs/api-reference/constants) for the module index.

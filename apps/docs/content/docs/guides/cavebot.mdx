@@ -20,7 +20,22 @@ description: Walker, lure manager, actions, and waypoint scripting
 | `Cavebot.Defer(timeoutMs)` | Owner-scoped hold inside an interceptor |
 | `Cavebot.GoTo(labelName)` / `GoToLabel(labelName)` | Jump to label |
 | `Cavebot.Pause(ms, autoResume)` | Temporary pause |
+| `Cavebot.Save(path, features?)` | Save `.validuswpt` bundle |
+| `Cavebot.Load(path, features?)` | Queue `.validuswpt` load |
 | `Cavebot.GetStatus()` / `PrintStatus()` | Debug status |
+
+### Profile waypoint bundles
+
+`Cavebot.Save` / `Load` write and queue `.validuswpt` bundles. Each returns `true, resolvedPath`; path or queue errors raise a Lua error. Walker and Lure are always included. The optional `features` table selects Targeting, Magic Shooter, and/or Looter via `Cavebot.BundleFeature.*`; `nil` selects none of those optional sections.
+
+A bare filename is searched beside the running script, then in the product `Waypoints` folder. Loads are queued until Lua dispatch unwinds and may stop running waypoint scripts.
+
+```lua
+Cavebot.Load("hunt.validuswpt", {
+    Cavebot.BundleFeature.Targeting,
+    Cavebot.BundleFeature.Looter,
+})
+```
 
 ## Events
 
@@ -83,12 +98,38 @@ Full waypoint and walker control:
 | --- | --- |
 | Control | `SetEnabled`, `IsEnabled`, `Resume`, `Defer`, `CompleteDeferred`, `GoTo`, `IsPausedByLua`, `SetPausedByLua` |
 | Waypoints | `GetWaypoints`, `AddWaypoint`, `InsertWaypoint`, `ReplaceWaypoint`, `DeleteWaypoint`, `ClearWaypoints`, `SetWaypointPosition` |
+| Special areas | `GetSpecialAreas`, `AddSpecialArea`, `UpdateSpecialArea`, `DeleteSpecialArea`, `ClearSpecialAreas`, `ReorderSpecialArea`, `IsPositionInsideSpecialArea` |
+| Navigation mode | `SetNavigationMode`, `GetNavigationMode`, Auto Explore settings/status/connectors |
 | Navigation | `GetSelectedWaypointIndex`, `SetSelectedWaypointIndex`, `SelectClosestWaypoint`, `GetWaypointCount` |
 | Settings | `SetNodeDistance`, `SetStartFromNearestWaypoint`, `SetWalkToLureCenter`, `SetLeaveLureOnPlayer`, `SetLeaveLurePlayerMode` |
 | Auto recorder | `SetAutoRecorderEnabled`, `GetAutoRecorderOptions`, `SetDistanceBetweenWaypoints` |
 | Debug | `IsStuck`, `SetDebugHud`, `GetDebugHud` |
 
 `Cavebot.Walker.Defer(timeoutMs)` / `CompleteDeferred(token)` implement the same owner-bound decision handshake as `Engine.Walker.Defer`.
+
+### Special areas
+
+Special Area records are detached snapshots with `index`, stable `id` / `uniqueId`, `x`, `y`, `z`, `width`, `height`, `featureMask`, and `enabled`. Adding requires `x`, `y`, and `z`; width and height default to 1 (range 1–10). Coordinates: `x`/`y` 1–65535, `z` 0–15. `featureMask` defaults to Walker (`1`) and `enabled` defaults to `true`.
+
+Use `Cavebot.Walker.SpecialAreaFeature` (also on `Engine.Walker` and as global `SpecialAreaFeature`): Walker `1`, Targeting `2`, MagicShooter `4`, Looter `8`, All `15`. Masks may be combined. Update and delete use the stable ID, not the mutable row index; updates are partial. Geometry or scope mutations invalidate Walker's cached movement and refresh its HUD.
+
+```lua
+local id = Cavebot.Walker.AddSpecialArea({
+    x = 32345,
+    y = 32210,
+    z = 7,
+    width = 3,
+    height = 3,
+    featureMask = Cavebot.Walker.SpecialAreaFeature.Walker
+        + Cavebot.Walker.SpecialAreaFeature.Targeting,
+})
+```
+
+### Auto Explore
+
+Navigation mode is `"waypoints"` or `"auto_explore"` (`Cavebot.Walker.NavigationMode.*`) and can change only while Walker is stopped. Styles are `"natural"`, `"thorough"`, and `"wide_roam"` (`AutoExploreStyle`). Settings updates are partial: `maximumFloorsUp` / `Down`, `allowWalkOn` / `Ladder` / `Rope` / `Hole` / `Teleport`, and `autoOpenDoors`.
+
+Painted areas are edited only through World Map; scripts query containment with `IsAutoExplorePositionPainted`. Connectors use stable IDs, kinds `walk_on` / `ladder` / `rope` / `hole` / `teleport`, and explicit `source` / `destination` `{x,y,z}` positions. Pairing uses two reciprocal directed records — updating one mirrors only endpoints onto the reverse; deleting one leaves the reverse unpaired. Runtime status from `GetAutoExploreStatus()` is a detached snapshot (phase, positions, plannedPath, coverage, `latestFailureReason`, and related fields).
 
 ### Leave-lure player modes
 
@@ -170,10 +211,13 @@ The `Cavebot.Lure` namespace controls lure behavior:
 | Control | `SetEnabled`, `IsEnabled`, `SetForceLure`, `EndForceLure`, `SetOption` |
 | Settings | `SetNearRange`, `SetAttackWhileLuring`, `SetConsiderOnlyReachable` |
 | Slow walk | `SetSlowWalkDelayMs`, `SetSlowWalkingCreaturesCount`, `SetSlowWalkBurstSteps` |
+| Kiting | `SetKitingPreferredFarthestDistance`, `SetKitingMaximumFarthestDistance`, `SetKitingCloseMonsterDistance`, `SetKitingCloseMonsterCount` |
 | Dynamic | `SetStartEndLureActive`, `SetWaypointDynamicLureActive`, `SetUnblocking` |
 | Profiles | `GetSettings`, `AddSetting`, `UpdateSetting`, `RemoveSetting`, `ClearSettings` |
 
 `Cavebot.Lure.SetOption(option)` values: **0** = Start/End, **1** = Dynamic, **2** = Kiting.
+
+Kiting preferred, maximum, and close-monster distances accept integers **1–7**. Preferred may not exceed the current maximum, and maximum may not be below preferred — adjust them in a valid order when changing both. Close-monster count accepts **0–200**. These getters/setters edit the same values persisted by Lure Settings.
 
 `UpdateSetting(index, updateData)` updates a 1-based setting through native validation; tables from `GetSettings()` remain detached copies.
 

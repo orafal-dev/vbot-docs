@@ -67,6 +67,29 @@ end
 | `Engine.HUD` | HUD elements (per-script ownership) |
 | `Engine.Delays` | Action delays and prediction systems |
 | `Engine.Scripter` | Start/stop/restart scripts and read output |
+| `Engine.Settings` | Profile `.json` save/load (canonical; global `Settings` is equivalent) |
+
+## Profile settings save/load
+
+Use `Engine.Settings.Save` / `Load` for `.json` settings profiles (global `Settings.Save` / `Load` are equivalent). Each returns `true, resolvedPath`; path or queue errors raise a Lua error.
+
+```lua
+Engine.Settings.Save("mage.json", {
+    Engine.Settings.Feature.Healer,
+    Engine.Settings.Feature.Targeting,
+    Engine.Settings.Feature.Scripter,
+})
+```
+
+- `features == nil` selects all **19** GUI feature sections
+- An empty table selects none
+- `{ all = true, scripter = false }` selects all except Scripter
+- Key Events are always saved/loaded
+- Feature keys live under `Engine.Settings.Feature` / `Settings.Feature` (for example `Healer`, `Targeting`, `Scripter`)
+
+A bare load name checks the running script's directory first, then the product `Settings` folder. Paths with directories are script-relative only; absolute paths are used as given. Bare saves target the script directory (or the product folder for an embedded script). The sandbox confines access to `Scripts` and the matching product folder. Loads are queued until Lua dispatch unwinds; loading Scripter settings can stop or restart the caller.
+
+For waypoint bundles, see `Cavebot.Save` / `Load` in [Cavebot](/docs/guides/cavebot).
 
 ## Magic Shooter entries
 
@@ -190,8 +213,9 @@ Additional setters cover player/GM/skull filters, damage-taken range, and alarm 
 | `Engine.PVPTools` | Anti-push, hold/kill target, wall keepers, trash items |
 | `Engine.Equipment` | Live slot reads/moves (distinct from Equipment Manager config) |
 | `Engine.EquipmentManager` | Saved profile entries and condition setters |
-| `Engine.Walker` | Waypoint/lure config plus `Defer` / `CompleteDeferred` decision handshake |
-| `Engine.Lure` | Lure settings; `UpdateSetting(index, setting)` validates through native parsing |
+| `Engine.Walker` | Waypoint/lure config, Special Areas, Auto Explore, plus `Defer` / `CompleteDeferred` |
+| `Engine.Lure` | Lure settings including kiting distances; `UpdateSetting(index, setting)` validates through native parsing |
+| `Engine.Settings` | `.json` profile save/load with feature selection |
 
 ### Scripter notes
 

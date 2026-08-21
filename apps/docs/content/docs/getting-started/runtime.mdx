@@ -79,7 +79,7 @@ Do **not** wrap an entire repeating module in `pcall` merely to print and contin
 
 Key/packet/Walker events, scheduled events, HUD elements, HTTP results, WebSockets, sounds, and Walker holds are owned by the creating script. Teardown removes only that owner's resources.
 
-Per script budgets include 64 MiB Lua memory, 256 managed coroutines, 64 pending event callbacks, and 32 outstanding async result tokens. Scheduler limits are 3 ms per coroutine resume, 4 ms per script per frame, and 8 ms for all Lua work per frame. Yieldable Lua is time-sliced. A single unpreemptable **50 ms** overrun, or **three consecutive** smaller unpreemptable budget overruns, circuit-breaks the offending component. Delays are integer milliseconds from **0** through **86,400,000** unless a narrower function-specific range is documented.
+Per script budgets include 64 MiB Lua memory, 256 managed coroutines, 64 pending event callbacks, and 32 outstanding async result tokens. Scheduler limits are 3 ms per coroutine resume, 4 ms per script per frame, and 8 ms for all Lua work per frame. Yieldable Lua is time-sliced. Deadline misses remain available as telemetry. The runtime circuit-breaks the offending component after **three consecutive** unpreempted resumes of at least **5 ms**, or one unpreempted **50 ms** resume. Delays are integer milliseconds from **0** through **86,400,000** unless a narrower function-specific range is documented.
 
 Supported C++ exceptions from native bindings become contextual Lua errors and follow the same component policy. An ordinary C++ exception escaping a script tick quarantines that script. A native access violation is the exceptional emergency case: Lua execution is disabled for the client session, Walker ownership is released, and a dump is written. Diagnostics serialize error values without invoking user `__tostring` metamethods.
 
@@ -98,6 +98,7 @@ Every script writes its own runtime log under the product `UserData/BotLogs` are
 
 - Sandboxed `io.open`, `os.remove`, and `os.rename` resolve inside the product user `Scripts` directory and cannot access `Scripts/core`. Individual file reads/writes are limited to **1 MiB**. Prefer `Storage` for normal script state.
 - Sandboxed `require` loads text-only Lua modules from allowed script/library roots. Do not depend on native C-module loading or DLL search paths.
+- Profile files use `Engine.Settings.Save` / `Load` (`.json`) and `Cavebot.Save` / `Load` (`.validuswpt`). Bare names search beside the script, then the product `Settings` / `Waypoints` folder. Loads are queued until Lua dispatch unwinds; loading Scripter settings can stop/restart the caller, and loading a waypoint bundle can stop waypoint scripts. See [Engine & Features](/docs/guides/engine-features) and [Cavebot](/docs/guides/cavebot).
 
 ## Nil-safe design
 

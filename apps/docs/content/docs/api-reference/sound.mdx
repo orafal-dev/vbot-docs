@@ -39,6 +39,14 @@ Core library: `sound.lua`
 | :-- | :-- |
 | `integer` |  |
 
+#### `Sound.GetQueueLength()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` |  |
+
 #### `Sound.GetQueueSize()`
 
 **Returns**
@@ -77,6 +85,102 @@ Core library: `sound.lua`
 | :-- | :-- | :--: | :-- |
 | `options` | `table` |  |  |
 
+#### `Sound.PlayAndWait(options, maxWaitMs)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `options` | `table` |  |  |
+| `maxWaitMs` | `number` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Sound.PlayBotSound(filename, instant)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `filename` | `string` |  |  |
+| `instant` | `boolean` | Yes |  |
+
+#### `Sound.PlayById(soundId, instant)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `soundId` | `number` |  |  |
+| `instant` | `boolean` | Yes |  |
+
+#### `Sound.PlayByIdSmart(soundId, instant)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `soundId` | `number` |  |  |
+| `instant` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Sound.PlayByName(soundName, instant)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `soundName` | `string` |  |  |
+| `instant` | `boolean` | Yes |  |
+
+#### `Sound.PlayByNameSmart(soundName, instant)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `soundName` | `string` |  |  |
+| `instant` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Sound.PlayFile(filePath, instant)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `filePath` | `string` |  |  |
+| `instant` | `boolean` | Yes |  |
+
+#### `Sound.PlayFileSmart(filePath, instant)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `filePath` | `string` |  |  |
+| `instant` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Sound.SetMinDelay(delayMs)`
 
 **Parameters**
@@ -86,6 +190,22 @@ Core library: `sound.lua`
 | `delayMs` | `integer` |  |  |
 
 #### `Sound.Stop()`
+
+#### `Sound.StopAll()`
+
+#### `Sound.WaitForCompletion(maxWaitMs)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `maxWaitMs` | `number` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ### Time
 

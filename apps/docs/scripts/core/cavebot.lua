@@ -70,6 +70,20 @@ local function call_features(methodName, ...)
     return method(...)
 end
 
+local function call_profile_file(methodName, path, options)
+    require_table("ProfileFiles", ProfileFiles)
+    local method = ProfileFiles[methodName]
+    if type(method) ~= "function" then
+        error("Cavebot: runtime method 'ProfileFiles." .. tostring(methodName) .. "' is not available", 3)
+    end
+
+    local ok, result = method(path, options)
+    if not ok then
+        error(tostring(result or (methodName .. " failed")), 3)
+    end
+    return true, result
+end
+
 local function normalize_waypoint_table(waypoint)
     if type(waypoint) ~= "table" then
         error("Cavebot.Walker: waypoint must be a table", 3)
@@ -89,6 +103,16 @@ end
 
 -- walker namespace
 Cavebot.Walker = Cavebot.Walker or {}
+
+-- Bit mask used by Walker Special Areas. Combine values with bitwise OR when
+-- one rectangle disables more than one cavebot feature.
+Cavebot.Walker.SpecialAreaFeature = SpecialAreaFeature or {
+    Walker = 1,
+    Targeting = 2,
+    MagicShooter = 4,
+    Looter = 8,
+    All = 15
+}
 
 function Cavebot.Walker.SetEnabled(enabled)
     return call_walker("SetEnabled", enabled)
@@ -156,6 +180,63 @@ end
 
 function Cavebot.Walker.GetWaypoints()
     return call_walker("GetWaypoints") or {}
+end
+
+---@return table[]
+function Cavebot.Walker.GetSpecialAreas()
+    return call_walker("GetSpecialAreas") or {}
+end
+
+---@return integer
+function Cavebot.Walker.GetSpecialAreaCount()
+    return call_walker("GetSpecialAreaCount")
+end
+
+---@param area table Must contain x, y, z; width, height, featureMask, and enabled may be omitted.
+---@return integer|string|false assignedId
+function Cavebot.Walker.AddSpecialArea(area)
+    if type(area) ~= "table" then
+        error("Cavebot.Walker.AddSpecialArea: area must be a table", 2)
+    end
+    return call_walker("AddSpecialArea", area)
+end
+
+---@param id integer|string Stable area ID returned by AddSpecialArea/GetSpecialAreas.
+---@param updateData table Fields to update; omitted fields remain unchanged.
+---@return boolean
+function Cavebot.Walker.UpdateSpecialArea(id, updateData)
+    if type(updateData) ~= "table" then
+        error("Cavebot.Walker.UpdateSpecialArea: updateData must be a table", 2)
+    end
+    return call_walker("UpdateSpecialArea", id, updateData)
+end
+
+---@param id integer|string
+---@return boolean
+function Cavebot.Walker.DeleteSpecialArea(id)
+    return call_walker("DeleteSpecialArea", id)
+end
+
+---@return boolean removedAny
+function Cavebot.Walker.ClearSpecialAreas()
+    return call_walker("ClearSpecialAreas")
+end
+
+---@param sourceIndex integer One-based source index.
+---@param targetIndex integer One-based target index.
+---@param dropAfterTarget? boolean
+---@return boolean
+function Cavebot.Walker.ReorderSpecialArea(sourceIndex, targetIndex, dropAfterTarget)
+    return call_walker("ReorderSpecialArea", sourceIndex, targetIndex, dropAfterTarget == true)
+end
+
+---@param x integer
+---@param y integer
+---@param z integer
+---@param featureMask integer Cavebot.Walker.SpecialAreaFeature value or combined mask.
+---@return boolean
+function Cavebot.Walker.IsPositionInsideSpecialArea(x, y, z, featureMask)
+    return call_walker("IsPositionInsideSpecialArea", x, y, z, featureMask)
 end
 
 function Cavebot.Walker.AddWaypoint(waypoint)
@@ -252,6 +333,114 @@ end
 
 function Cavebot.Walker.GetDebugHud()
     return call_walker("GetDebugHud")
+end
+
+Cavebot.Walker.NavigationMode = {
+    Waypoints = "waypoints",
+    AutoExplore = "auto_explore"
+}
+
+Cavebot.Walker.AutoExploreStyle = {
+    Natural = "natural",
+    Thorough = "thorough",
+    WideRoam = "wide_roam"
+}
+
+Cavebot.Walker.AutoExploreConnectorKind = {
+    WalkOn = "walk_on",
+    Ladder = "ladder",
+    Rope = "rope",
+    Hole = "hole",
+    Teleport = "teleport"
+}
+
+---@param mode "waypoints"|"auto_explore" Navigation mode can change only while Walker is stopped.
+---@return boolean
+function Cavebot.Walker.SetNavigationMode(mode)
+    return call_walker("SetNavigationMode", mode)
+end
+
+---@return "waypoints"|"auto_explore"
+function Cavebot.Walker.GetNavigationMode()
+    return call_walker("GetNavigationMode")
+end
+
+---@param settings table Partial settings update: style, maximumFloorsUp/Down, allowWalkOn/Ladder/Rope/Hole/Teleport, autoOpenDoors.
+---@return boolean
+function Cavebot.Walker.SetAutoExploreSettings(settings)
+    if type(settings) ~= "table" then
+        error("Cavebot.Walker.SetAutoExploreSettings: settings must be a table", 2)
+    end
+    return call_walker("SetAutoExploreSettings", settings)
+end
+
+---@return table
+function Cavebot.Walker.GetAutoExploreSettings()
+    return call_walker("GetAutoExploreSettings") or {}
+end
+
+---@return boolean
+function Cavebot.Walker.ResetAutoExploreCoverage()
+    return call_walker("ResetAutoExploreCoverage")
+end
+
+---@return table
+function Cavebot.Walker.GetAutoExploreStatus()
+    return call_walker("GetAutoExploreStatus") or {}
+end
+
+---@param x integer
+---@param y integer
+---@param z integer
+---@return boolean
+function Cavebot.Walker.IsAutoExplorePositionPainted(x, y, z)
+    return call_walker("IsAutoExplorePositionPainted", x, y, z)
+end
+
+---@return table[]
+function Cavebot.Walker.GetAutoExploreConnectors()
+    return call_walker("GetAutoExploreConnectors") or {}
+end
+
+---@param connector table Requires kind, source={x,y,z}, destination={x,y,z}; enabled and pairedConnectorId are optional.
+---@return integer|string|false assignedId
+function Cavebot.Walker.AddAutoExploreConnector(connector)
+    if type(connector) ~= "table" then
+        error("Cavebot.Walker.AddAutoExploreConnector: connector must be a table", 2)
+    end
+    return call_walker("AddAutoExploreConnector", connector)
+end
+
+---@param id integer|string
+---@param updateData table Partial connector update.
+---@return boolean
+function Cavebot.Walker.UpdateAutoExploreConnector(id, updateData)
+    if type(updateData) ~= "table" then
+        error("Cavebot.Walker.UpdateAutoExploreConnector: updateData must be a table", 2)
+    end
+    return call_walker("UpdateAutoExploreConnector", id, updateData)
+end
+
+---@param id integer|string
+---@return boolean
+function Cavebot.Walker.DeleteAutoExploreConnector(id)
+    return call_walker("DeleteAutoExploreConnector", id)
+end
+
+---@return boolean removedAny
+function Cavebot.Walker.ClearAutoExploreConnectors()
+    return call_walker("ClearAutoExploreConnectors")
+end
+
+---@param enabled boolean
+---@return boolean
+function Cavebot.Walker.SetAutoExploreConnectorRecording(enabled)
+    return call_walker("SetAutoExploreConnectorRecording", enabled)
+end
+
+---@return boolean
+function Cavebot.Walker.GetAutoExploreConnectorRecording()
+    return call_walker("GetAutoExploreConnectorRecording")
 end
 
 function Cavebot.Walker.SetAutoRecorderEnabled(enabled)
@@ -379,6 +568,50 @@ end
 
 function Cavebot.Lure.GetSlowWalkBurstSteps()
     return call_lure("GetSlowWalkBurstSteps")
+end
+
+---@param distance integer 1..7 and not above the current maximum.
+---@return boolean
+function Cavebot.Lure.SetKitingPreferredFarthestDistance(distance)
+    return call_lure("SetKitingPreferredFarthestDistance", distance)
+end
+
+---@return integer
+function Cavebot.Lure.GetKitingPreferredFarthestDistance()
+    return call_lure("GetKitingPreferredFarthestDistance")
+end
+
+---@param distance integer 1..7 and not below the current preferred distance.
+---@return boolean
+function Cavebot.Lure.SetKitingMaximumFarthestDistance(distance)
+    return call_lure("SetKitingMaximumFarthestDistance", distance)
+end
+
+---@return integer
+function Cavebot.Lure.GetKitingMaximumFarthestDistance()
+    return call_lure("GetKitingMaximumFarthestDistance")
+end
+
+---@param distance integer 1..7.
+---@return boolean
+function Cavebot.Lure.SetKitingCloseMonsterDistance(distance)
+    return call_lure("SetKitingCloseMonsterDistance", distance)
+end
+
+---@return integer
+function Cavebot.Lure.GetKitingCloseMonsterDistance()
+    return call_lure("GetKitingCloseMonsterDistance")
+end
+
+---@param count integer 0..200.
+---@return boolean
+function Cavebot.Lure.SetKitingCloseMonsterCount(count)
+    return call_lure("SetKitingCloseMonsterCount", count)
+end
+
+---@return integer
+function Cavebot.Lure.GetKitingCloseMonsterCount()
+    return call_lure("GetKitingCloseMonsterCount")
 end
 
 function Cavebot.Lure.SetIgnoringMonsters(enabled)
@@ -729,6 +962,35 @@ end
 
 function Cavebot.UnregisterAllEvents()
     return call_events("UnregisterAllWalkerEvents")
+end
+
+-- Walker and Lure Manager are always included. These are the optional bundle
+-- sections accepted by Save and Load.
+Cavebot.BundleFeature = Cavebot.BundleFeature or {
+    Targeting = "targeting",
+    MagicShooter = "magic_shooter",
+    Looter = "looter"
+}
+
+--- Atomically saves a .validuswpt bundle. A bare filename is saved beside the
+--- calling script; an explicit relative path is relative to that script.
+---@param path string .validuswpt filename or path
+---@param features table|nil optional bundle sections
+---@return boolean ok
+---@return string resolvedPath
+function Cavebot.Save(path, features)
+    return call_profile_file("SaveWaypoints", path, features)
+end
+
+--- Queues a .validuswpt bundle to load before the next Lua tick. A bare
+--- filename is searched beside the script, then in the product Waypoints folder.
+--- Loading replaces the active route and may stop running waypoint scripts.
+---@param path string .validuswpt filename or path
+---@param features table|nil optional bundle sections
+---@return boolean queued
+---@return string resolvedPath
+function Cavebot.Load(path, features)
+    return call_profile_file("LoadWaypoints", path, features)
 end
 
 function Cavebot.GetStatus()

@@ -5,6 +5,28 @@ description: Documentation updates synced from the ValidusBot Lua spec and Scrip
 
 User-facing record of documentation syncs. Newest entries first. Each run of the docs update workflow prepends a dated section covering **Added**, **Changed**, and **Removed**.
 
+## 2026-08-21
+
+Synced upstream `lua-llm-scripting-spec.md` and local `Scripts/core` (31 Lua files). Regenerated the API reference and updated narrative guides.
+
+### Added
+
+- Profile file APIs: `Engine.Settings.Save` / `Load` (`.json`) and `Cavebot.Save` / `Load` (`.validuswpt`), including feature/bundle selection and path search rules
+- Walker Special Areas (`AddSpecialArea`, feature masks via `SpecialAreaFeature`) and Auto Explore navigation mode, settings, status, and connectors
+- Lure kiting distance/count getters and setters (`SetKitingPreferredFarthestDistance`, …)
+- `SpecialAreaFeature` constants on the constants guide and regenerated API pages
+
+### Changed
+
+- Runtime circuit-break rule: three consecutive unpreempted resumes of at least 5 ms, or one unpreempted 50 ms resume (deadline misses remain telemetry)
+- Map pathfinding notes for teleport/floor-change tiles; `Self.Step` documented as dispatch-only with position confirmation
+- Sound name resolution: Alarms folder then script folder; absolute `file_path`; `PlayBotSound` accepts name or full path
+- Regenerated API pages for cavebot, engine, constants, map, minimap, self, and sound
+
+### Removed
+
+- Nothing removed from the public core module set (no `.lua` files added or deleted this sync)
+
 ## 2026-08-07
 
 Synced upstream `lua-llm-scripting-spec.md` (`58d29b1`) and local `Scripts/core` (31 Lua files). Regenerated the API reference and updated narrative guides.

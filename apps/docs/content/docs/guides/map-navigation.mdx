@@ -31,9 +31,9 @@ targetPos:IsShootable(fromPos?)
 | --- | --- |
 | `Map.UseItemOnFloor(position, stackPosition, itemId)` | Use item on tile |
 | `Map.Look(position)` | Look at tile |
-| `Map.GetTileFlags(position)` | Tile flag bitmask |
-| `Map.GetTileItems(position, includeCreatures)` | Items on tile |
-| `Map.GetObjectInfo(itemId)` | Static item metadata |
+| `Map.GetTileFlags(position)` | Tile flags (includes `hasTeleport` when a visible teleport-id item is present) |
+| `Map.GetTileItems(position, includeCreatures)` | Items on tile (records include `isFloorChange` / `isTeleport`) |
+| `Map.GetObjectInfo(itemId)` | Static item metadata (`isFloorChange`, `isTeleport`; `isTopEffect` is draw-order only) |
 | `Map.FindPath(from, to, maxComplexity, flags)` | Pathfind between positions |
 | `Map.MoveItemFloorToContainer(...)` | Pick up from floor |
 | `Map.MoveItemFloorToFloor(...)` | Move item on map |
@@ -50,6 +50,8 @@ if result == PathFindResult.OK then
     -- use path
 end
 ```
+
+`Map.FindPath` preserves the legacy path topology. It rejects a visible teleport as an intermediate node, but permits one when it is the exact requested goal. For scripted one-step movement, inspect `Map.GetTileFlags(next).hasTeleport` and the `isFloorChange` / `isTeleport` fields from `Map.GetTileItems(next)`. Treat `Self.Step(...) == true` only as dispatch acceptance — confirm the observed player position reached the expected same-floor tile before consuming the path direction. Replan on timeout or any unexpected / floor-changing position.
 
 ### PathFindResult values
 

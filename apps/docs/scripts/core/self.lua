@@ -865,9 +865,12 @@ function Self.UseItemOnFloor(position, stackPosition, itemId)
     return Game.UseItemOnFloor(position.x, position.y, position.z, stackPosition, itemId)
 end
 
---- Performs a movement step in given direction.
+--- Performs a movement step in the given direction.
+--- Uses Engine.Delays.GetDashDelay(), the optional server-ping padding, and
+--- the optional connection-stability gate. A false result means the step was
+--- not dispatched (including when the configured cadence has not elapsed).
 ---@param direction integer
----@return boolean dispatched True when the action was submitted to the client
+---@return boolean dispatched True when submitted to the client; callers must still confirm the observed position before consuming a path step
 function Self.Step(direction)
     if type(direction) ~= "number" or direction % 1 ~= 0 then
         error("Self.Step: argument 'direction' must be an integer")

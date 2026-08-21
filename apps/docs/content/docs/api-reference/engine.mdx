@@ -5380,6 +5380,38 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `any` |  |
 
+#### `Engine.Lure.GetKitingCloseMonsterCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Lure.GetKitingCloseMonsterDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Lure.GetKitingMaximumFarthestDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Lure.GetKitingPreferredFarthestDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Engine.Lure.GetLuredCreaturesCount()`
 
 **Returns**
@@ -5571,6 +5603,62 @@ Toggle a healing spell on/off
 | Type | Description |
 | :-- | :-- |
 | `any` |  |
+
+#### `Engine.Lure.SetKitingCloseMonsterCount(count)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `count` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Lure.SetKitingCloseMonsterDistance(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Lure.SetKitingMaximumFarthestDistance(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Lure.SetKitingPreferredFarthestDistance(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Lure.SetNearRange()`
 
@@ -7823,6 +7911,34 @@ Toggle a healing spell on/off
 
 ### Engine.Walker
 
+#### `Engine.Walker.AddAutoExploreConnector(connector)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `connector` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|string\|false` |  |
+
+#### `Engine.Walker.AddSpecialArea(area)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `area` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|string\|false` |  |
+
 #### `Engine.Walker.AddWaypoint()`
 
 **Returns**
@@ -7830,6 +7946,22 @@ Toggle a healing spell on/off
 | Type | Description |
 | :-- | :-- |
 | `any` |  |
+
+#### `Engine.Walker.ClearAutoExploreConnectors()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.ClearSpecialAreas()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Walker.ClearWaypoints()`
 
@@ -7867,6 +7999,34 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `integer` |  |
 
+#### `Engine.Walker.DeleteAutoExploreConnector(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.DeleteSpecialArea(id)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.DeleteWaypoint()`
 
 **Returns**
@@ -7874,6 +8034,38 @@ Toggle a healing spell on/off
 | Type | Description |
 | :-- | :-- |
 | `any` |  |
+
+#### `Engine.Walker.GetAutoExploreConnectorRecording()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.GetAutoExploreConnectors()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
+
+#### `Engine.Walker.GetAutoExploreSettings()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Engine.Walker.GetAutoExploreStatus()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
 
 #### `Engine.Walker.GetAutoRecorderEnabled()`
 
@@ -7923,6 +8115,14 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `integer` |  |
 
+#### `Engine.Walker.GetNavigationMode()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
 #### `Engine.Walker.GetNodeDistance()`
 
 **Returns**
@@ -7938,6 +8138,22 @@ Toggle a healing spell on/off
 | Type | Description |
 | :-- | :-- |
 | `any` |  |
+
+#### `Engine.Walker.GetSpecialAreaCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Walker.GetSpecialAreas()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table[]` |  |
 
 #### `Engine.Walker.GetStartFromNearestWaypoint()`
 
@@ -7987,6 +8203,22 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `any` |  |
 
+#### `Engine.Walker.IsAutoExplorePositionPainted(x, y, z)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.IsEnabled()`
 
 **Returns**
@@ -8002,6 +8234,23 @@ Toggle a healing spell on/off
 | Type | Description |
 | :-- | :-- |
 | `any` |  |
+
+#### `Engine.Walker.IsPositionInsideSpecialArea(x, y, z, featureMask)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+| `featureMask` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Walker.IsStuck()`
 
@@ -8027,6 +8276,22 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `any` |  |
 
+#### `Engine.Walker.ReorderSpecialArea(sourceIndex, targetIndex, dropAfterTarget)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `sourceIndex` | `integer` |  |  |
+| `targetIndex` | `integer` |  |  |
+| `dropAfterTarget` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.ReplaceWaypoint()`
 
 **Returns**
@@ -8034,6 +8299,14 @@ Toggle a healing spell on/off
 | Type | Description |
 | :-- | :-- |
 | `any` |  |
+
+#### `Engine.Walker.ResetAutoExploreCoverage()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Walker.Resume()`
 
@@ -8050,6 +8323,34 @@ Toggle a healing spell on/off
 | Type | Description |
 | :-- | :-- |
 | `any` |  |
+
+#### `Engine.Walker.SetAutoExploreConnectorRecording(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.SetAutoExploreSettings(settings)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `settings` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Walker.SetAutoRecorderEnabled()`
 
@@ -8113,6 +8414,20 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.SetNavigationMode(mode)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `mode` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.SetNodeDistance()`
 
 **Returns**
@@ -8163,6 +8478,36 @@ Toggle a healing spell on/off
 | `x` | `integer` |  |  |
 | `y` | `integer` |  |  |
 | `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.UpdateAutoExploreConnector(id, updateData)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `integer\|string` |  |  |
+| `updateData` | `table` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.UpdateSpecialArea(id, updateData)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `integer\|string` |  |  |
+| `updateData` | `table` |  |  |
 
 **Returns**
 

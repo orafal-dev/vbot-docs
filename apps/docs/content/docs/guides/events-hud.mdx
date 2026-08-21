@@ -187,16 +187,21 @@ Play bot sounds and alerts:
 Sound.Play({ sound_id = BotSoundId.LOW_HEALTH })
 Sound.PlayByIdSmart(BotSoundId.LOW_HEALTH)
 Sound.Play({ sound_name = "low_mana" })
-Sound.Play({ file_path = "path/to/sound.wav", instant = true })
+Sound.Play({ file_path = "C:\\path\\to\\sound.wav", instant = true })
 ```
 
-`Sound.Play` and `Sound.IsQueued` options must identify exactly one source: `sound_id = BotSoundId.*`, `sound_name = string`, or `file_path = string`. Built-in IDs are exactly 0–13 (`DISCONNECTED` through `UNJUSTIFIED_KILL`). Playback and queue state are owner-scoped. Waiting helpers must run inside a managed coroutine and use `Time.MonotonicMs`. Smart helpers return `false` when the same source is already queued or playing.
+`Sound.Play` and `Sound.IsQueued` options must identify exactly one source: `sound_id = BotSoundId.*`, `sound_name = string`, or `file_path = string`. Built-in IDs are exactly 0–13 (`DISCONNECTED` through `UNJUSTIFIED_KILL`).
+
+A bare `sound_name` (for example `raid_warning` or `raid_warning.wav`) searches the product `Data/Alarms` folder first, then the calling script's folder. Only bare filenames are accepted for lookup — subdirectories and traversal are rejected. A fully qualified path as `sound_name` is used directly; `file_path` always requires a full absolute path and never falls back to either folder. `Sound.PlayBotSound` accepts the same name-or-full-path forms. Missing files and invalid WAV data raise a Lua error synchronously. `Sound.IsQueued` uses the identical resolver. Historical aliases such as `health` and `pm` resolve only after exact filename lookup in both folders.
+
+Playback and queue state are owner-scoped. Waiting helpers must run inside a managed coroutine and use `Time.MonotonicMs`. Smart helpers return `false` when the same source is already queued or playing.
 
 | Function | Description |
 | --- | --- |
 | `Sound.Play(options)` | Play sound |
 | `Sound.PlayById` / `PlayByName` / `PlayFile` | Convenience play helpers |
 | `Sound.PlayByIdSmart` / `PlayByNameSmart` / `PlayFileSmart` | Skip if already queued/playing |
+| `Sound.PlayBotSound(nameOrPath, instant?)` | Alarm by bare name/WAV or full path |
 | `Sound.Stop()` / `StopAll()` | Stop current / all |
 | `Sound.ClearQueue()` | Clear queue |
 | `Sound.IsPlaying()` / `IsQueued(options)` | Status |

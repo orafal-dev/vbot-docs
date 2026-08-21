@@ -1407,12 +1407,20 @@ exposeNativeFunctions("Channels", Channels, {
 exposeNativeFunctions("Walker", Walker, {
     "Resume", "Defer", "CompleteDeferred", "SetEnabled", "IsEnabled", "IsStuck", "GoTo",
     "GetSelectedWaypointIndex", "SetSelectedWaypointIndex", "SetWaypointPosition", "SelectClosestWaypoint",
-    "GetWaypointCount", "GetWaypoints", "AddWaypoint", "InsertWaypoint", "ReplaceWaypoint",
+    "GetWaypointCount", "GetWaypoints", "GetSpecialAreas", "GetSpecialAreaCount",
+    "AddSpecialArea", "UpdateSpecialArea", "DeleteSpecialArea", "ClearSpecialAreas",
+    "ReorderSpecialArea", "IsPositionInsideSpecialArea",
+    "AddWaypoint", "InsertWaypoint", "ReplaceWaypoint",
     "DeleteWaypoint", "ClearWaypoints", "MoveWaypointUp", "MoveWaypointDown",
     "SetStartFromNearestWaypoint", "GetStartFromNearestWaypoint", "SetNodeDistance", "GetNodeDistance",
     "SetWalkToLureCenter", "GetWalkToLureCenter", "SetLeaveLureOnPlayer", "GetLeaveLureOnPlayer",
     "SetLeaveLurePlayerMode", "GetLeaveLurePlayerMode",
-    "SetDebugHud", "GetDebugHud", "SetAutoRecorderEnabled", "GetAutoRecorderEnabled",
+    "SetDebugHud", "GetDebugHud", "SetNavigationMode", "GetNavigationMode",
+    "SetAutoExploreSettings", "GetAutoExploreSettings", "ResetAutoExploreCoverage",
+    "GetAutoExploreStatus", "IsAutoExplorePositionPainted", "GetAutoExploreConnectors",
+    "AddAutoExploreConnector", "UpdateAutoExploreConnector", "DeleteAutoExploreConnector",
+    "ClearAutoExploreConnectors", "SetAutoExploreConnectorRecording",
+    "GetAutoExploreConnectorRecording", "SetAutoRecorderEnabled", "GetAutoRecorderEnabled",
     "SetAutoRecorderOptions", "GetAutoRecorderOptions", "SetDistanceBetweenWaypoints",
     "GetDistanceBetweenWaypoints", "SetPausedByLua", "IsPausedByLua"
 })
@@ -1423,12 +1431,43 @@ exposeNativeFunctions("Lure", Lure, {
     "SetNearRange", "GetNearRange", "SetAttackWhileLuring", "GetAttackWhileLuring",
     "SetConsiderOnlyReachable", "GetConsiderOnlyReachable", "SetSlowWalkDelayMs", "GetSlowWalkDelayMs",
     "SetSlowWalkingCreaturesCount", "GetSlowWalkingCreaturesCount", "SetSlowWalkBurstSteps",
-    "GetSlowWalkBurstSteps", "SetIgnoringMonsters", "GetIgnoringMonsters",
+    "GetSlowWalkBurstSteps", "SetKitingPreferredFarthestDistance", "GetKitingPreferredFarthestDistance",
+    "SetKitingMaximumFarthestDistance", "GetKitingMaximumFarthestDistance",
+    "SetKitingCloseMonsterDistance", "GetKitingCloseMonsterDistance",
+    "SetKitingCloseMonsterCount", "GetKitingCloseMonsterCount",
+    "SetIgnoringMonsters", "GetIgnoringMonsters",
     "SetStartEndLureActive", "GetStartEndLureActive", "SetWaypointDynamicLureActive",
     "GetWaypointDynamicLureActive", "SetUnblocking", "GetUnblocking", "GetLuredCreaturesCount",
     "HasActiveSettings", "IsOtherPlayerOnScreen", "GetSettings", "GetSettingCount",
     "AddSetting", "UpdateSetting", "RemoveSetting", "ClearSettings"
 })
+
+Engine.Walker.SpecialAreaFeature = SpecialAreaFeature or {
+    Walker = 1,
+    Targeting = 2,
+    MagicShooter = 4,
+    Looter = 8,
+    All = 15
+}
+
+Engine.Walker.NavigationMode = {
+    Waypoints = "waypoints",
+    AutoExplore = "auto_explore"
+}
+
+Engine.Walker.AutoExploreStyle = {
+    Natural = "natural",
+    Thorough = "thorough",
+    WideRoam = "wide_roam"
+}
+
+Engine.Walker.AutoExploreConnectorKind = {
+    WalkOn = "walk_on",
+    Ladder = "ladder",
+    Rope = "rope",
+    Hole = "hole",
+    Teleport = "teleport"
+}
 
 -- HUD mutations retain per-script ownership because these functions are the
 -- original context-aware native closures, merely grouped under Engine.HUD.
@@ -1474,6 +1513,96 @@ exposeNativeFunctions("Scripter", ScripterControl, {
     "Refresh", "GetAvailableScripts", "GetRunningScripts", "GetOutput", "IsRunning",
     "Start", "Stop", "Restart", "StopSelf", "GetAutoStartEnabled", "SetAutoStartEnabled"
 })
+
+-- Settings-file operations use a per-call feature selection. Passing nil
+-- selects every feature. Passing a table selects only the named true entries;
+-- `all = true` may be used as a baseline and individual entries may override it.
+Settings = Settings or {}
+Settings.Feature = Settings.Feature or {
+    Healer = "healer",
+    Conditions = "conditions",
+    HealFriends = "heal_friends",
+    Targeting = "targeting",
+    Alarms = "alarms",
+    MagicShooter = "magic_shooter",
+    Extras = "extras",
+    EquipmentManager = "equipment_manager",
+    ChannelsManager = "channels_manager",
+    PVPTools = "pvp_tools",
+    Looter = "looter",
+    ComboBot = "combo_bot",
+    HUD = "hud",
+    Delays = "delays",
+    AmmoRefill = "ammo_refill",
+    TankMode = "tank_mode",
+    TimerActions = "timer_actions",
+    SuppliesSorter = "supplies_sorter",
+    Scripter = "scripter"
+}
+
+local function call_profile_file(methodName, path, options)
+    if type(ProfileFiles) ~= "table" or type(ProfileFiles[methodName]) ~= "function" then
+        error("Settings: native profile-file API is unavailable", 3)
+    end
+
+    local ok, result = ProfileFiles[methodName](path, options)
+    if not ok then
+        error(tostring(result or (methodName .. " failed")), 3)
+    end
+    return true, result
+end
+
+local function save_settings_profile(path, features)
+    return call_profile_file("SaveSettings", path, features)
+end
+
+local function load_settings_profile(path, features)
+    return call_profile_file("LoadSettings", path, features)
+end
+
+--- Atomically saves selected settings. A bare filename is saved beside the
+--- calling script; an explicit relative path is relative to that script.
+---@param path string .json filename or path
+---@param features table|nil selected Settings.Feature entries, or nil for all
+---@return boolean ok
+---@return string resolvedPath
+function Settings.Save(path, features)
+    return save_settings_profile(path, features)
+end
+
+--- Queues selected settings to load before the next Lua tick. Bare filenames
+--- are searched beside the calling script, then in the product Settings folder.
+--- Key Events are always restored. Passing nil includes Scripter; loading that
+--- section may stop or restart the script that requested the load.
+---@param path string .json filename or path
+---@param features table|nil selected Settings.Feature entries, or nil for all
+---@return boolean queued
+---@return string resolvedPath
+function Settings.Load(path, features)
+    return load_settings_profile(path, features)
+end
+
+Engine.Settings = Engine.Settings or {}
+Engine.Settings.Feature = Settings.Feature
+
+--- Canonical Engine namespace for Settings.Save.
+---@param path string .json filename or path
+---@param features table|nil selected Settings.Feature entries, or nil for all
+---@return boolean ok
+---@return string resolvedPath
+function Engine.Settings.Save(path, features)
+    return save_settings_profile(path, features)
+end
+
+--- Canonical Engine namespace for Settings.Load. The load is queued before the
+--- next Lua tick and follows the same lifecycle rules as Settings.Load.
+---@param path string .json filename or path
+---@param features table|nil selected Settings.Feature entries, or nil for all
+---@return boolean queued
+---@return string resolvedPath
+function Engine.Settings.Load(path, features)
+    return load_settings_profile(path, features)
+end
 
 return Engine
 

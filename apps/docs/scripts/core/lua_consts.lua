@@ -627,5 +627,15 @@ WalkerEvent = {
     ACTION_COMPLETED = 6,
 }
 
+-- Feature-mask bits used by Walker Special Areas. Combine individual values
+-- when one rectangle should disable multiple cavebot features.
+SpecialAreaFeature = {
+    Walker = 1,
+    Targeting = 2,
+    MagicShooter = 4,
+    Looter = 8,
+    All = 15
+}
+
 
 
