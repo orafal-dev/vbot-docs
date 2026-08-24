@@ -5,6 +5,26 @@ description: Documentation updates synced from the ValidusBot Lua spec and Scrip
 
 User-facing record of documentation syncs. Newest entries first. Each run of the docs update workflow prepends a dated section covering **Added**, **Changed**, and **Removed**.
 
+## 2026-08-25
+
+Synced upstream `lua-llm-scripting-spec.md` and local `Scripts/core` (31 Lua files, unchanged set). Regenerated the API reference with richer typed appendix signatures.
+
+### Added
+
+- Event/hook **critical-path** rule: constant-time, non-yielding callbacks that only feed a stable `Module.Every` worker (coalesced slot or hard-bounded queue)
+- Safe packet-to-worker example (`message_contains` filter + `Http.PostJson` in the worker)
+- [Table Contracts](/docs/guides/table-contracts) guide for exact, case-sensitive field names (`itemId`, `slotIndex`, `Directions`, …)
+
+### Changed
+
+- Hard rule 11 and safety checklist / LLM generation rules now require critical-path callbacks and exact table contracts
+- Runtime, Events & HUD, Cavebot interceptors, Examples, and template updated for enqueue-and-return + `Cavebot.Defer` worker pattern
+- Regenerated API pages (notably cavebot, engine, hud, spells, item, features) from typed appendix records
+
+### Removed
+
+- Nothing removed from the public core module set (no `.lua` files added or deleted this sync)
+
 ## 2026-08-21
 
 Synced upstream `lua-llm-scripting-spec.md` and local `Scripts/core` (31 Lua files). Regenerated the API reference and updated narrative guides.

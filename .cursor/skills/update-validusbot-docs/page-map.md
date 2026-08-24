@@ -12,6 +12,7 @@ Use this when deciding which hand-written pages to edit after a sync.
 | Hard rules + checklist | `getting-started/safety.mdx` |
 | Recommended template | `getting-started/template.mdx` |
 | Practical examples | `apps/docs/content/docs/examples.mdx` |
+| Canonical Types / table field contracts | `guides/table-contracts.mdx` |
 | Docs sync history | `apps/docs/content/docs/changelog.mdx` |
 
 ## Guides ↔ core modules
@@ -29,8 +30,9 @@ Use this when deciding which hand-written pages to edit after a sync.
 | `http.lua`, `websocket.lua`, `json.lua` | `guides/networking.mdx` |
 | `storage.lua` | `guides/storage.mdx` |
 | `chat_channel.lua`, `chat_channel_storage.lua`, `vip.lua`, `sound.lua` | `guides/communication.mdx` |
-| `event_proxies.lua`, `hud_wrapper.lua` | `guides/events-hud.mdx` |
+| `event_proxies.lua`, `hud_wrapper.lua` | `guides/events-hud.mdx` (includes event critical-path rule) |
 | `lua_consts.lua`, Critical Constants | `guides/constants.mdx` |
+| Canonical Types / exact table contracts | `guides/table-contracts.mdx` |
 | `hotkeys.lua` | fold into `guides/module-scheduling.mdx` or `events-hud.mdx` if constraints change; API page is generated |
 
 ## Generated API reference

@@ -13,9 +13,40 @@ Core library: `cavebot_actions.lua`
 
 #### `Cavebot.Actions.GetLastResult()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `CavebotActionResult\|nil` |  |
+
 #### `Cavebot.Actions.Register(actionType, handler)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `actionType` | `string` |  |  |
+| `handler` | `function(context: CavebotActionContext) -> CavebotActionResult` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Actions.Run(context)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `context` | `CavebotActionContext` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `CavebotActionResult` |  |
 
 ## Notes
 

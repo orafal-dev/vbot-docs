@@ -15,43 +15,267 @@ Core library: `spells.lua`
 
 #### `Spells.GetGroupIds(spellOrWordsOrId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellOrWordsOrId` | `string\|integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
 #### `Spells.GetIdByName(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
 
 #### `Spells.GetIdByWords(words)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `words` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Spells.GetInfo(spellOrWordsOrId)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellOrWordsOrId` | `string\|integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `SpellInfo` |  |
 
 #### `Spells.GetLeftCooldownTime(spellOrWordsOrId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellOrWordsOrId` | `string\|integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Spells.GetLeftGroupCooldownTime(groupId)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `groupId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Spells.GetWordsById(spellId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` |  |
+
 #### `Spells.GroupIsInCooldown(groupId)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `groupId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Spells.IsInCooldown(spellOrWordsOrId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellOrWordsOrId` | `string\|integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Spells.IsReady(spellOrWordsOrId)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellOrWordsOrId` | `string\|integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Spells.IsUseWithItemExhausted()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Spells.WillBeReady(spellOrWordsOrId, timeMs)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spellOrWordsOrId` | `string\|integer` |  |  |
+| `timeMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ### Spells.Item
 
 #### `Spells.Item.GetCooldownId(itemId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Spells.Item.GetGroupIds(itemId)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
 
 #### `Spells.Item.GetInfo(itemId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ItemSpellInfo` |  |
+
 #### `Spells.Item.GetLeftCooldownTime(itemId)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Spells.Item.IsInCooldown(itemId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Spells.Item.IsReady(itemId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Spells.Item.WillBeReady(itemId, timeMs)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+| `timeMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ## Notes
 

@@ -75,7 +75,7 @@ Use `executionId` to correlate start with exactly one completion. Changing the s
 | `Cavebot.OnLabel(callback)` | Legacy blocking alias |
 | `Cavebot.OnAction(callback)` | Legacy blocking alias |
 
-Blocking interceptors release automatically when their callback returns. Call `Cavebot.Defer(timeoutMs)` only inside an interceptor when work must continue after return. It returns an owner-scoped handle with `handle:Complete()` and `handle:Cancel()`; both release the hold and return `true` only on the first successful release. `timeoutMs` must be between 1 and 60000; expiration fails open.
+Blocking interceptors release automatically when their callback returns. Interceptors follow the same [event critical-path rule](/docs/guides/events-hud#event-callback-critical-path) as other hooks: no `wait`, HTTP, storage, scans, or pathfinding inside the callback. Call `Cavebot.Defer(timeoutMs)` only inside an interceptor when work must continue after return. Put the returned handle plus minimal scalar inputs into a bounded worker queue, return immediately, and call `handle:Complete()` or `:Cancel()` on every expected completion/failure path. Both release methods return `true` only on the first successful release. `timeoutMs` must be between 1 and 60000; expiration fails open.
 
 ```lua
 Cavebot.ObserveLabel(function(labelName)

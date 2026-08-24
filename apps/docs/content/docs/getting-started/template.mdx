@@ -67,6 +67,7 @@ Hotkeys.RegisterCombo({
     id = "my_hotkey",
     combo = "ctrl+h",
     callback = function()
+        -- Critical path: keep this constant-time; no wait/HTTP/storage here
         if Self.IsAvailable() then
             Self.Say("hi")
         end
@@ -74,4 +75,4 @@ Hotkeys.RegisterCombo({
 })
 ```
 
-See [Examples](/docs/examples) for more complete patterns.
+See [Examples](/docs/examples) for more complete patterns, including packet-to-worker networking.

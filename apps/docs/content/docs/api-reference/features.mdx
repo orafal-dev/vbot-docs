@@ -32,9 +32,33 @@ Disables a feature (turns it off)
 
 Disables all features except those in the exclusion list
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `ExcludeList` | `FeatureIdentifier[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Features.DisableMultiple(featureList)`
 
 Disables multiple features at once
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureList` | `FeatureIdentifier[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Features.Enable(featureIdentifier)`
 
@@ -56,25 +80,79 @@ Enables a feature (turns it on)
 
 Enables multiple features at once
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureList` | `FeatureIdentifier[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Features.GetActiveFeatures()`
 
 Returns a list of all currently active features
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
 
 #### `Features.GetAllFeatureIds()`
 
 Returns a list of all available feature IDs
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+
 #### `Features.GetName(featureIdentifier)`
 
 Gets the human-readable name of a feature
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `FeatureIdentifier` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
 
 #### `Features.IsActive(featureIdentifier)`
 
 Checks if a feature is currently active/enabled
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `FeatureIdentifier` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Features.PrintStatus()`
 
 Prints the status of all features
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Features.SetActive(featureIdentifier, activeStatus)`
 

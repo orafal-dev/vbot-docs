@@ -8,6 +8,7 @@ Core library: `engine.lua`
 ## Exported tables
 
 - `Engine`
+- `Settings`
 
 ## Functions
 
@@ -87,7 +88,7 @@ Enable only specific alarms
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `AlarmsConfig` |  |
 
 #### `Engine.Alarms.GetCreatureFilter()`
 
@@ -191,7 +192,7 @@ Print all alarm states to console
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `messages` | `any` |  |  |
+| `messages` | `string` |  |  |
 
 **Returns**
 
@@ -235,7 +236,7 @@ Enable/disable bringing window to focus on alarm
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `names` | `any` |  |  |
+| `names` | `string` |  |  |
 
 **Returns**
 
@@ -368,7 +369,7 @@ Set whether to ignore ally players (party/guild members)
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `arg1` | `any` |  |  |
+| `arg1` | `integer` |  |  |
 
 **Returns**
 
@@ -398,7 +399,7 @@ Set low health alarm threshold
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `arg1` | `any` |  |  |
+| `arg1` | `integer` |  |  |
 
 **Returns**
 
@@ -580,7 +581,7 @@ Clear all ammo from current profile
 
 | Type | Description |
 | :-- | :-- |
-| `nil` |  |
+| `boolean` |  |
 
 #### `Engine.AmmoRefill.Disable(index)`
 
@@ -939,7 +940,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `ChannelManagerEntry[]` |  |
 
 #### `Engine.Channels.GetGlobalDelay()`
 
@@ -1075,7 +1076,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `ComboClientEntry[]` |  |
 
 #### `Engine.ComboBot.GetMode()`
 
@@ -1091,7 +1092,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `ComboRoomEntry[]` |  |
 
 #### `Engine.ComboBot.GetRoomState()`
 
@@ -1099,7 +1100,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `ComboRoomState` |  |
 
 #### `Engine.ComboBot.SetClientEntryEnabled(entryIndex, value)`
 
@@ -1446,7 +1447,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `ConditionSpellEntry[]` |  |
 
 #### `Engine.Conditions.GetManaShieldDelay()`
 
@@ -1486,7 +1487,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `ConditionSpellEntry[]` |  |
 
 #### `Engine.Conditions.GetUseHasteWithSharpShooterEnabled()`
 
@@ -2528,7 +2529,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `EquipmentManagerEntry[]` |  |
 
 #### `Engine.EquipmentManager.GetProfiles()`
 
@@ -2536,7 +2537,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `EquipmentManagerProfile[]` |  |
 
 #### `Engine.EquipmentManager.SetActiveProfile(index)`
 
@@ -3488,7 +3489,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `nil` |  |
+| `boolean` |  |
 
 #### `Engine.Features.DisableAllExcept(excludeList)`
 
@@ -3530,7 +3531,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `nil` |  |
+| `boolean` |  |
 
 #### `Engine.Features.EnableMultiple(featureList)`
 
@@ -3611,7 +3612,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `nil` |  |
+| `boolean` |  |
 
 #### `Engine.Features.Toggle(featureIdentifier)`
 
@@ -3625,7 +3626,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `nil` |  |
+| `boolean` |  |
 
 ### Engine.HUD
 
@@ -3635,13 +3636,13 @@ Toggle an ammo refill entry in current profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `params` | `table` |  |  |
+| `params` | `HudScreenImageParams` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `HudScreenImageParams` |  |
 
 #### `Engine.HUD.AddScreenText(params)`
 
@@ -3649,13 +3650,13 @@ Toggle an ammo refill entry in current profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `params` | `table` |  |  |
+| `params` | `HudScreenTextParams` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `HudScreenTextParams` |  |
 
 #### `Engine.HUD.AddWorldBox(params)`
 
@@ -3663,13 +3664,13 @@ Toggle an ammo refill entry in current profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `params` | `table` |  |  |
+| `params` | `HudWorldBoxParams` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `HudWorldBoxParams` |  |
 
 #### `Engine.HUD.AddWorldImage(params)`
 
@@ -3677,13 +3678,13 @@ Toggle an ammo refill entry in current profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `params` | `table` |  |  |
+| `params` | `HudWorldImageParams` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `HudWorldImageParams` |  |
 
 #### `Engine.HUD.AddWorldText(params)`
 
@@ -3691,13 +3692,13 @@ Toggle an ammo refill entry in current profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `params` | `table` |  |  |
+| `params` | `HudWorldTextParams` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `HudWorldTextParams` |  |
 
 #### `Engine.HUD.ClearParent(child_id)`
 
@@ -3719,7 +3720,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `HudFeatureConfig` |  |
 
 #### `Engine.HUD.GetElementColor(id)`
 
@@ -3733,7 +3734,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` |  |
+| `ColorRGBA` |  |
 
 #### `Engine.HUD.GetElementEnabled(id)`
 
@@ -3775,7 +3776,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `string\|nil` |  |
+| `string` |  |
 
 #### `Engine.HUD.GetElementVisible(id)`
 
@@ -3817,7 +3818,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` |  |
+| `HudScreenPosition` |  |
 
 #### `Engine.HUD.GetSpecialFoodCounters()`
 
@@ -3825,7 +3826,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `HudSpecialFoodCounter[]` |  |
 
 #### `Engine.HUD.GetWorldElementPosition(id)`
 
@@ -3839,7 +3840,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` |  |
+| `Position` |  |
 
 #### `Engine.HUD.RemoveElement(id)`
 
@@ -3893,7 +3894,7 @@ Toggle an ammo refill entry in current profile
 | :-- | :-- | :--: | :-- |
 | `id` | `string` |  |  |
 | `clickable` | `boolean` |  |  |
-| `callback` | `function\|nil` |  |  |
+| `callback` | `function()\|nil` |  |  |
 
 **Returns**
 
@@ -3988,14 +3989,15 @@ Toggle an ammo refill entry in current profile
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.HUD.SetOnDragEnd(id, callback)`
+#### `Engine.HUD.SetOnDragEnd(id, callback, y)`
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `id` | `string` |  |  |
-| `callback` | `function\|nil` |  |  |
+| `callback` | `function(x: number` |  |  |
+| `y` | `number)\|nil` |  |  |
 
 **Returns**
 
@@ -4024,7 +4026,7 @@ Toggle an ammo refill entry in current profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `params` | `table` |  |  |
+| `params` | `HudWorldPositionUpdate` |  |  |
 
 **Returns**
 
@@ -4038,7 +4040,7 @@ Toggle an ammo refill entry in current profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `params` | `table` |  |  |
+| `params` | `HudScreenPositionUpdate` |  |  |
 
 **Returns**
 
@@ -4142,7 +4144,7 @@ Toggle an ammo refill entry in current profile
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `id` | `string` |  |  |
-| `color` | `table` |  |  |
+| `color` | `ColorRGBA` |  |  |
 
 **Returns**
 
@@ -4172,7 +4174,7 @@ Toggle an ammo refill entry in current profile
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `id` | `string` |  |  |
-| `color` | `table` |  |  |
+| `color` | `ColorRGBA` |  |  |
 
 **Returns**
 
@@ -4217,7 +4219,7 @@ Toggle an ammo refill entry in current profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `params` | `table` |  |  |
+| `params` | `HudImageLabelUpdate` |  |  |
 
 **Returns**
 
@@ -4294,7 +4296,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `HealFriendArea` |  |
 
 #### `Engine.HealFriend.GetMode()`
 
@@ -4342,7 +4344,7 @@ Toggle an ammo refill entry in current profile
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `HealFriendVocationEntry[]` |  |
 
 #### `Engine.HealFriend.SetActionEnabled(vocationIndex, actionIndex, enabled)`
 
@@ -4764,7 +4766,7 @@ Clear all healing items
 
 | Type | Description |
 | :-- | :-- |
-| `nil` |  |
+| `boolean` |  |
 
 #### `Engine.Healer.ClearAllSpells()`
 
@@ -4774,7 +4776,7 @@ Clear all healing spells
 
 | Type | Description |
 | :-- | :-- |
-| `nil` |  |
+| `boolean` |  |
 
 #### `Engine.Healer.DisableAllItems()`
 
@@ -5093,8 +5095,8 @@ Remove healing spell by index
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `index` | `any` |  |  |
-| `enabled` | `any` |  |  |
+| `index` | `integer` |  |  |
+| `enabled` | `boolean` |  |  |
 
 **Returns**
 
@@ -5183,8 +5185,8 @@ Remove healing spell by index
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `index` | `any` |  |  |
-| `enabled` | `any` |  |  |
+| `index` | `integer` |  |  |
+| `enabled` | `boolean` |  |  |
 
 **Returns**
 
@@ -5332,13 +5334,19 @@ Toggle a healing spell on/off
 
 ### Engine.Lure
 
-#### `Engine.Lure.AddSetting()`
+#### `Engine.Lure.AddSetting(setting)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `setting` | `LureSettingInput` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer\|false` |  |
 
 #### `Engine.Lure.ClearSettings()`
 
@@ -5346,7 +5354,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.EndForceLure()`
 
@@ -5354,7 +5362,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.GetAttackWhileLuring()`
 
@@ -5362,7 +5370,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.GetConsiderOnlyReachable()`
 
@@ -5370,7 +5378,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.GetIgnoringMonsters()`
 
@@ -5378,7 +5386,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.GetKitingCloseMonsterCount()`
 
@@ -5418,7 +5426,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Lure.GetNearRange()`
 
@@ -5426,7 +5434,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Lure.GetOption()`
 
@@ -5434,7 +5442,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Lure.GetSettingCount()`
 
@@ -5442,7 +5450,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Lure.GetSettings()`
 
@@ -5450,7 +5458,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `LureSetting[]` |  |
 
 #### `Engine.Lure.GetSlowWalkBurstSteps()`
 
@@ -5458,7 +5466,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Lure.GetSlowWalkDelayMs()`
 
@@ -5466,7 +5474,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Lure.GetSlowWalkingCreaturesCount()`
 
@@ -5474,7 +5482,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Lure.GetStartEndLureActive()`
 
@@ -5482,7 +5490,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.GetState()`
 
@@ -5490,7 +5498,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Lure.GetUnblocking()`
 
@@ -5498,7 +5506,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.GetWaypointDynamicLureActive()`
 
@@ -5506,7 +5514,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.HasActiveSettings()`
 
@@ -5514,7 +5522,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.IsEnabled()`
 
@@ -5522,7 +5530,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.IsFighting()`
 
@@ -5530,7 +5538,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.IsForceLure()`
 
@@ -5538,7 +5546,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.IsLuring()`
 
@@ -5546,7 +5554,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Lure.IsOtherPlayerOnScreen()`
 
@@ -5554,55 +5562,91 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Lure.RemoveSetting()`
+#### `Engine.Lure.RemoveSetting(index)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Lure.SetAttackWhileLuring()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Lure.SetConsiderOnlyReachable()`
+#### `Engine.Lure.SetAttackWhileLuring(enabled)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Lure.SetEnabled()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Lure.SetForceLure()`
+#### `Engine.Lure.SetConsiderOnlyReachable(enabled)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Lure.SetIgnoringMonsters()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
+
+#### `Engine.Lure.SetEnabled(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Lure.SetForceLure(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Lure.SetIgnoringMonsters(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Lure.SetKitingCloseMonsterCount(count)`
 
@@ -5660,77 +5704,132 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.Lure.SetNearRange()`
+#### `Engine.Lure.SetNearRange(range)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `range` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Lure.SetOption()`
+#### `Engine.Lure.SetOption(option)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Lure.SetSlowWalkBurstSteps()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `option` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Lure.SetSlowWalkDelayMs()`
+#### `Engine.Lure.SetSlowWalkBurstSteps(steps)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Lure.SetSlowWalkingCreaturesCount()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `steps` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Lure.SetStartEndLureActive()`
+#### `Engine.Lure.SetSlowWalkDelayMs(delayMs)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Lure.SetUnblocking()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `delayMs` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Lure.SetWaypointDynamicLureActive()`
+#### `Engine.Lure.SetSlowWalkingCreaturesCount(count)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Lure.UpdateSetting()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `count` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
+
+#### `Engine.Lure.SetStartEndLureActive(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Lure.SetUnblocking(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Lure.SetWaypointDynamicLureActive(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Lure.UpdateSetting(index, updateData)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+| `updateData` | `LureSettingInput` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ### Engine.MagicShooter
 
@@ -6563,7 +6662,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `PVPConfig` |  |
 
 #### `Engine.PVPTools.IsAntiPushEnabled()`
 
@@ -6905,7 +7004,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `string[]` |  |
 
 #### `Engine.Scripter.GetOutput(scriptName)`
 
@@ -6927,7 +7026,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `string[]` |  |
 
 #### `Engine.Scripter.IsRunning(scriptName)`
 
@@ -7015,6 +7114,45 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
+### Engine.Settings
+
+#### `Engine.Settings.Load(path, features)`
+
+Canonical Engine namespace for Settings.Load. The load is queued before the
+next Lua tick and follows the same lifecycle rules as Settings.Load.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `path` | `string` |  | .json filename or path |
+| `features` | `table\|nil` |  | selected Settings.Feature entries, or nil for all |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | queued |
+| `string` | resolvedPath |
+
+#### `Engine.Settings.Save(path, features)`
+
+Canonical Engine namespace for Settings.Save.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `path` | `string` |  | .json filename or path |
+| `features` | `table\|nil` |  | selected Settings.Feature entries, or nil for all |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | ok |
+| `string` | resolvedPath |
+
 ### Engine.SuppliesSorter
 
 #### `Engine.SuppliesSorter.AddEntry(destinationContainerId, itemIds, enabled)`
@@ -7047,7 +7185,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `SuppliesSorterEntry[]` |  |
 
 #### `Engine.SuppliesSorter.RemoveEntry(index)`
 
@@ -7470,7 +7608,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table[]\|nil` |  |
+| `TargetingEntry[]\|nil` |  |
 
 #### `Engine.Targeting.GetProfileCount()`
 
@@ -7802,7 +7940,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `TimerActionEntry[]` |  |
 
 #### `Engine.TimerActions.RemoveEntry(index)`
 
@@ -7917,7 +8055,7 @@ Toggle a healing spell on/off
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `connector` | `table` |  |  |
+| `connector` | `WalkerAutoExploreConnectorInput` |  |  |
 
 **Returns**
 
@@ -7931,7 +8069,7 @@ Toggle a healing spell on/off
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `area` | `table` |  |  |
+| `area` | `WalkerSpecialAreaInput` |  |  |
 
 **Returns**
 
@@ -7939,13 +8077,19 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `integer\|string\|false` |  |
 
-#### `Engine.Walker.AddWaypoint()`
+#### `Engine.Walker.AddWaypoint(waypoint)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `waypoint` | `RawWalkerWaypointInput` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer\|false` |  |
 
 #### `Engine.Walker.ClearAutoExploreConnectors()`
 
@@ -7969,7 +8113,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.CompleteDeferred(token)`
 
@@ -8027,13 +8171,19 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.Walker.DeleteWaypoint()`
+#### `Engine.Walker.DeleteWaypoint(index)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.GetAutoExploreConnectorRecording()`
 
@@ -8049,7 +8199,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `WalkerAutoExploreConnector[]` |  |
 
 #### `Engine.Walker.GetAutoExploreSettings()`
 
@@ -8057,7 +8207,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `WalkerAutoExploreSettings` |  |
 
 #### `Engine.Walker.GetAutoExploreStatus()`
 
@@ -8065,7 +8215,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `WalkerAutoExploreStatus` |  |
 
 #### `Engine.Walker.GetAutoRecorderEnabled()`
 
@@ -8073,7 +8223,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.GetAutoRecorderOptions()`
 
@@ -8081,7 +8231,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `WalkerAutoRecorderOptions` |  |
 
 #### `Engine.Walker.GetDebugHud()`
 
@@ -8089,7 +8239,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.GetDistanceBetweenWaypoints()`
 
@@ -8097,7 +8247,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Walker.GetLeaveLureOnPlayer()`
 
@@ -8105,7 +8255,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.GetLeaveLurePlayerMode()`
 
@@ -8121,7 +8271,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `string` |  |
+| `WalkerNavigationMode` |  |
 
 #### `Engine.Walker.GetNodeDistance()`
 
@@ -8129,7 +8279,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Walker.GetSelectedWaypointIndex()`
 
@@ -8137,7 +8287,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer\|nil` |  |
 
 #### `Engine.Walker.GetSpecialAreaCount()`
 
@@ -8153,7 +8303,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table[]` |  |
+| `WalkerSpecialArea[]` |  |
 
 #### `Engine.Walker.GetStartFromNearestWaypoint()`
 
@@ -8161,7 +8311,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.GetWalkToLureCenter()`
 
@@ -8169,7 +8319,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.GetWaypointCount()`
 
@@ -8177,7 +8327,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `integer` |  |
 
 #### `Engine.Walker.GetWaypoints()`
 
@@ -8185,23 +8335,36 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `WalkerWaypoint[]` |  |
 
-#### `Engine.Walker.GoTo()`
+#### `Engine.Walker.GoTo(labelName)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Walker.InsertWaypoint()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `labelName` | `string` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `nil` |  |
+
+#### `Engine.Walker.InsertWaypoint(index, waypoint)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+| `waypoint` | `RawWalkerWaypointInput` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Walker.IsAutoExplorePositionPainted(x, y, z)`
 
@@ -8225,7 +8388,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.IsPausedByLua()`
 
@@ -8233,7 +8396,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.IsPositionInsideSpecialArea(x, y, z, featureMask)`
 
@@ -8258,23 +8421,35 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Walker.MoveWaypointDown()`
+#### `Engine.Walker.MoveWaypointDown(index)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Walker.MoveWaypointUp()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` | Yes |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
+
+#### `Engine.Walker.MoveWaypointUp(index)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Walker.ReorderSpecialArea(sourceIndex, targetIndex, dropAfterTarget)`
 
@@ -8292,13 +8467,20 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.Walker.ReplaceWaypoint()`
+#### `Engine.Walker.ReplaceWaypoint(index, waypoint)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+| `waypoint` | `RawWalkerWaypointInput` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.ResetAutoExploreCoverage()`
 
@@ -8314,7 +8496,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `nil` |  |
 
 #### `Engine.Walker.SelectClosestWaypoint()`
 
@@ -8322,7 +8504,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
 #### `Engine.Walker.SetAutoExploreConnectorRecording(enabled)`
 
@@ -8344,7 +8526,7 @@ Toggle a healing spell on/off
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `settings` | `table` |  |  |
+| `settings` | `WalkerAutoExploreSettingsPatch` |  |  |
 
 **Returns**
 
@@ -8352,53 +8534,89 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.Walker.SetAutoRecorderEnabled()`
+#### `Engine.Walker.SetAutoRecorderEnabled(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Walker.SetAutoRecorderOptions()`
+#### `Engine.Walker.SetAutoRecorderOptions(options)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Walker.SetDebugHud()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `options` | `WalkerAutoRecorderOptionsPatch` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Walker.SetDistanceBetweenWaypoints()`
+#### `Engine.Walker.SetDebugHud(enabled)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Walker.SetEnabled()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Walker.SetLeaveLureOnPlayer()`
+#### `Engine.Walker.SetDistanceBetweenWaypoints(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
+
+#### `Engine.Walker.SetEnabled(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.Walker.SetLeaveLureOnPlayer(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Walker.SetLeaveLurePlayerMode(mode)`
 
@@ -8428,45 +8646,75 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `boolean` |  |
 
-#### `Engine.Walker.SetNodeDistance()`
+#### `Engine.Walker.SetNodeDistance(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Walker.SetPausedByLua()`
+#### `Engine.Walker.SetPausedByLua(paused)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Walker.SetSelectedWaypointIndex()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `paused` | `boolean` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
 
-#### `Engine.Walker.SetStartFromNearestWaypoint()`
+#### `Engine.Walker.SetSelectedWaypointIndex(index)`
 
-**Returns**
+**Parameters**
 
-| Type | Description |
-| :-- | :-- |
-| `any` |  |
-
-#### `Engine.Walker.SetWalkToLureCenter()`
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `any` |  |
+| `boolean` |  |
+
+#### `Engine.Walker.SetStartFromNearestWaypoint(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.SetWalkToLureCenter(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Engine.Walker.SetWaypointPosition(index, x, y, z)`
 
@@ -8492,7 +8740,7 @@ Toggle a healing spell on/off
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `id` | `integer\|string` |  |  |
-| `updateData` | `table` |  |  |
+| `updateData` | `WalkerAutoExploreConnectorPatch` |  |  |
 
 **Returns**
 
@@ -8507,13 +8755,55 @@ Toggle a healing spell on/off
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `id` | `integer\|string` |  |  |
-| `updateData` | `table` |  |  |
+| `updateData` | `WalkerSpecialAreaPatch` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
 | `boolean` |  |
+
+### Settings
+
+#### `Settings.Load(path, features)`
+
+Queues selected settings to load before the next Lua tick. Bare filenames
+are searched beside the calling script, then in the product Settings folder.
+Key Events are always restored. Passing nil includes Scripter; loading that
+section may stop or restart the script that requested the load.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `path` | `string` |  | .json filename or path |
+| `features` | `table\|nil` |  | selected Settings.Feature entries, or nil for all |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | queued |
+| `string` | resolvedPath |
+
+#### `Settings.Save(path, features)`
+
+Atomically saves selected settings. A bare filename is saved beside the
+calling script; an explicit relative path is relative to that script.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `path` | `string` |  | .json filename or path |
+| `features` | `table\|nil` |  | selected Settings.Feature entries, or nil for all |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | ok |
+| `string` | resolvedPath |
 
 ## Notes
 

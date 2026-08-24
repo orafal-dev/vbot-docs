@@ -37,6 +37,8 @@ Use `Item.Use` for direct-use items (for example Magic Shield Potions). Use `Ite
 | `Item.IsCumulative(itemId)` | Stackable |
 | `Item.IsGround(itemId)` | Ground tile item |
 
+`Item.GetInfo` returns an `ObjectInfo` with `itemId` (not `id`). Container rows use `slotIndex`; find results use `itemSlot` / `itemQuantity`. See [Table Contracts](/docs/guides/table-contracts).
+
 ### Container access
 
 ```lua

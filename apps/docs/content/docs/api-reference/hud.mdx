@@ -29,6 +29,12 @@ Clears the logical parent relationship for this screen image.
 
 #### `ScreenImage:Create()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
 #### `ScreenImage:GetEnabled()`
 
 **Returns**
@@ -87,11 +93,48 @@ Checks if the element has been created in C++.
 | :-- | :-- | :--: | :-- |
 | `renderLayer` | `string` | Yes | Optional HUDRenderLayer value |
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
 #### `ScreenImage:Remove()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `ScreenImage:SetAlignment(h_align, v_align)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `h_align` | `integer` |  |  |
+| `v_align` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
 #### `ScreenImage:SetClickable(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function()\|false` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
 
 #### `ScreenImage:SetDragTarget(target)`
 
@@ -111,15 +154,78 @@ Makes this image a drag handle for another screen HUD element.
 
 #### `ScreenImage:SetDraggable(draggable)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `draggable` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
 #### `ScreenImage:SetEnabled(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
 
 #### `ScreenImage:SetItemId(itemId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
 #### `ScreenImage:SetItemName(itemName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
 
 #### `ScreenImage:SetLabel(text, color, offsetX, offsetY)`
 
-#### `ScreenImage:SetOnDragEnd(callback)`
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `text` | `string\|nil` |  |  |
+| `color` | `ColorRGBA` | Yes |  |
+| `offsetX` | `number` | Yes |  |
+| `offsetY` | `number` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
+#### `ScreenImage:SetOnDragEnd(callback, y)`
 
 Runs after a drag finishes. The callback receives final target x and y coordinates.
 
@@ -188,6 +294,19 @@ If called before :Create(), the position is applied immediately after creation.
 
 #### `ScreenImage:SetSize(width, height)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `width` | `number` |  |  |
+| `height` | `number` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
 #### `ScreenImage:SetSource(path)`
 
 Uses a PNG, JPG, or animated GIF from a full file path.
@@ -238,6 +357,18 @@ Uses a PNG or animated GIF embedded as a byte array or binary string.
 | `ScreenImage` |  |
 
 #### `ScreenImage:SetZIndex(zIndex)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `zIndex` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
 
 ### ScreenText
 
@@ -398,6 +529,12 @@ local myText = ScreenText:New("health_display")
 
 Removes the element from the screen.
 After removal, the element can be recreated with :Create().
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 **Usage**
 
@@ -589,7 +726,7 @@ Changes only the font pixel size. Pass nil to restore Tibia's font size.
 | :-- | :-- |
 | `ScreenText` |  |
 
-#### `ScreenText:SetOnDragEnd(callback)`
+#### `ScreenText:SetOnDragEnd(callback, y)`
 
 Runs after a drag finishes. The callback receives final target x and y coordinates.
 
@@ -841,6 +978,12 @@ local marker = WorldBox:New("danger_tile", 1024, 1025, 7)
 #### `WorldBox:Remove()`
 
 Removes the element from the world.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 **Usage**
 
@@ -1111,6 +1254,12 @@ Clears the logical parent relationship for this world image.
 
 #### `WorldImage:Create()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
+
 #### `WorldImage:GetEnabled()`
 
 **Returns**
@@ -1169,7 +1318,19 @@ Checks if the element has been created in C++.
 | :-- | :-- | :--: | :-- |
 | `renderLayer` | `string` | Yes | Optional HUDRenderLayer value |
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
+
 #### `WorldImage:Remove()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `WorldImage:SetEnabled(enabled)`
 
@@ -1189,7 +1350,31 @@ Sets whether the world image is visible/enabled.
 
 #### `WorldImage:SetItemId(itemId)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemId` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
+
 #### `WorldImage:SetItemName(itemName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `itemName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
 
 #### `WorldImage:SetLabel(text, color, offsetX, offsetY)`
 
@@ -1212,7 +1397,32 @@ Sets or updates text rendered with this world image.
 
 #### `WorldImage:SetLifetime(lifetimeMs)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `lifetimeMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
+
 #### `WorldImage:SetOffset(offsetX, offsetY)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `offsetX` | `number` |  |  |
+| `offsetY` | `number` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
 
 #### `WorldImage:SetParent(parent_id)`
 
@@ -1233,6 +1443,20 @@ Parent visibility and removal cascade to this image without changing its world p
 
 #### `WorldImage:SetPosition(x, y, z)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
+
 #### `WorldImage:SetRenderLayer(renderLayer)`
 
 Selects the Qt scene layer. This must be called before Create().
@@ -1250,6 +1474,19 @@ Selects the Qt scene layer. This must be called before Create().
 | `WorldImage` |  |
 
 #### `WorldImage:SetSize(width, height)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `width` | `number` |  |  |
+| `height` | `number` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
 
 #### `WorldImage:SetSource(path)`
 
@@ -1301,6 +1538,18 @@ Uses a PNG or animated GIF embedded as a byte array or binary string.
 | `WorldImage` |  |
 
 #### `WorldImage:SetZIndex(zIndex)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `zIndex` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WorldImage` |  |
 
 ### WorldText
 
@@ -1442,6 +1691,12 @@ local label = WorldText:New("item_label", 1024, 1025, 7)
 #### `WorldText:Remove()`
 
 Removes the element from the world.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 **Usage**
 

@@ -39,6 +39,8 @@ ValidusBot exposes a Lua scripting runtime for automating gameplay, building cav
 - Always handle **nil** returns when game state or bindings are missing.
 - Prefer `init()` / `terminate()` lifecycle hooks; use `Time.MonotonicMs()` for elapsed time.
 - Use `pcall` only for known recoverable operations — do not blanket-wrap repeating modules.
+- Event/hook callbacks stay on the **critical path** (enqueue scalars for a `Module.Every` worker; never wait or do network/storage work in the callback).
+- Copy **exact table field names** from [Table Contracts](/docs/guides/table-contracts) — never guess aliases like `item.id`.
 - Never use removed aliases like `self.*`, `map.*`, `CaveBot`, or `_G.position`.
 
 ## Documentation sections
@@ -47,6 +49,7 @@ ValidusBot exposes a Lua scripting runtime for automating gameplay, building cav
 | --- | --- |
 | [Getting Started](/docs/getting-started/overview) | Runtime model, safety rules, and starter template |
 | [Guides](/docs/guides/module-scheduling) | Topic-based API walkthroughs with examples |
+| [Table Contracts](/docs/guides/table-contracts) | Exact field names for API tables and payloads |
 | [Examples](/docs/examples) | Copy-paste script patterns |
 | [Changelog](/docs/changelog) | Docs sync history (added / changed / removed) |
 | [API Reference](/docs/api-reference) | Complete function index per core library |

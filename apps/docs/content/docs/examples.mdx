@@ -3,7 +3,7 @@ title: Examples
 description: Practical ValidusBot Lua script patterns
 ---
 
-Production-safe examples using the public PascalCase API. Each pattern includes nil checks and non-blocking scheduling.
+Production-safe examples using the public PascalCase API. Each pattern includes nil checks and non-blocking scheduling. Event and hook callbacks must stay on the [critical path](/docs/guides/events-hud#event-callback-critical-path) — use a worker module for network or storage work.
 
 ## Low HP sound alert
 
@@ -179,6 +179,50 @@ Hotkeys.RegisterCombo({
         end
     end,
 })
+```
+
+## Packet event to worker (HTTP)
+
+Register a filtered packet callback that only coalesces a scalar, then POST from a stable `Module.Every` worker:
+
+```lua
+local SCRIPT_ID = "discord_afk_alert"
+local WEBHOOK_URL = "REPLACE_WITH_DISCORD_WEBHOOK_URL"
+local pendingMessage = nil
+
+Events.RegisterPacketEvent({
+    id = SCRIPT_ID,
+    packet_id = GameServerOpcodes.GAME_SERVER_TEXT_MESSAGE,
+    incoming = true,
+    message_contains = "afk check started",
+    message_case_sensitive = false,
+
+    callback = function(packet)
+        if pendingMessage == nil and type(packet.message) == "string" then
+            pendingMessage = packet.message
+        end
+    end
+})
+
+function init()
+    Module.Every(SCRIPT_ID .. "_worker", function()
+        local message = pendingMessage
+        if message == nil then
+            return
+        end
+
+        pendingMessage = nil
+        local response = Http.PostJson(WEBHOOK_URL, {
+            content = message
+        }, {
+            timeoutMs = 8000
+        })
+
+        if not response.ok then
+            print("Discord request failed: " .. tostring(response.error))
+        end
+    end, 100)
+end
 ```
 
 ## Send client hotkey

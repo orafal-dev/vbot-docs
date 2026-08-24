@@ -15,73 +15,433 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Defer(timeoutMs)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `timeoutMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `CavebotDeferredHandle` |  |
+
 #### `Cavebot.Disable()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Cavebot.DisableLure()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Cavebot.Enable()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Cavebot.EnableLure()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Cavebot.GetStatus()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `CavebotStatus` |  |
 
 #### `Cavebot.GoTo(labelName)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `labelName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Cavebot.GoToLabel(labelName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `labelName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Cavebot.InterceptAction(callback)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(actionName: string)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Cavebot.InterceptLabel(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(labelName: string)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
 
 #### `Cavebot.IsEnabled()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.IsLureEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Load(path, features)`
+
+Queues a .validuswpt bundle to load before the next Lua tick. A bare
+filename is searched beside the script, then in the product Waypoints folder.
+Loading replaces the active route and may stop running waypoint scripts.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `path` | `string` |  | .validuswpt filename or path |
+| `features` | `table\|nil` |  | optional bundle sections |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | queued |
+| `string` | resolvedPath |
 
 #### `Cavebot.ObserveAction(callback)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(actionName: string)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Cavebot.ObserveLabel(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(labelName: string)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
 
 #### `Cavebot.ObserveWaypointChange(callback)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(event: CavebotWaypointChangeEvent)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Cavebot.OnAction(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(actionName: string)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
 
 #### `Cavebot.OnActionCompleted(callback)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(event: CavebotActionCompletedEvent)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Cavebot.OnActionStarted(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(event: CavebotActionStartedEvent)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
 
 #### `Cavebot.OnLabel(callback)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(labelName: string)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Cavebot.OnWaypointChange(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(event: CavebotWaypointChangeEvent)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
 
 #### `Cavebot.Pause(milliseconds, autoResume)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `milliseconds` | `integer` |  |  |
+| `autoResume` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` |  |
+
 #### `Cavebot.PrintStatus()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Cavebot.RegisterEvent(eventId, callback)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `eventId` | `integer` |  |  |
+| `callback` | `WalkerEventCallback` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Cavebot.Resume()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Cavebot.Save(path, features)`
+
+Atomically saves a .validuswpt bundle. A bare filename is saved beside the
+calling script; an explicit relative path is relative to that script.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `path` | `string` |  | .validuswpt filename or path |
+| `features` | `table\|nil` |  | optional bundle sections |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | ok |
+| `string` | resolvedPath |
 
 #### `Cavebot.SetEnabled(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Cavebot.SetEnginesEnabled(walkerEnabled, lureEnabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `walkerEnabled` | `boolean` |  |  |
+| `lureEnabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `CavebotStatus` |  |
 
 #### `Cavebot.SetLureEnabled(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Cavebot.UnregisterAllEvents()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ### Cavebot.Lure
 
 #### `Cavebot.Lure.AddSetting(setting)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `setting` | `LureSettingInput` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|false` |  |
+
 #### `Cavebot.Lure.ClearSettings()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.EndForceLure()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.GetAttackWhileLuring()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.GetConsiderOnlyReachable()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.GetIgnoringMonsters()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.GetKitingCloseMonsterCount()`
 
@@ -117,51 +477,231 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Lure.GetLuredCreaturesCount()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Cavebot.Lure.GetNearRange()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Cavebot.Lure.GetOption()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Cavebot.Lure.GetSettingCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Cavebot.Lure.GetSettings()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `LureSetting[]` |  |
+
 #### `Cavebot.Lure.GetSlowWalkBurstSteps()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Cavebot.Lure.GetSlowWalkDelayMs()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Cavebot.Lure.GetSlowWalkingCreaturesCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Cavebot.Lure.GetStartEndLureActive()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.GetState()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Cavebot.Lure.GetUnblocking()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.GetWaypointDynamicLureActive()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.HasActiveSettings()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.IsEnabled()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.IsFighting()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.IsForceLure()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.IsLuring()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.IsOtherPlayerOnScreen()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.RemoveSetting(index)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.SetAttackWhileLuring(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.SetConsiderOnlyReachable(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.SetEnabled(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Cavebot.Lure.SetForceLure(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.SetIgnoringMonsters(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.SetKitingCloseMonsterCount(count)`
 
@@ -221,21 +761,130 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Lure.SetNearRange(range)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `range` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.SetOption(option)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `option` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.SetSlowWalkBurstSteps(steps)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `steps` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.SetSlowWalkDelayMs(delayMs)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `delayMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.SetSlowWalkingCreaturesCount(count)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `count` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.SetStartEndLureActive(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Lure.SetUnblocking(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.SetWaypointDynamicLureActive(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Lure.UpdateSetting(index, updateData)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+| `updateData` | `LureSettingInput` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 ### Cavebot.Walker
 
@@ -269,6 +918,18 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.AddWaypoint(waypoint)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `waypoint` | `WalkerWaypointInput` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|false` |  |
+
 #### `Cavebot.Walker.ClearAutoExploreConnectors()`
 
 **Returns**
@@ -287,9 +948,39 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.ClearWaypoints()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.CompleteDeferred(token)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `token` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.Defer(timeoutMs)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `timeoutMs` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Cavebot.Walker.DeleteAutoExploreConnector(id)`
 
@@ -320,6 +1011,18 @@ Core library: `cavebot.lua`
 | `boolean` |  |
 
 #### `Cavebot.Walker.DeleteWaypoint(index)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.GetAutoExploreConnectorRecording()`
 
@@ -355,13 +1058,43 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.GetAutoRecorderEnabled()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.GetAutoRecorderOptions()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerAutoRecorderOptions` |  |
 
 #### `Cavebot.Walker.GetDebugHud()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.GetDistanceBetweenWaypoints()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Cavebot.Walker.GetLeaveLureOnPlayer()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.GetLeaveLurePlayerMode()`
 
@@ -381,7 +1114,19 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.GetNodeDistance()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Cavebot.Walker.GetSelectedWaypointIndex()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
 
 #### `Cavebot.Walker.GetSpecialAreaCount()`
 
@@ -401,15 +1146,64 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.GetStartFromNearestWaypoint()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.GetWalkToLureCenter()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.GetWaypointCount()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
 #### `Cavebot.Walker.GetWaypoints()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerWaypoint[]` |  |
 
 #### `Cavebot.Walker.GoTo(labelName)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `labelName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Cavebot.Walker.InsertWaypoint(index, waypoint)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+| `waypoint` | `WalkerWaypointInput` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.IsAutoExplorePositionPainted(x, y, z)`
 
@@ -429,7 +1223,19 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.IsEnabled()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.IsPausedByLua()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.IsPositionInsideSpecialArea(x, y, z, featureMask)`
 
@@ -450,9 +1256,39 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.IsStuck()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.MoveWaypointDown(index)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.MoveWaypointUp(index)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.ReorderSpecialArea(sourceIndex, targetIndex, dropAfterTarget)`
 
@@ -472,6 +1308,19 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.ReplaceWaypoint(index, waypoint)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+| `waypoint` | `WalkerWaypointInput` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.ResetAutoExploreCoverage()`
 
 **Returns**
@@ -482,7 +1331,19 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.Resume()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Cavebot.Walker.SelectClosestWaypoint()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.SetAutoExploreConnectorRecording(enabled)`
 
@@ -514,15 +1375,87 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.SetAutoRecorderEnabled(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.SetAutoRecorderOptions(options)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `options` | `WalkerAutoRecorderOptionsPatch` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.SetDebugHud(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.SetDistanceBetweenWaypoints(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.SetEnabled(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Cavebot.Walker.SetLeaveLureOnPlayer(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.SetLeaveLurePlayerMode(mode)`
 
@@ -554,13 +1487,73 @@ Core library: `cavebot.lua`
 
 #### `Cavebot.Walker.SetNodeDistance(distance)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.SetPausedByLua(paused)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `paused` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.SetSelectedWaypointIndex(index)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `index` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.SetStartFromNearestWaypoint(enabled)`
 
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.SetWalkToLureCenter(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.SetWaypointPosition(index, x, y, z)`
 

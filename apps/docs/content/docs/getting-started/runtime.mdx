@@ -81,6 +81,20 @@ Key/packet/Walker events, scheduled events, HUD elements, HTTP results, WebSocke
 
 Per script budgets include 64 MiB Lua memory, 256 managed coroutines, 64 pending event callbacks, and 32 outstanding async result tokens. Scheduler limits are 3 ms per coroutine resume, 4 ms per script per frame, and 8 ms for all Lua work per frame. Yieldable Lua is time-sliced. Deadline misses remain available as telemetry. The runtime circuit-breaks the offending component after **three consecutive** unpreempted resumes of at least **5 ms**, or one unpreempted **50 ms** resume. Delays are integer milliseconds from **0** through **86,400,000** unless a narrower function-specific range is documented.
 
+## Event callback critical path
+
+Callbacks registered through `Events`, `Hotkeys`, `Cavebot`/`Walker`, shared-storage `OnChanged`, event proxies, HUD click/drag, and similar hook APIs run on a critical path.
+
+The native hook validates, copies, and queues a managed event coroutine; your callback is resumed later by the serialized Lua scheduler on the game thread. Yielding releases the game thread while the coroutine sleeps, but it does **not** finish that event callback. The callback still occupies one of the script's **64** active-plus-pending event slots. A burst that calls `wait`, HTTP, WebSocket receive/connect, or another yielding API can hit the limit and produce `runtime_action=drop_newest_event_callback`.
+
+**Allowed in a callback:** validate already-present args; copy minimal strings/numbers/booleans; set a flag, sequence, or monotonic timestamp; overwrite one coalesced slot or append to a hard-bounded FIFO; optionally one documented constant-time non-blocking game action; return immediately.
+
+**Forbidden in a callback:** `wait`, `Http.*`, `WebSocket.Connect` / `Receive`, yielding HUD getters, sound wait helpers; `Storage` / shared-storage / profile save-load / `io.*`; invented `Synchronize` / main-thread / mutex helpers; large JSON; full creature/container/map scans; pathfinding; retry/polling/unbounded loops; creating one `Events.Schedule`, `Module.After`, module, or coroutine **per** incoming event.
+
+Create one stable `Module.Every` worker in `init()`. Feed it from the callback via a latest-value slot (best for level-triggered state) or a hard-bounded FIFO (when every event matters). Drain a fixed maximum per worker tick. Prefer native packet filters such as `message_contains` on `GameServerOpcodes.GAME_SERVER_TEXT_MESSAGE` so Lua work is skipped when possible.
+
+Walker interceptors follow the same enqueue-and-return rule. If slower work is required, call `Cavebot.Defer(timeoutMs)`, queue the handle plus minimal scalars, return immediately, and call `handle:Complete()` or `:Cancel()` on every completion path. See [Events & HUD](/docs/guides/events-hud#event-callback-critical-path) and [Cavebot](/docs/guides/cavebot#blocking-interceptors).
+
 Supported C++ exceptions from native bindings become contextual Lua errors and follow the same component policy. An ordinary C++ exception escaping a script tick quarantines that script. A native access violation is the exceptional emergency case: Lua execution is disabled for the client session, Walker ownership is released, and a dump is written. Diagnostics serialize error values without invoking user `__tostring` metamethods.
 
 ## Script lifecycle and cross-script control

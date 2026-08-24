@@ -51,7 +51,7 @@ Creates a battle-message proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `BattleMessageProxy:OnReceive(callback)`
+#### `BattleMessageProxy:OnReceive(callback, message)`
 
 Assigns callback called when a matching battle message arrives.
 
@@ -95,7 +95,7 @@ Creates a container-add-item proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `ContainerAddItemProxy:OnReceive(callback)`
+#### `ContainerAddItemProxy:OnReceive(callback, containerIndex, slot, item)`
 
 Assigns callback called when item is added to container.
 
@@ -139,7 +139,7 @@ Creates a container-close proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `ContainerCloseProxy:OnReceive(callback)`
+#### `ContainerCloseProxy:OnReceive(callback, containerIndex)`
 
 Assigns callback called when a container is closed.
 
@@ -183,7 +183,7 @@ Creates a container-open proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `ContainerOpenProxy:OnReceive(callback)`
+#### `ContainerOpenProxy:OnReceive(callback, containerIndex, containerName, containerID)`
 
 Assigns callback called when a container is opened.
 
@@ -227,7 +227,7 @@ Creates a container-remove-item proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `ContainerRemoveItemProxy:OnReceive(callback)`
+#### `ContainerRemoveItemProxy:OnReceive(callback, containerIndex, slot)`
 
 Assigns callback called when item is removed from container.
 
@@ -271,7 +271,7 @@ Creates a container-update-item proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `ContainerUpdateItemProxy:OnReceive(callback)`
+#### `ContainerUpdateItemProxy:OnReceive(callback, containerIndex, slot, item)`
 
 Assigns callback called when container item changes.
 
@@ -315,7 +315,7 @@ Creates a creature-add proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `CreatureAddProxy:OnReceive(callback)`
+#### `CreatureAddProxy:OnReceive(callback, creatureId, creatureName, position)`
 
 Assigns callback called when creature appears.
 
@@ -359,7 +359,7 @@ Creates a creature-remove proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `CreatureRemoveProxy:OnReceive(callback)`
+#### `CreatureRemoveProxy:OnReceive(callback, creatureId)`
 
 Assigns callback called when creature disappears.
 
@@ -447,7 +447,7 @@ Creates a generic text-message proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `GenericTextMessageProxy:OnReceive(callback)`
+#### `GenericTextMessageProxy:OnReceive(callback, message)`
 
 Assigns callback called when a matching message arrives.
 
@@ -491,7 +491,7 @@ Creates a loot-message proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `LootMessageProxy:OnReceive(callback)`
+#### `LootMessageProxy:OnReceive(callback, message)`
 
 Assigns callback called when a loot-like message arrives.
 
@@ -535,7 +535,7 @@ Creates a player-skills-change proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `SkillsChangeProxy:OnReceive(callback)`
+#### `SkillsChangeProxy:OnReceive(callback, packet)`
 
 Assigns callback called when skills packet arrives.
 
@@ -579,7 +579,7 @@ Creates a player-stats-change proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `StatsChangeProxy:OnReceive(callback)`
+#### `StatsChangeProxy:OnReceive(callback, packet)`
 
 Assigns callback called when player stats packet arrives.
 

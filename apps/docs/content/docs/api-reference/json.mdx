@@ -17,13 +17,13 @@ Core library: `json.lua`
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `value` | `table` |  |  |
+| `value` | `JsonValue[]` |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `JsonValue[]` |  |
 
 #### `Json.Decode(text)`
 
@@ -58,19 +58,21 @@ Encodes a Lua value as JSON. Raises an error for unsupported or oversized values
 | :-- | :-- |
 | `string` |  |
 
-#### `Json.Object(value)`
+#### `Json.Object(value, JsonValue>)`
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `value` | `table` |  |  |
+| `value` | `table<string` |  |  |
+| `JsonValue>` |  |  |  |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table` |  |
+| `table<string` |  |
+| `JsonValue>` |  |
 
 #### `Json.TryDecode(text)`
 

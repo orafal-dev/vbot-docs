@@ -17,7 +17,7 @@ These rules are non-negotiable for generated and hand-written scripts:
 8. **Engine getters are snapshots** — mutating a returned table does nothing; use the matching validated setter.
 9. **Idempotent feature changes** — prefer `SetActive` / `Enable` / `Disable` over blind toggles.
 10. **Monotonic time** — use `Time.MonotonicMs()` for elapsed time. Never use `os.clock()` for wall-time timeouts.
-11. **Keep callbacks short** — use stable owner-local IDs; avoid high-frequency allocation or full-creature scans when a smaller query suffices.
+11. **Event/hook critical path** — every callback registered through `Events`, `Hotkeys`, `Cavebot`/`Walker`, shared-storage `OnChanged`, event proxies, HUD click/drag, or similar APIs must be constant-time and non-yielding. Capture only minimal scalar data into a coalesced slot or hard-bounded queue, then return. See [Events & HUD](/docs/guides/events-hud#event-callback-critical-path).
 12. **Restore intentional config** — if the script changes persistent bot configuration, state whether it should remain and restore it in `terminate()` when appropriate.
 
 ## Pre-flight checklist
@@ -32,7 +32,8 @@ Before deploying a script, verify:
 - [ ] Position/creature access handles invalid, despawned, or cross-floor objects
 - [ ] IDs, indexes, percentages, delays, and ranges are validated before mutation
 - [ ] Repeating modules are not hidden inside a blanket `pcall`
-- [ ] Callback work is bounded and delays use monotonic time
+- [ ] Event/hook callbacks are constant-time and non-yielding (no `wait`, network, storage/files, profile ops, large JSON, scans, pathfinding, retry loops, or per-event scheduling); they only feed one stable worker via a coalesced slot or hard-bounded queue
+- [ ] Named table fields match exact contracts (no guessed aliases like `item.id`)
 - [ ] Detached getter snapshots are never edited as live settings
 - [ ] Every accepted Walker defer token is completed or intentionally allowed to time out
 - [ ] `terminate()` is synchronous, non-yielding, and fast
@@ -51,6 +52,8 @@ Before deploying a script, verify:
 | Blanket `pcall` around `Module.Every` | Narrow catch, or let runtime isolate the module |
 | `os.clock()` for timeouts | `Time.MonotonicMs()` |
 | Undocumented low-level globals | Documented core wrappers |
+| `item.id` / `item.slot` / `container.index` | Exact contract fields (`itemId`, `slotIndex`, …) — see [Table Contracts](/docs/guides/table-contracts) |
+| `wait` / HTTP / storage inside an event callback | Coalesce into a slot; drain from `Module.Every` |
 
 ## Error handling pattern
 
@@ -80,30 +83,32 @@ When using AI to generate scripts, instruct the model to:
 
 1. Use only exact APIs and enum names from this documentation and the API Reference; never invent a getter, action, or generic update table
 2. Prefer canonical core wrappers and `Engine.*` over compatibility globals
-3. Include argument validation and nil/type checks
-4. Use Alt only with `Hotkeys.SendCombo`, never with callback registration
-5. Never touch Objects Dumper or other reserved/internal features
-6. Use `Module.Every` for repeating work; `Module.After` / `Events.Schedule` for one-shots; all loops must yield
-7. Keep callbacks small — Lua shares the game thread and is cooperatively budgeted
-8. Do not blanket-`pcall` repeating modules
-9. Treat getter tables as snapshots; mutate via explicit setters
-10. Use `Time.MonotonicMs()` and `Storage` for timing and persistence
-11. Put yieldable setup in `init()` and only fast cleanup in `terminate()`
-12. Use stable owner-scoped names and emit explicit PASS/FAIL lines in diagnostic scripts
-13. Return a complete runnable `.lua` file without TODO placeholders
+3. For every named input, result, or callback record, use [Table Contracts](/docs/guides/table-contracts) / typed API signatures and copy case-sensitive fields exactly — never guess aliases such as `item.id`, `item.slot`, or `container.index`
+4. Include argument validation and nil/type checks
+5. Use Alt only with `Hotkeys.SendCombo`, never with callback registration
+6. Never touch Objects Dumper or other reserved/internal features
+7. Use `Module.Every` for repeating work; `Module.After` / `Events.Schedule` for one-shots; all loops must yield
+8. Make every event/hook callback constant-time and non-yielding — copy minimal scalars into a coalesced slot or hard-bounded queue for one pre-existing `Module.Every` worker; never wait, do network/storage/file work, scan, pathfind, recursively traverse, or schedule one task per event
+9. Do not blanket-`pcall` repeating modules
+10. Treat getter tables as snapshots; mutate via explicit setters
+11. Use `Time.MonotonicMs()` and `Storage` for timing and persistence
+12. Put yieldable setup in `init()` and only fast cleanup in `terminate()`
+13. Use stable owner-scoped names and emit explicit PASS/FAIL lines in diagnostic scripts
+14. Return a complete runnable `.lua` file without TODO placeholders
 
 ## LLM API-selection workflow
 
 For each requested behavior:
 
 1. Find the canonical signature in the [API Reference](/docs/api-reference) and named constants in [Constants](/docs/guides/constants)
-2. Prefer the highest-level matching wrapper (`Cavebot`, `Hotkeys`, `Cooldowns`, `Spells`, `Sound`, `Storage`, or a HUD class)
-3. Use `Engine.<Feature>` only for explicit feature configuration or actions; call a setter rather than editing a getter snapshot
-4. Choose `init`, `Module.Every`, `Module.After` / `Events.Schedule`, or an event proxy based on whether the work is immediate, repeating, one-shot, or event-driven
-5. Add capability checks for architecture/client-version-specific functions and nil checks for unavailable game state
-6. Identify owner-scoped resources and any shared/live setting that must be restored in `terminate()`
-7. Keep errors observable, callbacks bounded, and validation/test output stating PASS or FAIL explicitly
+2. Resolve every named record under [Table Contracts](/docs/guides/table-contracts) before reading or constructing it; copy field names exactly
+3. Prefer the highest-level matching wrapper (`Cavebot`, `Hotkeys`, `Cooldowns`, `Spells`, `Sound`, `Storage`, or a HUD class)
+4. Use `Engine.<Feature>` only for explicit feature configuration or actions; call a setter rather than editing a getter snapshot
+5. Choose `init`, `Module.Every`, `Module.After` / `Events.Schedule`, or an event proxy based on whether the work is immediate, repeating, one-shot, or event-driven
+6. Add capability checks for architecture/client-version-specific functions and nil checks for unavailable game state
+7. Identify owner-scoped resources and any shared/live setting that must be restored in `terminate()`
+8. Keep errors observable, event callbacks on the critical path, and validation/test output stating PASS or FAIL explicitly
 
 Example prompt:
 
-> Generate a production-safe ValidusBot Lua script using only exact APIs from the attached documentation and its API appendix. Goal: [describe goal]. Prefer canonical high-level wrappers, validate live values, use managed yielding/scheduling, keep callbacks bounded, and let unexpected module errors reach the runtime. Use Alt only for synthetic SendCombo calls. Return one complete `.lua` file with explicit diagnostic logging and no invented APIs.
+> Generate a production-safe ValidusBot Lua script using only exact APIs from the attached documentation and its API appendix. Goal: [describe goal]. Resolve every named table record and copy its case-sensitive fields exactly. Prefer canonical high-level wrappers, validate live values, and use managed yielding/scheduling. Every event/hook callback must be constant-time and non-yielding: never call Synchronize/main-thread helpers, lock, wait, perform network/storage work, or start one deferred task per event. Let unexpected module errors reach the runtime. Use Alt only for synthetic SendCombo calls. Return one complete `.lua` file with explicit diagnostic logging and no invented APIs.

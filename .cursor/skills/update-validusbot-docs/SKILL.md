@@ -97,6 +97,8 @@ API pages are generated. **Hand-written** pages must still track the spec:
 | --- | --- |
 | Runtime Model / Public Module Naming | `getting-started/overview.mdx`, `runtime.mdx`, `content/docs/index.mdx` |
 | Hard Rules / Safety Checklist / Template | `getting-started/safety.mdx`, `template.mdx` |
+| Event And Hook Callback Critical-Path Rule | `runtime.mdx`, `guides/events-hud.mdx`, `guides/cavebot.mdx`, `examples.mdx` |
+| Canonical Types And Exact Table Contracts | `guides/table-contracts.mdx`, relevant guides (`items-containers`, …) |
 | Practical Script Examples | `content/docs/examples.mdx` |
 | Core Libraries Overview (per module) | Matching guide in `content/docs/guides/` |
 | Engine feature-control API | `guides/engine-features.mdx` |

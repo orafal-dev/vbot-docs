@@ -1,0 +1,57 @@
+---
+title: Table Contracts
+description: Exact field names for API tables, options, and callback payloads
+---
+
+Named `table` inputs, getter snapshots, and callback payloads follow **exact, case-sensitive** field contracts from the scripting spec. Never invent aliases such as `item.id`, `item.slot`, or `container.index`.
+
+Typed signatures in the [API Reference](/docs/api-reference) use these record names. When a function returns or accepts a named type, copy its fields exactly.
+
+## Reading rules
+
+| Rule | Detail |
+| --- | --- |
+| Required fields | A field is required unless its name ends in `?` |
+| Arrays | `T[]` means a contiguous **1-based** Lua array |
+| Maps | `table<K, V>` is a key/value map |
+| Case | Field names are case-sensitive (`Directions` on path results is intentional) |
+| Snapshots | Getter tables are detached — mutating them does not change the bot |
+
+## Common value types
+
+```text
+Position = { x: integer, y: integer, z: integer }
+ScreenPosition = { x: number, y: number }
+ColorRGBA = { r: integer, g: integer, b: integer, a: integer }  -- each 0..255
+```
+
+`PositionLike` is a `Position` or a plain table with the same `x` / `y` / `z` fields.
+
+## Item and container fields
+
+| Record | Correct fields | Do not use |
+| --- | --- | --- |
+| `ObjectInfo` / map tile item | `itemId`, `stackPosition`, `count`, flag booleans | `id`, `slot` |
+| `ContainerItem` | `itemId`, `slotIndex` (0-based), `count`, `tierLevel` | `id`, `slot`, `index` |
+| `ContainerFindResult` | `itemId`, `itemSlot`, `itemQuantity`, `containerNumber` | `slotIndex`, `count` |
+| `ContainerSummary` | `containerNumber`, `containerId`, `name`, `size`, … | An `items` array (summaries omit it) |
+
+`Container.GetOpenContainers()` returns summaries without `items`. Use `Container.GetByNumber` / `GetByName` / `GetById` for a snapshot that includes `items`.
+
+## Path results
+
+`Map.FindPath` / `Minimap.FindPath` return:
+
+```text
+MapPathResult = {
+    Directions: integer[],   -- MoveDirection values; capital D is intentional
+    pathFindResult: integer  -- PathFindResult value
+}
+```
+
+## Where to look next
+
+- Full contracts live in the upstream LLM scripting spec under **Canonical Types And Exact Table Contracts**
+- Per-function typed signatures: [API Reference](/docs/api-reference)
+- Item / container walkthrough: [Items & Containers](/docs/guides/items-containers)
+- Callback payloads must still obey the [event critical-path rule](/docs/guides/events-hud#event-callback-critical-path)

@@ -18,9 +18,66 @@ Prefer high-level `Hotkeys`, `Cavebot`, and proxy APIs when one matches the task
 | `Events.UnregisterKeyEvent` / `UnregisterPacketEvent` / `UnregisterWalkerEvent` | Singular unregister (stale/foreign IDs return `false`) |
 | `Events.UnregisterAllKeyEvents` / `UnregisterAllPacketEvents` / `UnregisterAllWalkerEvents` | Clear this script's registrations |
 
-All registrations are owned by the current script and removed when it stops. Scheduled callbacks run as managed coroutines and may yield. An event callback is disabled after three consecutive uncaught failures. At most 64 event callbacks may be pending per script.
+All registrations are owned by the current script and removed when it stops. Scheduled callbacks from `Events.Schedule` run as managed coroutines and may yield. Key, packet, Walker, proxy, hotkey, and similar **event/hook** callbacks must stay on the [critical path](#event-callback-critical-path): constant-time, non-yielding, enqueue-and-return. An event callback is disabled after three consecutive uncaught failures. At most 64 event callbacks may be pending per script.
 
 Use `Hotkeys.RegisterCombo` for normal key combinations.
+
+## Event callback critical path
+
+Every covered callback must capture only the minimum already-decoded scalar state and return immediately. Yielding inside the callback does **not** free its pending-event slot; bursts that wait or do network I/O can trigger `runtime_action=drop_newest_event_callback`.
+
+| Do in the callback | Do not do in the callback |
+| --- | --- |
+| Validate fields already on the args | `wait`, `Http.*`, WebSocket connect/receive, sound wait helpers |
+| Copy strings / numbers / booleans | Storage, shared storage, profile save/load, `io.*` |
+| Set a flag, sequence, or `Time.MonotonicMs()` stamp | Invented Synchronize / main-thread / mutex helpers |
+| Overwrite one coalesced slot or append to a hard-bounded FIFO | Large JSON, full scans, pathfinding, recursive table walks |
+| One optional constant-time non-blocking game action | Per-event `Module.After` / `Events.Schedule` / new coroutines |
+
+Create one stable `Module.Every` worker in `init()`. Prefer a latest-value slot for level-triggered alerts; use a hard-bounded FIFO only when every event must be processed. Prefer native packet filters (`message_contains` on `GAME_SERVER_TEXT_MESSAGE`) before allocating Lua work.
+
+### Safe packet-to-worker pattern
+
+```lua
+local SCRIPT_ID = "discord_afk_alert"
+local WEBHOOK_URL = "REPLACE_WITH_DISCORD_WEBHOOK_URL"
+local pendingMessage = nil
+
+Events.RegisterPacketEvent({
+    id = SCRIPT_ID,
+    packet_id = GameServerOpcodes.GAME_SERVER_TEXT_MESSAGE,
+    incoming = true,
+    message_contains = "afk check started",
+    message_case_sensitive = false,
+
+    callback = function(packet)
+        -- Critical path: use the documented direct field, coalesce, return.
+        if pendingMessage == nil and type(packet.message) == "string" then
+            pendingMessage = packet.message
+        end
+    end
+})
+
+function init()
+    Module.Every(SCRIPT_ID .. "_worker", function()
+        local message = pendingMessage
+        if message == nil then
+            return
+        end
+
+        pendingMessage = nil
+        local response = Http.PostJson(WEBHOOK_URL, {
+            content = message
+        }, {
+            timeoutMs = 8000
+        })
+
+        if not response.ok then
+            print("Discord request failed: " .. tostring(response.error))
+        end
+    end, 100)
+end
+```
 
 ## Event Proxies
 
@@ -56,11 +113,11 @@ Common pattern:
 ```lua
 local p = SomeProxy:New("unique_handler_name")
 p:OnReceive(function(proxy, ...)
-    -- handle event
+    -- Critical path only: coalesce scalars for a Module.Every worker
 end)
 ```
 
-Keep callbacks short and non-blocking. Use `Module.After` for deferred work.
+Keep proxy callbacks on the critical path. Put network, storage, and scans in a stable `Module.Every` worker.
 
 ## HUD Overlays
 

@@ -17,6 +17,12 @@ Core library: `sound.lua`
 
 #### `Sound.ClearQueue()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Sound.GetCurrentDuration()`
 
 **Returns**
@@ -45,7 +51,7 @@ Core library: `sound.lua`
 
 | Type | Description |
 | :-- | :-- |
-| `number` |  |
+| `integer` |  |
 
 #### `Sound.GetQueueSize()`
 
@@ -69,7 +75,7 @@ Core library: `sound.lua`
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `options` | `table` |  |  |
+| `options` | `SoundPlaybackOptions` |  |  |
 
 **Returns**
 
@@ -83,7 +89,13 @@ Core library: `sound.lua`
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `options` | `table` |  |  |
+| `options` | `SoundPlaybackOptions` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Sound.PlayAndWait(options, maxWaitMs)`
 
@@ -91,7 +103,7 @@ Core library: `sound.lua`
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `options` | `table` |  |  |
+| `options` | `SoundPlaybackOptions` |  |  |
 | `maxWaitMs` | `number` | Yes |  |
 
 **Returns**
@@ -109,14 +121,26 @@ Core library: `sound.lua`
 | `filename` | `string` |  |  |
 | `instant` | `boolean` | Yes |  |
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Sound.PlayById(soundId, instant)`
 
 **Parameters**
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `soundId` | `number` |  |  |
+| `soundId` | `integer` |  |  |
 | `instant` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Sound.PlayByIdSmart(soundId, instant)`
 
@@ -124,7 +148,7 @@ Core library: `sound.lua`
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `soundId` | `number` |  |  |
+| `soundId` | `integer` |  |  |
 | `instant` | `boolean` | Yes |  |
 
 **Returns**
@@ -141,6 +165,12 @@ Core library: `sound.lua`
 | :-- | :-- | :--: | :-- |
 | `soundName` | `string` |  |  |
 | `instant` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Sound.PlayByNameSmart(soundName, instant)`
 
@@ -166,6 +196,12 @@ Core library: `sound.lua`
 | `filePath` | `string` |  |  |
 | `instant` | `boolean` | Yes |  |
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Sound.PlayFileSmart(filePath, instant)`
 
 **Parameters**
@@ -189,9 +225,27 @@ Core library: `sound.lua`
 | :-- | :-- | :--: | :-- |
 | `delayMs` | `integer` |  |  |
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Sound.Stop()`
 
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
 #### `Sound.StopAll()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
 
 #### `Sound.WaitForCompletion(maxWaitMs)`
 

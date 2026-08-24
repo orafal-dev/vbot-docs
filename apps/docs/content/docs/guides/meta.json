@@ -13,6 +13,7 @@
     "storage",
     "communication",
     "events-hud",
+    "table-contracts",
     "constants"
   ]
 }
