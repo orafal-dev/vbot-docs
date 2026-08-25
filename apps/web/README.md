@@ -17,4 +17,4 @@ The small demo collection in `lib/scripts.ts` is available only during `next bui
 
 ## Vercel Microfrontends
 
-`microfrontends.json` uses the plausible Vercel project names `vbot-web` and `vbot-docs`. Replace those names and the `vbot-web.vercel.app` fallback with the actual projects before deployment. Package mappings remain `@vbot/web` and `@vbot/docs`; docs owns its `/docs`, search, Open Graph, and LLM text routes.
+`microfrontends.json` uses the plausible Vercel project names `vbot-web` and `vbot-docs`. Replace those names and the `vbot-web.vercel.app` fallback with the actual projects before deployment. Package mappings remain `@vbot/web` and `@vbot/docs`; docs owns its `/docs`, search, Ask AI chat (`/api/chat`), Open Graph, and LLM text routes.

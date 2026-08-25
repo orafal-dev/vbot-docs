@@ -17,6 +17,7 @@
             "/docs",
             "/docs/:path*",
             "/api/search",
+            "/api/chat",
             "/og/docs/:path*",
             "/llms.mdx/docs/:path*",
             "/llms.txt",
