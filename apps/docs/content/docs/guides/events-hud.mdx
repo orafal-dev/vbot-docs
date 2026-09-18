@@ -90,7 +90,7 @@ proxy:OnReceive(function(p, message)
 end)
 ```
 
-Available proxies and callback arguments after `proxy`:
+### High-level message / state proxies
 
 | Proxy | Callback args |
 | --- | --- |
@@ -107,6 +107,32 @@ Available proxies and callback arguments after `proxy`:
 | `CreatureAddProxy` | `creatureId, creatureName, position` |
 | `CreatureRemoveProxy` | `creatureId` |
 | `DeathProxy` | _(none)_ |
+
+Only the three text-message proxies above currently receive decoded fields from the native serializer. Container / stats / skills / creature / death proxies may still get `nil` or empty values — treat them as unavailable until matching decoders land. Prefer the documented `Events.RegisterPacketEvent` payloads when one matches.
+
+### Opcode packet proxies
+
+`PacketEventProxy` wraps one or more opcodes for incoming or outgoing traffic. Convenience subclasses pin common opcodes:
+
+| Proxy | Direction | Typical opcodes |
+| --- | --- | --- |
+| `IncomingPacketProxy` / `OutgoingPacketProxy` | choose via ctor | any `packet_id` (byte or array) |
+| `TextMessagePacketProxy`, `TalkPacketProxy`, … | incoming | matching `GameServerOpcodes.*` |
+| `ClientLookPacketProxy`, `ClientMovementPacketProxy`, `ClientTalkPacketProxy`, … | outgoing | matching `ClientOpcodes.*` |
+
+```lua
+local move = ClientMovementPacketProxy:New("watch_steps")
+move:OnSend(function(proxy, packet)
+    -- Critical path only
+end)
+
+local custom = PacketEventProxy:New("stash_watch", CurrentClientOpcodes.CLIENT_STASH_WITHDRAW, false)
+custom:OnPacket(function(proxy, packet)
+    -- Direction-agnostic callback
+end)
+```
+
+Use `OnReceive` for incoming proxies, `OnSend` for outgoing, or `OnPacket` for either. Call `Unregister()` when finished. Prefer `CurrentClientOpcodes` / `CurrentGameServerOpcodes` for modern protocol bytes; legacy `ClientOpcodes` / `GameServerOpcodes` remain for older profiles.
 
 Common pattern:
 

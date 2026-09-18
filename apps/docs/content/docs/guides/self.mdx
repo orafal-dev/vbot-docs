@@ -56,15 +56,20 @@ end
 | `Self.GetFollowId()` | Follow creature ID |
 | `Self.IsInCombat()` | In combat state |
 | `Self.IsInProtectionZone()` | Inside PZ |
+| `Self.IsPzBlocked()` | Protection-zone block |
 | `Self.IsInRestingArea()` | In resting area |
 
 ### Condition flags
 
 `Self` exposes boolean status checks for common conditions:
 
-`IsBleeding`, `IsBurning`, `IsCursed`, `IsDazzled`, `IsDrowning`, `IsDrunk`, `IsElectrified`, `IsFeared`, `IsFreezing`, `IsHasted`, `IsHungry`, `IsManaShielded`, `IsParalyzed`, `IsPoisoned`, `IsRooted`, `IsStrengthened`
+`IsBleeding`, `IsBurning`, `IsCursed`, `IsDazzled`, `IsDrowning`, `IsDrunk`, `IsElectrified`, `IsFeared`, `IsFreezing`, `IsHasted`, `IsHungry`, `IsManaShielded`, `IsParalyzed`, `IsPoisoned`, `IsPowerless`, `IsRooted`, `IsStrengthened`
 
-Use `Self.GetStatusFlagsSnapshot()` or `Self.GetStatsSnapshot()` for aggregated data.
+Additional hex / taint / shield helpers:
+
+`HasLesserHex`, `HasIntenseHex`, `HasGreaterHex`, `HasGoshnarTaint1`…`HasGoshnarTaint5`, `HasNewManaShield`, `HasAgony`, `HasMentorOther`
+
+Use `Self.HasCharacterFlag(flag)` with a `CharacterFlag.*` value (or raw position `0..31`) for a generic check. Prefer `Self.GetStatusFlagsSnapshot()` or `Self.GetStatsSnapshot()` for aggregated data — see [Table Contracts](/docs/guides/table-contracts) for the exact snapshot fields.
 
 ## Actions
 

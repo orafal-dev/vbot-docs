@@ -65,7 +65,41 @@ See [Spells & Cooldowns](/docs/guides/spells-cooldowns) for `CooldownGroupId`.
 | `ItemCategory` | Item categories |
 | `GuildShield` / `PartyShield` | Shield icons |
 | `VipFlag` | VIP list flags |
-| `CharacterFlag` | Character flags |
+| `CharacterFlag` | Character condition flag positions (`0..29`, plus `COUNT`) |
+
+### CharacterFlag
+
+Use with `Self.HasCharacterFlag(flag)` or the matching `Self.Is*` / `Self.Has*` helpers:
+
+| Constant | Value |
+| --- | --- |
+| `CharacterFlag.POISONED` | 0 |
+| `CharacterFlag.BURNING` | 1 |
+| `CharacterFlag.ELECTRIFIED` | 2 |
+| `CharacterFlag.DRUNK` | 3 |
+| `CharacterFlag.MANA_SHIELDED` | 4 |
+| `CharacterFlag.PARALYSED` | 5 |
+| `CharacterFlag.HASTED` | 6 |
+| `CharacterFlag.IN_COMBAT` | 7 |
+| `CharacterFlag.DROWNING` | 8 |
+| `CharacterFlag.FREEZING` | 9 |
+| `CharacterFlag.DAZZLED` | 10 |
+| `CharacterFlag.CURSED` | 11 |
+| `CharacterFlag.STRENGTHENED` | 12 |
+| `CharacterFlag.PZ_BLOCK` | 13 |
+| `CharacterFlag.IN_PROTECTION_ZONE` | 14 |
+| `CharacterFlag.BLEEDING` | 15 |
+| `CharacterFlag.LESSER_HEX` | 16 |
+| `CharacterFlag.INTENSE_HEX` | 17 |
+| `CharacterFlag.GREATER_HEX` | 18 |
+| `CharacterFlag.ROOTED` | 19 |
+| `CharacterFlag.FEARED` | 20 |
+| `CharacterFlag.GOSHNAR_TAINT_1`…`GOSHNAR_TAINT_5` | 21–25 |
+| `CharacterFlag.NEW_MANA_SHIELD` | 26 |
+| `CharacterFlag.AGONY` | 27 |
+| `CharacterFlag.POWERLESS` | 28 |
+| `CharacterFlag.MENTOR_OTHER` | 29 |
+| `CharacterFlag.COUNT` | 30 |
 
 ## Messages and effects
 
@@ -81,6 +115,8 @@ See [Spells & Cooldowns](/docs/guides/spells-cooldowns) for `CooldownGroupId`.
 ## Network opcodes
 
 Advanced scripts may reference packet IDs from `lua_consts`. Prefer the named constants over raw numbers.
+
+Modern protocol profiles also expose `CurrentClientOpcodes` and `CurrentGameServerOpcodes`. Some bytes intentionally alias different meanings across protocol generations — use the table that matches the client you target. Prefer these current tables for new packet proxies; keep legacy `ClientOpcodes` / `GameServerOpcodes` when a script must stay compatible with older profiles.
 
 ### GameServerOpcodes
 
@@ -329,6 +365,6 @@ Bit mask for Walker Special Areas (also mirrored on `Cavebot.Walker.SpecialAreaF
 
 The constants module exports these tables (no functions):
 
-`CharacterFlag`, `ChaseMode`, `ClientOpcodes`, `CombatParam`, `CooldownGroupId`, `CreatureIcon`, `CreatureType`, `EquipmentSlot`, `FightMode`, `GameServerOpcodes`, `GuildShield`, `ItemCategory`, `MagicEffectClasses`, `MessageClasses`, `MessageMode`, `MoveDirection`, `PartyShield`, `PathFindFlags`, `PathFindResult`, `PlayerAvatarOutfitIds`, `PrintMessagePosition`, `PVPMode`, `RotateDirection`, `ShootType`, `Skill`, `Skull`, `SpeakClasses`, `SpecialAreaFeature`, `VipFlag`, `Vocation`, `WalkerEvent`
+`CharacterFlag`, `ChaseMode`, `ClientOpcodes`, `CurrentClientOpcodes`, `CurrentGameServerOpcodes`, `CombatParam`, `CooldownGroupId`, `CreatureIcon`, `CreatureType`, `EquipmentSlot`, `FightMode`, `GameServerOpcodes`, `GuildShield`, `ItemCategory`, `MagicEffectClasses`, `MessageClasses`, `MessageMode`, `MoveDirection`, `PartyShield`, `PathFindFlags`, `PathFindResult`, `PlayerAvatarOutfitIds`, `PrintMessagePosition`, `PVPMode`, `RotateDirection`, `ShootType`, `Skill`, `Skull`, `SpeakClasses`, `SpecialAreaFeature`, `VipFlag`, `Vocation`, `WalkerEvent`
 
 See [Constants API Reference](/docs/api-reference/constants) for the module index.

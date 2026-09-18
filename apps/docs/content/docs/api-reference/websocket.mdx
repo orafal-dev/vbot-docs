@@ -9,8 +9,67 @@ Core library: `websocket.lua`
 
 - `WebSocket`
 - `WebSocketConnection`
+- `Connection`
 
 ## Functions
+
+### Connection
+
+#### `Connection:Close(closeCode, reason)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `closeCode` | `integer` | Yes |  |
+| `reason` | `string` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
+
+#### `Connection:IsOpen()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Connection:Receive(timeoutMs)`
+
+Waits for text, binary, close, error, or timeout event data.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `timeoutMs` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `table` |  |
+
+#### `Connection:Send(data, binary)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `data` | `string` |  |  |
+| `binary` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
 
 ### WebSocket
 

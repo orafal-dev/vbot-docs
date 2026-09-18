@@ -9,8 +9,22 @@ Core library: `features.lua`
 
 - `Features`
 - `BotFeatureId`
+- `featuresIsActive`
+- `featuresEnable`
+- `featuresDisable`
+- `featuresToggle`
+- `featuresSetActive`
+- `featuresGetName`
+- `featuresGetAllFeatureIds`
+- `featuresGetActiveFeatures`
+- `featuresEnableMultiple`
+- `featuresDisableMultiple`
+- `featuresDisableAllExcept`
+- `featuresPrintStatus`
 
 ## Functions
+
+### Features
 
 #### `Features.Disable(featureIdentifier)`
 
@@ -172,6 +186,105 @@ Sets a feature to a specific active state
 | `boolean` | active |
 
 #### `Features.Toggle(featureIdentifier)`
+
+Toggles a feature's state (on -> off, off -> on)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | active |
+
+### General
+
+#### `featuresDisable(featureIdentifier)`
+
+Disables a feature (turns it off)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | active |
+
+#### `featuresDisableAllExcept(ExcludeList)`
+
+Disables all features except those in the exclusion list
+
+#### `featuresDisableMultiple(featureList)`
+
+Disables multiple features at once
+
+#### `featuresEnable(featureIdentifier)`
+
+Enables a feature (turns it on)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | active |
+
+#### `featuresEnableMultiple(featureList)`
+
+Enables multiple features at once
+
+#### `featuresGetActiveFeatures()`
+
+Returns a list of all currently active features
+
+#### `featuresGetAllFeatureIds()`
+
+Returns a list of all available feature IDs
+
+#### `featuresGetName(featureIdentifier)`
+
+Gets the human-readable name of a feature
+
+#### `featuresIsActive(featureIdentifier)`
+
+Checks if a feature is currently active/enabled
+
+#### `featuresPrintStatus()`
+
+Prints the status of all features
+
+#### `featuresSetActive(featureIdentifier, activeStatus)`
+
+Sets a feature to a specific active state
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `featureIdentifier` | `integer\|string` |  |  |
+| `activeStatus` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | active |
+
+#### `featuresToggle(featureIdentifier)`
 
 Toggles a feature's state (on -> off, off -> on)
 

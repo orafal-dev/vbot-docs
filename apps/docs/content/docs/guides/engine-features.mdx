@@ -193,9 +193,13 @@ Additional setters cover player/GM/skull filters, damage-taken range, and alarm 
 | `Engine.AmmoRefill.Add(ammoData)` | Add entry |
 | `Engine.AmmoRefill.Remove(index)` | Remove entry |
 | `Engine.AmmoRefill.SetEntryEnabled` / `SetEntryItemId` / `SetEntryThreshold` | Explicit field setters |
-| `Engine.AmmoRefill.GetProfileNames()` | Available profiles |
-| `Engine.AmmoRefill.SetProfile(indexOrName)` | Switch profile |
-| `Engine.AmmoRefill.AddProfile(name)` / `RemoveProfile(...)` | Manage profiles |
+| `Engine.AmmoRefill.GetProfileCount()` / `GetProfiles()` / `GetProfileNames()` | Profile inventory |
+| `Engine.AmmoRefill.GetActiveProfile()` / `GetCurrentProfile()` | Active profile summary |
+| `Engine.AmmoRefill.SetActiveProfile` / `SetCurrentProfile` / `SetProfile` | Switch profile by index or name |
+| `Engine.AmmoRefill.NextProfile()` | Cycle to the next profile |
+| `Engine.AmmoRefill.AddProfile(name?)` / `RemoveProfile` / `RenameProfile` | Manage profiles |
+
+`Engine.MagicShooter`, `Engine.Targeting`, and `Engine.EquipmentManager` expose the same profile helpers (`GetProfiles`, `GetActiveProfile` / `GetCurrentProfile`, `SetActiveProfile` / `SetCurrentProfile`, `NextProfile`, `AddProfile`, `RemoveProfile`, `RenameProfile`, `FindProfileByName`).
 
 ## Other feature namespaces
 

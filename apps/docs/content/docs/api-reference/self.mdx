@@ -400,9 +400,136 @@ Returns attacked creature id.
 | :-- | :-- |
 | `integer\|nil` |  |
 
+#### `Self.HasAgony()`
+
+Returns true if the agony flag is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasCharacterFlag(flag)`
+
+Returns whether a character-condition flag position is active.
+Named CharacterFlag values and raw integer positions 0..31 are accepted.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `flag` | `integer` |  | CharacterFlag value or raw 32-bit status-mask position |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
 #### `Self.HasFollow()`
 
 Returns true when follow id is valid (>0).
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasGoshnarTaint1()`
+
+Returns true if Goshnar taint flag 1 is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasGoshnarTaint2()`
+
+Returns true if Goshnar taint flag 2 is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasGoshnarTaint3()`
+
+Returns true if Goshnar taint flag 3 is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasGoshnarTaint4()`
+
+Returns true if Goshnar taint flag 4 is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasGoshnarTaint5()`
+
+Returns true if Goshnar taint flag 5 is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasGreaterHex()`
+
+Returns true if the greater hex flag is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasIntenseHex()`
+
+Returns true if the intense hex flag is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasLesserHex()`
+
+Returns true if the lesser hex flag is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasMentorOther()`
+
+Returns true if the mentor-other flag is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.HasNewManaShield()`
+
+Returns true if the modern mana-shield flag is active.
 
 **Returns**
 
@@ -633,6 +760,26 @@ Returns true if character is paralyzed.
 #### `Self.IsPoisoned()`
 
 Returns true if character is poisoned.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsPowerless()`
+
+Returns true if the powerless flag is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean\|nil` |  |
+
+#### `Self.IsPzBlocked()`
+
+Returns true if the character has a protection-zone block.
 
 **Returns**
 

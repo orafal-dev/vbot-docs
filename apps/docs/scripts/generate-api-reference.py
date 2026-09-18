@@ -81,7 +81,14 @@ MODULE_TITLES = {
     "websocket.lua": "WebSocket",
 }
 
-FUNCTION_DEF = re.compile(r"^function\s+([\w.:]+)\s*\(")
+# Skip bootstrap / non-public core files even if present on disk.
+SKIP_CORE_ONLY_FILES = {
+    "zz_api_surface.lua",
+}
+
+FUNCTION_DEF = re.compile(r"^function\s+([\w.:]+)\s*\((.*)\)\s*$")
+CONSTANT_TABLE_START = re.compile(r"^([A-Za-z_][\w]*)\s*=\s*\{(.*)$")
+CONSTANT_TABLE_ENTRY = re.compile(r"^([A-Za-z_][\w]*)\s*=\s*(.+?)\s*,?\s*$")
 DOC_LINE = re.compile(r"^---(.*)$")
 PARAM_TAG = re.compile(r"^@param\s+([\w]+)(\?)?\s+(\S+)(?:\s+(.*))?$")
 RETURN_TAG = re.compile(r"^@return\s+(.+)$")
@@ -252,6 +259,223 @@ def parse_lua_docs(lua_path: Path) -> dict[str, FunctionDoc]:
             docs[function_name] = parsed
 
     return docs
+
+
+def list_lua_functions(lua_path: Path) -> list[ParsedAppendixEntry]:
+    """Inventory public `function Module.Name(...)` definitions from a core file."""
+    if not lua_path.is_file():
+        return []
+
+    entries: list[ParsedAppendixEntry] = []
+    seen: set[str] = set()
+    lines = lua_path.read_text(encoding="utf-8", errors="replace").splitlines()
+
+    for line in lines:
+        match = FUNCTION_DEF.match(line.strip())
+        if not match:
+            continue
+
+        name = match.group(1).strip()
+        if name in seen:
+            continue
+        seen.add(name)
+
+        raw_params = (match.group(2) or "").strip()
+        params, display_names = parse_param_list(raw_params)
+        entries.append(
+            ParsedAppendixEntry(
+                kind="function",
+                name=name,
+                signature=f"{name}({raw_params})",
+                display_signature=f"{name}({', '.join(display_names)})",
+                params=params,
+                returns=[],
+            )
+        )
+
+    return entries
+
+
+def parse_lua_constant_tables(lua_path: Path) -> list[ParsedAppendixEntry]:
+    """Parse top-level `Name = { KEY = value, ... }` tables into appendix constants."""
+    if not lua_path.is_file():
+        return []
+
+    entries: list[ParsedAppendixEntry] = []
+    lines = lua_path.read_text(encoding="utf-8", errors="replace").splitlines()
+    current_table: str | None = None
+    nested_depth = 0
+
+    def append_entry(table: str, key: str, value: str) -> None:
+        value = value.strip().rstrip(",").strip()
+        if not value or value.startswith("--") or "=" in value or "{" in value:
+            return
+        if "--" in value:
+            value = value.split("--", 1)[0].strip().rstrip(",")
+        if not value:
+            return
+        constant_name = f"{table}.{key}"
+        entries.append(
+            ParsedAppendixEntry(
+                kind="constant",
+                constant_name=constant_name,
+                constant_value=value,
+                signature=f"{constant_name} = {value}",
+            )
+        )
+
+    def parse_inline_body(table: str, body: str) -> None:
+        for part in body.split(","):
+            part = part.strip()
+            if not part or part.startswith("--"):
+                continue
+            entry = re.match(r"^([A-Za-z_][\w]*)\s*=\s*(.+?)\s*$", part)
+            if not entry:
+                continue
+            append_entry(table, entry.group(1), entry.group(2))
+
+    for raw_line in lines:
+        line = raw_line.strip()
+        if not line or line.startswith("--"):
+            continue
+
+        if current_table is None:
+            start = CONSTANT_TABLE_START.match(line)
+            if not start:
+                continue
+
+            table_name = start.group(1)
+            remainder = start.group(2).strip()
+
+            # Single-line table: Name = { A = 1, B = 2 }
+            if "}" in remainder:
+                body = remainder[: remainder.rindex("}")]
+                parse_inline_body(table_name, body)
+                continue
+
+            current_table = table_name
+            nested_depth = 0
+            continue
+
+        if nested_depth > 0:
+            nested_depth += line.count("{") - line.count("}")
+            if nested_depth <= 0:
+                nested_depth = 0
+            continue
+
+        if line.startswith("}"):
+            current_table = None
+            nested_depth = 0
+            continue
+
+        if "{" in line:
+            nested_depth = line.count("{") - line.count("}")
+            if nested_depth < 0:
+                nested_depth = 0
+            continue
+
+        entry = CONSTANT_TABLE_ENTRY.match(line)
+        if not entry:
+            continue
+        append_entry(current_table, entry.group(1), entry.group(2))
+
+    return entries
+
+
+def derive_exported_names(
+    functions: list[ParsedAppendixEntry], constants: list[ParsedAppendixEntry]
+) -> list[str]:
+    roots: OrderedDict[str, None] = OrderedDict()
+    for fn in functions:
+        root = fn.name.split(":", 1)[0].split(".", 1)[0]
+        roots[root] = None
+    for const in constants:
+        root = const.constant_name.split(".", 1)[0]
+        roots[root] = None
+    return list(roots.keys())
+
+
+def enrich_function_from_lua_doc(
+    entry: ParsedAppendixEntry, lua_doc: FunctionDoc | None
+) -> ParsedAppendixEntry:
+    if not lua_doc or not lua_doc.has_content:
+        return entry
+
+    if lua_doc.params:
+        entry.params = list(lua_doc.params)
+        entry.display_signature = (
+            f"{entry.name}({', '.join(param.name for param in entry.params)})"
+        )
+
+    if lua_doc.returns:
+        entry.returns = []
+        for ret in lua_doc.returns:
+            type_part, _ = split_return_raw(ret.raw)
+            entry.returns.append(type_part or ret.raw)
+
+    return entry
+
+
+def merge_core_into_module(module: dict, core_dir: Path) -> None:
+    """Fill appendix gaps from installed core (functions + constant tables)."""
+    lua_path = core_dir / module["filename"]
+    if not lua_path.is_file():
+        return
+
+    lua_docs = parse_lua_docs(lua_path)
+    existing_functions = {fn.name for fn in module["functions"]}
+    for entry in list_lua_functions(lua_path):
+        if entry.name in existing_functions:
+            continue
+        lua_doc = lookup_lua_doc(lua_docs, entry.name)
+        module["functions"].append(enrich_function_from_lua_doc(entry, lua_doc))
+        existing_functions.add(entry.name)
+
+    if module["filename"] == "lua_consts.lua":
+        existing_constants = {const.constant_name for const in module["constants"]}
+        for const in parse_lua_constant_tables(lua_path):
+            if const.constant_name in existing_constants:
+                continue
+            module["constants"].append(const)
+            existing_constants.add(const.constant_name)
+
+    if not module["exported"]:
+        module["exported"] = derive_exported_names(module["functions"], module["constants"])
+    else:
+        for name in derive_exported_names(module["functions"], module["constants"]):
+            if name not in module["exported"]:
+                module["exported"].append(name)
+
+
+def build_core_only_module(filename: str, core_dir: Path) -> dict | None:
+    """Build an appendix-shaped module for a public core file missing from the spec."""
+    if filename in SKIP_CORE_ONLY_FILES:
+        return None
+
+    lua_path = core_dir / filename
+    if not lua_path.is_file():
+        return None
+
+    lua_docs = parse_lua_docs(lua_path)
+    functions = [
+        enrich_function_from_lua_doc(entry, lookup_lua_doc(lua_docs, entry.name))
+        for entry in list_lua_functions(lua_path)
+    ]
+    constants = (
+        parse_lua_constant_tables(lua_path) if filename == "lua_consts.lua" else []
+    )
+    if not functions and not constants:
+        return None
+
+    return {
+        "filename": filename,
+        "exported": derive_exported_names(functions, constants),
+        "functions": functions,
+        "constants": constants,
+        "notes": [
+            "Included from installed Scripts/core; not yet present in the upstream appendix."
+        ],
+    }
 
 
 def parse_param_list(raw_params: str) -> tuple[list[ParamDoc], list[str]]:
@@ -670,6 +894,18 @@ def main() -> None:
     core_dir = resolve_core_scripts_dir()
     text = SPEC_PATH.read_text(encoding="utf-8")
     modules = parse_appendix(text)
+
+    for module in modules:
+        merge_core_into_module(module, core_dir)
+
+    appendix_filenames = {module["filename"] for module in modules}
+    for filename in MODULE_SLUGS:
+        if filename in appendix_filenames:
+            continue
+        core_module = build_core_only_module(filename, core_dir)
+        if core_module is not None:
+            modules.append(core_module)
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     known_slugs = {
@@ -696,6 +932,7 @@ def main() -> None:
         "Each page corresponds to one core library file loaded from the bot's `Scripts/core` directory.",
         "Function descriptions, parameters, and return values are extracted from Lua `---` annotation blocks when present,",
         "and from typed signatures in the public API appendix otherwise.",
+        "Installed core files that are ahead of the upstream appendix are merged in automatically.",
         "",
         "## Modules",
         "",

@@ -25,6 +25,23 @@ Core library: `lua_consts.lua`
 - `VipFlag`
 - `Vocation`
 - `WalkerEvent`
+- `GameServerOpcodes`
+- `ClientOpcodes`
+- `CurrentClientOpcodes`
+- `CurrentGameServerOpcodes`
+- `MagicEffectsType`
+- `WeaponProficiencyAction`
+- `WeaponProficiencyBonus`
+- `WeaponProficiencySkillPercentage`
+- `WeaponProficiencySpellBoost`
+- `WeaponProficiencyHealth`
+- `WeaponProficiencyGain`
+- `WeaponProficiencyExperience`
+- `ImbuementType`
+- `BestiaryRace`
+- `CharmRune`
+- `RotateDirection`
+- `PlayerAvatarOutfitIds`
 
 ## Constants
 
@@ -49,6 +66,20 @@ Core library: `lua_consts.lua`
 | `CharacterFlag.POISONED` | `0` |
 | `CharacterFlag.ROOTED` | `19` |
 | `CharacterFlag.STRENGTHENED` | `12` |
+| `CharacterFlag.PZ_BLOCK` | `13` |
+| `CharacterFlag.LESSER_HEX` | `16` |
+| `CharacterFlag.INTENSE_HEX` | `17` |
+| `CharacterFlag.GREATER_HEX` | `18` |
+| `CharacterFlag.GOSHNAR_TAINT_1` | `21` |
+| `CharacterFlag.GOSHNAR_TAINT_2` | `22` |
+| `CharacterFlag.GOSHNAR_TAINT_3` | `23` |
+| `CharacterFlag.GOSHNAR_TAINT_4` | `24` |
+| `CharacterFlag.GOSHNAR_TAINT_5` | `25` |
+| `CharacterFlag.NEW_MANA_SHIELD` | `26` |
+| `CharacterFlag.AGONY` | `27` |
+| `CharacterFlag.POWERLESS` | `28` |
+| `CharacterFlag.MENTOR_OTHER` | `29` |
+| `CharacterFlag.COUNT` | `30` |
 
 ### `ChaseMode`
 
@@ -358,6 +389,600 @@ Core library: `lua_consts.lua`
 | `WalkerEvent.ON_ACTION` | `2` |
 | `WalkerEvent.ON_LABEL` | `0` |
 | `WalkerEvent.ON_WAYPOINT_CHANGE` | `1` |
+
+### `GameServerOpcodes`
+
+| Constant | Value |
+| :-- | :-- |
+| `GameServerOpcodes.NONE` | `0` |
+| `GameServerOpcodes.GAME_SERVER_INIT_GAME` | `10` |
+| `GameServerOpcodes.GAME_SERVER_GM_ACTIONS` | `11` |
+| `GameServerOpcodes.GAME_SERVER_ENTER_GAME` | `15` |
+| `GameServerOpcodes.GAME_SERVER_LOGIN_ERROR` | `20` |
+| `GameServerOpcodes.GAME_SERVER_LOGIN_ADVICE` | `21` |
+| `GameServerOpcodes.GAME_SERVER_LOGIN_WAIT` | `22` |
+| `GameServerOpcodes.GAME_SERVER_ADD_CREATURE` | `23` |
+| `GameServerOpcodes.GAME_SERVER_PING_BACK` | `29` |
+| `GameServerOpcodes.GAME_SERVER_PING` | `30` |
+| `GameServerOpcodes.GAME_SERVER_CHALLENGE` | `31` |
+| `GameServerOpcodes.GAME_SERVER_DEATH` | `40` |
+| `GameServerOpcodes.GAME_SERVER_EXTENDED_OPCODE` | `50` |
+| `GameServerOpcodes.GAME_SERVER_FULL_MAP` | `100` |
+| `GameServerOpcodes.GAME_SERVER_MAP_TOP_ROW` | `101` |
+| `GameServerOpcodes.GAME_SERVER_MAP_RIGHT_ROW` | `102` |
+| `GameServerOpcodes.GAME_SERVER_MAP_BOTTOM_ROW` | `103` |
+| `GameServerOpcodes.GAME_SERVER_MAP_LEFT_ROW` | `104` |
+| `GameServerOpcodes.GAME_SERVER_UPDATE_TILE` | `105` |
+| `GameServerOpcodes.GAME_SERVER_CREATE_ON_MAP` | `106` |
+| `GameServerOpcodes.GAME_SERVER_CHANGE_ON_MAP` | `107` |
+| `GameServerOpcodes.GAME_SERVER_DELETE_ON_MAP` | `108` |
+| `GameServerOpcodes.GAME_SERVER_MOVE_CREATURE` | `109` |
+| `GameServerOpcodes.GAME_SERVER_OPEN_CONTAINER` | `110` |
+| `GameServerOpcodes.GAME_SERVER_CLOSE_CONTAINER` | `111` |
+| `GameServerOpcodes.GAME_SERVER_CREATE_CONTAINER` | `112` |
+| `GameServerOpcodes.GAME_SERVER_CHANGE_IN_CONTAINER` | `113` |
+| `GameServerOpcodes.GAME_SERVER_DELETE_IN_CONTAINER` | `114` |
+| `GameServerOpcodes.GAME_SERVER_SET_INVENTORY` | `120` |
+| `GameServerOpcodes.GAME_SERVER_DELETE_INVENTORY` | `121` |
+| `GameServerOpcodes.GAME_SERVER_OPEN_NPC_TRADE` | `122` |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_GOODS` | `123` |
+| `GameServerOpcodes.GAME_SERVER_CLOSE_NPC_TRADE` | `124` |
+| `GameServerOpcodes.GAME_SERVER_OWN_TRADE` | `125` |
+| `GameServerOpcodes.GAME_SERVER_COUNTER_TRADE` | `126` |
+| `GameServerOpcodes.GAME_SERVER_CLOSE_TRADE` | `127` |
+| `GameServerOpcodes.GAME_SERVER_AMBIENT` | `130` |
+| `GameServerOpcodes.GAME_SERVER_GRAPHICAL_EFFECT` | `131` |
+| `GameServerOpcodes.GAME_SERVER_TEXT_EFFECT` | `132` |
+| `GameServerOpcodes.GAME_SERVER_MISSLE_EFFECT` | `133` |
+| `GameServerOpcodes.GAME_SERVER_MARK_CREATURE` | `134` |
+| `GameServerOpcodes.GAME_SERVER_TRAPPERS` | `135` |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_HEALTH` | `140` |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_LIGHT` | `141` |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_OUTFIT` | `142` |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_SPEED` | `143` |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_SKULL` | `144` |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_PARTY` | `145` |
+| `GameServerOpcodes.GAME_SERVER_CREATURE_UNPASS` | `146` |
+| `GameServerOpcodes.GAME_SERVER_EDIT_TEXT` | `150` |
+| `GameServerOpcodes.GAME_SERVER_EDIT_LIST` | `151` |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_DATA_BASIC` | `159` |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_DATA` | `160` |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_SKILLS` | `161` |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_STATE` | `162` |
+| `GameServerOpcodes.GAME_SERVER_CLEAR_TARGET` | `163` |
+| `GameServerOpcodes.GAME_SERVER_SPELL_DELAY` | `164` |
+| `GameServerOpcodes.GAME_SERVER_SPELL_GROUP_DELAY` | `165` |
+| `GameServerOpcodes.GAME_SERVER_MULTI_USE_DELAY` | `166` |
+| `GameServerOpcodes.GAME_SERVER_TALK` | `170` |
+| `GameServerOpcodes.GAME_SERVER_CHANNELS` | `171` |
+| `GameServerOpcodes.GAME_SERVER_OPEN_CHANNEL` | `172` |
+| `GameServerOpcodes.GAME_SERVER_OPEN_PRIVATE_CHANNEL` | `173` |
+| `GameServerOpcodes.GAME_SERVER_RULE_VIOLATION_CHANNEL` | `174` |
+| `GameServerOpcodes.GAME_SERVER_RULE_VIOLATION_REMOVE` | `175` |
+| `GameServerOpcodes.GAME_SERVER_RULE_VIOLATION_CANCEL` | `176` |
+| `GameServerOpcodes.GAME_SERVER_RULE_VIOLATION_LOCK` | `177` |
+| `GameServerOpcodes.GAME_SERVER_OPEN_OWN_CHANNEL` | `178` |
+| `GameServerOpcodes.GAME_SERVER_CLOSE_CHANNEL` | `179` |
+| `GameServerOpcodes.GAME_SERVER_TEXT_MESSAGE` | `180` |
+| `GameServerOpcodes.GAME_SERVER_CANCEL_WALK` | `181` |
+| `GameServerOpcodes.GAME_SERVER_WALK_WAIT` | `182` |
+| `GameServerOpcodes.GAME_SERVER_UNJUSTIFIED_POINTS` | `183` |
+| `GameServerOpcodes.GAME_SERVER_FLOOR_CHANGE_UP` | `190` |
+| `GameServerOpcodes.GAME_SERVER_FLOOR_CHANGE_DOWN` | `191` |
+| `GameServerOpcodes.GAME_SERVER_CHOOSE_OUTFIT` | `200` |
+| `GameServerOpcodes.GAME_SERVER_VIP_ADD` | `210` |
+| `GameServerOpcodes.GAME_SERVER_VIP_LOGIN` | `211` |
+| `GameServerOpcodes.GAME_SERVER_VIP_LOGOUT` | `212` |
+| `GameServerOpcodes.GAME_SERVER_TUTORIAL_HINT` | `220` |
+| `GameServerOpcodes.GAME_SERVER_AUTOMAP_FLAG` | `221` |
+| `GameServerOpcodes.GAME_SERVER_COIN_BALANCE` | `223` |
+| `GameServerOpcodes.GAME_SERVER_STORE_ERROR` | `224` |
+| `GameServerOpcodes.GAME_SERVER_REQUEST_PURCHASE_DATA` | `225` |
+| `GameServerOpcodes.GAME_SERVER_QUEST_LOG` | `240` |
+| `GameServerOpcodes.GAME_SERVER_QUEST_LINE` | `241` |
+| `GameServerOpcodes.GAME_SERVER_COIN_BALANCE_UPDATING` | `242` |
+| `GameServerOpcodes.GAME_SERVER_CHANNEL_EVENT` | `243` |
+| `GameServerOpcodes.GAME_SERVER_ITEM_INFO` | `244` |
+| `GameServerOpcodes.GAME_SERVER_PLAYER_INVENTORY` | `245` |
+| `GameServerOpcodes.GAME_SERVER_MARKET_ENTER` | `246` |
+| `GameServerOpcodes.GAME_SERVER_MARKET_LEAVE` | `247` |
+| `GameServerOpcodes.GAME_SERVER_MARKET_DETAIL` | `248` |
+| `GameServerOpcodes.GAME_SERVER_MARKET_BROWSE` | `249` |
+| `GameServerOpcodes.GAME_SERVER_SHOW_MODAL_DIALOG` | `250` |
+| `GameServerOpcodes.GAME_SERVER_STORE` | `251` |
+| `GameServerOpcodes.GAME_SERVER_STORE_OFFERS` | `252` |
+| `GameServerOpcodes.GAME_SERVER_STORE_TRANSACTION_HISTORY` | `253` |
+| `GameServerOpcodes.GAME_SERVER_STORE_COMPLETE_PURCHASE` | `254` |
+
+### `ClientOpcodes`
+
+| Constant | Value |
+| :-- | :-- |
+| `ClientOpcodes.CLIENT_ENTER_ACCOUNT` | `1` |
+| `ClientOpcodes.CLIENT_PENDING_GAME` | `10` |
+| `ClientOpcodes.CLIENT_ENTER_GAME` | `15` |
+| `ClientOpcodes.CLIENT_LEAVE_GAME` | `20` |
+| `ClientOpcodes.CLIENT_PING` | `29` |
+| `ClientOpcodes.CLIENT_PING_BACK` | `30` |
+| `ClientOpcodes.CLIENT_FIRST_GAME_OPCODE` | `50` |
+| `ClientOpcodes.CLIENT_EXTENDED_OPCODE` | `50` |
+| `ClientOpcodes.CLIENT_CHANGE_MAP_AWARE_RANGE` | `51` |
+| `ClientOpcodes.CLIENT_AUTO_WALK` | `100` |
+| `ClientOpcodes.CLIENT_WALK_NORTH` | `101` |
+| `ClientOpcodes.CLIENT_WALK_EAST` | `102` |
+| `ClientOpcodes.CLIENT_WALK_SOUTH` | `103` |
+| `ClientOpcodes.CLIENT_WALK_WEST` | `104` |
+| `ClientOpcodes.CLIENT_STOP` | `105` |
+| `ClientOpcodes.CLIENT_WALK_NORTH_EAST` | `106` |
+| `ClientOpcodes.CLIENT_WALK_SOUTH_EAST` | `107` |
+| `ClientOpcodes.CLIENT_WALK_SOUTH_WEST` | `108` |
+| `ClientOpcodes.CLIENT_WALK_NORTH_WEST` | `109` |
+| `ClientOpcodes.CLIENT_TURN_NORTH` | `111` |
+| `ClientOpcodes.CLIENT_TURN_EAST` | `112` |
+| `ClientOpcodes.CLIENT_TURN_SOUTH` | `113` |
+| `ClientOpcodes.CLIENT_TURN_WEST` | `114` |
+| `ClientOpcodes.CLIENT_EQUIP_ITEM` | `119` |
+| `ClientOpcodes.CLIENT_MOVE` | `120` |
+| `ClientOpcodes.CLIENT_INSPECT_NPC_TRADE` | `121` |
+| `ClientOpcodes.CLIENT_BUY_ITEM` | `122` |
+| `ClientOpcodes.CLIENT_SELL_ITEM` | `123` |
+| `ClientOpcodes.CLIENT_CLOSE_NPC_TRADE` | `124` |
+| `ClientOpcodes.CLIENT_REQUEST_TRADE` | `125` |
+| `ClientOpcodes.CLIENT_INSPECT_TRADE` | `126` |
+| `ClientOpcodes.CLIENT_ACCEPT_TRADE` | `127` |
+| `ClientOpcodes.CLIENT_REJECT_TRADE` | `128` |
+| `ClientOpcodes.CLIENT_USE_ITEM` | `130` |
+| `ClientOpcodes.CLIENT_USE_ITEM_WITH` | `131` |
+| `ClientOpcodes.CLIENT_USE_ON_CREATURE` | `132` |
+| `ClientOpcodes.CLIENT_ROTATE_ITEM` | `133` |
+| `ClientOpcodes.CLIENT_CLOSE_CONTAINER` | `135` |
+| `ClientOpcodes.CLIENT_UP_CONTAINER` | `136` |
+| `ClientOpcodes.CLIENT_EDIT_TEXT` | `137` |
+| `ClientOpcodes.CLIENT_EDIT_LIST` | `138` |
+| `ClientOpcodes.CLIENT_LOOK` | `140` |
+| `ClientOpcodes.CLIENT_LOOK_CREATURE` | `141` |
+| `ClientOpcodes.CLIENT_QUICK_LOOT` | `143` |
+| `ClientOpcodes.CLIENT_TALK` | `150` |
+| `ClientOpcodes.CLIENT_REQUEST_CHANNELS` | `151` |
+| `ClientOpcodes.CLIENT_JOIN_CHANNEL` | `152` |
+| `ClientOpcodes.CLIENT_LEAVE_CHANNEL` | `153` |
+| `ClientOpcodes.CLIENT_OPEN_PRIVATE_CHANNEL` | `154` |
+| `ClientOpcodes.CLIENT_OPEN_RULE_VIOLATION` | `155` |
+| `ClientOpcodes.CLIENT_CLOSE_RULE_VIOLATION` | `156` |
+| `ClientOpcodes.CLIENT_CANCEL_RULE_VIOLATION` | `157` |
+| `ClientOpcodes.CLIENT_CLOSE_NPC_CHANNEL` | `158` |
+| `ClientOpcodes.CLIENT_CHANGE_FIGHT_MODES` | `160` |
+| `ClientOpcodes.CLIENT_ATTACK` | `161` |
+| `ClientOpcodes.CLIENT_FOLLOW` | `162` |
+| `ClientOpcodes.CLIENT_INVITE_TO_PARTY` | `163` |
+| `ClientOpcodes.CLIENT_JOIN_PARTY` | `164` |
+| `ClientOpcodes.CLIENT_REVOKE_INVITATION` | `165` |
+| `ClientOpcodes.CLIENT_PASS_LEADERSHIP` | `166` |
+| `ClientOpcodes.CLIENT_LEAVE_PARTY` | `167` |
+| `ClientOpcodes.CLIENT_SHARE_EXPERIENCE` | `168` |
+| `ClientOpcodes.CLIENT_DISBAND_PARTY` | `169` |
+| `ClientOpcodes.CLIENT_OPEN_OWN_CHANNEL` | `170` |
+| `ClientOpcodes.CLIENT_INVITE_TO_OWN_CHANNEL` | `171` |
+| `ClientOpcodes.CLIENT_EXCLUDE_FROM_OWN_CHANNEL` | `172` |
+| `ClientOpcodes.CLIENT_CANCEL_ATTACK_AND_FOLLOW` | `190` |
+| `ClientOpcodes.CLIENT_UPDATE_TILE` | `201` |
+| `ClientOpcodes.CLIENT_REFRESH_CONTAINER` | `202` |
+| `ClientOpcodes.CLIENT_BROWSE_FIELD` | `203` |
+| `ClientOpcodes.CLIENT_SEEK_IN_CONTAINER` | `204` |
+| `ClientOpcodes.CLIENT_REQUEST_OUTFIT` | `210` |
+| `ClientOpcodes.CLIENT_CHANGE_OUTFIT` | `211` |
+| `ClientOpcodes.CLIENT_MOUNT` | `212` |
+| `ClientOpcodes.CLIENT_ADD_VIP` | `220` |
+| `ClientOpcodes.CLIENT_REMOVE_VIP` | `221` |
+| `ClientOpcodes.CLIENT_EDIT_VIP` | `222` |
+| `ClientOpcodes.CLIENT_BUG_REPORT` | `230` |
+| `ClientOpcodes.CLIENT_RULE_VIOLATION` | `231` |
+| `ClientOpcodes.CLIENT_DEBUG_REPORT` | `232` |
+| `ClientOpcodes.CLIENT_TRANSFER_COINS` | `239` |
+| `ClientOpcodes.CLIENT_REQUEST_QUEST_LOG` | `240` |
+| `ClientOpcodes.CLIENT_REQUEST_QUEST_LINE` | `241` |
+| `ClientOpcodes.CLIENT_NEW_RULE_VIOLATION` | `242` |
+| `ClientOpcodes.CLIENT_REQUEST_ITEM_INFO` | `243` |
+| `ClientOpcodes.CLIENT_MARKET_LEAVE` | `244` |
+| `ClientOpcodes.CLIENT_MARKET_BROWSE` | `245` |
+| `ClientOpcodes.CLIENT_MARKET_CREATE` | `246` |
+| `ClientOpcodes.CLIENT_MARKET_CANCEL` | `247` |
+| `ClientOpcodes.CLIENT_MARKET_ACCEPT` | `248` |
+| `ClientOpcodes.CLIENT_ANSWER_MODAL_DIALOG` | `249` |
+| `ClientOpcodes.CLIENT_OPEN_STORE` | `250` |
+| `ClientOpcodes.CLIENT_REQUEST_STORE_OFFERS` | `251` |
+| `ClientOpcodes.CLIENT_BUY_STORE_OFFER` | `252` |
+| `ClientOpcodes.CLIENT_OPEN_TRANSACTION_HISTORY` | `253` |
+| `ClientOpcodes.CLIENT_REQUEST_TRANSACTION_HISTORY` | `254` |
+
+### `CurrentClientOpcodes`
+
+| Constant | Value |
+| :-- | :-- |
+| `CurrentClientOpcodes.CLIENT_STASH_WITHDRAW` | `0x28` |
+| `CurrentClientOpcodes.CLIENT_RETRIEVE_DEPOT_SEARCH` | `0x29` |
+| `CurrentClientOpcodes.CLIENT_CYCLOPEDIA_MONSTER_TRACKER` | `0x2A` |
+| `CurrentClientOpcodes.CLIENT_PARTY_ANALYZER_ACTION` | `0x2B` |
+| `CurrentClientOpcodes.CLIENT_LEADER_FINDER_WINDOW` | `0x2C` |
+| `CurrentClientOpcodes.CLIENT_MEMBER_FINDER_WINDOW` | `0x2D` |
+| `CurrentClientOpcodes.CLIENT_SET_CLIENT_OPTIONS` | `0x2E` |
+| `CurrentClientOpcodes.CLIENT_PLAYER_TYPING` | `0x38` |
+| `CurrentClientOpcodes.CLIENT_TASK_BOARD` | `0x5F` |
+| `CurrentClientOpcodes.CLIENT_INVENTORY_IMBUEMENTS` | `0x60` |
+| `CurrentClientOpcodes.CLIENT_OPEN_WHEEL` | `0x61` |
+| `CurrentClientOpcodes.CLIENT_SAVE_WHEEL` | `0x62` |
+| `CurrentClientOpcodes.CLIENT_CHECK` | `0x63` |
+| `CurrentClientOpcodes.CLIENT_SET_VOCATION` | `0x6E` |
+| `CurrentClientOpcodes.CLIENT_TELEPORT` | `0x73` |
+| `CurrentClientOpcodes.CLIENT_OFFLINE_TRAINING` | `0x74` |
+| `CurrentClientOpcodes.CLIENT_CONTAINER_ACTION` | `0x75` |
+| `CurrentClientOpcodes.CLIENT_CHARACTER_TRADE_CONFIGURATION` | `0x76` |
+| `CurrentClientOpcodes.CLIENT_FRIEND_SYSTEM_ACTION` | `0x81` |
+| `CurrentClientOpcodes.CLIENT_CONFIGURE_SHOW_OFF_SOCKET` | `0x86` |
+| `CurrentClientOpcodes.CLIENT_WRAPABLE_ITEM` | `0x8B` |
+| `CurrentClientOpcodes.CLIENT_JOIN_AGGRESSION` | `0x8E` |
+| `CurrentClientOpcodes.CLIENT_LOOT_CONTAINER` | `0x90` |
+| `CurrentClientOpcodes.CLIENT_QUICK_LOOT_BLACK_WHITELIST` | `0x91` |
+| `CurrentClientOpcodes.CLIENT_OPEN_DEPOT_SEARCH` | `0x92` |
+| `CurrentClientOpcodes.CLIENT_CLOSE_DEPOT_SEARCH` | `0x93` |
+| `CurrentClientOpcodes.CLIENT_DEPOT_SEARCH_ITEM_REQUEST` | `0x94` |
+| `CurrentClientOpcodes.CLIENT_OPEN_PARENT_CONTAINER` | `0x95` |
+| `CurrentClientOpcodes.CLIENT_EDIT_GUILD_MESSAGE` | `0x9C` |
+| `CurrentClientOpcodes.CLIENT_GET_TEXT_FOR_REPORT` | `0x9D` |
+| `CurrentClientOpcodes.CLIENT_SET_MONSTER_PODIUM` | `0x9F` |
+| `CurrentClientOpcodes.CLIENT_CYCLOPEDIA_HOUSE_AUCTION` | `0xAD` |
+| `CurrentClientOpcodes.CLIENT_BOSSTIARY` | `0xAE` |
+| `CurrentClientOpcodes.CLIENT_BOSSTIARY_SLOTS` | `0xAF` |
+| `CurrentClientOpcodes.CLIENT_BOSSTIARY_SLOT` | `0xB0` |
+| `CurrentClientOpcodes.CLIENT_HIGHSCORES` | `0xB1` |
+| `CurrentClientOpcodes.CLIENT_IMBUEMENT_ACTION` | `0xB2` |
+| `CurrentClientOpcodes.CLIENT_WEAPON_PROFICIENCY` | `0xB3` |
+| `CurrentClientOpcodes.CLIENT_TASK_HUNTING_ACTION` | `0xBA` |
+| `CurrentClientOpcodes.CLIENT_SOUL_SEALS_FIGHT_MONSTER` | `0xBA` |
+| `CurrentClientOpcodes.CLIENT_FORGE_ENTER` | `0xBF` |
+| `CurrentClientOpcodes.CLIENT_FORGE_HISTORY` | `0xC0` |
+| `CurrentClientOpcodes.CLIENT_DETAILS` | `0xC1` |
+| `CurrentClientOpcodes.CLIENT_BOSS_DIFFICULTY` | `0xC2` |
+| `CurrentClientOpcodes.CLIENT_AIM_AT_TARGET` | `0xC8` |
+| `CurrentClientOpcodes.CLIENT_TRANSACTION_DETAILS` | `0xC9` |
+| `CurrentClientOpcodes.CLIENT_EXIVA_RESTRICTIONS` | `0xCA` |
+| `CurrentClientOpcodes.CLIENT_INSPECT_OBJECT` | `0xCD` |
+| `CurrentClientOpcodes.CLIENT_INSPECT_PLAYER` | `0xCE` |
+| `CurrentClientOpcodes.CLIENT_BLESSING_WINDOW` | `0xCF` |
+| `CurrentClientOpcodes.CLIENT_REQUEST_TRACKER_QUEST_LOG` | `0xD0` |
+| `CurrentClientOpcodes.CLIENT_APPLY_IMBUEMENT` | `0xD5` |
+| `CurrentClientOpcodes.CLIENT_CLEAR_IMBUEMENT` | `0xD6` |
+| `CurrentClientOpcodes.CLIENT_CLOSE_IMBUEMENT` | `0xD7` |
+| `CurrentClientOpcodes.CLIENT_OPEN_REWARD_WALL` | `0xD8` |
+| `CurrentClientOpcodes.CLIENT_OPEN_REWARD_HISTORY` | `0xD9` |
+| `CurrentClientOpcodes.CLIENT_GET_DAILY_REWARD` | `0xDA` |
+| `CurrentClientOpcodes.CLIENT_CYCLOPEDIA_MAP_ACTION` | `0xDB` |
+| `CurrentClientOpcodes.CLIENT_VIP_GROUP_ACTIONS` | `0xDF` |
+| `CurrentClientOpcodes.CLIENT_BESTIARY_RACES` | `0xE1` |
+| `CurrentClientOpcodes.CLIENT_BESTIARY_CREATURES` | `0xE2` |
+| `CurrentClientOpcodes.CLIENT_BESTIARY_MONSTER_DATA` | `0xE3` |
+| `CurrentClientOpcodes.CLIENT_BUY_CHARM_RUNE` | `0xE4` |
+| `CurrentClientOpcodes.CLIENT_CYCLOPEDIA_CHARACTER_INFO` | `0xE5` |
+| `CurrentClientOpcodes.CLIENT_WHEEL_GEM_ACTION` | `0xE7` |
+| `CurrentClientOpcodes.CLIENT_OFFER_DESCRIPTION` | `0xE8` |
+| `CurrentClientOpcodes.CLIENT_PREY_ACTION` | `0xEB` |
+| `CurrentClientOpcodes.CLIENT_SET_HIRELING_NAME` | `0xEC` |
+| `CurrentClientOpcodes.CLIENT_PREY_REQUEST` | `0xED` |
+| `CurrentClientOpcodes.CLIENT_RESOURCE_BALANCE` | `0xED` |
+| `CurrentClientOpcodes.CLIENT_GREET` | `0xEE` |
+| `CurrentClientOpcodes.CLIENT_REWARD_CHEST_COLLECT` | `0xFF` |
+
+### `CurrentGameServerOpcodes`
+
+| Constant | Value |
+| :-- | :-- |
+| `CurrentGameServerOpcodes.GAME_SERVER_ALLOW_BUG_REPORT` | `0x1A` |
+| `CurrentGameServerOpcodes.GAME_SERVER_OPEN_STASH` | `0x29` |
+| `CurrentGameServerOpcodes.GAME_SERVER_SPECIAL_CONTAINERS_AVAILABLE` | `0x2A` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PARTY_ANALYZER` | `0x2B` |
+| `CurrentGameServerOpcodes.GAME_SERVER_LEADER_TEAM_FINDER` | `0x2C` |
+| `CurrentGameServerOpcodes.GAME_SERVER_TEAM_FINDER_LIST` | `0x2D` |
+| `CurrentGameServerOpcodes.GAME_SERVER_TASK_BOARD` | `0x5B` |
+| `CurrentGameServerOpcodes.GAME_SERVER_WEAPON_PROFICIENCY_EXPERIENCE` | `0x5C` |
+| `CurrentGameServerOpcodes.GAME_SERVER_IMBUEMENT_DURATIONS` | `0x5D` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PASSIVE_COOLDOWN` | `0x5E` |
+| `CurrentGameServerOpcodes.GAME_SERVER_OPEN_WHEEL` | `0x5F` |
+| `CurrentGameServerOpcodes.GAME_SERVER_INVENTORY_IMBUEMENTS` | `0x60` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BOSSTIARY_DATA` | `0x61` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BOSSTIARY_SLOTS` | `0x62` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CLIENT_CHECK` | `0x63` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BOSSTIARY_INFO` | `0x73` |
+| `CurrentGameServerOpcodes.GAME_SERVER_FRIEND_SYSTEM_DATA` | `0x74` |
+| `CurrentGameServerOpcodes.GAME_SERVER_TAKE_SCREENSHOT` | `0x75` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CYCLOPEDIA_ITEM_DETAIL` | `0x76` |
+| `CurrentGameServerOpcodes.GAME_SERVER_ITEM_INSPECTION` | `0x77` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CHARACTER_TRADE_CONFIGURATION` | `0x80` |
+| `CurrentGameServerOpcodes.GAME_SERVER_REPORT_TEXT_UI` | `0x81` |
+| `CurrentGameServerOpcodes.GAME_SERVER_ITEM_CLASSES` | `0x86` |
+| `CurrentGameServerOpcodes.GAME_SERVER_OPEN_FORGE` | `0x87` |
+| `CurrentGameServerOpcodes.GAME_SERVER_FORGE_HISTORY` | `0x88` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CLOSE_FORGE` | `0x89` |
+| `CurrentGameServerOpcodes.GAME_SERVER_FORGE_RESULT` | `0x8A` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CREATURE_DATA` | `0x8B` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CREATURE_ICON` | `0x8B` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CREATURE_MARKS` | `0x93` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CREATURE_HELPERS` | `0x94` |
+| `CurrentGameServerOpcodes.GAME_SERVER_DEPOT_ITEMS` | `0x94` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CREATURE_TYPE` | `0x95` |
+| `CurrentGameServerOpcodes.GAME_SERVER_GAME_NEWS` | `0x98` |
+| `CurrentGameServerOpcodes.GAME_SERVER_DEPOT_SEARCH_DETAIL` | `0x99` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CLOSE_DEPOT_SEARCH` | `0x9A` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BLESSING_WINDOW` | `0x9B` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BLESSING_STATUS` | `0x9C` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PRESET` | `0x9D` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PREMIUM_TRIGGER` | `0x9E` |
+| `CurrentGameServerOpcodes.GAME_SERVER_FIGHT_MODES` | `0xA7` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PLAYER_MODES` | `0xA7` |
+| `CurrentGameServerOpcodes.GAME_SERVER_DEEP_LINK` | `0xA8` |
+| `CurrentGameServerOpcodes.GAME_SERVER_RESTING_STATUS` | `0xA9` |
+| `CurrentGameServerOpcodes.GAME_SERVER_EXPERIENCE_TRACKER` | `0xAF` |
+| `CurrentGameServerOpcodes.GAME_SERVER_HIGHSCORES` | `0xB1` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PVP_SITUATIONS` | `0xB8` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BESTIARY_REFRESH_TRACKER` | `0xB9` |
+| `CurrentGameServerOpcodes.GAME_SERVER_TASK_HUNTING_BASIC_DATA` | `0xBA` |
+| `CurrentGameServerOpcodes.GAME_SERVER_SOUL_SEALS_WINDOW` | `0xBA` |
+| `CurrentGameServerOpcodes.GAME_SERVER_TASK_HUNTING_DATA` | `0xBB` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BOSSTIARY_COOLDOWN` | `0xBD` |
+| `CurrentGameServerOpcodes.GAME_SERVER_LOOT_CONTAINERS` | `0xC0` |
+| `CurrentGameServerOpcodes.GAME_SERVER_MONK_DATA` | `0xC1` |
+| `CurrentGameServerOpcodes.GAME_SERVER_MONSTER_PODIUM` | `0xC2` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CYCLOPEDIA_HOUSE_AUCTION` | `0xC3` |
+| `CurrentGameServerOpcodes.GAME_SERVER_WEAPON_PROFICIENCY_INFO` | `0xC4` |
+| `CurrentGameServerOpcodes.GAME_SERVER_GEM_ATELIER` | `0xC5` |
+| `CurrentGameServerOpcodes.GAME_SERVER_TOURNAMENT_LEADERBOARD` | `0xC5` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CYCLOPEDIA_HOUSES_INFO` | `0xC6` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CYCLOPEDIA_HOUSE_LIST` | `0xC7` |
+| `CurrentGameServerOpcodes.GAME_SERVER_EXIVA_SUPPRESSED` | `0xC9` |
+| `CurrentGameServerOpcodes.GAME_SERVER_EXIVA_RESTRICTIONS` | `0xCA` |
+| `CurrentGameServerOpcodes.GAME_SERVER_TRANSACTION_DETAILS` | `0xCB` |
+| `CurrentGameServerOpcodes.GAME_SERVER_IMPACT_TRACKER` | `0xCC` |
+| `CurrentGameServerOpcodes.GAME_SERVER_ITEMS_PRICE` | `0xCD` |
+| `CurrentGameServerOpcodes.GAME_SERVER_SUPPLY_TRACKER` | `0xCE` |
+| `CurrentGameServerOpcodes.GAME_SERVER_LOOT_TRACKER` | `0xCF` |
+| `CurrentGameServerOpcodes.GAME_SERVER_QUEST_TRACKER` | `0xD0` |
+| `CurrentGameServerOpcodes.GAME_SERVER_KILL_TRACKER` | `0xD1` |
+| `CurrentGameServerOpcodes.GAME_SERVER_VIP_GROUPS` | `0xD4` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BESTIARY_RACES` | `0xD5` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BESTIARY_OVERVIEW` | `0xD6` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BESTIARY_MONSTER_DATA` | `0xD7` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BESTIARY_CHARMS` | `0xD8` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BESTIARY_ENTRY_CHANGED` | `0xD9` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CYCLOPEDIA_CHARACTER_INFO` | `0xDA` |
+| `CurrentGameServerOpcodes.GAME_SERVER_HIRELING_NAME_CHANGE` | `0xDB` |
+| `CurrentGameServerOpcodes.GAME_SERVER_DAILY_REWARD_COLLECTION_STATE` | `0xDE` |
+| `CurrentGameServerOpcodes.GAME_SERVER_OPEN_REWARD_WALL` | `0xE2` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CLOSE_REWARD_WALL` | `0xE3` |
+| `CurrentGameServerOpcodes.GAME_SERVER_DAILY_REWARD` | `0xE4` |
+| `CurrentGameServerOpcodes.GAME_SERVER_REWARD_HISTORY` | `0xE5` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PREY_FREE_REROLLS` | `0xE6` |
+| `CurrentGameServerOpcodes.GAME_SERVER_BOSSTIARY_ENTRY_CHANGED` | `0xE6` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PREY_TIME` | `0xE7` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PREY_DATA` | `0xE8` |
+| `CurrentGameServerOpcodes.GAME_SERVER_PREY_PRICES` | `0xE9` |
+| `CurrentGameServerOpcodes.GAME_SERVER_SHOW_DESCRIPTION` | `0xEA` |
+| `CurrentGameServerOpcodes.GAME_SERVER_IMBUEMENT_WINDOW` | `0xEB` |
+| `CurrentGameServerOpcodes.GAME_SERVER_CLOSE_IMBUEMENT_WINDOW` | `0xEC` |
+| `CurrentGameServerOpcodes.GAME_SERVER_ERROR` | `0xED` |
+| `CurrentGameServerOpcodes.GAME_SERVER_IMBUEMENT_RESULT` | `0xED` |
+| `CurrentGameServerOpcodes.GAME_SERVER_MESSAGE_DIALOG` | `0xED` |
+| `CurrentGameServerOpcodes.GAME_SERVER_RESOURCE_BALANCE` | `0xEE` |
+| `CurrentGameServerOpcodes.GAME_SERVER_TIBIA_TIME` | `0xEF` |
+
+### `MagicEffectsType`
+
+| Constant | Value |
+| :-- | :-- |
+| `MagicEffectsType.END_LOOP` | `0` |
+| `MagicEffectsType.DELTA` | `1` |
+| `MagicEffectsType.DELAY` | `2` |
+| `MagicEffectsType.CREATE_EFFECT` | `3` |
+| `MagicEffectsType.CREATE_DISTANCE_EFFECT` | `4` |
+| `MagicEffectsType.CREATE_DISTANCE_EFFECT_REVERSED` | `5` |
+| `MagicEffectsType.CREATE_SOUND_MAIN_EFFECT` | `6` |
+| `MagicEffectsType.CREATE_SOUND_SECONDARY_EFFECT` | `7` |
+
+### `WeaponProficiencyAction`
+
+| Constant | Value |
+| :-- | :-- |
+| `WeaponProficiencyAction.ITEM_INFO` | `0` |
+| `WeaponProficiencyAction.LIST_INFO` | `1` |
+| `WeaponProficiencyAction.RESET_PERKS` | `2` |
+| `WeaponProficiencyAction.APPLY_PERKS` | `3` |
+
+### `WeaponProficiencyBonus`
+
+| Constant | Value |
+| :-- | :-- |
+| `WeaponProficiencyBonus.ATTACK_DAMAGE` | `0` |
+| `WeaponProficiencyBonus.DEFENSE_BONUS` | `1` |
+| `WeaponProficiencyBonus.WEAPON_SHIELD_MODIFIER` | `2` |
+| `WeaponProficiencyBonus.SKILL_BONUS` | `3` |
+| `WeaponProficiencyBonus.SPECIALIZED_MAGIC_LEVEL` | `4` |
+| `WeaponProficiencyBonus.SPELL_AUGMENT` | `5` |
+| `WeaponProficiencyBonus.BESTIARY` | `6` |
+| `WeaponProficiencyBonus.POWERFUL_FOE_BONUS` | `7` |
+| `WeaponProficiencyBonus.CRITICAL_HIT_CHANCE` | `8` |
+| `WeaponProficiencyBonus.ELEMENTAL_HIT_CHANCE` | `9` |
+| `WeaponProficiencyBonus.RUNE_CRITICAL_HIT_CHANCE` | `10` |
+| `WeaponProficiencyBonus.AUTO_ATTACK_CRITICAL_HIT_CHANCE` | `11` |
+| `WeaponProficiencyBonus.CRITICAL_EXTRA_DAMAGE` | `12` |
+| `WeaponProficiencyBonus.ELEMENTAL_CRITICAL_EXTRA_DAMAGE` | `13` |
+| `WeaponProficiencyBonus.RUNE_CRITICAL_EXTRA_DAMAGE` | `14` |
+| `WeaponProficiencyBonus.AUTO_ATTACK_CRITICAL_EXTRA_DAMAGE` | `15` |
+| `WeaponProficiencyBonus.MANA_LEECH` | `16` |
+| `WeaponProficiencyBonus.LIFE_LEECH` | `17` |
+| `WeaponProficiencyBonus.MANA_GAIN_ON_HIT` | `18` |
+| `WeaponProficiencyBonus.LIFE_GAIN_ON_HIT` | `19` |
+| `WeaponProficiencyBonus.MANA_GAIN_ON_KILL` | `20` |
+| `WeaponProficiencyBonus.LIFE_GAIN_ON_KILL` | `21` |
+| `WeaponProficiencyBonus.PERFECT_SHOT_DAMAGE` | `22` |
+| `WeaponProficiencyBonus.RANGED_HIT_CHANCE` | `23` |
+| `WeaponProficiencyBonus.ATTACK_RANGE` | `24` |
+| `WeaponProficiencyBonus.SKILL_PERCENTAGE_AUTO_ATTACK` | `25` |
+| `WeaponProficiencyBonus.SKILL_PERCENTAGE_SPELL_DAMAGE` | `26` |
+| `WeaponProficiencyBonus.SKILL_PERCENTAGE_SPELL_HEALING` | `27` |
+| `WeaponProficiencyBonus.ALPHA_STRIKE_EXTRA_DAMAGE` | `28` |
+| `WeaponProficiencyBonus.OMEGA_STRIKE_EXTRA_DAMAGE` | `29` |
+| `WeaponProficiencyBonus.ARMOR_PENETRATION` | `30` |
+| `WeaponProficiencyBonus.ELEMENTAL_PIERCE` | `31` |
+
+### `WeaponProficiencySkillPercentage`
+
+| Constant | Value |
+| :-- | :-- |
+| `WeaponProficiencySkillPercentage.AUTO_ATTACK` | `0` |
+| `WeaponProficiencySkillPercentage.SPELL_DAMAGE` | `1` |
+| `WeaponProficiencySkillPercentage.SPELL_HEALING` | `2` |
+
+### `WeaponProficiencySpellBoost`
+
+| Constant | Value |
+| :-- | :-- |
+| `WeaponProficiencySpellBoost.MANA` | `0` |
+| `WeaponProficiencySpellBoost.COOLDOWN` | `1` |
+| `WeaponProficiencySpellBoost.GROUP_COOLDOWN` | `2` |
+| `WeaponProficiencySpellBoost.SECONDARY_GROUP_COOLDOWN` | `3` |
+| `WeaponProficiencySpellBoost.MANA_LEECH` | `4` |
+| `WeaponProficiencySpellBoost.MANA_LEECH_CHANCE` | `5` |
+| `WeaponProficiencySpellBoost.LIFE_LEECH` | `6` |
+| `WeaponProficiencySpellBoost.LIFE_LEECH_CHANCE` | `7` |
+| `WeaponProficiencySpellBoost.DAMAGE` | `8` |
+| `WeaponProficiencySpellBoost.DAMAGE_REDUCTION` | `9` |
+| `WeaponProficiencySpellBoost.HEAL` | `10` |
+| `WeaponProficiencySpellBoost.CRITICAL_DAMAGE` | `11` |
+| `WeaponProficiencySpellBoost.CRITICAL_CHANCE` | `12` |
+| `WeaponProficiencySpellBoost.TOTAL_COUNT` | `13` |
+
+### `WeaponProficiencyHealth`
+
+| Constant | Value |
+| :-- | :-- |
+| `WeaponProficiencyHealth.LIFE` | `0` |
+| `WeaponProficiencyHealth.MANA` | `1` |
+
+### `WeaponProficiencyGain`
+
+| Constant | Value |
+| :-- | :-- |
+| `WeaponProficiencyGain.HIT` | `0` |
+| `WeaponProficiencyGain.KILL` | `1` |
+
+### `WeaponProficiencyExperience`
+
+| Constant | Value |
+| :-- | :-- |
+| `WeaponProficiencyExperience.EASY` | `1` |
+| `WeaponProficiencyExperience.MEDIUM` | `2` |
+| `WeaponProficiencyExperience.HARD` | `3` |
+
+### `ImbuementType`
+
+| Constant | Value |
+| :-- | :-- |
+| `ImbuementType.NONE` | `-1` |
+| `ImbuementType.ELEMENTAL_DAMAGE` | `0` |
+| `ImbuementType.LIFE_LEECH` | `1` |
+| `ImbuementType.MANA_LEECH` | `2` |
+| `ImbuementType.CRITICAL_HIT` | `3` |
+| `ImbuementType.DEATH_PROTECTION` | `4` |
+| `ImbuementType.EARTH_PROTECTION` | `5` |
+| `ImbuementType.FIRE_PROTECTION` | `6` |
+| `ImbuementType.ICE_PROTECTION` | `7` |
+| `ImbuementType.ENERGY_PROTECTION` | `8` |
+| `ImbuementType.HOLY_PROTECTION` | `9` |
+| `ImbuementType.SPEED` | `10` |
+| `ImbuementType.SKILL_AXE` | `11` |
+| `ImbuementType.SKILL_SWORD` | `12` |
+| `ImbuementType.SKILL_CLUB` | `13` |
+| `ImbuementType.SKILL_SHIELDING` | `14` |
+| `ImbuementType.SKILL_DISTANCE` | `15` |
+| `ImbuementType.MAGIC_LEVEL` | `16` |
+| `ImbuementType.CAPACITY` | `17` |
+| `ImbuementType.SKILL_FIST` | `18` |
+| `ImbuementType.PARALYSIS_DEFLECTION` | `19` |
+
+### `BestiaryRace`
+
+| Constant | Value |
+| :-- | :-- |
+| `BestiaryRace.NONE` | `0` |
+| `BestiaryRace.AMPHIBIC` | `1` |
+| `BestiaryRace.AQUATIC` | `2` |
+| `BestiaryRace.BIRD` | `3` |
+| `BestiaryRace.CONSTRUCT` | `4` |
+| `BestiaryRace.DEMON` | `5` |
+| `BestiaryRace.DRAGON` | `6` |
+| `BestiaryRace.ELEMENTAL` | `7` |
+| `BestiaryRace.FEY` | `8` |
+| `BestiaryRace.GIANT` | `9` |
+| `BestiaryRace.HUMAN` | `10` |
+| `BestiaryRace.HUMANOID` | `11` |
+| `BestiaryRace.LYCANTHROPE` | `12` |
+| `BestiaryRace.MAGICAL` | `13` |
+| `BestiaryRace.MAMMAL` | `14` |
+| `BestiaryRace.PLANT` | `15` |
+| `BestiaryRace.REPTILE` | `16` |
+| `BestiaryRace.SLIME` | `17` |
+| `BestiaryRace.UNDEAD` | `18` |
+| `BestiaryRace.VERMIN` | `19` |
+| `BestiaryRace.EXTRA_DIMENSIONAL` | `20` |
+| `BestiaryRace.INKBORN` | `21` |
+
+### `CharmRune`
+
+| Constant | Value |
+| :-- | :-- |
+| `CharmRune.NONE` | `-1` |
+| `CharmRune.WOUND` | `0` |
+| `CharmRune.ENFLAME` | `1` |
+| `CharmRune.POISON` | `2` |
+| `CharmRune.FREEZE` | `3` |
+| `CharmRune.ZAP` | `4` |
+| `CharmRune.CURSE` | `5` |
+| `CharmRune.CRIPPLE` | `6` |
+| `CharmRune.PARRY` | `7` |
+| `CharmRune.DODGE` | `8` |
+| `CharmRune.ADRENALINE_BURST` | `9` |
+| `CharmRune.NUMB` | `10` |
+| `CharmRune.CLEANSE` | `11` |
+| `CharmRune.BLESS` | `12` |
+| `CharmRune.SCAVENGE` | `13` |
+| `CharmRune.GUT` | `14` |
+| `CharmRune.LOW_BLOW` | `15` |
+| `CharmRune.DIVINE_WRATH` | `16` |
+| `CharmRune.VAMPIRIC_EMBRACE` | `17` |
+| `CharmRune.VOID_CALL` | `18` |
+| `CharmRune.SAVAGE_BLOW` | `19` |
+| `CharmRune.FATAL_HOLD` | `20` |
+| `CharmRune.VOID_INVERSION` | `21` |
+| `CharmRune.CARNAGE` | `22` |
+| `CharmRune.OVERPOWER` | `23` |
+| `CharmRune.OVERFLUX` | `24` |
+
+### `RotateDirection`
+
+| Constant | Value |
+| :-- | :-- |
+| `RotateDirection.NORTH` | `0` |
+| `RotateDirection.EAST` | `1` |
+| `RotateDirection.SOUTH` | `2` |
+| `RotateDirection.WEST` | `3` |
+
+### `PlayerAvatarOutfitIds`
+
+| Constant | Value |
+| :-- | :-- |
+| `PlayerAvatarOutfitIds.KNIGHT` | `1593` |
+| `PlayerAvatarOutfitIds.PALADIN` | `1594` |
+| `PlayerAvatarOutfitIds.SORCERER` | `1595` |
+| `PlayerAvatarOutfitIds.DRUID` | `1596` |
+| `PlayerAvatarOutfitIds.MONK` | `1833` |
 
 ## Notes
 

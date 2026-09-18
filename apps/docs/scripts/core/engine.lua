@@ -540,10 +540,35 @@ function Engine.Alarms.PrintStatus()
     print("=====================")
 end
 
+local function validateOptionalProfile(profile, functionName)
+    if profile == nil then
+        return
+    end
+    if type(profile) == "number" and profile % 1 == 0 and profile >= 1 then
+        return
+    end
+    if type(profile) == "string" and profile ~= "" then
+        return
+    end
+    error(functionName .. ": profile must be a 1-based integer, non-empty exact name, or nil", 3)
+end
+
+local function validateRequiredProfile(profile, functionName)
+    if profile == nil then
+        error(functionName .. ": profile is required", 3)
+    end
+    validateOptionalProfile(profile, functionName)
+end
+
 -- ============================================================================
 -- AMMO REFILL API - Wraps global AmmoRefill.* functions with profile support
 -- ============================================================================
 Engine.AmmoRefill = {}
+
+---@return integer
+function Engine.AmmoRefill.GetProfileCount()
+    return AmmoRefill.GetProfileCount()
+end
 
 --- Add new ammo to current profile
 ---@param ammoData table Ammo configuration
@@ -571,15 +596,49 @@ function Engine.AmmoRefill.ClearAll()
 end
 
 --- Get all profile names
----@return table Array of profile name strings
+---@return string[] Array of profile name strings
 function Engine.AmmoRefill.GetProfileNames()
     return AmmoRefill.GetProfileNames()
 end
 
+--- Get profile summaries, including active state and entry count
+---@return FeatureProfile[]
+function Engine.AmmoRefill.GetProfiles()
+    return AmmoRefill.GetProfiles()
+end
+
 --- Get current active profile
----@return table|nil Profile info with name and index, or nil if none selected
+---@return ProfileSummary|nil Profile info with name and index, or nil if none selected
+function Engine.AmmoRefill.GetActiveProfile()
+    return AmmoRefill.GetActiveProfile()
+end
+
+--- Get current active profile (compatibility alias)
+---@return ProfileSummary|nil Profile info with name and index, or nil if none selected
 function Engine.AmmoRefill.GetCurrentProfile()
     return AmmoRefill.GetCurrentProfile()
+end
+
+--- Set active profile by index or name
+---@param profile integer|string Profile index (1-based) or exact profile name
+---@return boolean Success
+function Engine.AmmoRefill.SetActiveProfile(profile)
+    validateRequiredProfile(profile, "Engine.AmmoRefill.SetActiveProfile")
+    return AmmoRefill.SetActiveProfile(profile)
+end
+
+--- Set current profile by index or name (compatibility alias)
+---@param profile integer|string Profile index (1-based) or exact profile name
+---@return boolean Success
+function Engine.AmmoRefill.SetCurrentProfile(profile)
+    validateRequiredProfile(profile, "Engine.AmmoRefill.SetCurrentProfile")
+    return AmmoRefill.SetCurrentProfile(profile)
+end
+
+--- Select the next profile, wrapping to the first
+---@return ProfileSummary|nil Newly active profile, or nil if there are no profiles
+function Engine.AmmoRefill.NextProfile()
+    return AmmoRefill.NextProfile()
 end
 
 --- Set current profile by index or name
@@ -594,20 +653,12 @@ end
 
 --- Find profile index by name
 ---@param profileName string Profile name to search for
----@return number|nil Profile index (1-based), or nil if not found
+---@return integer|nil Profile index (1-based), or nil if not found
 function Engine.AmmoRefill.FindProfileByName(profileName)
     if type(profileName) ~= "string" then
         error("Engine.AmmoRefill.FindProfileByName: profileName must be a string", 2)
     end
-    
-    local profiles = AmmoRefill.GetProfileNames()
-    for i, name in ipairs(profiles) do
-        if name == profileName then
-            return i
-        end
-    end
-    
-    return nil
+    return AmmoRefill.FindProfileByName(profileName)
 end
 
 --- Get all ammo configurations from current profile
@@ -762,8 +813,9 @@ function Engine.AmmoRefill.PrintProfiles()
 end
 
 --- Add new profile
----@param profileName string|nil Profile name (auto-generated if nil)
----@return number|boolean Profile index on success, false on failure
+---@param profileName? string Empty or nil generates a unique default name
+---@return integer|false Profile index on success, false on failure
+---@return string|nil Error when creation fails
 function Engine.AmmoRefill.AddProfile(profileName)
     if profileName ~= nil and type(profileName) ~= "string" then
         error("Engine.AmmoRefill.AddProfile: profileName must be a string or nil", 2)
@@ -772,27 +824,28 @@ function Engine.AmmoRefill.AddProfile(profileName)
 end
 
 --- Remove profile by index or name
----@param indexOrName number|string Profile index (1-based) or name
+---@param profile integer|string Profile index (1-based) or exact name
 ---@return boolean Success
-function Engine.AmmoRefill.RemoveProfile(indexOrName)
-    if type(indexOrName) ~= "number" and type(indexOrName) ~= "string" then
+function Engine.AmmoRefill.RemoveProfile(profile)
+    if type(profile) ~= "number" and type(profile) ~= "string" then
         error("Engine.AmmoRefill.RemoveProfile: argument must be a number or string", 2)
     end
-    return AmmoRefill.RemoveProfile(indexOrName)
+    return AmmoRefill.RemoveProfile(profile)
 end
 
 --- Rename profile
----@param indexOrName number|string Current profile index or name
+---@param profile integer|string Current profile index or exact name
 ---@param newName string New profile name
 ---@return boolean Success
-function Engine.AmmoRefill.RenameProfile(indexOrName, newName)
-    if type(indexOrName) ~= "number" and type(indexOrName) ~= "string" then
+---@return string|nil Error when renaming fails
+function Engine.AmmoRefill.RenameProfile(profile, newName)
+    if type(profile) ~= "number" and type(profile) ~= "string" then
         error("Engine.AmmoRefill.RenameProfile: first argument must be a number or string", 2)
     end
     if type(newName) ~= "string" then
         error("Engine.AmmoRefill.RenameProfile: newName must be a string", 2)
     end
-    return AmmoRefill.RenameProfile(indexOrName, newName)
+    return AmmoRefill.RenameProfile(profile, newName)
 end
 
 -- ============================================================================
@@ -1018,35 +1071,20 @@ function Engine.PVPTools.ToggleAntiPush()
     return nativeToggleAntiPush()
 end
 
-local function validateOptionalProfile(profile, functionName)
-    if profile == nil then
-        return
-    end
-    if type(profile) == "number" and profile % 1 == 0 and profile >= 1 then
-        return
-    end
-    if type(profile) == "string" and profile ~= "" then
-        return
-    end
-    error(functionName .. ": profile must be a 1-based integer, non-empty exact name, or nil", 3)
-end
-
-local function validateRequiredProfile(profile, functionName)
-    if profile == nil then
-        error(functionName .. ": profile is required", 3)
-    end
-    validateOptionalProfile(profile, functionName)
-end
-
 -- ============================================================================
 -- MAGIC SHOOTER API - Wraps profiles and live entry action replacement
 -- ============================================================================
 local NativeMagicShooter = assert(MagicShooter, "MagicShooter native binding is unavailable")
 local nativeMagicShooterGetProfileCount = assert(NativeMagicShooter.GetProfileCount)
 local nativeMagicShooterGetProfileNames = assert(NativeMagicShooter.GetProfileNames)
+local nativeMagicShooterGetProfiles = assert(NativeMagicShooter.GetProfiles)
+local nativeMagicShooterFindProfileByName = assert(NativeMagicShooter.FindProfileByName)
 local nativeMagicShooterGetActiveProfile = assert(NativeMagicShooter.GetActiveProfile)
 local nativeMagicShooterSetActiveProfile = assert(NativeMagicShooter.SetActiveProfile)
 local nativeMagicShooterNextProfile = assert(NativeMagicShooter.NextProfile)
+local nativeMagicShooterAddProfile = assert(NativeMagicShooter.AddProfile)
+local nativeMagicShooterRemoveProfile = assert(NativeMagicShooter.RemoveProfile)
+local nativeMagicShooterRenameProfile = assert(NativeMagicShooter.RenameProfile)
 local nativeMagicShooterGetEntries = assert(NativeMagicShooter.GetEntries)
 local nativeMagicShooterSetEntryRune = assert(NativeMagicShooter.SetEntryRune)
 local nativeMagicShooterSetEntrySpell = assert(NativeMagicShooter.SetEntrySpell)
@@ -1108,12 +1146,26 @@ function Engine.MagicShooter.GetProfileNames()
     return nativeMagicShooterGetProfileNames()
 end
 
----@return table|nil
+---@return FeatureProfile[]
+function Engine.MagicShooter.GetProfiles()
+    return nativeMagicShooterGetProfiles()
+end
+
+---@param profileName string
+---@return integer|nil
+function Engine.MagicShooter.FindProfileByName(profileName)
+    if type(profileName) ~= "string" then
+        error("Engine.MagicShooter.FindProfileByName: profileName must be a string", 2)
+    end
+    return nativeMagicShooterFindProfileByName(profileName)
+end
+
+---@return ProfileSummary|nil
 function Engine.MagicShooter.GetActiveProfile()
     return nativeMagicShooterGetActiveProfile()
 end
 
----@return table|nil
+---@return ProfileSummary|nil
 function Engine.MagicShooter.GetCurrentProfile()
     return nativeMagicShooterGetActiveProfile()
 end
@@ -1132,9 +1184,38 @@ function Engine.MagicShooter.SetCurrentProfile(profile)
     return nativeMagicShooterSetActiveProfile(profile)
 end
 
----@return table|nil
+---@return ProfileSummary|nil
 function Engine.MagicShooter.NextProfile()
     return nativeMagicShooterNextProfile()
+end
+
+---@param profileName? string Empty or nil generates a unique default name
+---@return integer|false
+---@return string|nil
+function Engine.MagicShooter.AddProfile(profileName)
+    if profileName ~= nil and type(profileName) ~= "string" then
+        error("Engine.MagicShooter.AddProfile: profileName must be a string or nil", 2)
+    end
+    return nativeMagicShooterAddProfile(profileName)
+end
+
+---@param profile integer|string
+---@return boolean
+function Engine.MagicShooter.RemoveProfile(profile)
+    validateRequiredProfile(profile, "Engine.MagicShooter.RemoveProfile")
+    return nativeMagicShooterRemoveProfile(profile)
+end
+
+---@param profile integer|string
+---@param newName string
+---@return boolean
+---@return string|nil
+function Engine.MagicShooter.RenameProfile(profile, newName)
+    validateRequiredProfile(profile, "Engine.MagicShooter.RenameProfile")
+    if type(newName) ~= "string" or newName == "" then
+        error("Engine.MagicShooter.RenameProfile: newName must be a non-empty string", 2)
+    end
+    return nativeMagicShooterRenameProfile(profile, newName)
 end
 
 ---@param profile? integer|string
@@ -1180,9 +1261,14 @@ end
 local NativeTargeting = assert(Targeting, "Targeting native binding is unavailable")
 local nativeTargetingGetProfileCount = assert(NativeTargeting.GetProfileCount)
 local nativeTargetingGetProfileNames = assert(NativeTargeting.GetProfileNames)
+local nativeTargetingGetProfiles = assert(NativeTargeting.GetProfiles)
+local nativeTargetingFindProfileByName = assert(NativeTargeting.FindProfileByName)
 local nativeTargetingGetActiveProfile = assert(NativeTargeting.GetActiveProfile)
 local nativeTargetingSetActiveProfile = assert(NativeTargeting.SetActiveProfile)
 local nativeTargetingNextProfile = assert(NativeTargeting.NextProfile)
+local nativeTargetingAddProfile = assert(NativeTargeting.AddProfile)
+local nativeTargetingRemoveProfile = assert(NativeTargeting.RemoveProfile)
+local nativeTargetingRenameProfile = assert(NativeTargeting.RenameProfile)
 
 Engine.Targeting = {}
 
@@ -1196,12 +1282,26 @@ function Engine.Targeting.GetProfileNames()
     return nativeTargetingGetProfileNames()
 end
 
----@return table|nil
+---@return FeatureProfile[]
+function Engine.Targeting.GetProfiles()
+    return nativeTargetingGetProfiles()
+end
+
+---@param profileName string
+---@return integer|nil
+function Engine.Targeting.FindProfileByName(profileName)
+    if type(profileName) ~= "string" then
+        error("Engine.Targeting.FindProfileByName: profileName must be a string", 2)
+    end
+    return nativeTargetingFindProfileByName(profileName)
+end
+
+---@return ProfileSummary|nil
 function Engine.Targeting.GetActiveProfile()
     return nativeTargetingGetActiveProfile()
 end
 
----@return table|nil
+---@return ProfileSummary|nil
 function Engine.Targeting.GetCurrentProfile()
     return nativeTargetingGetActiveProfile()
 end
@@ -1220,9 +1320,137 @@ function Engine.Targeting.SetCurrentProfile(profile)
     return nativeTargetingSetActiveProfile(profile)
 end
 
----@return table|nil
+---@return ProfileSummary|nil
 function Engine.Targeting.NextProfile()
     return nativeTargetingNextProfile()
+end
+
+---@param profileName? string Empty or nil generates a unique default name
+---@return integer|false
+---@return string|nil
+function Engine.Targeting.AddProfile(profileName)
+    if profileName ~= nil and type(profileName) ~= "string" then
+        error("Engine.Targeting.AddProfile: profileName must be a string or nil", 2)
+    end
+    return nativeTargetingAddProfile(profileName)
+end
+
+---@param profile integer|string
+---@return boolean
+function Engine.Targeting.RemoveProfile(profile)
+    validateRequiredProfile(profile, "Engine.Targeting.RemoveProfile")
+    return nativeTargetingRemoveProfile(profile)
+end
+
+---@param profile integer|string
+---@param newName string
+---@return boolean
+---@return string|nil
+function Engine.Targeting.RenameProfile(profile, newName)
+    validateRequiredProfile(profile, "Engine.Targeting.RenameProfile")
+    if type(newName) ~= "string" or newName == "" then
+        error("Engine.Targeting.RenameProfile: newName must be a non-empty string", 2)
+    end
+    return nativeTargetingRenameProfile(profile, newName)
+end
+
+-- ============================================================================
+-- EQUIPMENT MANAGER API - Wraps Equipment Manager profile state
+-- ============================================================================
+local NativeEquipmentManager = assert(EquipmentManager, "EquipmentManager native binding is unavailable")
+local nativeEquipmentManagerGetProfileCount = assert(NativeEquipmentManager.GetProfileCount)
+local nativeEquipmentManagerGetProfileNames = assert(NativeEquipmentManager.GetProfileNames)
+local nativeEquipmentManagerGetProfiles = assert(NativeEquipmentManager.GetProfiles)
+local nativeEquipmentManagerFindProfileByName = assert(NativeEquipmentManager.FindProfileByName)
+local nativeEquipmentManagerGetActiveProfile = assert(NativeEquipmentManager.GetActiveProfile)
+local nativeEquipmentManagerSetActiveProfile = assert(NativeEquipmentManager.SetActiveProfile)
+local nativeEquipmentManagerNextProfile = assert(NativeEquipmentManager.NextProfile)
+local nativeEquipmentManagerAddProfile = assert(NativeEquipmentManager.AddProfile)
+local nativeEquipmentManagerRemoveProfile = assert(NativeEquipmentManager.RemoveProfile)
+local nativeEquipmentManagerRenameProfile = assert(NativeEquipmentManager.RenameProfile)
+
+Engine.EquipmentManager = {}
+
+---@return integer
+function Engine.EquipmentManager.GetProfileCount()
+    return nativeEquipmentManagerGetProfileCount()
+end
+
+---@return string[]
+function Engine.EquipmentManager.GetProfileNames()
+    return nativeEquipmentManagerGetProfileNames()
+end
+
+---@return FeatureProfile[]
+function Engine.EquipmentManager.GetProfiles()
+    return nativeEquipmentManagerGetProfiles()
+end
+
+---@param profileName string
+---@return integer|nil
+function Engine.EquipmentManager.FindProfileByName(profileName)
+    if type(profileName) ~= "string" then
+        error("Engine.EquipmentManager.FindProfileByName: profileName must be a string", 2)
+    end
+    return nativeEquipmentManagerFindProfileByName(profileName)
+end
+
+---@return ProfileSummary|nil
+function Engine.EquipmentManager.GetActiveProfile()
+    return nativeEquipmentManagerGetActiveProfile()
+end
+
+---@return ProfileSummary|nil
+function Engine.EquipmentManager.GetCurrentProfile()
+    return nativeEquipmentManagerGetActiveProfile()
+end
+
+---@param profile integer|string
+---@return boolean
+function Engine.EquipmentManager.SetActiveProfile(profile)
+    validateRequiredProfile(profile, "Engine.EquipmentManager.SetActiveProfile")
+    return nativeEquipmentManagerSetActiveProfile(profile)
+end
+
+---@param profile integer|string
+---@return boolean
+function Engine.EquipmentManager.SetCurrentProfile(profile)
+    validateRequiredProfile(profile, "Engine.EquipmentManager.SetCurrentProfile")
+    return nativeEquipmentManagerSetActiveProfile(profile)
+end
+
+---@return ProfileSummary|nil
+function Engine.EquipmentManager.NextProfile()
+    return nativeEquipmentManagerNextProfile()
+end
+
+---@param profileName? string Empty or nil generates a unique default name
+---@return integer|false
+---@return string|nil
+function Engine.EquipmentManager.AddProfile(profileName)
+    if profileName ~= nil and type(profileName) ~= "string" then
+        error("Engine.EquipmentManager.AddProfile: profileName must be a string or nil", 2)
+    end
+    return nativeEquipmentManagerAddProfile(profileName)
+end
+
+---@param profile integer|string
+---@return boolean
+function Engine.EquipmentManager.RemoveProfile(profile)
+    validateRequiredProfile(profile, "Engine.EquipmentManager.RemoveProfile")
+    return nativeEquipmentManagerRemoveProfile(profile)
+end
+
+---@param profile integer|string
+---@param newName string
+---@return boolean
+---@return string|nil
+function Engine.EquipmentManager.RenameProfile(profile, newName)
+    validateRequiredProfile(profile, "Engine.EquipmentManager.RenameProfile")
+    if type(newName) ~= "string" or newName == "" then
+        error("Engine.EquipmentManager.RenameProfile: newName must be a non-empty string", 2)
+    end
+    return nativeEquipmentManagerRenameProfile(profile, newName)
 end
 
 -- ============================================================================
@@ -1301,7 +1529,7 @@ exposeNativeFunctions("AmmoRefill", AmmoControl, {
 })
 
 exposeNativeFunctions("EquipmentManager", EquipmentManager, {
-    "GetProfiles", "SetActiveProfile", "GetEntries", "SetEntryItemId", "SetEntrySecondaryItemId",
+    "GetEntries", "SetEntryItemId", "SetEntrySecondaryItemId",
     "SetEntryExcludedItemIds", "SetEntryExcludedItemIdsEnabled", "SetEntryTier",
     "SetEntryEquipFromHotkey", "SetEntryEquipAction", "SetEntryEnabled", "SetEntryDelay",
     "SetEntryHasDelay", "SetEntryUseExtraConditions", "SetEntryCheckHealthRange",

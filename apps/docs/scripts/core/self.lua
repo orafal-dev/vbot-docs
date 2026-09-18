@@ -75,11 +75,23 @@ local CHARACTER_FLAG = {
     dazzled = 10,
     cursed = 11,
     strengthened = 12,
+    pzBlocked = 13,
     inProtectionZone = 14,
     bleeding = 15,
+    lesserHex = 16,
+    intenseHex = 17,
+    greaterHex = 18,
     rooted = 19,
     feared = 20,
-    newManaShield = 26
+    goshnarTaint1 = 21,
+    goshnarTaint2 = 22,
+    goshnarTaint3 = 23,
+    goshnarTaint4 = 24,
+    goshnarTaint5 = 25,
+    newManaShield = 26,
+    agony = 27,
+    powerless = 28,
+    mentorOther = 29
 }
 
 --- Calls a private C++ boolean getter and normalizes its result.
@@ -107,7 +119,8 @@ end
 ---@param flag integer
 ---@return boolean|nil
 local function call_character_status(flag)
-    local fn = get_self_cpp_binding("_HasStatusFlag_CPP")
+    local fn = get_self_cpp_binding("_HasCharacterFlag_CPP")
+        or get_self_cpp_binding("_HasStatusFlag_CPP")
     if not fn then
         return nil
     end
@@ -118,6 +131,15 @@ local function call_character_status(flag)
     end
 
     return result
+end
+
+--- Returns whether a character-condition flag position is active.
+--- Named CharacterFlag values and raw integer positions 0..31 are accepted.
+---@param flag integer CharacterFlag value or raw 32-bit status-mask position
+---@return boolean|nil
+function Self.HasCharacterFlag(flag)
+    validate_integer_in_range(flag, 0, 31, "flag", "Self.HasCharacterFlag")
+    return call_character_status(flag)
 end
 
 --- Returns current health points.
@@ -414,6 +436,12 @@ function Self.IsStrengthened()
     return call_character_status(CHARACTER_FLAG.strengthened)
 end
 
+--- Returns true if the character has a protection-zone block.
+---@return boolean|nil
+function Self.IsPzBlocked()
+    return call_character_status(CHARACTER_FLAG.pzBlocked)
+end
+
 --- Returns true if character is in protection zone.
 ---@return boolean|nil
 function Self.IsInProtectionZone()
@@ -426,6 +454,24 @@ function Self.IsBleeding()
     return call_character_status(CHARACTER_FLAG.bleeding)
 end
 
+--- Returns true if the lesser hex flag is active.
+---@return boolean|nil
+function Self.HasLesserHex()
+    return call_character_status(CHARACTER_FLAG.lesserHex)
+end
+
+--- Returns true if the intense hex flag is active.
+---@return boolean|nil
+function Self.HasIntenseHex()
+    return call_character_status(CHARACTER_FLAG.intenseHex)
+end
+
+--- Returns true if the greater hex flag is active.
+---@return boolean|nil
+function Self.HasGreaterHex()
+    return call_character_status(CHARACTER_FLAG.greaterHex)
+end
+
 --- Returns true if character is rooted.
 ---@return boolean|nil
 function Self.IsRooted()
@@ -436,6 +482,60 @@ end
 ---@return boolean|nil
 function Self.IsFeared()
     return call_character_status(CHARACTER_FLAG.feared)
+end
+
+--- Returns true if Goshnar taint flag 1 is active.
+---@return boolean|nil
+function Self.HasGoshnarTaint1()
+    return call_character_status(CHARACTER_FLAG.goshnarTaint1)
+end
+
+--- Returns true if Goshnar taint flag 2 is active.
+---@return boolean|nil
+function Self.HasGoshnarTaint2()
+    return call_character_status(CHARACTER_FLAG.goshnarTaint2)
+end
+
+--- Returns true if Goshnar taint flag 3 is active.
+---@return boolean|nil
+function Self.HasGoshnarTaint3()
+    return call_character_status(CHARACTER_FLAG.goshnarTaint3)
+end
+
+--- Returns true if Goshnar taint flag 4 is active.
+---@return boolean|nil
+function Self.HasGoshnarTaint4()
+    return call_character_status(CHARACTER_FLAG.goshnarTaint4)
+end
+
+--- Returns true if Goshnar taint flag 5 is active.
+---@return boolean|nil
+function Self.HasGoshnarTaint5()
+    return call_character_status(CHARACTER_FLAG.goshnarTaint5)
+end
+
+--- Returns true if the modern mana-shield flag is active.
+---@return boolean|nil
+function Self.HasNewManaShield()
+    return call_character_status(CHARACTER_FLAG.newManaShield)
+end
+
+--- Returns true if the agony flag is active.
+---@return boolean|nil
+function Self.HasAgony()
+    return call_character_status(CHARACTER_FLAG.agony)
+end
+
+--- Returns true if the powerless flag is active.
+---@return boolean|nil
+function Self.IsPowerless()
+    return call_character_status(CHARACTER_FLAG.powerless)
+end
+
+--- Returns true if the mentor-other flag is active.
+---@return boolean|nil
+function Self.HasMentorOther()
+    return call_character_status(CHARACTER_FLAG.mentorOther)
 end
 
 --- Returns current mana shield capacity.
@@ -649,14 +749,30 @@ function Self.GetStatusFlagsSnapshot()
         isDazzled = Self.IsDazzled(),
         isCursed = Self.IsCursed(),
         isStrengthened = Self.IsStrengthened(),
+        isPzBlocked = Self.IsPzBlocked(),
         isInProtectionZone = Self.IsInProtectionZone(),
         isBleeding = Self.IsBleeding(),
+        hasLesserHex = Self.HasLesserHex(),
+        hasIntenseHex = Self.HasIntenseHex(),
+        hasGreaterHex = Self.HasGreaterHex(),
         isRooted = Self.IsRooted(),
-        isFeared = Self.IsFeared()
+        isFeared = Self.IsFeared(),
+        hasGoshnarTaint1 = Self.HasGoshnarTaint1(),
+        hasGoshnarTaint2 = Self.HasGoshnarTaint2(),
+        hasGoshnarTaint3 = Self.HasGoshnarTaint3(),
+        hasGoshnarTaint4 = Self.HasGoshnarTaint4(),
+        hasGoshnarTaint5 = Self.HasGoshnarTaint5(),
+        hasNewManaShield = Self.HasNewManaShield(),
+        hasAgony = Self.HasAgony(),
+        isPowerless = Self.IsPowerless(),
+        hasMentorOther = Self.HasMentorOther()
     }
 end
 
 Self.isParalysed = Self.IsParalyzed
+Self.IsPZBlocked = Self.IsPzBlocked
+Self.IsInBloodCombat = Self.IsPzBlocked
+Self.HasStatusFlag = Self.HasCharacterFlag
 
 --- Formats a stats snapshot into one-line debug text.
 ---@param stats? table

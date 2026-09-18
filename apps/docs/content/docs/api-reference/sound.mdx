@@ -10,8 +10,307 @@ Core library: `sound.lua`
 - `Sound`
 - `Time`
 - `BotSoundId`
+- `soundPlayById`
+- `soundPlayByName`
+- `soundPlayFile`
+- `soundStopAll`
+- `soundGetQueueLength`
+- `soundIsCurrentlyPlaying`
+- `soundSetQueueDelay`
+- `soundPlayAndWait`
+- `soundPlayBotSound`
+- `soundGetCurrentDuration`
+- `soundGetFileDuration`
+- `soundWaitForCompletion`
+- `soundPlayByIdSmart`
+- `soundPlayByNameSmart`
+- `soundPlayFileSmart`
+- `soundIsQueued`
+- `soundLowHealth`
+- `soundLowMana`
+- `soundPlayerDetected`
+- `soundGMDetected`
 
 ## Functions
+
+### General
+
+#### `soundGMDetected(instant)`
+
+Plays GM-detected notification sound if not already queued.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `instant` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `soundGetCurrentDuration()`
+
+Get the duration of currently playing sound
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Duration in milliseconds (0 if nothing playing) |
+
+#### `soundGetFileDuration(filePath)`
+
+Get the duration of a WAV file without playing it
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `filePath` | `string` |  | Path to WAV file |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Duration in milliseconds |
+
+#### `soundGetQueueLength()`
+
+Get the current sound queue length
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `number` | Queue size |
+
+#### `soundIsCurrentlyPlaying()`
+
+Check if a sound is currently playing
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if playing |
+
+#### `soundIsQueued(options)`
+
+Check whether the resolved sound is queued or playing. Name and path
+resolution is identical to Sound.Play, and missing files raise an error.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `options` | `table` |  | Sound configuration |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if queued/playing |
+
+#### `soundLowHealth(instant)`
+
+Plays low-health notification sound if not already queued.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `instant` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `soundLowMana(instant)`
+
+Plays low-mana notification sound if not already queued.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `instant` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `soundPlayAndWait(options, maxWaitMs)`
+
+Play a sound and wait for it to finish (blocking, requires coroutine)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `options` | `table` |  | Sound configuration |
+| `maxWaitMs` | `number` | Yes | Maximum wait; defaults to 5000 ms. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | completed |
+
+#### `soundPlayBotSound(filename, instant)`
+
+Play an alarm by bare name, WAV filename, or fully qualified path.
+Bare names search the product Alarms folder before the calling script's
+folder. Full paths are used directly without either lookup.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `filename` | `string` |  | Alarm name, WAV filename, or full absolute WAV path |
+| `instant` | `boolean` | Yes | Play immediately when true. |
+
+#### `soundPlayById(soundId, instant)`
+
+Play a sound by ID (queued by default)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `soundId` | `number` |  | BotSoundId enum value |
+| `instant` | `boolean` | Yes | Play immediately when true. |
+
+#### `soundPlayByIdSmart(soundId, instant)`
+
+Play a sound by ID only if not already queued/playing
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `soundId` | `number` |  | BotSoundId enum value |
+| `instant` | `boolean` | Yes | Play immediately when true. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if sound was queued, false if already queued |
+
+#### `soundPlayByName(soundName, instant)`
+
+Play an alarm by name (queued by default).
+A bare name is resolved in the product Alarms folder first, then beside the
+calling script. A fully qualified path is used directly. Missing or invalid
+WAV files raise an error. Historical built-in aliases are tried only after
+both exact filename locations and require their canonical packaged WAV.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `soundName` | `string` |  | Bare alarm name/WAV filename or full absolute WAV path |
+| `instant` | `boolean` | Yes | Play immediately when true. |
+
+#### `soundPlayByNameSmart(soundName, instant)`
+
+Play a resolved alarm only if it is not already queued/playing.
+Uses the same Alarms-folder, script-folder, and absolute-path resolution as
+Sound.PlayByName.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `soundName` | `string` |  | Alarm name, WAV filename, or full absolute WAV path |
+| `instant` | `boolean` | Yes | Play immediately when true. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if sound was queued, false if already queued |
+
+#### `soundPlayFile(filePath, instant)`
+
+Play a custom sound from an explicit full path (queued by default).
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `filePath` | `string` |  | Fully qualified absolute path to a WAV file |
+| `instant` | `boolean` | Yes | Play immediately when true. |
+
+#### `soundPlayFileSmart(filePath, instant)`
+
+Play a full-path WAV only if not already queued/playing.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `filePath` | `string` |  | Fully qualified absolute path to a WAV file |
+| `instant` | `boolean` | Yes | Play immediately when true. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if sound was queued, false if already queued |
+
+#### `soundPlayerDetected(instant)`
+
+Plays player-detected notification sound if not already queued.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `instant` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `soundSetQueueDelay(delayMs)`
+
+Set minimum delay between queued sounds (in milliseconds)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `delayMs` | `number` |  | Delay in milliseconds |
+
+#### `soundStopAll()`
+
+Stop currently playing sound
+
+#### `soundWaitForCompletion(maxWaitMs)`
+
+Wait for current sound to finish (blocking)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `maxWaitMs` | `number` | Yes | Maximum wait; defaults to 10000 ms. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | True if sound finished, false if timeout |
 
 ### Sound
 

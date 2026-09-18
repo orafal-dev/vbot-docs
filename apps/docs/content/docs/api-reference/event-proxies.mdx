@@ -20,6 +20,28 @@ Core library: `event_proxies.lua`
 - `LootMessageProxy`
 - `SkillsChangeProxy`
 - `StatsChangeProxy`
+- `PacketEventProxy`
+- `IncomingPacketProxy`
+- `OutgoingPacketProxy`
+- `TextMessagePacketProxy`
+- `TalkPacketProxy`
+- `CreateOnMapPacketProxy`
+- `DeleteOnMapPacketProxy`
+- `MoveCreaturePacketProxy`
+- `FullMapPacketProxy`
+- `MapRowPacketProxy`
+- `GraphicalEffectPacketProxy`
+- `UnjustifiedPointsPacketProxy`
+- `PlayerInventoryPacketProxy`
+- `ClientLookPacketProxy`
+- `ClientMovementPacketProxy`
+- `ClientEquipItemPacketProxy`
+- `ClientMoveItemPacketProxy`
+- `ClientUseItemPacketProxy`
+- `ClientUseItemWithPacketProxy`
+- `ClientUseOnCreaturePacketProxy`
+- `ClientTalkPacketProxy`
+- `ClientAttackPacketProxy`
 
 ## Functions
 
@@ -66,6 +88,150 @@ Assigns callback called when a matching battle message arrives.
 | Type | Description |
 | :-- | :-- |
 | `table` |  |
+
+### ClientAttackPacketProxy
+
+#### `ClientAttackPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ClientAttackPacketProxy` |  |
+
+### ClientEquipItemPacketProxy
+
+#### `ClientEquipItemPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ClientEquipItemPacketProxy` |  |
+
+### ClientLookPacketProxy
+
+#### `ClientLookPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ClientLookPacketProxy` |  |
+
+### ClientMoveItemPacketProxy
+
+#### `ClientMoveItemPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ClientMoveItemPacketProxy` |  |
+
+### ClientMovementPacketProxy
+
+#### `ClientMovementPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ClientMovementPacketProxy` |  |
+
+### ClientTalkPacketProxy
+
+#### `ClientTalkPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ClientTalkPacketProxy` |  |
+
+### ClientUseItemPacketProxy
+
+#### `ClientUseItemPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ClientUseItemPacketProxy` |  |
+
+### ClientUseItemWithPacketProxy
+
+#### `ClientUseItemWithPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ClientUseItemWithPacketProxy` |  |
+
+### ClientUseOnCreaturePacketProxy
+
+#### `ClientUseOnCreaturePacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ClientUseOnCreaturePacketProxy` |  |
 
 ### ContainerAddItemProxy
 
@@ -287,6 +453,22 @@ Assigns callback called when container item changes.
 | :-- | :-- |
 | `table` |  |
 
+### CreateOnMapPacketProxy
+
+#### `CreateOnMapPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `CreateOnMapPacketProxy` |  |
+
 ### CreatureAddProxy
 
 #### `CreatureAddProxy:GetName()`
@@ -419,6 +601,38 @@ Assigns callback called when death packet arrives.
 | :-- | :-- |
 | `table` |  |
 
+### DeleteOnMapPacketProxy
+
+#### `DeleteOnMapPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `DeleteOnMapPacketProxy` |  |
+
+### FullMapPacketProxy
+
+#### `FullMapPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `FullMapPacketProxy` |  |
+
 ### GenericTextMessageProxy
 
 #### `GenericTextMessageProxy:GetName()`
@@ -463,6 +677,41 @@ Assigns callback called when a matching message arrives.
 | :-- | :-- |
 | `table` |  |
 
+### GraphicalEffectPacketProxy
+
+#### `GraphicalEffectPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `GraphicalEffectPacketProxy` |  |
+
+### IncomingPacketProxy
+
+#### `IncomingPacketProxy:New(name, packetId)`
+
+Creates a generic incoming packet proxy.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+| `packetId` | `integer\|integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `IncomingPacketProxy` |  |
+
 ### LootMessageProxy
 
 #### `LootMessageProxy:GetName()`
@@ -506,6 +755,183 @@ Assigns callback called when a loot-like message arrives.
 | Type | Description |
 | :-- | :-- |
 | `table` |  |
+
+### MapRowPacketProxy
+
+#### `MapRowPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `MapRowPacketProxy` |  |
+
+### MoveCreaturePacketProxy
+
+#### `MoveCreaturePacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `MoveCreaturePacketProxy` |  |
+
+### OutgoingPacketProxy
+
+#### `OutgoingPacketProxy:New(name, packetId)`
+
+Creates a generic outgoing packet proxy.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+| `packetId` | `integer\|integer[]` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `OutgoingPacketProxy` |  |
+
+### PacketEventProxy
+
+#### `PacketEventProxy:GetName()`
+
+Returns the proxy name.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `PacketEventProxy:GetRegistrationId()`
+
+Returns the opaque native registration id, or nil after unregistration.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string\|nil` |  |
+
+#### `PacketEventProxy:IsIncoming()`
+
+Returns true for an incoming proxy and false for an outgoing proxy.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `PacketEventProxy:New(nameOrOptions, packetId, incoming)`
+
+Creates and immediately registers a packet proxy.
+The table form accepts name, optional id, packet_id, incoming, and the
+native text-message filter fields message_contains/message_case_sensitive.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `nameOrOptions` | `string\|PacketEventProxyOptions` |  | Proxy name or registration options |
+| `packetId` | `integer\|integer[]` | Yes | Opcode(s), required with the string form |
+| `incoming` | `boolean` | Yes | Defaults to true |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `PacketEventProxy` |  |
+
+#### `PacketEventProxy:OnPacket(callback)`
+
+Assigns a direction-agnostic callback: function(proxy, packet).
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `PacketEventProxy` |  |
+
+#### `PacketEventProxy:OnReceive(callback)`
+
+Assigns an incoming callback: function(proxy, packet).
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `PacketEventProxy` |  |
+
+#### `PacketEventProxy:OnSend(callback)`
+
+Assigns an outgoing callback: function(proxy, packet).
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `PacketEventProxy` |  |
+
+#### `PacketEventProxy:Unregister()`
+
+Unregisters this proxy. Repeated calls return false.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+### PlayerInventoryPacketProxy
+
+#### `PlayerInventoryPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `PlayerInventoryPacketProxy` |  |
 
 ### SkillsChangeProxy
 
@@ -594,6 +1020,54 @@ Assigns callback called when player stats packet arrives.
 | Type | Description |
 | :-- | :-- |
 | `table` |  |
+
+### TalkPacketProxy
+
+#### `TalkPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `TalkPacketProxy` |  |
+
+### TextMessagePacketProxy
+
+#### `TextMessagePacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `TextMessagePacketProxy` |  |
+
+### UnjustifiedPointsPacketProxy
+
+#### `UnjustifiedPointsPacketProxy:New(name)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `name` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `UnjustifiedPointsPacketProxy` |  |
 
 ## Notes
 

@@ -49,6 +49,23 @@ MapPathResult = {
 }
 ```
 
+## Self status snapshot
+
+`Self.GetStatusFlagsSnapshot()` returns a detached `SelfStatusFlags` table. Installed core currently includes:
+
+```text
+SelfStatusFlags = {
+    isHungry, isInRestingArea, isPoisoned, isBurning, isElectrified, isDrunk,
+    isManaShielded, isParalyzed, isHasted, isInCombat, isDrowning, isFreezing,
+    isDazzled, isCursed, isStrengthened, isPzBlocked, isInProtectionZone,
+    isBleeding, hasLesserHex, hasIntenseHex, hasGreaterHex, isRooted, isFeared,
+    hasGoshnarTaint1..hasGoshnarTaint5, hasNewManaShield, hasAgony, isPowerless,
+    hasMentorOther
+}
+```
+
+Field values are `boolean|nil`. Prefer the named `Self.Is*` / `Self.Has*` helpers when you only need one flag.
+
 ## Where to look next
 
 - Full contracts live in the upstream LLM scripting spec under **Canonical Types And Exact Table Contracts**

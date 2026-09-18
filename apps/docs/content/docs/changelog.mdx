@@ -5,6 +5,27 @@ description: Documentation updates synced from the ValidusBot Lua spec and Scrip
 
 User-facing record of documentation syncs. Newest entries first. Each run of the docs update workflow prepends a dated section covering **Added**, **Changed**, and **Removed**.
 
+## 2026-09-18
+
+Synced upstream `lua-llm-scripting-spec.md` (unchanged vs prior sync) and local `Scripts/core` (31 Lua files). Regenerated the API reference with core-ahead merge for modules/functions not yet in the upstream appendix.
+
+### Added
+
+- Opcode packet proxies: `PacketEventProxy`, `IncomingPacketProxy`, `OutgoingPacketProxy`, and client/server convenience subclasses
+- Expanded `Self` character-flag helpers (`HasCharacterFlag`, `IsPzBlocked`, hex / Goshnar / agony / powerless / mentor checks) and matching `CharacterFlag` values
+- `CurrentClientOpcodes` / `CurrentGameServerOpcodes` for modern protocol packet IDs
+- Shared profile helpers on `Engine.AmmoRefill`, `MagicShooter`, `Targeting`, and `EquipmentManager` (`GetProfiles`, `GetActiveProfile`, `NextProfile`, …)
+
+### Changed
+
+- API generator merges installed core functions/constants when they are ahead of the upstream appendix
+- Regenerated API pages (notably self, event-proxies, constants, engine)
+- Guides updated: Self, Events & HUD, Storage, Engine Features, Table Contracts, Constants
+
+### Removed
+
+- Nothing removed from the public core module set this sync
+
 ## 2026-08-25
 
 Synced upstream `lua-llm-scripting-spec.md` and local `Scripts/core` (31 Lua files, unchanged set). Regenerated the API reference with richer typed appendix signatures.

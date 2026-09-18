@@ -565,13 +565,14 @@ Add new profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `profileName` | `string\|nil` |  | Profile name (auto-generated if nil) |
+| `profileName` | `string` | Yes | Empty or nil generates a unique default name |
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `number\|boolean` | Profile index on success, false on failure |
+| `integer\|false` | Profile index on success, false on failure |
+| `string\|nil` | Error when creation fails |
 
 #### `Engine.AmmoRefill.ClearAll()`
 
@@ -681,7 +682,7 @@ Find profile index by name
 
 | Type | Description |
 | :-- | :-- |
-| `number\|nil` | Profile index (1-based), or nil if not found |
+| `integer\|nil` | Profile index (1-based), or nil if not found |
 
 #### `Engine.AmmoRefill.Get(index)`
 
@@ -699,6 +700,16 @@ Get specific ammo by index from current profile
 | :-- | :-- |
 | `table\|nil` | Ammo data or nil if not found |
 
+#### `Engine.AmmoRefill.GetActiveProfile()`
+
+Get current active profile
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ProfileSummary\|nil` | Profile info with name and index, or nil if none selected |
+
 #### `Engine.AmmoRefill.GetAll()`
 
 Get all ammo configurations from current profile
@@ -711,13 +722,21 @@ Get all ammo configurations from current profile
 
 #### `Engine.AmmoRefill.GetCurrentProfile()`
 
-Get current active profile
+Get current active profile (compatibility alias)
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` | Profile info with name and index, or nil if none selected |
+| `ProfileSummary\|nil` | Profile info with name and index, or nil if none selected |
+
+#### `Engine.AmmoRefill.GetProfileCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Engine.AmmoRefill.GetProfileNames()`
 
@@ -727,7 +746,27 @@ Get all profile names
 
 | Type | Description |
 | :-- | :-- |
-| `table` | Array of profile name strings |
+| `string[]` | Array of profile name strings |
+
+#### `Engine.AmmoRefill.GetProfiles()`
+
+Get profile summaries, including active state and entry count
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `FeatureProfile[]` |  |
+
+#### `Engine.AmmoRefill.NextProfile()`
+
+Select the next profile, wrapping to the first
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ProfileSummary\|nil` | Newly active profile, or nil if there are no profiles |
 
 #### `Engine.AmmoRefill.PrintProfiles()`
 
@@ -773,7 +812,7 @@ Remove profile by index or name
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `indexOrName` | `number\|string` |  | Profile index (1-based) or name |
+| `profile` | `integer\|string` |  | Profile index (1-based) or exact name |
 
 **Returns**
 
@@ -789,8 +828,41 @@ Rename profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `indexOrName` | `number\|string` |  | Current profile index or name |
+| `profile` | `integer\|string` |  | Current profile index or exact name |
 | `newName` | `string` |  | New profile name |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+| `string\|nil` | Error when renaming fails |
+
+#### `Engine.AmmoRefill.SetActiveProfile(profile)`
+
+Set active profile by index or name
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  | Profile index (1-based) or exact profile name |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` | Success |
+
+#### `Engine.AmmoRefill.SetCurrentProfile(profile)`
+
+Set current profile by index or name (compatibility alias)
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  | Profile index (1-based) or exact profile name |
 
 **Returns**
 
@@ -2523,6 +2595,51 @@ Toggle an ammo refill entry in current profile
 
 ### Engine.EquipmentManager
 
+#### `Engine.EquipmentManager.AddProfile(profileName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profileName` | `string` | Yes | Empty or nil generates a unique default name |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|false` |  |
+| `string\|nil` |  |
+
+#### `Engine.EquipmentManager.FindProfileByName(profileName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profileName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Engine.EquipmentManager.GetActiveProfile()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ProfileSummary\|nil` |  |
+
+#### `Engine.EquipmentManager.GetCurrentProfile()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ProfileSummary\|nil` |  |
+
 #### `Engine.EquipmentManager.GetEntries()`
 
 **Returns**
@@ -2531,13 +2648,67 @@ Toggle an ammo refill entry in current profile
 | :-- | :-- |
 | `EquipmentManagerEntry[]` |  |
 
+#### `Engine.EquipmentManager.GetProfileCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.EquipmentManager.GetProfileNames()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string[]` |  |
+
 #### `Engine.EquipmentManager.GetProfiles()`
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `EquipmentManagerProfile[]` |  |
+| `FeatureProfile[]` |  |
+
+#### `Engine.EquipmentManager.NextProfile()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ProfileSummary\|nil` |  |
+
+#### `Engine.EquipmentManager.RemoveProfile(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.RenameProfile(profile, newName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+| `newName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
 
 #### `Engine.EquipmentManager.SetActiveProfile(index)`
 
@@ -2545,7 +2716,7 @@ Toggle an ammo refill entry in current profile
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `index` | `integer` |  |  |
+| `profile` | `integer\|string` |  |  |
 
 **Returns**
 
@@ -2642,6 +2813,20 @@ Toggle an ammo refill entry in current profile
 | `entryIndex` | `integer` |  |  |
 | `conditionIndex` | `integer` |  |  |
 | `conditionType` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.EquipmentManager.SetCurrentProfile(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
 
 **Returns**
 
@@ -5833,13 +6018,42 @@ Toggle a healing spell on/off
 
 ### Engine.MagicShooter
 
+#### `Engine.MagicShooter.AddProfile(profileName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profileName` | `string` | Yes | Empty or nil generates a unique default name |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|false` |  |
+| `string\|nil` |  |
+
+#### `Engine.MagicShooter.FindProfileByName(profileName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profileName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Engine.MagicShooter.GetActiveProfile()`
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` |  |
+| `ProfileSummary\|nil` |  |
 
 #### `Engine.MagicShooter.GetCurrentProfile()`
 
@@ -5847,7 +6061,7 @@ Toggle a healing spell on/off
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` |  |
+| `ProfileSummary\|nil` |  |
 
 #### `Engine.MagicShooter.GetEntries(profile)`
 
@@ -5880,13 +6094,51 @@ Toggle a healing spell on/off
 | :-- | :-- |
 | `string[]` |  |
 
+#### `Engine.MagicShooter.GetProfiles()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `FeatureProfile[]` |  |
+
 #### `Engine.MagicShooter.NextProfile()`
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` |  |
+| `ProfileSummary\|nil` |  |
+
+#### `Engine.MagicShooter.RemoveProfile(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.MagicShooter.RenameProfile(profile, newName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+| `newName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
 
 #### `Engine.MagicShooter.SetActiveProfile(profile)`
 
@@ -7580,13 +7832,42 @@ Canonical Engine namespace for Settings.Save.
 
 ### Engine.Targeting
 
+#### `Engine.Targeting.AddProfile(profileName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profileName` | `string` | Yes | Empty or nil generates a unique default name |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|false` |  |
+| `string\|nil` |  |
+
+#### `Engine.Targeting.FindProfileByName(profileName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profileName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Engine.Targeting.GetActiveProfile()`
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` |  |
+| `ProfileSummary\|nil` |  |
 
 #### `Engine.Targeting.GetCurrentProfile()`
 
@@ -7594,7 +7875,7 @@ Canonical Engine namespace for Settings.Save.
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` |  |
+| `ProfileSummary\|nil` |  |
 
 #### `Engine.Targeting.GetEntries(profile)`
 
@@ -7626,13 +7907,51 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `string[]` |  |
 
+#### `Engine.Targeting.GetProfiles()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `FeatureProfile[]` |  |
+
 #### `Engine.Targeting.NextProfile()`
 
 **Returns**
 
 | Type | Description |
 | :-- | :-- |
-| `table\|nil` |  |
+| `ProfileSummary\|nil` |  |
+
+#### `Engine.Targeting.RemoveProfile(profile)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Targeting.RenameProfile(profile, newName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `profile` | `integer\|string` |  |  |
+| `newName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
 
 #### `Engine.Targeting.SetActiveProfile(profile)`
 
