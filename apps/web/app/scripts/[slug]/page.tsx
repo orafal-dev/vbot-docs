@@ -3,15 +3,15 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { IconArrowLeft, IconCalendar, IconUser } from "@tabler/icons-react"
 
-import { CodeActions } from "@/components/code-actions"
+import { ScriptCodePanel } from "@/components/script-code-panel"
 import { ScriptInstallNotice } from "@/components/script-install-notice"
 import { ScriptStats } from "@/components/script-stats"
 import { ScriptScreenshotGallery } from "@/components/script-screenshot-gallery"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { getScreenshotServeUrl } from "@/lib/blob"
 import { highlightLuaCode } from "@/lib/highlight"
+import { normalizeScriptFiles } from "@/lib/script-files"
 import { buildScriptLibraryHref, getScriptTagLabel } from "@/lib/script-tags"
 import {
   getPublishedScriptBySlug,
@@ -38,7 +38,11 @@ const getFirstScreenshotUrl = (screenshots: string[]): string | null => {
   return null
 }
 
-export const generateMetadata = async ({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> => {
   const { slug } = await params
   const script = await getPublishedScriptBySlug(slug)
 
@@ -79,41 +83,67 @@ export const generateMetadata = async ({ params }: { params: Promise<{ slug: str
   }
 }
 
-export default async function ScriptDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ScriptDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
   const { slug } = await params
   const script = await getPublishedScriptBySlug(slug)
   if (!script) notFound()
-  const highlightedCode = await highlightLuaCode(script.code)
+
+  const files = normalizeScriptFiles({
+    code: script.code,
+    files: script.files,
+    slug: script.slug,
+  })
+
+  const highlightedFiles = await Promise.all(
+    files.map(async (file) => ({
+      ...file,
+      highlightedHtml: await highlightLuaCode(file.code),
+    }))
+  )
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
-      <Link href="/" className="mb-8 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><IconArrowLeft className="size-4" /> Back to library</Link>
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div className="max-w-3xl">
-          <div className="mb-4 flex flex-wrap items-center gap-2">
-            <Badge>Lua script</Badge>
-            {script.tags.map((tag) => (
-              <Badge
-                key={tag}
-                variant="outline"
-                render={
-                  <Link
-                    href={buildScriptLibraryHref({ tag })}
-                    aria-label={`View ${getScriptTagLabel(tag)} scripts`}
-                  />
-                }
-              >
-                {getScriptTagLabel(tag)}
-              </Badge>
-            ))}
-          </div>
-          <h1 className="text-4xl font-semibold tracking-tight">{script.title}</h1>
-          <p className="mt-4 text-lg leading-8 text-muted-foreground">{script.description}</p>
+      <Link
+        href="/"
+        className="mb-8 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+      >
+        <IconArrowLeft className="size-4" /> Back to library
+      </Link>
+      <div className="max-w-3xl">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <Badge>Lua script</Badge>
+          {script.tags.map((tag) => (
+            <Badge
+              key={tag}
+              variant="outline"
+              render={
+                <Link
+                  href={buildScriptLibraryHref({ tag })}
+                  aria-label={`View ${getScriptTagLabel(tag)} scripts`}
+                />
+              }
+            >
+              {getScriptTagLabel(tag)}
+            </Badge>
+          ))}
         </div>
-        <CodeActions code={script.code} filename={`${script.slug}.lua`} scriptSlug={script.slug} />
+        <h1 className="text-4xl font-semibold tracking-tight">{script.title}</h1>
+        <p className="mt-4 text-lg leading-8 text-muted-foreground">
+          {script.description}
+        </p>
       </div>
       <div className="my-8 flex flex-wrap gap-5 text-sm text-muted-foreground">
-        <span className="flex items-center gap-1.5"><IconUser className="size-4" /> {script.authorName}</span>
-        <span className="flex items-center gap-1.5"><IconCalendar className="size-4" /> Updated {script.updatedAt.toLocaleDateString("en-US", { dateStyle: "long" })}</span>
+        <span className="flex items-center gap-1.5">
+          <IconUser className="size-4" /> {script.authorName}
+        </span>
+        <span className="flex items-center gap-1.5">
+          <IconCalendar className="size-4" /> Updated{" "}
+          {script.updatedAt.toLocaleDateString("en-US", { dateStyle: "long" })}
+        </span>
         <ScriptStats scriptSlug={script.slug} />
       </div>
       <Separator className="mb-8" />
@@ -121,8 +151,8 @@ export default async function ScriptDetailPage({ params }: { params: Promise<{ s
         screenshots={script.screenshots}
         scriptTitle={script.title}
       />
-      <ScriptInstallNotice tags={script.tags} />
-      <Card className="overflow-hidden p-0"><CardContent className="overflow-x-auto p-0"><div className="shiki-dual min-w-max text-sm leading-6 [&_pre]:p-5" dangerouslySetInnerHTML={{ __html: highlightedCode }} /></CardContent></Card>
+      <ScriptInstallNotice tags={script.tags} fileCount={files.length} />
+      <ScriptCodePanel files={highlightedFiles} scriptSlug={script.slug} />
     </main>
   )
 }

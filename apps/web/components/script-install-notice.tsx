@@ -6,7 +6,10 @@ import type { ScriptInstallNoticeProps } from "./script-install-notice.types"
 const SCRIPT_INSTALL_PATH =
   "%localappdata%\\ValidusBot\\Products\\tibia\\UserData\\Scripts"
 
-export const ScriptInstallNotice = ({ tags = [] }: ScriptInstallNoticeProps) => {
+export const ScriptInstallNotice = ({
+  tags = [],
+  fileCount = 1,
+}: ScriptInstallNoticeProps) => {
   if (hasCavebotSnippetTag(tags)) {
     return (
       <aside
@@ -33,6 +36,8 @@ export const ScriptInstallNotice = ({ tags = [] }: ScriptInstallNoticeProps) => 
     )
   }
 
+  const isMultiFile = fileCount > 1
+
   return (
     <aside
       aria-label="Script installation instructions"
@@ -46,8 +51,17 @@ export const ScriptInstallNotice = ({ tags = [] }: ScriptInstallNoticeProps) => 
         <div className="min-w-0 space-y-1">
           <p className="text-sm font-medium">Where to install this script</p>
           <p className="text-sm leading-6 text-muted-foreground">
-            Save the downloaded <code className="text-foreground">.lua</code>{" "}
-            file to:
+            {isMultiFile ? (
+              <>
+                Save all downloaded <code className="text-foreground">.lua</code>{" "}
+                files ({fileCount}) to the same folder:
+              </>
+            ) : (
+              <>
+                Save the downloaded <code className="text-foreground">.lua</code>{" "}
+                file to:
+              </>
+            )}
           </p>
           <code className="block overflow-x-auto rounded-md bg-background px-3 py-2 text-xs leading-6 text-foreground">
             {SCRIPT_INSTALL_PATH}

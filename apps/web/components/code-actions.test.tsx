@@ -100,6 +100,33 @@ describe("CodeActions", () => {
     clickSpy.mockRestore()
   })
 
+  it("downloads every file when Download all is used", async () => {
+    const clickSpy = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(() => undefined)
+
+    render(
+      <CodeActions
+        code="print('main')"
+        filename="main.lua"
+        scriptSlug="heal-bot"
+        files={[
+          { name: "main.lua", code: "print('main')" },
+          { name: "helpers.lua", code: "print('helpers')" },
+        ]}
+      />
+    )
+
+    fireEvent.click(screen.getByRole("button", { name: /download all/i }))
+
+    await waitFor(() => {
+      expect(createObjectURLSpy).toHaveBeenCalledTimes(2)
+      expect(trackScriptStatMock).toHaveBeenCalledWith("heal-bot", "download")
+    })
+
+    clickSpy.mockRestore()
+  })
+
   it("shows an alert when clipboard access fails", async () => {
     writeTextSpy.mockRejectedValueOnce(new Error("denied"))
 

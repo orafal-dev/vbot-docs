@@ -24,6 +24,7 @@ const parseScriptOrRedirect = (formData: FormData, errorPath: string) => {
     slug: formData.get("slug") || formData.get("title"),
     description: formData.get("description"),
     code: formData.get("code"),
+    files: formData.get("files"),
     screenshots: formData.get("screenshots"),
     tags: formData.getAll("tags"),
     published: formData.get("published") === "on",

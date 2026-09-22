@@ -18,6 +18,17 @@ describe("ScriptInstallNotice", () => {
     ).toBeInTheDocument()
   })
 
+  it("mentions multiple files when a script ships more than one", () => {
+    render(<ScriptInstallNotice fileCount={3} />)
+
+    expect(
+      screen.getByLabelText("Script installation instructions")
+    ).toHaveTextContent("Save all downloaded")
+    expect(
+      screen.getByLabelText("Script installation instructions")
+    ).toHaveTextContent("(3)")
+  })
+
   it("explains how to paste cavebot snippets into a script waypoint", () => {
     render(<ScriptInstallNotice tags={["cavebot-snippet"]} />)
 

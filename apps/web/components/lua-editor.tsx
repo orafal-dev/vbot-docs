@@ -31,7 +31,9 @@ export const LuaEditor = ({ name, value, onChange }: LuaEditorProps) => {
         basicSetup={{ lineNumbers: true, foldGutter: true }}
         aria-label="Lua script code editor"
       />
-      <textarea name={name} value={code} readOnly hidden aria-hidden="true" />
+      {name ? (
+        <textarea name={name} value={code} readOnly hidden aria-hidden="true" />
+      ) : null}
     </div>
   )
 }

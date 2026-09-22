@@ -10,7 +10,7 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core"
 
-import type { ScriptStatus } from "./schema.types"
+import type { ScriptFileRecord, ScriptStatus } from "./schema.types"
 
 const timestamps = {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -78,6 +78,7 @@ export const scripts = pgTable("scripts", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   code: text("code").notNull(),
+  files: jsonb("files").$type<ScriptFileRecord[]>().default([]).notNull(),
   screenshots: jsonb("screenshots").$type<string[]>().default([]).notNull(),
   tags: text("tags")
     .array()

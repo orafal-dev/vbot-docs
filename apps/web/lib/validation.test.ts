@@ -39,7 +39,43 @@ describe("scriptFormSchema", () => {
       expect(result.data.slug).toBe("heal-bot")
       expect(result.data.screenshots).toEqual(["scripts/demo/shot.png"])
       expect(result.data.tags).toEqual([])
+      expect(result.data.files).toEqual([
+        { name: "heal-bot.lua", code: validInput.code },
+      ])
+      expect(result.data.code).toBe(validInput.code)
     }
+  })
+
+  it("accepts multiple named files and keeps code as the primary file", () => {
+    const result = scriptFormSchema.safeParse({
+      ...validInput,
+      code: undefined,
+      files: JSON.stringify([
+        { name: "main.lua", code: "print('main')" },
+        { name: "helpers.lua", code: "print('helpers')" },
+      ]),
+    })
+
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.files).toEqual([
+        { name: "main.lua", code: "print('main')" },
+        { name: "helpers.lua", code: "print('helpers')" },
+      ])
+      expect(result.data.code).toBe("print('main')")
+    }
+  })
+
+  it("rejects duplicate file names", () => {
+    const result = scriptFormSchema.safeParse({
+      ...validInput,
+      files: JSON.stringify([
+        { name: "main.lua", code: "print('main')" },
+        { name: "Main.lua", code: "print('other')" },
+      ]),
+    })
+
+    expect(result.success).toBe(false)
   })
 
   it("rejects short descriptions and invalid screenshots", () => {

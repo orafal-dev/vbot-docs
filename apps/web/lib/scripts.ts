@@ -19,6 +19,7 @@ const demoScripts: ScriptRecord[] = [
     title: "Low Health Sound Alert",
     description: "Plays a warning sound when your character drops below a safe health threshold.",
     code: `local SCRIPT_ID = "low_health_alert"\n\nModule.Every(SCRIPT_ID .. "_tick", function()\n  if not Self.IsAvailable() then\n    return\n  end\n\n  local hp = Self.GetHealthPercentage()\n  if type(hp) == "number" and hp <= 35 then\n    Sound.Play({ sound_id = BotSoundId.LOW_HEALTH })\n  end\nend, 1000)`,
+    files: [],
     status: "published", published: true, authorId: "demo", authorName: "ValidusBot",
     createdAt: new Date("2026-01-10T12:00:00.000Z"),
     updatedAt: new Date("2026-04-18T12:00:00.000Z"),
@@ -36,6 +37,7 @@ const demoScripts: ScriptRecord[] = [
     title: "Visible Monster Scanner",
     description: "Reports visible monsters using canonical creature wrappers.",
     code: `local SCRIPT_ID = "monster_scanner"\n\nModule.Every(SCRIPT_ID .. "_scan", function()\n  local player = Creature.GetLocalPlayer()\n  if not player then\n    return\n  end\n\n  for _, monster in ipairs(Creatures.GetVisibleMonsters(true)) do\n    if monster:IsValid() then\n      print(monster:ToString())\n    end\n  end\nend, 1000)`,
+    files: [],
     status: "published", published: true, authorId: "demo", authorName: "ValidusBot",
     createdAt: new Date("2026-02-02T12:00:00.000Z"),
     updatedAt: new Date("2026-05-01T12:00:00.000Z"),
@@ -77,6 +79,7 @@ if type(MAX_STAMINA_MINUTES) == "number" and type(HIGH_STAMINA_LABEL) == "string
 end
 
 Cavebot.Walker.Resume()`,
+    files: [],
     status: "published", published: true, authorId: "demo", authorName: "ValidusBot",
     createdAt: new Date("2026-03-12T12:00:00.000Z"),
     updatedAt: new Date("2026-08-16T12:00:00.000Z"),
@@ -96,6 +99,7 @@ const scriptSelection = {
   title: scripts.title,
   description: scripts.description,
   code: scripts.code,
+  files: scripts.files,
   screenshots: scripts.screenshots,
   tags: scripts.tags,
   status: scripts.status,

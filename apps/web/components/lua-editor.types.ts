@@ -1,5 +1,5 @@
 export type LuaEditorProps = {
-  name: string
+  name?: string
   value: string
   onChange?: (value: string) => void
 }
