@@ -124,8 +124,9 @@ end
 ---@param toPosition table Destination position {x,y,z}
 ---@param maxComplexity? integer Optional path complexity budget (default 300)
 ---@param flags? integer Optional PathFindFlags bitmask
+---@param allowSpeculativeUnknown? boolean Allow missing minimap pixels when ALLOW_NOT_SEEN_TILES is set (default false)
 ---@return table result {Directions = integer[], pathFindResult = integer}
-function Map.FindPath(fromPosition, toPosition, maxComplexity, flags)
+function Map.FindPath(fromPosition, toPosition, maxComplexity, flags, allowSpeculativeUnknown)
     validate_position_table(fromPosition, "Map.FindPath")
     validate_position_table(toPosition, "Map.FindPath")
 
@@ -145,12 +146,16 @@ function Map.FindPath(fromPosition, toPosition, maxComplexity, flags)
     elseif type(pathFlags) ~= "number" or pathFlags % 1 ~= 0 or pathFlags < 0 then
         error("Map.FindPath: argument 'flags' must be an integer >= 0")
     end
+    if allowSpeculativeUnknown ~= nil and type(allowSpeculativeUnknown) ~= "boolean" then
+        error("Map.FindPath: argument 'allowSpeculativeUnknown' must be a boolean")
+    end
 
     local Directions, pathFindResult = Game.FindPath(
         fromPosition.x, fromPosition.y, fromPosition.z,
         toPosition.x, toPosition.y, toPosition.z,
         complexity,
-        pathFlags
+        pathFlags,
+        allowSpeculativeUnknown
     )
 
     return {

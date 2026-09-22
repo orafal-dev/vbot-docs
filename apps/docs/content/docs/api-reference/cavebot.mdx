@@ -258,6 +258,38 @@ Loading replaces the active route and may stop running waypoint scripts.
 | :-- | :-- |
 | `integer\|nil` |  |
 
+#### `Cavebot.OnMovementConfirmed(callback, oldY, oldZ, newX, newY, newZ, fullMapUpdate)`
+
+Observes authoritative Walker movement confirmations.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function(oldX:integer,oldY:integer,oldZ:integer,newX:integer,newY:integer,newZ:integer,fullMapUpdate:boolean)` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
+#### `Cavebot.OnMovementRejected(callback)`
+
+Observes incoming Walker movement rejection packets.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function()` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|nil` |  |
+
 #### `Cavebot.OnWaypointChange(callback)`
 
 **Parameters**
@@ -931,6 +963,22 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `integer\|false` |  |
 
+#### `Cavebot.Walker.AddWaypointAtPosition(waypoint)`
+
+Adds a waypoint at its exact x, y, z coordinates.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `waypoint` | `WalkerWaypointInput` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer\|false` |  |
+
 #### `Cavebot.Walker.ClearAutoExploreConnectors()`
 
 **Returns**
@@ -938,6 +986,32 @@ calling script; an explicit relative path is relative to that script.
 | Type | Description |
 | :-- | :-- |
 | `boolean` | removedAny |
+
+#### `Cavebot.Walker.ClearAutoExploreFloor(z)`
+
+Clear painted tiles on one floor while Walker is stopped.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.ClearAutoExploreMask()`
+
+Clear all painted tiles while Walker is stopped.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
 
 #### `Cavebot.Walker.ClearSpecialAreas()`
 
@@ -1025,6 +1099,57 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Cavebot.Walker.FindAutoExploreConstrainedPath(fromX, fromY, fromZ, toX, toY, toZ, maxComplexity, flags, allowedInitialDirectionsMask)`
+
+Find a route under Auto Explore traversal rules.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromX` | `integer` |  |  |
+| `fromY` | `integer` |  |  |
+| `fromZ` | `integer` |  |  |
+| `toX` | `integer` |  |  |
+| `toY` | `integer` |  |  |
+| `toZ` | `integer` |  |  |
+| `maxComplexity` | `integer` |  |  |
+| `flags` | `integer` |  |  |
+| `allowedInitialDirectionsMask` | `integer` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` |  |
+| `integer` |  |
+
+#### `Cavebot.Walker.GetActionWaypointKindName(actionKind)`
+
+Get an action waypoint kind name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `actionKind` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Cavebot.Walker.GetAntiWallReposition()`
+
+Read anti-wall repositioning.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.GetAutoExploreConnectorRecording()`
 
 **Returns**
@@ -1041,6 +1166,26 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `table[]` |  |
 
+#### `Cavebot.Walker.GetAutoExploreMaskRevision()`
+
+Get painted area revision.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Walker.GetAutoExploreMaskSnapshot()`
+
+Get painted area spans and revision.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerAutoExploreMaskSnapshot` |  |
+
 #### `Cavebot.Walker.GetAutoExploreSettings()`
 
 **Returns**
@@ -1048,6 +1193,16 @@ calling script; an explicit relative path is relative to that script.
 | Type | Description |
 | :-- | :-- |
 | `table` |  |
+
+#### `Cavebot.Walker.GetAutoExploreSpans()`
+
+Get painted area spans.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `AutoExploreSpan[]` |  |
 
 #### `Cavebot.Walker.GetAutoExploreStatus()`
 
@@ -1072,6 +1227,90 @@ calling script; an explicit relative path is relative to that script.
 | Type | Description |
 | :-- | :-- |
 | `WalkerAutoRecorderOptions` |  |
+
+#### `Cavebot.Walker.GetAutoScrollWaypoints()`
+
+Read route list auto-scroll.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.GetAvoidNearbyCombatDeadEnds()`
+
+Read nearby combat dead-end avoidance.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.GetCombatDeadEndCheckDistance()`
+
+Read combat dead-end check distance.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Walker.GetCombatEgressDirectionGuidance(x, y, z)`
+
+Get movement direction masks for combat escape.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerCombatEgressDirectionGuidance\|nil` |  |
+
+#### `Cavebot.Walker.GetCombatEgressProgressReturnDirectionMask(x, y, z)`
+
+Get the recent return direction mask.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Walker.GetCombatEgressUnsafeDirectionMask(x, y, z)`
+
+Get the unsafe combat escape direction mask.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Cavebot.Walker.GetDebugHud()`
 
@@ -1103,7 +1342,27 @@ calling script; an explicit relative path is relative to that script.
 
 | Type | Description |
 | :-- | :-- |
-| `integer` | mode 0 for non-ally players, 1 for any player. |
+| `integer` | mode 0..3; list modes use SetLeaveLurePlayerNames. |
+
+#### `Cavebot.Walker.GetLeaveLurePlayerNames()`
+
+Get the configured player names.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Cavebot.Walker.GetMovementStatus()`
+
+Get current movement confirmation and reconciliation status.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerMovementStatus` |  |
 
 #### `Cavebot.Walker.GetNavigationMode()`
 
@@ -1121,6 +1380,16 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `integer` |  |
 
+#### `Cavebot.Walker.GetSelectedWaypoint()`
+
+Return a detached waypoint table or nil.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerWaypoint\|nil` |  |
+
 #### `Cavebot.Walker.GetSelectedWaypointIndex()`
 
 **Returns**
@@ -1130,6 +1399,16 @@ calling script; an explicit relative path is relative to that script.
 | `integer\|nil` |  |
 
 #### `Cavebot.Walker.GetSpecialAreaCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Walker.GetSpecialAreaRevision()`
+
+Get the special area revision.
 
 **Returns**
 
@@ -1153,6 +1432,16 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Cavebot.Walker.GetSuppliesChecker()`
+
+Get global supply thresholds and item entries.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerSuppliesChecker` |  |
+
 #### `Cavebot.Walker.GetWalkToLureCenter()`
 
 **Returns**
@@ -1168,6 +1457,42 @@ calling script; an explicit relative path is relative to that script.
 | Type | Description |
 | :-- | :-- |
 | `integer` |  |
+
+#### `Cavebot.Walker.GetWaypointDirection()`
+
+Read recorder position offset direction.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Walker.GetWaypointMode()`
+
+Read recorder mode.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Cavebot.Walker.GetWaypointTypeName(waypointType)`
+
+Get a waypoint type name.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `waypointType` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
 
 #### `Cavebot.Walker.GetWaypoints()`
 
@@ -1191,6 +1516,42 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `nil` |  |
 
+#### `Cavebot.Walker.HasActiveAutoExploreTransition()`
+
+Check whether an Auto Explore connector transition is active.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.HasLuaPauseOwnedByScript()`
+
+Check whether this script owns a Walker pause.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.IncrementWaypointIndex(resetLureRuntimeOnSelectionChange)`
+
+Advance the Walker selection or complete the current Auto Explore target.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `resetLureRuntimeOnSelectionChange` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.InsertWaypoint(index, waypoint)`
 
 **Parameters**
@@ -1206,7 +1567,47 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Cavebot.Walker.IsAutoExploreMovementAllowed(fromX, fromY, fromZ, toX, toY, toZ, allowOutsideRecovery)`
+
+Check an Auto Explore movement candidate.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromX` | `integer` |  |  |
+| `fromY` | `integer` |  |  |
+| `fromZ` | `integer` |  |  |
+| `toX` | `integer` |  |  |
+| `toY` | `integer` |  |  |
+| `toZ` | `integer` |  |  |
+| `allowOutsideRecovery` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.IsAutoExplorePositionPainted(x, y, z)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.IsCombatEgressHoldActive(x, y, z)`
+
+Check whether combat escape is holding this position.
 
 **Parameters**
 
@@ -1263,6 +1664,38 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Cavebot.Walker.LabelExists(labelName)`
+
+Check whether a route label exists.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `labelName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.MatchesLeaveLurePlayerName(playerName)`
+
+Check a name against the configured list.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `playerName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.MoveWaypointDown(index)`
 
 **Parameters**
@@ -1291,6 +1724,17 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Cavebot.Walker.PrepareAutoExploreStart()`
+
+Prepare Auto Explore start and return success plus an optional error.
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+| `string\|nil` |  |
+
 #### `Cavebot.Walker.ReorderSpecialArea(sourceIndex, targetIndex, dropAfterTarget)`
 
 **Parameters**
@@ -1300,6 +1744,40 @@ calling script; an explicit relative path is relative to that script.
 | `sourceIndex` | `integer` |  | One-based source index. |
 | `targetIndex` | `integer` |  | One-based target index. |
 | `dropAfterTarget` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.ReorderWaypoint(sourceIndex, targetIndex, dropAfterTarget)`
+
+Reorder route entries by one-based indices.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `sourceIndex` | `integer` |  |  |
+| `targetIndex` | `integer` |  |  |
+| `dropAfterTarget` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.ReplaceAutoExploreMask(spans)`
+
+Replace painted spans while Walker is stopped.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spans` | `AutoExploreSpan[]` |  |  |
 
 **Returns**
 
@@ -1346,6 +1824,22 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Cavebot.Walker.SetAntiWallReposition(enabled)`
+
+Enable or disable anti-wall repositioning.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.SetAutoExploreConnectorRecording(enabled)`
 
 **Parameters**
@@ -1374,6 +1868,45 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Cavebot.Walker.SetAutoExploreSpan(z, y, xBegin, xEnd, painted)`
+
+Paint or erase a horizontal span while Walker is stopped.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `z` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `xBegin` | `integer` |  |  |
+| `xEnd` | `integer` |  |  |
+| `painted` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.SetAutoExploreTile(x, y, z, painted)`
+
+Paint or erase a tile while Walker is stopped.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+| `painted` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.SetAutoRecorderEnabled(enabled)`
 
 **Parameters**
@@ -1395,6 +1928,54 @@ calling script; an explicit relative path is relative to that script.
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `options` | `WalkerAutoRecorderOptionsPatch` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.SetAutoScrollWaypoints(enabled)`
+
+Set route list auto-scroll.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.SetAvoidNearbyCombatDeadEnds(enabled)`
+
+Enable or disable nearby combat dead-end avoidance.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.SetCombatDeadEndCheckDistance(distance)`
+
+Set combat dead-end check distance from 1 to 5.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  |  |
 
 **Returns**
 
@@ -1464,7 +2045,23 @@ calling script; an explicit relative path is relative to that script.
 
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
-| `mode` | `integer` |  | 0 for non-ally players, 1 for any player. |
+| `mode` | `integer` |  | 0..3; list modes use SetLeaveLurePlayerNames. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.SetLeaveLurePlayerNames(playerNames)`
+
+Set comma-separated player names used by list modes.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `playerNames` | `string` |  |  |
 
 **Returns**
 
@@ -1542,6 +2139,22 @@ calling script; an explicit relative path is relative to that script.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Cavebot.Walker.SetSuppliesChecker(settings)`
+
+Update global supply thresholds and item entries.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `settings` | `WalkerSuppliesCheckerUpdate` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Cavebot.Walker.SetWalkToLureCenter(enabled)`
 
 **Parameters**
@@ -1549,6 +2162,38 @@ calling script; an explicit relative path is relative to that script.
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.SetWaypointDirection(direction)`
+
+Set recorder position offset direction from 0 to 8.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `direction` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.SetWaypointMode(mode)`
+
+Set recorder mode: 0 add, 1 replace, 2 insert.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `mode` | `integer` |  |  |
 
 **Returns**
 
@@ -1598,6 +2243,22 @@ Moves an existing waypoint without replacing its identity, type, or action data.
 | :-- | :-- | :--: | :-- |
 | `id` | `integer\|string` |  | Stable area ID returned by AddSpecialArea/GetSpecialAreas. |
 | `updateData` | `table` |  | Fields to update; omitted fields remain unchanged. |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Cavebot.Walker.WaypointTypeUsesPosition(waypointType)`
+
+Check whether a waypoint type uses a coordinate.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `waypointType` | `integer` |  |  |
 
 **Returns**
 

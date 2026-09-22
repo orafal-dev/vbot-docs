@@ -1,4 +1,4 @@
-﻿Cavebot = Cavebot or {}
+Cavebot = Cavebot or {}
 
 local function require_table(globalName, value)
     if type(value) ~= "table" then
@@ -97,7 +97,14 @@ local function normalize_waypoint_table(waypoint)
         labelName = waypoint.labelName,
         useWithItemId = waypoint.useWithItemId,
         delayMs = waypoint.delayMs,
-        scriptContent = waypoint.scriptContent
+        scriptContent = waypoint.scriptContent,
+        useItemId = waypoint.useItemId,
+        useTarget = waypoint.useTarget,
+        actionWaypointKind = waypoint.actionWaypointKind,
+        actionKind = waypoint.actionKind,
+        actionVersion = waypoint.actionVersion,
+        actionConfig = waypoint.actionConfig,
+        failurePolicy = waypoint.failurePolicy
     }
 end
 
@@ -310,19 +317,19 @@ function Cavebot.Walker.GetLeaveLureOnPlayer()
 end
 
 -- Player detection mode used by Leave Box If Player On Screen.
--- 0 = non-ally players, 1 = any player (including party/guild allies).
+-- 0 = non-ally players, 1 = any player, 2 = players in list, 3 = players outside list.
 Cavebot.Walker.LeaveLurePlayerMode = {
     NonAllyPlayers = 0,
     AnyPlayer = 1
 }
 
----@param mode integer 0 for non-ally players, 1 for any player.
+---@param mode integer 0..3; list modes use SetLeaveLurePlayerNames.
 ---@return boolean
 function Cavebot.Walker.SetLeaveLurePlayerMode(mode)
     return call_walker("SetLeaveLurePlayerMode", mode)
 end
 
----@return integer mode 0 for non-ally players, 1 for any player.
+---@return integer mode 0..3; list modes use SetLeaveLurePlayerNames.
 function Cavebot.Walker.GetLeaveLurePlayerMode()
     return call_walker("GetLeaveLurePlayerMode")
 end
@@ -475,6 +482,345 @@ function Cavebot.Walker.IsPausedByLua()
     return call_walker("IsPausedByLua")
 end
 
+---Adds a waypoint at its exact x, y, z coordinates.
+---@param waypoint WalkerWaypointInput
+---@return integer|false
+function Cavebot.Walker.AddWaypointAtPosition(waypoint)
+    return call_walker("AddWaypointAtPosition", normalize_waypoint_table(waypoint))
+end
+
+---Advance the Walker selection or complete the current Auto Explore target.
+---@param resetLureRuntimeOnSelectionChange? boolean
+---@return boolean
+function Cavebot.Walker.IncrementWaypointIndex(resetLureRuntimeOnSelectionChange)
+    return call_walker("IncrementWaypointIndex", resetLureRuntimeOnSelectionChange)
+end
+---Reorder route entries by one-based indices.
+---@param sourceIndex integer
+---@param targetIndex integer
+---@param dropAfterTarget boolean
+---@return boolean
+function Cavebot.Walker.ReorderWaypoint(sourceIndex, targetIndex, dropAfterTarget)
+    return call_walker("ReorderWaypoint", sourceIndex, targetIndex, dropAfterTarget)
+end
+
+---Return a detached waypoint table or nil.
+---@return WalkerWaypoint|nil
+function Cavebot.Walker.GetSelectedWaypoint()
+    return call_walker("GetSelectedWaypoint")
+end
+
+---Check whether a route label exists.
+---@param labelName string
+---@return boolean
+function Cavebot.Walker.LabelExists(labelName)
+    return call_walker("LabelExists", labelName)
+end
+
+---Get the special area revision.
+---@return integer
+function Cavebot.Walker.GetSpecialAreaRevision()
+    return call_walker("GetSpecialAreaRevision")
+end
+
+---Get a waypoint type name.
+---@param waypointType integer
+---@return string
+function Cavebot.Walker.GetWaypointTypeName(waypointType)
+    return call_walker("GetWaypointTypeName", waypointType)
+end
+
+---Check whether a waypoint type uses a coordinate.
+---@param waypointType integer
+---@return boolean
+function Cavebot.Walker.WaypointTypeUsesPosition(waypointType)
+    return call_walker("WaypointTypeUsesPosition", waypointType)
+end
+
+---Get an action waypoint kind name.
+---@param actionKind integer
+---@return string
+function Cavebot.Walker.GetActionWaypointKindName(actionKind)
+    return call_walker("GetActionWaypointKindName", actionKind)
+end
+
+---Set comma-separated player names used by list modes.
+---@param playerNames string
+---@return boolean
+function Cavebot.Walker.SetLeaveLurePlayerNames(playerNames)
+    return call_walker("SetLeaveLurePlayerNames", playerNames)
+end
+
+---Get the configured player names.
+---@return string
+function Cavebot.Walker.GetLeaveLurePlayerNames()
+    return call_walker("GetLeaveLurePlayerNames")
+end
+
+---Check a name against the configured list.
+---@param playerName string
+---@return boolean
+function Cavebot.Walker.MatchesLeaveLurePlayerName(playerName)
+    return call_walker("MatchesLeaveLurePlayerName", playerName)
+end
+
+---Enable or disable anti-wall repositioning.
+---@param enabled boolean
+---@return boolean
+function Cavebot.Walker.SetAntiWallReposition(enabled)
+    return call_walker("SetAntiWallReposition", enabled)
+end
+
+---Read anti-wall repositioning.
+---@return boolean
+function Cavebot.Walker.GetAntiWallReposition()
+    return call_walker("GetAntiWallReposition")
+end
+
+---Enable or disable nearby combat dead-end avoidance.
+---@param enabled boolean
+---@return boolean
+function Cavebot.Walker.SetAvoidNearbyCombatDeadEnds(enabled)
+    return call_walker("SetAvoidNearbyCombatDeadEnds", enabled)
+end
+
+---Read nearby combat dead-end avoidance.
+---@return boolean
+function Cavebot.Walker.GetAvoidNearbyCombatDeadEnds()
+    return call_walker("GetAvoidNearbyCombatDeadEnds")
+end
+
+---Set combat dead-end check distance from 1 to 5.
+---@param distance integer
+---@return boolean
+function Cavebot.Walker.SetCombatDeadEndCheckDistance(distance)
+    return call_walker("SetCombatDeadEndCheckDistance", distance)
+end
+
+---Read combat dead-end check distance.
+---@return integer
+function Cavebot.Walker.GetCombatDeadEndCheckDistance()
+    return call_walker("GetCombatDeadEndCheckDistance")
+end
+
+---Set route list auto-scroll.
+---@param enabled boolean
+---@return boolean
+function Cavebot.Walker.SetAutoScrollWaypoints(enabled)
+    return call_walker("SetAutoScrollWaypoints", enabled)
+end
+
+---Read route list auto-scroll.
+---@return boolean
+function Cavebot.Walker.GetAutoScrollWaypoints()
+    return call_walker("GetAutoScrollWaypoints")
+end
+
+---Set recorder mode: 0 add, 1 replace, 2 insert.
+---@param mode integer
+---@return boolean
+function Cavebot.Walker.SetWaypointMode(mode)
+    return call_walker("SetWaypointMode", mode)
+end
+
+---Read recorder mode.
+---@return integer
+function Cavebot.Walker.GetWaypointMode()
+    return call_walker("GetWaypointMode")
+end
+
+---Set recorder position offset direction from 0 to 8.
+---@param direction integer
+---@return boolean
+function Cavebot.Walker.SetWaypointDirection(direction)
+    return call_walker("SetWaypointDirection", direction)
+end
+
+---Read recorder position offset direction.
+---@return integer
+function Cavebot.Walker.GetWaypointDirection()
+    return call_walker("GetWaypointDirection")
+end
+
+---Get current movement confirmation and reconciliation status.
+---@return WalkerMovementStatus
+function Cavebot.Walker.GetMovementStatus()
+    return call_walker("GetMovementStatus")
+end
+
+---Check whether this script owns a Walker pause.
+---@return boolean
+function Cavebot.Walker.HasLuaPauseOwnedByScript()
+    return call_walker("HasLuaPauseOwnedByScript")
+end
+
+---Get painted area spans.
+---@return AutoExploreSpan[]
+function Cavebot.Walker.GetAutoExploreSpans()
+    return call_walker("GetAutoExploreSpans")
+end
+
+---Get painted area revision.
+---@return integer
+function Cavebot.Walker.GetAutoExploreMaskRevision()
+    return call_walker("GetAutoExploreMaskRevision")
+end
+
+---Get painted area spans and revision.
+---@return WalkerAutoExploreMaskSnapshot
+function Cavebot.Walker.GetAutoExploreMaskSnapshot()
+    return call_walker("GetAutoExploreMaskSnapshot")
+end
+
+---Paint or erase a tile while Walker is stopped.
+---@param x integer
+---@param y integer
+---@param z integer
+---@param painted boolean
+---@return boolean
+function Cavebot.Walker.SetAutoExploreTile(x, y, z, painted)
+    return call_walker("SetAutoExploreTile", x, y, z, painted)
+end
+
+---Paint or erase a horizontal span while Walker is stopped.
+---@param z integer
+---@param y integer
+---@param xBegin integer
+---@param xEnd integer
+---@param painted boolean
+---@return boolean
+function Cavebot.Walker.SetAutoExploreSpan(z, y, xBegin, xEnd, painted)
+    return call_walker("SetAutoExploreSpan", z, y, xBegin, xEnd, painted)
+end
+
+---Replace painted spans while Walker is stopped.
+---@param spans AutoExploreSpan[]
+---@return boolean
+function Cavebot.Walker.ReplaceAutoExploreMask(spans)
+    return call_walker("ReplaceAutoExploreMask", spans)
+end
+
+---Clear painted tiles on one floor while Walker is stopped.
+---@param z integer
+---@return boolean
+function Cavebot.Walker.ClearAutoExploreFloor(z)
+    return call_walker("ClearAutoExploreFloor", z)
+end
+
+---Clear all painted tiles while Walker is stopped.
+---@return boolean
+function Cavebot.Walker.ClearAutoExploreMask()
+    return call_walker("ClearAutoExploreMask")
+end
+
+---Check an Auto Explore movement candidate.
+---@param fromX integer
+---@param fromY integer
+---@param fromZ integer
+---@param toX integer
+---@param toY integer
+---@param toZ integer
+---@param allowOutsideRecovery? boolean
+---@return boolean
+function Cavebot.Walker.IsAutoExploreMovementAllowed(fromX, fromY, fromZ, toX, toY, toZ, allowOutsideRecovery)
+    return call_walker("IsAutoExploreMovementAllowed", fromX, fromY, fromZ, toX, toY, toZ, allowOutsideRecovery)
+end
+
+---Find a route under Auto Explore traversal rules.
+---@param fromX integer
+---@param fromY integer
+---@param fromZ integer
+---@param toX integer
+---@param toY integer
+---@param toZ integer
+---@param maxComplexity integer
+---@param flags integer
+---@param allowedInitialDirectionsMask? integer
+---@return integer[],integer
+function Cavebot.Walker.FindAutoExploreConstrainedPath(fromX, fromY, fromZ, toX, toY, toZ, maxComplexity, flags, allowedInitialDirectionsMask)
+    return call_walker("FindAutoExploreConstrainedPath", fromX, fromY, fromZ, toX, toY, toZ, maxComplexity, flags, allowedInitialDirectionsMask)
+end
+
+---Check whether an Auto Explore connector transition is active.
+---@return boolean
+function Cavebot.Walker.HasActiveAutoExploreTransition()
+    return call_walker("HasActiveAutoExploreTransition")
+end
+
+---Prepare Auto Explore start and return success plus an optional error.
+---@return boolean,string|nil
+function Cavebot.Walker.PrepareAutoExploreStart()
+    return call_walker("PrepareAutoExploreStart")
+end
+
+---Get movement direction masks for combat escape.
+---@param x integer
+---@param y integer
+---@param z integer
+---@return WalkerCombatEgressDirectionGuidance|nil
+function Cavebot.Walker.GetCombatEgressDirectionGuidance(x, y, z)
+    return call_walker("GetCombatEgressDirectionGuidance", x, y, z)
+end
+
+---Get the unsafe combat escape direction mask.
+---@param x integer
+---@param y integer
+---@param z integer
+---@return integer
+function Cavebot.Walker.GetCombatEgressUnsafeDirectionMask(x, y, z)
+    return call_walker("GetCombatEgressUnsafeDirectionMask", x, y, z)
+end
+
+---Get the recent return direction mask.
+---@param x integer
+---@param y integer
+---@param z integer
+---@return integer
+function Cavebot.Walker.GetCombatEgressProgressReturnDirectionMask(x, y, z)
+    return call_walker("GetCombatEgressProgressReturnDirectionMask", x, y, z)
+end
+
+---Check whether combat escape is holding this position.
+---@param x integer
+---@param y integer
+---@param z integer
+---@return boolean
+function Cavebot.Walker.IsCombatEgressHoldActive(x, y, z)
+    return call_walker("IsCombatEgressHoldActive", x, y, z)
+end
+
+---Get global supply thresholds and item entries.
+---@return WalkerSuppliesChecker
+function Cavebot.Walker.GetSuppliesChecker()
+    return call_walker("GetSuppliesChecker")
+end
+
+---Update global supply thresholds and item entries.
+---@param settings WalkerSuppliesCheckerUpdate
+---@return boolean
+function Cavebot.Walker.SetSuppliesChecker(settings)
+    return call_walker("SetSuppliesChecker", settings)
+end
+
+---Observes authoritative Walker movement confirmations.
+---@param callback function(oldX:integer,oldY:integer,oldZ:integer,newX:integer,newY:integer,newZ:integer,fullMapUpdate:boolean)
+---@return integer|nil
+function Cavebot.OnMovementConfirmed(callback)
+    if type(callback) ~= "function" then
+        error("Cavebot.OnMovementConfirmed: callback must be a function", 2)
+    end
+    return Cavebot.RegisterEvent(WalkerEvent.MOVEMENT_CONFIRMED, callback)
+end
+
+---Observes incoming Walker movement rejection packets.
+---@param callback function()
+---@return integer|nil
+function Cavebot.OnMovementRejected(callback)
+    if type(callback) ~= "function" then
+        error("Cavebot.OnMovementRejected: callback must be a function", 2)
+    end
+    return Cavebot.RegisterEvent(WalkerEvent.MOVEMENT_REJECTED, callback)
+end
 -- lure namespace
 Cavebot.Lure = Cavebot.Lure or {}
 

@@ -342,8 +342,10 @@ Client-to-server packet IDs.
 | `WalkerEvent.OBSERVE_ACTION` | 4 | Non-blocking Action reached (before interceptors) |
 | `WalkerEvent.ACTION_STARTED` | 5 | Non-blocking Action start |
 | `WalkerEvent.ACTION_COMPLETED` | 6 | Non-blocking Action terminal result |
+| `WalkerEvent.MOVEMENT_CONFIRMED` | 7 | Non-blocking movement confirm `(oldX, oldY, oldZ, newX, newY, newZ, fullMapUpdate)` |
+| `WalkerEvent.MOVEMENT_REJECTED` | 8 | Non-blocking CancelWalk rejection (no args; may include a stale rejection Walker ignores) |
 
-Prefer `Cavebot.Observe*` / `OnActionStarted` / `OnActionCompleted` for telemetry, and `Intercept*` when blocking is intentional. See [Cavebot](/docs/guides/cavebot).
+Prefer `Cavebot.Observe*` / `OnActionStarted` / `OnActionCompleted` / `OnMovementConfirmed` / `OnMovementRejected` for telemetry, and `Intercept*` when blocking is intentional. See [Cavebot](/docs/guides/cavebot).
 
 ### SpecialAreaFeature
 

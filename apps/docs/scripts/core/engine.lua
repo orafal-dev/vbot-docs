@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 File: scripts/core/Engine.lua
 Provides high-level API for controlling bot internal features from Lua scripts.
 This wraps the global Healer and Alarms tables into a unified Engine namespace.
@@ -1650,7 +1650,49 @@ exposeNativeFunctions("Walker", Walker, {
     "ClearAutoExploreConnectors", "SetAutoExploreConnectorRecording",
     "GetAutoExploreConnectorRecording", "SetAutoRecorderEnabled", "GetAutoRecorderEnabled",
     "SetAutoRecorderOptions", "GetAutoRecorderOptions", "SetDistanceBetweenWaypoints",
-    "GetDistanceBetweenWaypoints", "SetPausedByLua", "IsPausedByLua"
+    "GetDistanceBetweenWaypoints", "SetPausedByLua", "IsPausedByLua",
+    "AddWaypointAtPosition", "IncrementWaypointIndex", "ReorderWaypoint",
+    "GetSelectedWaypoint",
+    "LabelExists",
+    "GetSpecialAreaRevision",
+    "GetWaypointTypeName",
+    "WaypointTypeUsesPosition",
+    "GetActionWaypointKindName",
+    "SetLeaveLurePlayerNames",
+    "GetLeaveLurePlayerNames",
+    "MatchesLeaveLurePlayerName",
+    "SetAntiWallReposition",
+    "GetAntiWallReposition",
+    "SetAvoidNearbyCombatDeadEnds",
+    "GetAvoidNearbyCombatDeadEnds",
+    "SetCombatDeadEndCheckDistance",
+    "GetCombatDeadEndCheckDistance",
+    "SetAutoScrollWaypoints",
+    "GetAutoScrollWaypoints",
+    "SetWaypointMode",
+    "GetWaypointMode",
+    "SetWaypointDirection",
+    "GetWaypointDirection",
+    "GetMovementStatus",
+    "HasLuaPauseOwnedByScript",
+    "GetAutoExploreSpans",
+    "GetAutoExploreMaskRevision",
+    "GetAutoExploreMaskSnapshot",
+    "SetAutoExploreTile",
+    "SetAutoExploreSpan",
+    "ReplaceAutoExploreMask",
+    "ClearAutoExploreFloor",
+    "ClearAutoExploreMask",
+    "IsAutoExploreMovementAllowed",
+    "FindAutoExploreConstrainedPath",
+    "HasActiveAutoExploreTransition",
+    "PrepareAutoExploreStart",
+    "GetCombatEgressDirectionGuidance",
+    "GetCombatEgressUnsafeDirectionMask",
+    "GetCombatEgressProgressReturnDirectionMask",
+    "IsCombatEgressHoldActive",
+    "GetSuppliesChecker",
+    "SetSuppliesChecker"
 })
 
 exposeNativeFunctions("Lure", Lure, {
@@ -1708,6 +1750,13 @@ exposeNativeFunctions("HUD", HUD, {
     "GetElementEnabled", "GetElementVisible", "GetElementText", "GetElementColor",
     "GetWorldElementPosition", "GetScreenElementPosition", "GetElementWidth", "GetElementHeight"
 })
+
+-- Pointer press/release/leave callbacks were added after DLL 3.0.22. Keep the
+-- core compatible with older DLLs so scripts can feature-detect this API and
+-- fall back to ordinary click controls instead of failing while loading core.
+if type(HUD.SetPointerCallbacks) == "function" then
+    Engine.HUD.SetPointerCallbacks = HUD.SetPointerCallbacks
+end
 
 exposeNativeFunctions("HUD", HUDControl, {
     "GetConfig", "SetMagicWallTimersEnabled", "SetXRayEnabled", "SetTargetingAnchorEnabled",

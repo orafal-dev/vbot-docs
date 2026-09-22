@@ -241,6 +241,48 @@ Runs after a drag finishes. The callback receives final target x and y coordinat
 | :-- | :-- |
 | `ScreenImage` |  |
 
+#### `ScreenImage:SetOnMouseDown(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function()\|false` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
+#### `ScreenImage:SetOnMouseLeave(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function()\|false` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
+#### `ScreenImage:SetOnMouseUp(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function()\|false` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
+
 #### `ScreenImage:SetParent(parent)`
 
 Sets the logical parent element for this screen image.
@@ -257,6 +299,22 @@ Parent visibility/removal cascade to this image, and parent screen movement keep
 | Type | Description |
 | :-- | :-- |
 | `ScreenImage` | Returns self for method chaining |
+
+#### `ScreenImage:SetPointerCallbacks(onMouseDown, onMouseUp, onMouseLeave)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `onMouseDown` | `function()\|false` | Yes |  |
+| `onMouseUp` | `function()\|false` | Yes |  |
+| `onMouseLeave` | `function()\|false` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenImage` |  |
 
 #### `ScreenImage:SetRenderLayer(renderLayer)`
 
@@ -742,6 +800,48 @@ Runs after a drag finishes. The callback receives final target x and y coordinat
 | :-- | :-- |
 | `ScreenText` |  |
 
+#### `ScreenText:SetOnMouseDown(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function()\|false` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
+
+#### `ScreenText:SetOnMouseLeave(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function()\|false` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
+
+#### `ScreenText:SetOnMouseUp(callback)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `callback` | `function()\|false` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
+
 #### `ScreenText:SetParent(parent)`
 
 Sets the logical parent element for this screen text.
@@ -766,6 +866,24 @@ The parent and child must belong to the same script/HUD owner.
 ```lua
 childText:SetParent(parentText.id)
 ```
+
+#### `ScreenText:SetPointerCallbacks(onMouseDown, onMouseUp, onMouseLeave)`
+
+Sets callbacks for pointer press, release, and leaving while pressed.
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `onMouseDown` | `function\|nil` |  |  |
+| `onMouseUp` | `function\|nil` |  |  |
+| `onMouseLeave` | `function\|nil` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `ScreenText` |  |
 
 #### `ScreenText:SetRenderLayer(renderLayer)`
 

@@ -10,7 +10,7 @@ These rules are non-negotiable for generated and hand-written scripts:
 1. **Documented APIs only** — never invent a plausible function name; treat an absent function as unavailable.
 2. **PascalCase modules only** — do not generate `self.*`, `map.*`, `CaveBot`, `_G.position`, or old `engine.ammoRefill.*` paths.
 3. **No busy loops** — repeating work must use `Module.Every`, `Events.Schedule`, or a loop that calls `wait(ms)`.
-4. **No `os.execute` / `os.getenv` / `os.tmpname`** — `os.exit()` is reserved for an explicit emergency full-client shutdown policy and is audit-logged.
+4. **No `os.execute` / `os.getenv` / `os.tmpname`** — `os.exit()` is reserved for an explicit emergency full-client shutdown policy. It audit-logs and immediately terminates the client without a logout prompt or normal cleanup.
 5. **No Objects Dumper** — never expose, query, or toggle it through `Features` / `Engine.Features`.
 6. **Validate input** — treat game-derived objects, capabilities, and snapshots as potentially `nil` or stale.
 7. **Narrow `pcall` only** — catch only operations with a defined local recovery path. Let unexpected module/event errors reach the runtime policy.

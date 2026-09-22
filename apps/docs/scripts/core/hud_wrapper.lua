@@ -142,7 +142,10 @@ function ScreenText:New(id, renderLayer)
         -- Internal state management
         _created = false,
         _clickCallback = nil,
-        _dragEndCallback = nil
+        _dragEndCallback = nil,
+        _mouseDownCallback = nil,
+        _mouseUpCallback = nil,
+        _mouseLeaveCallback = nil
     }
     setmetatable(element, ScreenText)
     return element
@@ -268,6 +271,40 @@ function ScreenText:SetOnDragEnd(callback)
         HUD.SetOnDragEnd(self.id, self._dragEndCallback)
     end
     return self
+end
+
+--- Sets callbacks for pointer press, release, and leaving while pressed.
+---@param onMouseDown function|nil
+---@param onMouseUp function|nil
+---@param onMouseLeave function|nil
+---@return ScreenText
+function ScreenText:SetPointerCallbacks(onMouseDown, onMouseUp, onMouseLeave)
+    local callbacks = { onMouseDown, onMouseUp, onMouseLeave }
+    for index = 1, 3 do
+        local callback = callbacks[index]
+        if callback ~= nil and callback ~= false and type(callback) ~= "function" then
+            error("ScreenText:SetPointerCallbacks: callback " .. index .. " must be a function, false, or nil")
+        end
+    end
+    self._mouseDownCallback = onMouseDown or nil
+    self._mouseUpCallback = onMouseUp or nil
+    self._mouseLeaveCallback = onMouseLeave or nil
+    if self._created and type(HUD.SetPointerCallbacks) == "function" then
+        HUD.SetPointerCallbacks(self.id, self._mouseDownCallback, self._mouseUpCallback, self._mouseLeaveCallback)
+    end
+    return self
+end
+
+function ScreenText:SetOnMouseDown(callback)
+    return self:SetPointerCallbacks(callback, self._mouseUpCallback, self._mouseLeaveCallback)
+end
+
+function ScreenText:SetOnMouseUp(callback)
+    return self:SetPointerCallbacks(self._mouseDownCallback, callback, self._mouseLeaveCallback)
+end
+
+function ScreenText:SetOnMouseLeave(callback)
+    return self:SetPointerCallbacks(self._mouseDownCallback, self._mouseUpCallback, callback)
 end
 
 --- Makes the element clickable and sets the callback function.
@@ -411,6 +448,10 @@ function ScreenText:Create()
     end
     if self._dragEndCallback ~= nil then
         HUD.SetOnDragEnd(self.id, self._dragEndCallback)
+    end
+    if (self._mouseDownCallback ~= nil or self._mouseUpCallback ~= nil or self._mouseLeaveCallback ~= nil)
+        and type(HUD.SetPointerCallbacks) == "function" then
+        HUD.SetPointerCallbacks(self.id, self._mouseDownCallback, self._mouseUpCallback, self._mouseLeaveCallback)
     end
     return self
 end
@@ -1171,7 +1212,10 @@ function ScreenImage:New(id, renderLayer)
         screen_y = nil,
         _created = false,
         _clickCallback = nil,
-        _dragEndCallback = nil
+        _dragEndCallback = nil,
+        _mouseDownCallback = nil,
+        _mouseUpCallback = nil,
+        _mouseLeaveCallback = nil
     }
     setmetatable(element, ScreenImage)
     return element
@@ -1301,6 +1345,36 @@ function ScreenImage:SetOnDragEnd(callback)
         HUD.SetOnDragEnd(self.id, self._dragEndCallback)
     end
     return self
+end
+
+function ScreenImage:SetPointerCallbacks(onMouseDown, onMouseUp, onMouseLeave)
+    local callbacks = { onMouseDown, onMouseUp, onMouseLeave }
+    for index = 1, 3 do
+        local callback = callbacks[index]
+        if callback ~= nil and callback ~= false and type(callback) ~= "function" then
+            error("ScreenImage:SetPointerCallbacks: callback " .. index .. " must be a function, false, or nil")
+        end
+    end
+    self._mouseDownCallback = onMouseDown or nil
+    self._mouseUpCallback = onMouseUp or nil
+    self._mouseLeaveCallback = onMouseLeave or nil
+    if self._created and type(HUD.SetPointerCallbacks) == "function" then
+        HUD.SetPointerCallbacks(self.id, self._mouseDownCallback, self._mouseUpCallback, self._mouseLeaveCallback)
+    end
+    return self
+end
+
+
+function ScreenImage:SetOnMouseDown(callback)
+    return self:SetPointerCallbacks(callback, self._mouseUpCallback, self._mouseLeaveCallback)
+end
+
+function ScreenImage:SetOnMouseUp(callback)
+    return self:SetPointerCallbacks(self._mouseDownCallback, callback, self._mouseLeaveCallback)
+end
+
+function ScreenImage:SetOnMouseLeave(callback)
+    return self:SetPointerCallbacks(self._mouseDownCallback, self._mouseUpCallback, callback)
 end
 
 function ScreenImage:SetClickable(callback)
@@ -1440,6 +1514,10 @@ function ScreenImage:Create()
     end
     if self._dragEndCallback ~= nil then
         HUD.SetOnDragEnd(self.id, self._dragEndCallback)
+    end
+    if (self._mouseDownCallback ~= nil or self._mouseUpCallback ~= nil or self._mouseLeaveCallback ~= nil)
+        and type(HUD.SetPointerCallbacks) == "function" then
+        HUD.SetPointerCallbacks(self.id, self._mouseDownCallback, self._mouseUpCallback, self._mouseLeaveCallback)
     end
     return self
 end
@@ -1839,6 +1917,10 @@ attach_method_aliases(ScreenText, {
     { "SetDraggable", "setDraggable" },
     { "SetDragTarget", "setDragTarget" },
     { "SetOnDragEnd", "setOnDragEnd" },
+    { "SetPointerCallbacks", "setPointerCallbacks" },
+    { "SetOnMouseDown", "setOnMouseDown" },
+    { "SetOnMouseUp", "setOnMouseUp" },
+    { "SetOnMouseLeave", "setOnMouseLeave" },
     { "SetClickable", "setClickable" },
     { "SetScreenPosition", "setScreenPosition" },
     { "SetParent", "setParent" },
@@ -1907,6 +1989,10 @@ attach_method_aliases(ScreenImage, {
     { "SetDraggable", "setDraggable" },
     { "SetDragTarget", "setDragTarget" },
     { "SetOnDragEnd", "setOnDragEnd" },
+    { "SetPointerCallbacks", "setPointerCallbacks" },
+    { "SetOnMouseDown", "setOnMouseDown" },
+    { "SetOnMouseUp", "setOnMouseUp" },
+    { "SetOnMouseLeave", "setOnMouseLeave" },
     { "SetClickable", "setClickable" },
     { "SetScreenPosition", "setScreenPosition" },
     { "SetParent", "setParent" },

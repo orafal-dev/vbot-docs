@@ -51,6 +51,8 @@ Prefer explicit observe / intercept / lifecycle APIs. Legacy `OnLabel` and `OnAc
 | `Cavebot.OnWaypointChange(callback)` | Compatibility alias for `ObserveWaypointChange` |
 | `Cavebot.OnActionStarted(callback)` | Action actually started |
 | `Cavebot.OnActionCompleted(callback)` | Terminal Action result |
+| `Cavebot.OnMovementConfirmed(callback)` | Walker movement confirmed (`WalkerEvent.MOVEMENT_CONFIRMED`) |
+| `Cavebot.OnMovementRejected(callback)` | Incoming CancelWalk rejection (`WalkerEvent.MOVEMENT_REJECTED`) |
 
 `ObserveWaypointChange` receives one table with `previousIndex`, `index`, `type`, `x`, `y`, `z`, `label`, `labelName`, and `uniqueId`. Indices are 1-based; `previousIndex` is `nil` for the initial selection.
 
@@ -96,13 +98,14 @@ Full waypoint and walker control:
 
 | Category | Key functions |
 | --- | --- |
-| Control | `SetEnabled`, `IsEnabled`, `Resume`, `Defer`, `CompleteDeferred`, `GoTo`, `IsPausedByLua`, `SetPausedByLua` |
-| Waypoints | `GetWaypoints`, `AddWaypoint`, `InsertWaypoint`, `ReplaceWaypoint`, `DeleteWaypoint`, `ClearWaypoints`, `SetWaypointPosition` |
-| Special areas | `GetSpecialAreas`, `AddSpecialArea`, `UpdateSpecialArea`, `DeleteSpecialArea`, `ClearSpecialAreas`, `ReorderSpecialArea`, `IsPositionInsideSpecialArea` |
-| Navigation mode | `SetNavigationMode`, `GetNavigationMode`, Auto Explore settings/status/connectors |
-| Navigation | `GetSelectedWaypointIndex`, `SetSelectedWaypointIndex`, `SelectClosestWaypoint`, `GetWaypointCount` |
-| Settings | `SetNodeDistance`, `SetStartFromNearestWaypoint`, `SetWalkToLureCenter`, `SetLeaveLureOnPlayer`, `SetLeaveLurePlayerMode` |
-| Auto recorder | `SetAutoRecorderEnabled`, `GetAutoRecorderOptions`, `SetDistanceBetweenWaypoints` |
+| Control | `SetEnabled`, `IsEnabled`, `Resume`, `Defer`, `CompleteDeferred`, `GoTo`, `IsPausedByLua`, `SetPausedByLua`, `HasLuaPauseOwnedByScript` |
+| Waypoints | `GetWaypoints`, `AddWaypoint`, `AddWaypointAtPosition`, `InsertWaypoint`, `ReplaceWaypoint`, `ReorderWaypoint`, `DeleteWaypoint`, `ClearWaypoints`, `SetWaypointPosition`, `IncrementWaypointIndex`, `GetSelectedWaypoint`, `LabelExists` |
+| Special areas | `GetSpecialAreas`, `AddSpecialArea`, `UpdateSpecialArea`, `DeleteSpecialArea`, `ClearSpecialAreas`, `ReorderSpecialArea`, `IsPositionInsideSpecialArea`, `GetSpecialAreaRevision` |
+| Navigation mode | `SetNavigationMode`, `GetNavigationMode`, Auto Explore settings/status/connectors/mask |
+| Navigation | `GetSelectedWaypointIndex`, `SetSelectedWaypointIndex`, `SelectClosestWaypoint`, `GetWaypointCount`, `GetMovementStatus` |
+| Settings | `SetNodeDistance`, `SetStartFromNearestWaypoint`, `SetWalkToLureCenter`, `SetLeaveLureOnPlayer`, `SetLeaveLurePlayerMode`, `SetLeaveLurePlayerNames`, combat dead-end / anti-wall helpers |
+| Supplies | `GetSuppliesChecker`, `SetSuppliesChecker` |
+| Auto recorder | `SetAutoRecorderEnabled`, `GetAutoRecorderOptions`, `SetDistanceBetweenWaypoints`, `SetWaypointMode`, `SetWaypointDirection`, `SetAutoScrollWaypoints` |
 | Debug | `IsStuck`, `SetDebugHud`, `GetDebugHud` |
 
 `Cavebot.Walker.Defer(timeoutMs)` / `CompleteDeferred(token)` implement the same owner-bound decision handshake as `Engine.Walker.Defer`.
@@ -129,7 +132,11 @@ local id = Cavebot.Walker.AddSpecialArea({
 
 Navigation mode is `"waypoints"` or `"auto_explore"` (`Cavebot.Walker.NavigationMode.*`) and can change only while Walker is stopped. Styles are `"natural"`, `"thorough"`, and `"wide_roam"` (`AutoExploreStyle`). Settings updates are partial: `maximumFloorsUp` / `Down`, `allowWalkOn` / `Ladder` / `Rope` / `Hole` / `Teleport`, and `autoOpenDoors`.
 
-Painted areas are edited only through World Map; scripts query containment with `IsAutoExplorePositionPainted`. Connectors use stable IDs, kinds `walk_on` / `ladder` / `rope` / `hole` / `teleport`, and explicit `source` / `destination` `{x,y,z}` positions. Pairing uses two reciprocal directed records — updating one mirrors only endpoints onto the reverse; deleting one leaves the reverse unpaired. Runtime status from `GetAutoExploreStatus()` is a detached snapshot (phase, positions, plannedPath, coverage, `latestFailureReason`, and related fields).
+Painted areas can be queried with `IsAutoExplorePositionPainted` and edited from Lua while Walker is **stopped**: `SetAutoExploreTile`, `SetAutoExploreSpan`, `ReplaceAutoExploreMask`, `ClearAutoExploreFloor`, `ClearAutoExploreMask`. Spans are `{z, y, xBegin, xEnd}` with `painted=true` to add and `false` to erase. `GetAutoExploreSpans` / `GetAutoExploreMaskSnapshot` return detached copies (snapshot includes `revision`).
+
+Connectors use stable IDs, kinds `walk_on` / `ladder` / `rope` / `hole` / `teleport`, and explicit `source` / `destination` `{x,y,z}` positions. Pairing uses two reciprocal directed records — updating one mirrors only endpoints onto the reverse; deleting one leaves the reverse unpaired. Runtime status from `GetAutoExploreStatus()` is a detached snapshot (phase, positions, plannedPath, coverage, `latestFailureReason`, and related fields). `PrepareAutoExploreStart` also requires Walker stopped and returns `ok, errorMessage`.
+
+Combat egress helpers (`GetCombatEgressDirectionGuidance`, unsafe/return direction masks, `IsCombatEgressHoldActive`) expose direction bitmasks for escape planning. Direction bits follow Walker's native `MoveDirection` enum.
 
 ### Leave-lure player modes
 
@@ -137,11 +144,23 @@ Painted areas are edited only through World Map; scripts query containment with 
 | --- | --- | --- |
 | `Cavebot.Walker.LeaveLurePlayerMode.NonAllyPlayers` | `0` (default) | Ignores party and guild/allied-guild players |
 | `Cavebot.Walker.LeaveLurePlayerMode.AnyPlayer` | `1` | Reacts to every visible player other than the local character |
+| *(list)* | `2` | Players in the comma-separated list from `SetLeaveLurePlayerNames` (`*` matches every name) |
+| *(not in list)* | `3` | Inverse of the configured name list |
+
+Named constants currently cover modes `0` and `1`. Modes `2` / `3` are set with the integer value and require `SetLeaveLurePlayerNames`.
 
 ```lua
 Cavebot.Walker.SetLeaveLureOnPlayer(true)
 Cavebot.Walker.SetLeaveLurePlayerMode(Cavebot.Walker.LeaveLurePlayerMode.AnyPlayer)
+
+-- List modes 2/3:
+Cavebot.Walker.SetLeaveLurePlayerMode(2)
+Cavebot.Walker.SetLeaveLurePlayerNames("Alice,Bob")
 ```
+
+### Supplies checker
+
+`GetSuppliesChecker` / `SetSuppliesChecker` read and update global supply thresholds. The settings table is `{minCapacity, minStaminaMinutes, checkLowCapacity, checkLowStamina, items}`. Each supply item is `{itemId, minCount, maxCount, enabled}`. Updates are partial; when `items` is supplied it replaces the array (capped at 1000). Getters return detached copies; existing imbuement checks and labels are preserved.
 
 ### Waypoint script requirement
 

@@ -8,40 +8,40 @@ Core library: `event_proxies.lua`
 ## Exported tables
 
 - `BattleMessageProxy`
+- `ClientAttackPacketProxy`
+- `ClientEquipItemPacketProxy`
+- `ClientLookPacketProxy`
+- `ClientMoveItemPacketProxy`
+- `ClientMovementPacketProxy`
+- `ClientTalkPacketProxy`
+- `ClientUseItemPacketProxy`
+- `ClientUseItemWithPacketProxy`
+- `ClientUseOnCreaturePacketProxy`
 - `ContainerAddItemProxy`
 - `ContainerCloseProxy`
 - `ContainerOpenProxy`
 - `ContainerRemoveItemProxy`
 - `ContainerUpdateItemProxy`
+- `CreateOnMapPacketProxy`
 - `CreatureAddProxy`
 - `CreatureRemoveProxy`
 - `DeathProxy`
+- `DeleteOnMapPacketProxy`
+- `FullMapPacketProxy`
 - `GenericTextMessageProxy`
+- `GraphicalEffectPacketProxy`
+- `IncomingPacketProxy`
 - `LootMessageProxy`
+- `MapRowPacketProxy`
+- `MoveCreaturePacketProxy`
+- `OutgoingPacketProxy`
+- `PacketEventProxy`
+- `PlayerInventoryPacketProxy`
 - `SkillsChangeProxy`
 - `StatsChangeProxy`
-- `PacketEventProxy`
-- `IncomingPacketProxy`
-- `OutgoingPacketProxy`
-- `TextMessagePacketProxy`
 - `TalkPacketProxy`
-- `CreateOnMapPacketProxy`
-- `DeleteOnMapPacketProxy`
-- `MoveCreaturePacketProxy`
-- `FullMapPacketProxy`
-- `MapRowPacketProxy`
-- `GraphicalEffectPacketProxy`
+- `TextMessagePacketProxy`
 - `UnjustifiedPointsPacketProxy`
-- `PlayerInventoryPacketProxy`
-- `ClientLookPacketProxy`
-- `ClientMovementPacketProxy`
-- `ClientEquipItemPacketProxy`
-- `ClientMoveItemPacketProxy`
-- `ClientUseItemPacketProxy`
-- `ClientUseItemWithPacketProxy`
-- `ClientUseOnCreaturePacketProxy`
-- `ClientTalkPacketProxy`
-- `ClientAttackPacketProxy`
 
 ## Functions
 
@@ -541,7 +541,7 @@ Creates a creature-remove proxy and registers packet listener.
 | :-- | :-- |
 | `table` |  |
 
-#### `CreatureRemoveProxy:OnReceive(callback, creatureId)`
+#### `CreatureRemoveProxy:OnReceive(callback, creatureId, position, stackPosition, packet)`
 
 Assigns callback called when creature disappears.
 
@@ -859,7 +859,7 @@ native text-message filter fields message_contains/message_case_sensitive.
 | :-- | :-- |
 | `PacketEventProxy` |  |
 
-#### `PacketEventProxy:OnPacket(callback)`
+#### `PacketEventProxy:OnPacket(callback, packet)`
 
 Assigns a direction-agnostic callback: function(proxy, packet).
 
@@ -875,7 +875,7 @@ Assigns a direction-agnostic callback: function(proxy, packet).
 | :-- | :-- |
 | `PacketEventProxy` |  |
 
-#### `PacketEventProxy:OnReceive(callback)`
+#### `PacketEventProxy:OnReceive(callback, packet)`
 
 Assigns an incoming callback: function(proxy, packet).
 
@@ -891,7 +891,7 @@ Assigns an incoming callback: function(proxy, packet).
 | :-- | :-- |
 | `PacketEventProxy` |  |
 
-#### `PacketEventProxy:OnSend(callback)`
+#### `PacketEventProxy:OnSend(callback, packet)`
 
 Assigns an outgoing callback: function(proxy, packet).
 

@@ -804,7 +804,7 @@ Remove ammo by index from current profile
 | :-- | :-- |
 | `boolean` | Success |
 
-#### `Engine.AmmoRefill.RemoveProfile(indexOrName)`
+#### `Engine.AmmoRefill.RemoveProfile(profile)`
 
 Remove profile by index or name
 
@@ -820,7 +820,7 @@ Remove profile by index or name
 | :-- | :-- |
 | `boolean` | Success |
 
-#### `Engine.AmmoRefill.RenameProfile(indexOrName, newName)`
+#### `Engine.AmmoRefill.RenameProfile(profile, newName)`
 
 Rename profile
 
@@ -2710,7 +2710,7 @@ Toggle an ammo refill entry in current profile
 | `boolean` |  |
 | `string\|nil` |  |
 
-#### `Engine.EquipmentManager.SetActiveProfile(index)`
+#### `Engine.EquipmentManager.SetActiveProfile(profile)`
 
 **Parameters**
 
@@ -4198,6 +4198,23 @@ Toggle an ammo refill entry in current profile
 | :-- | :-- | :--: | :-- |
 | `child_id` | `string` |  |  |
 | `parent_id` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `nil` |  |
+
+#### `Engine.HUD.SetPointerCallbacks(id, onMouseDown, onMouseUp, onMouseLeave)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `id` | `string` |  |  |
+| `onMouseDown` | `function()\|nil` | Yes |  |
+| `onMouseUp` | `function()\|nil` | Yes |  |
+| `onMouseLeave` | `function()\|nil` | Yes |  |
 
 **Returns**
 
@@ -8410,7 +8427,43 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `integer\|false` |  |
 
+#### `Engine.Walker.AddWaypointAtPosition(waypoint)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `waypoint` | `WalkerWaypointInput` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` | or false |
+
 #### `Engine.Walker.ClearAutoExploreConnectors()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.ClearAutoExploreFloor(z)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.ClearAutoExploreMask()`
 
 **Returns**
 
@@ -8504,6 +8557,50 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.FindAutoExploreConstrainedPath(fromX, fromY, fromZ, toX, toY, toZ, maxComplexity, flags, allowedInitialDirectionsMask)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromX` | `integer` |  |  |
+| `fromY` | `integer` |  |  |
+| `fromZ` | `integer` |  |  |
+| `toX` | `integer` |  |  |
+| `toY` | `integer` |  |  |
+| `toZ` | `integer` |  |  |
+| `maxComplexity` | `integer` |  |  |
+| `flags` | `integer` |  |  |
+| `allowedInitialDirectionsMask` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer[]` | or nil, integer |
+
+#### `Engine.Walker.GetActionWaypointKindName(actionKind)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `actionKind` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Engine.Walker.GetAntiWallReposition()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.GetAutoExploreConnectorRecording()`
 
 **Returns**
@@ -8520,6 +8617,22 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `WalkerAutoExploreConnector[]` |  |
 
+#### `Engine.Walker.GetAutoExploreMaskRevision()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Walker.GetAutoExploreMaskSnapshot()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerAutoExploreMaskSnapshot` |  |
+
 #### `Engine.Walker.GetAutoExploreSettings()`
 
 **Returns**
@@ -8527,6 +8640,14 @@ Canonical Engine namespace for Settings.Save.
 | Type | Description |
 | :-- | :-- |
 | `WalkerAutoExploreSettings` |  |
+
+#### `Engine.Walker.GetAutoExploreSpans()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `AutoExploreSpan[]` |  |
 
 #### `Engine.Walker.GetAutoExploreStatus()`
 
@@ -8551,6 +8672,78 @@ Canonical Engine namespace for Settings.Save.
 | Type | Description |
 | :-- | :-- |
 | `WalkerAutoRecorderOptions` |  |
+
+#### `Engine.Walker.GetAutoScrollWaypoints()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.GetAvoidNearbyCombatDeadEnds()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.GetCombatDeadEndCheckDistance()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Walker.GetCombatEgressDirectionGuidance(x, y, z)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerCombatEgressDirectionGuidance` | or nil |
+
+#### `Engine.Walker.GetCombatEgressProgressReturnDirectionMask(x, y, z)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Walker.GetCombatEgressUnsafeDirectionMask(x, y, z)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
 
 #### `Engine.Walker.GetDebugHud()`
 
@@ -8584,6 +8777,22 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `integer` |  |
 
+#### `Engine.Walker.GetLeaveLurePlayerNames()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
+
+#### `Engine.Walker.GetMovementStatus()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerMovementStatus` |  |
+
 #### `Engine.Walker.GetNavigationMode()`
 
 **Returns**
@@ -8600,6 +8809,14 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `integer` |  |
 
+#### `Engine.Walker.GetSelectedWaypoint()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerWaypoint` | or nil |
+
 #### `Engine.Walker.GetSelectedWaypointIndex()`
 
 **Returns**
@@ -8609,6 +8826,14 @@ Canonical Engine namespace for Settings.Save.
 | `integer\|nil` |  |
 
 #### `Engine.Walker.GetSpecialAreaCount()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Walker.GetSpecialAreaRevision()`
 
 **Returns**
 
@@ -8632,6 +8857,14 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.GetSuppliesChecker()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `WalkerSuppliesChecker` |  |
+
 #### `Engine.Walker.GetWalkToLureCenter()`
 
 **Returns**
@@ -8647,6 +8880,36 @@ Canonical Engine namespace for Settings.Save.
 | Type | Description |
 | :-- | :-- |
 | `integer` |  |
+
+#### `Engine.Walker.GetWaypointDirection()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Walker.GetWaypointMode()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `integer` |  |
+
+#### `Engine.Walker.GetWaypointTypeName(waypointType)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `waypointType` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `string` |  |
 
 #### `Engine.Walker.GetWaypoints()`
 
@@ -8670,6 +8933,36 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `nil` |  |
 
+#### `Engine.Walker.HasActiveAutoExploreTransition()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.HasLuaPauseOwnedByScript()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.IncrementWaypointIndex(resetLureRuntimeOnSelectionChange)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `resetLureRuntimeOnSelectionChange` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.InsertWaypoint(index, waypoint)`
 
 **Parameters**
@@ -8685,7 +8978,43 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.IsAutoExploreMovementAllowed(fromX, fromY, fromZ, toX, toY, toZ, allowOutsideRecovery)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `fromX` | `integer` |  |  |
+| `fromY` | `integer` |  |  |
+| `fromZ` | `integer` |  |  |
+| `toX` | `integer` |  |  |
+| `toY` | `integer` |  |  |
+| `toZ` | `integer` |  |  |
+| `allowOutsideRecovery` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.IsAutoExplorePositionPainted(x, y, z)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.IsCombatEgressHoldActive(x, y, z)`
 
 **Parameters**
 
@@ -8742,6 +9071,34 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.LabelExists(labelName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `labelName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.MatchesLeaveLurePlayerName(playerName)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `playerName` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.MoveWaypointDown(index)`
 
 **Parameters**
@@ -8770,6 +9127,14 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.PrepareAutoExploreStart()`
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean,` | string or nil |
+
 #### `Engine.Walker.ReorderSpecialArea(sourceIndex, targetIndex, dropAfterTarget)`
 
 **Parameters**
@@ -8779,6 +9144,36 @@ Canonical Engine namespace for Settings.Save.
 | `sourceIndex` | `integer` |  |  |
 | `targetIndex` | `integer` |  |  |
 | `dropAfterTarget` | `boolean` | Yes |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.ReorderWaypoint(sourceIndex, targetIndex, dropAfterTarget)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `sourceIndex` | `integer` |  |  |
+| `targetIndex` | `integer` |  |  |
+| `dropAfterTarget` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.ReplaceAutoExploreMask(spans)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `spans` | `AutoExploreSpan[]` |  |  |
 
 **Returns**
 
@@ -8825,6 +9220,20 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.SetAntiWallReposition(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.SetAutoExploreConnectorRecording(enabled)`
 
 **Parameters**
@@ -8853,6 +9262,41 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.SetAutoExploreSpan(z, y, xBegin, xEnd, painted)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `z` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `xBegin` | `integer` |  |  |
+| `xEnd` | `integer` |  |  |
+| `painted` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.SetAutoExploreTile(x, y, z, painted)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `x` | `integer` |  |  |
+| `y` | `integer` |  |  |
+| `z` | `integer` |  |  |
+| `painted` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.SetAutoRecorderEnabled(enabled)`
 
 **Parameters**
@@ -8874,6 +9318,48 @@ Canonical Engine namespace for Settings.Save.
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `options` | `WalkerAutoRecorderOptionsPatch` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.SetAutoScrollWaypoints(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.SetAvoidNearbyCombatDeadEnds(enabled)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.SetCombatDeadEndCheckDistance(distance)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `distance` | `integer` |  |  |
 
 **Returns**
 
@@ -8951,6 +9437,20 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.SetLeaveLurePlayerNames(playerNames)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `playerNames` | `string` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.SetNavigationMode(mode)`
 
 **Parameters**
@@ -9021,6 +9521,20 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- |
 | `boolean` |  |
 
+#### `Engine.Walker.SetSuppliesChecker(settings)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `settings` | `WalkerSuppliesCheckerUpdate` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
 #### `Engine.Walker.SetWalkToLureCenter(enabled)`
 
 **Parameters**
@@ -9028,6 +9542,34 @@ Canonical Engine namespace for Settings.Save.
 | Name | Type | Optional | Description |
 | :-- | :-- | :--: | :-- |
 | `enabled` | `boolean` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.SetWaypointDirection(direction)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `direction` | `integer` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.SetWaypointMode(mode)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `mode` | `integer` |  |  |
 
 **Returns**
 
@@ -9075,6 +9617,20 @@ Canonical Engine namespace for Settings.Save.
 | :-- | :-- | :--: | :-- |
 | `id` | `integer\|string` |  |  |
 | `updateData` | `WalkerSpecialAreaPatch` |  |  |
+
+**Returns**
+
+| Type | Description |
+| :-- | :-- |
+| `boolean` |  |
+
+#### `Engine.Walker.WaypointTypeUsesPosition(waypointType)`
+
+**Parameters**
+
+| Name | Type | Optional | Description |
+| :-- | :-- | :--: | :-- |
+| `waypointType` | `integer` |  |  |
 
 **Returns**
 

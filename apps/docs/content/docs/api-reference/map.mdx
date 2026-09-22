@@ -11,7 +11,7 @@ Core library: `map.lua`
 
 ## Functions
 
-#### `Map.FindPath(fromPosition, toPosition, maxComplexity, flags)`
+#### `Map.FindPath(fromPosition, toPosition, maxComplexity, flags, allowSpeculativeUnknown)`
 
 Computes a path between two world positions using game pathfinding.
 
@@ -23,6 +23,7 @@ Computes a path between two world positions using game pathfinding.
 | `toPosition` | `table` |  | Destination position \{x,y,z\} |
 | `maxComplexity` | `integer` | Yes | Optional path complexity budget (default 300) |
 | `flags` | `integer` | Yes | Optional PathFindFlags bitmask |
+| `allowSpeculativeUnknown` | `boolean` | Yes | Allow missing minimap pixels when ALLOW_NOT_SEEN_TILES is set (default false) |
 
 **Returns**
 

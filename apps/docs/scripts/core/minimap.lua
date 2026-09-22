@@ -140,13 +140,17 @@ end
 ---@param toPosition table
 ---@param maxComplexity? integer
 ---@param flags? integer
+---@param allowSpeculativeUnknown? boolean Allow missing minimap pixels when ALLOW_NOT_SEEN_TILES is set (default false)
 ---@return table
-function Minimap.FindPath(fromPosition, toPosition, maxComplexity, flags)
+function Minimap.FindPath(fromPosition, toPosition, maxComplexity, flags, allowSpeculativeUnknown)
     validate_position_table(fromPosition, "Minimap.FindPath")
     validate_position_table(toPosition, "Minimap.FindPath")
+    if allowSpeculativeUnknown ~= nil and type(allowSpeculativeUnknown) ~= "boolean" then
+        error("Minimap.FindPath: argument 'allowSpeculativeUnknown' must be a boolean")
+    end
 
     if type(Map) == "table" and type(Map.FindPath) == "function" then
-        return Map.FindPath(fromPosition, toPosition, maxComplexity, flags)
+        return Map.FindPath(fromPosition, toPosition, maxComplexity, flags, allowSpeculativeUnknown)
     end
 
     if type(Game) == "table" and type(Game.FindPath) == "function" then
@@ -167,7 +171,8 @@ function Minimap.FindPath(fromPosition, toPosition, maxComplexity, flags)
             fromPosition.x, fromPosition.y, fromPosition.z,
             toPosition.x, toPosition.y, toPosition.z,
             complexity,
-            pathFlags
+            pathFlags,
+            allowSpeculativeUnknown
         )
 
         return {

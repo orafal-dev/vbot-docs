@@ -82,6 +82,12 @@ Login, session, and window helpers. Prefer `Self` for in-game player operations.
 
 Login functions validate string arguments and return boolean success from the Lua wrapper.
 
+### Extended native Game API
+
+Beyond the core `Game` wrappers above, the native Game surface documents additional catalogue, tactics, path, and diagnostic helpers (item-id catalogues, fight/chase/PvP tactics, pattern combat scoring, filtered pathfinding, creature snapshots, and client/version diagnostics). Wrong argument types and out-of-range integers raise a Lua error. For void C++ methods, `true` means the call passed validation and was submitted — not that the server confirmed it.
+
+Prefer `Map.FindPath` / `Self.*` / `NpcTradeStorage` when a core wrapper exists. Use the native tables when you need the extended contracts (for example `Game.FindPathWithPositionFilter`, `Game.GetMonstersInArea`, or tool/hole/door ID catalogues). See the synced LLM scripting spec section **Extended native Game API** and the [Game API Reference](/docs/api-reference/game).
+
 ## References
 
 - [ChatChannel API Reference](/docs/api-reference/chat-channel)

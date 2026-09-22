@@ -210,6 +210,7 @@ icon
 - `SetParent(parent_id)` — parent to draggable ScreenText; children follow drag movement
 - `SetZIndex(zIndex)` — draw order within the selected render layer
 - `SetDragTarget(target)` / `SetOnDragEnd(callback)` — advanced drag behavior on screen elements
+- `SetPointerCallbacks(onMouseDown, onMouseUp, onMouseLeave)` — optional pointer hooks on `ScreenText` / `ScreenImage` (also `SetOnMouseDown` / `SetOnMouseUp` / `SetOnMouseLeave`). Keep these on the [critical path](#event-callback-critical-path). `Engine.HUD.SetPointerCallbacks` mirrors the same ownership rules.
 
 Choose exactly one image source setter (`SetSource`, `SetSourceBase64`, `SetSourceBytes`, `SetItemId`, or `SetItemName`); calling another replaces the prior selection.
 

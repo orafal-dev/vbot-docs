@@ -34,7 +34,7 @@ targetPos:IsShootable(fromPos?)
 | `Map.GetTileFlags(position)` | Tile flags (includes `hasTeleport` when a visible teleport-id item is present) |
 | `Map.GetTileItems(position, includeCreatures)` | Items on tile (records include `isFloorChange` / `isTeleport`) |
 | `Map.GetObjectInfo(itemId)` | Static item metadata (`isFloorChange`, `isTeleport`; `isTopEffect` is draw-order only) |
-| `Map.FindPath(from, to, maxComplexity, flags)` | Pathfind between positions |
+| `Map.FindPath(from, to, maxComplexity?, flags?, allowSpeculativeUnknown?)` | Pathfind; returns `MapPathResult` |
 | `Map.MoveItemFloorToContainer(...)` | Pick up from floor |
 | `Map.MoveItemFloorToFloor(...)` | Move item on map |
 
@@ -45,11 +45,13 @@ local from = Position.New(1000, 1000, 7)
 local to = Position.New(1005, 1005, 7)
 local flags = PathFindFlags.ALLOW_NOT_SEEN_TILES
 
-local result, path = Map.FindPath(from, to, 1000, flags)
-if result == PathFindResult.OK then
-    -- use path
+local path = Map.FindPath(from, to, 1000, flags)
+if path.pathFindResult == PathFindResult.OK then
+    -- use path.Directions
 end
 ```
+
+`allowSpeculativeUnknown` defaults to `false`. Set it to `true` together with `PathFindFlags.ALLOW_NOT_SEEN_TILES` only for speculative planning through missing minimap pixels — existing scripts keep prior map coverage when the argument is omitted.
 
 `Map.FindPath` preserves the legacy path topology. It rejects a visible teleport as an intermediate node, but permits one when it is the exact requested goal. For scripted one-step movement, inspect `Map.GetTileFlags(next).hasTeleport` and the `isFloorChange` / `isTeleport` fields from `Map.GetTileItems(next)`. Treat `Self.Step(...) == true` only as dispatch acceptance — confirm the observed player position reached the expected same-floor tile before consuming the path direction. Replan on timeout or any unexpected / floor-changing position.
 
@@ -80,13 +82,22 @@ Combine with bitwise OR:
 | `PathFindFlags.CHECK_GOAL_POSITION` | 64 |
 | `PathFindFlags.PRIORITIZE_DIAGONAL_MOVEMENTS` | 128 |
 
+The eight flag values and the Lua default mask (`85`: check goal, allow non-pathable, allow not-seen, ignore creatures) are unchanged. Behavior notes:
+
+- `PRIORITIZE_DIAGONAL_MOVEMENTS` lowers diagonal search cost
+- `IGNORE_CREATURES` excludes occupied intermediate tiles even when `ALLOW_CREATURES` is set; the latter can still permit an occupied goal
+- `ALLOW_NON_WALKABLE` may also admit occupied intermediate tiles when `IGNORE_CREATURES` is off
+- None of these flags bypasses a separate live movement check
+
+Native `Game.FindPath` / `Game.FindPathWithAllowedInitialDirections` / `Game.FindPathWithPositionFilter` also accept optional `allowSpeculativeUnknown` (default `false`) and return two values (`directions`, `result`) rather than `MapPathResult`.
+
 ## Minimap
 
 The minimap module provides tile flags, walkability, and pathfinding helpers:
 
 | Function | Description |
 | --- | --- |
-| `Minimap.FindPath(...)` | Pathfind using minimap data |
+| `Minimap.FindPath(..., allowSpeculativeUnknown?)` | Pathfind using minimap data; forwards the speculative flag |
 | `Minimap.GetTileInfo(position, includeCreatures)` | Tile info |
 | `Minimap.GetTileItems(position, includeCreatures)` | Items on tile |
 | `Minimap.GetTileFlags(position)` | Tile flags |

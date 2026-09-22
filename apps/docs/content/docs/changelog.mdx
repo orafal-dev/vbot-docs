@@ -5,6 +5,30 @@ description: Documentation updates synced from the ValidusBot Lua spec and Scrip
 
 User-facing record of documentation syncs. Newest entries first. Each run of the docs update workflow prepends a dated section covering **Added**, **Changed**, and **Removed**.
 
+## 2026-09-22
+
+Synced local `D:\Pobrane\lua-llm-scripting-spec.md` (not GitHub) and installed `Scripts/core` (31 Lua files). Regenerated the API reference (~1611 documented functions).
+
+### Added
+
+- Spec section **Extended native Game API** (catalogue helpers, tactics/patterns, filtered pathfinding, diagnostics) — summarized in Communication guide
+- Extended Walker Lua API: Auto Explore mask paint/replace/clear, supplies checker, combat egress masks, waypoint reorder/selected helpers, recorder mode/direction, leave-lure name lists
+- Walker movement observers: `WalkerEvent.MOVEMENT_CONFIRMED` / `MOVEMENT_REJECTED`, `Cavebot.OnMovementConfirmed` / `OnMovementRejected`
+- HUD pointer callbacks: `ScreenText` / `ScreenImage` `SetPointerCallbacks` (+ mouse down/up/leave) and `Engine.HUD.SetPointerCallbacks`
+- Optional `allowSpeculativeUnknown` on `Map.FindPath` / `Minimap.FindPath` (and matching native `Game.FindPath*` variants)
+
+### Changed
+
+- `os.exit()` hard-rule wording: audit-logs and immediately terminates without logout prompt or normal cleanup
+- PathFindFlags behavior notes (diagonal cost, creature/walkable interactions) and corrected `Map.FindPath` example to use `MapPathResult`
+- Auto Explore docs: painted areas are editable from Lua while Walker is stopped (no longer World Map only)
+- Regenerated API pages (notably cavebot, engine, map, minimap, hud, constants, event-proxies)
+- Guides updated: Safety, Map & Navigation, Cavebot, Constants, Events & HUD, Table Contracts, Communication
+
+### Removed
+
+- Nothing removed from the public core module set this sync
+
 ## 2026-09-18
 
 Synced upstream `lua-llm-scripting-spec.md` (unchanged vs prior sync) and local `Scripts/core` (31 Lua files). Regenerated the API reference with core-ahead merge for modules/functions not yet in the upstream appendix.

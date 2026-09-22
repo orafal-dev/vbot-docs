@@ -49,6 +49,36 @@ MapPathResult = {
 }
 ```
 
+Optional fifth argument `allowSpeculativeUnknown?: boolean` defaults to `false`.
+
+## Walker Auto Explore / supplies / egress
+
+```text
+AutoExploreSpan = {
+    z: integer,          -- 0..15
+    y: integer,          -- 1..65535
+    xBegin: integer,     -- 1..65535
+    xEnd: integer        -- xBegin..65535
+}
+
+WalkerSuppliesChecker = {
+    minCapacity: integer,
+    minStaminaMinutes: integer,
+    checkLowCapacity: boolean,
+    checkLowStamina: boolean,
+    items: SupplyItem[]  -- {itemId, minCount, maxCount, enabled}
+}
+
+WalkerCombatEgressDirectionGuidance = {
+    physicalTraversableDirectionMask: integer,
+    unsafeDirectionMask: integer,
+    liveDiscouragedDirectionMask: integer,
+    preferredDirectionMask: integer
+}
+```
+
+Mask mutations require Walker to be stopped. Getter tables are detached snapshots.
+
 ## Self status snapshot
 
 `Self.GetStatusFlagsSnapshot()` returns a detached `SelfStatusFlags` table. Installed core currently includes:

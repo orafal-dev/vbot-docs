@@ -1,4 +1,4 @@
-﻿--[[
+--[[
     File: scripts/core/lua_consts.lua
 
     This core script provides a comprehensive set of constants and enumerations
@@ -1019,6 +1019,10 @@ WalkerEvent = {
 
     -- Non-blocking. Fired once with the terminal result of a started Action.
     ACTION_COMPLETED = 6,
+
+    -- Non-blocking movement packet observers.
+    MOVEMENT_CONFIRMED = 7,
+    MOVEMENT_REJECTED = 8,
 }
 
 -- Feature-mask bits used by Walker Special Areas. Combine individual values
